@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>pe.com.fondam.sgp.report</groupId>
+	<artifactId>sgp-report</artifactId>
+	<version>1.0.0.RELEASE</version>
+	<packaging>jar</packaging>
+	<name>engine-report</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<!-- <dependency> <groupId>jasperreports</groupId> <artifactId>jasperreports</artifactId> 
+			<version>3.5.3</version> </dependency> <dependency> <groupId>net.sf.jasperreports</groupId> 
+			<artifactId>jasperreports</artifactId> <version>3.7.5</version> </dependency> -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>4.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.2-FINAL</version>
+		</dependency>
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.3.4</version>
+		</dependency>
+	</dependencies>
+	<repositories>
+		<repository>
+			<id>maven2-repository.maven.org</id>
+			<url>http://repo2.maven.org/maven2</url>
+		</repository>
+	</repositories>
+</project>
