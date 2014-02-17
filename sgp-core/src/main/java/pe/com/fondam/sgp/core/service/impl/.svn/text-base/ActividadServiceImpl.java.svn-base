@@ -1,0 +1,43 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.dao.ActividadDAO;
+import pe.com.fondam.sgp.core.domain.Actividad;
+import pe.com.fondam.sgp.core.service.ActividadService;
+
+@Service
+public class ActividadServiceImpl implements ActividadService {
+
+	/************** inyecciones ***************/
+	@Resource
+	ActividadDAO actividadDAO;
+	
+	/************** metodos ***************/
+	@Override
+	public List<Actividad> findActividadXResultadoId(Integer resultadoId) {
+		 /*String consulta =" from Actividad where resultado.resultadoID = ? ";
+		 
+		 Object[] params = new  Object[1];
+		 params[0]= resultadoId;
+		 */
+		return actividadDAO.findActividadByResultadoID(resultadoId);
+	}
+
+	@Override
+	public Actividad findActividadById(Integer actividadID) {
+		return actividadDAO.findActividadById(actividadID);
+	}
+
+	@Override
+	public void deleteActividad(Actividad actividad) {
+		actividad = actividadDAO.findActividadById(actividad.getActividadID());
+		actividadDAO.deleteActividad(actividad);
+	}
+
+	
+}

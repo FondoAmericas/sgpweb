@@ -1,0 +1,47 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.dao.MetaPorActividadDAO;
+import pe.com.fondam.sgp.core.domain.MetaPorActividad;
+import pe.com.fondam.sgp.core.service.MetaPorActividadService;
+
+@Service
+public class MetaPorActividadServiceImpl implements MetaPorActividadService {
+
+	/******************* inyecciones *********************/
+	@Resource
+	MetaPorActividadDAO metaPorActividadDAO;
+	
+	/******************* metodos *********************/
+	@Override
+	public List<MetaPorActividad> findMetaPorActividadXActividadId(Integer actividadId) {
+		
+		/*String consulta = " from MetaPorActividad where actividad.actividadID = ? ";
+		Object[] params= new Object[1];
+		params[0] = actividadId; 
+		*/	
+		return metaPorActividadDAO.findMetasPorActividadByActividadId(actividadId);
+	}
+
+	@Override
+	public MetaPorActividad findMetaPorActividadById(Integer metasXActividadId) {
+		return metaPorActividadDAO.findMetaPorActividadById(metasXActividadId);
+	}
+
+	@Override
+	public List<MetaPorActividad> findMetasPorActividadByActividadId(Integer actividadID) {
+		return metaPorActividadDAO.findMetasPorActividadByActividadId(actividadID);
+	}
+
+	@Override
+	public void deleteMetaPorActividad(MetaPorActividad metaPorActividad) {
+		metaPorActividad = findMetaPorActividadById(metaPorActividad.getMetaPorActividadID());
+		metaPorActividadDAO.deleteMetaPorActividad(metaPorActividad);		
+	}
+
+}

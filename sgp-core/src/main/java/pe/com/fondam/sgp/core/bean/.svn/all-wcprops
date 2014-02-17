@@ -1,0 +1,209 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/1666/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean
+END
+ValidaCantidadesCompletasPlanOperativo.java
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/ValidaCantidadesCompletasPlanOperativo.java
+END
+CompromisoPagoBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/1447/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/CompromisoPagoBean.java
+END
+MarcoLogicoBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/1642/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/MarcoLogicoBean.java
+END
+DatoProyectoDetalleBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/734/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/DatoProyectoDetalleBean.java
+END
+CronogramaMetaPorActividadBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/1332/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/CronogramaMetaPorActividadBean.java
+END
+BeneficiariosPorResultadoBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/BeneficiariosPorResultadoBean.java
+END
+ActividadDetallePagoBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/1533/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/ActividadDetallePagoBean.java
+END
+ApreciacionResultadoBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/1190/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/ApreciacionResultadoBean.java
+END
+PersonalTecnicoAdministrativoBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/PersonalTecnicoAdministrativoBean.java
+END
+CuentaCorrienteBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/CuentaCorrienteBean.java
+END
+ReporteAvanceBeneficiarioBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/1307/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/ReporteAvanceBeneficiarioBean.java
+END
+ResultadoBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/1193/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/ResultadoBean.java
+END
+MaterialProducidoBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/MaterialProducidoBean.java
+END
+DirectivaBeneficiarioBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/DirectivaBeneficiarioBean.java
+END
+UbicacionProyectoBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/1651/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/UbicacionProyectoBean.java
+END
+RestriccionDepProvDistBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/736/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/RestriccionDepProvDistBean.java
+END
+OrgBienTranferidoBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/OrgBienTranferidoBean.java
+END
+ConclusionBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/ConclusionBean.java
+END
+EfectoProyectoBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/EfectoProyectoBean.java
+END
+DatoProyectoBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/DatoProyectoBean.java
+END
+ProgramaBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/148/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/ProgramaBean.java
+END
+IndicadorMarcoLogicoBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/IndicadorMarcoLogicoBean.java
+END
+NotasDiferencia.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/1764/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/NotasDiferencia.java
+END
+ProgramaBean2.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/1690/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/ProgramaBean2.java
+END
+ReporteAvanceBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/ReporteAvanceBean.java
+END
+MontosAcumulados.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/1666/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/MontosAcumulados.java
+END
+AvanceResultadoActividadBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/AvanceResultadoActividadBean.java
+END
+PagoLiquidacionBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/1642/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/PagoLiquidacionBean.java
+END
+MetaPorActividadBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/1307/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/MetaPorActividadBean.java
+END
+ProblemaSolucionBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/1190/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/ProblemaSolucionBean.java
+END
+EvaluacionFinalBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/EvaluacionFinalBean.java
+END
+LeccionApendidaBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/LeccionApendidaBean.java
+END
+RestriccionSubAreaTematicaBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/769/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/RestriccionSubAreaTematicaBean.java
+END
+OrganizacionBean.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/bean/OrganizacionBean.java
+END

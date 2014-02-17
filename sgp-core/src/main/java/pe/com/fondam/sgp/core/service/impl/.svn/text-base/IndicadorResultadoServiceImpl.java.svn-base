@@ -1,0 +1,34 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.dao.IndicadorResultadoDAO;
+import pe.com.fondam.sgp.core.domain.IndicadorResultado;
+import pe.com.fondam.sgp.core.service.IndicadorResultadoService;
+
+@Service
+public class IndicadorResultadoServiceImpl implements IndicadorResultadoService {
+	
+	@Autowired
+	IndicadorResultadoDAO indicadorResultadoDAO;
+
+	@Override
+	public void deleteIndicadorResultado(IndicadorResultado indicadorResultado) {
+		indicadorResultado = findIndicadorResultadoById(indicadorResultado.getIndicadorResultadoID());
+		indicadorResultadoDAO.deleteIndicadorResultado(indicadorResultado);
+	}
+
+	@Override
+	public IndicadorResultado findIndicadorResultadoById(Integer id) {
+		return indicadorResultadoDAO.findIndicadorResultadoById(id);
+	}
+
+	@Override
+	public List<IndicadorResultado> findIndicadorResultadoByResultadoID(Integer resultadoID) {
+		return indicadorResultadoDAO.findIndicadorResultadoByResultadoID(resultadoID);
+	}
+
+}

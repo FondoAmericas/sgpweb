@@ -1,0 +1,90 @@
+package pe.com.fondam.sgp.core.dao.impl;
+
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.orm.jpa.JpaTemplate;
+import org.springframework.stereotype.Repository;
+
+import pe.com.fondam.sgp.core.commons.bs.JpaBaseDAOImpl;
+import pe.com.fondam.sgp.core.dao.DetalleEstadoCabeceraDAO;
+import pe.com.fondam.sgp.core.domain.DetalleEstadoCabecera;
+/**
+*
+* 
+*/
+
+@Repository
+public class DetalleEstadoCabeceraDAOImpl extends JpaBaseDAOImpl implements DetalleEstadoCabeceraDAO {
+
+	//***************  inyecciones  *******************//
+	@Autowired
+	public DetalleEstadoCabeceraDAOImpl(@Qualifier("jpaTemplate") JpaTemplate jpaTemplate) {
+		this.setJpaTemplate(jpaTemplate);
+	}
+
+	
+	//***************  metodos *******************//
+	@Override
+	public void saveDetalleEstadoCabecera(DetalleEstadoCabecera detalleEstadoCabecera) {
+		// TODO Auto-generated method stub
+	   	
+	}
+
+	@Override
+	public DetalleEstadoCabecera updateDetalleEstadoCabecera(DetalleEstadoCabecera detalleEstadoCabecera) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteDetalleEstadoCabecera(DetalleEstadoCabecera detalleEstadoCabecera) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public DetalleEstadoCabecera findDetalleEstadoCabeceraById(Integer id) {
+		
+		return super.findById(DetalleEstadoCabecera.class, id);
+	}
+
+	@Override
+	public List<DetalleEstadoCabecera> findDetalleEstadoCabecerabyEstadoCabeceraPrefijo(
+			String prefijo) {
+		String queryString = "from DetalleEstadoCabecera where estadoCabecera.prefijoEstado = ?";
+		Object[] params = new Object[1];
+		params[0] = prefijo;
+		return super.find(queryString, params);	
+		}
+
+	@Override
+	public List<DetalleEstadoCabecera> findDetalleEstadoCabecerabyEstadoCabeceraId(
+			int id) {
+		String queryString = "from DetalleEstadoCabecera where estadoCabecera.estadoCabeceraID = ? and estadoEliminado = 1 ";
+		Object[] params = new Object[1];
+		params[0] = id;
+		return super.find(queryString, params);	
+		}
+
+	@Override
+	public int findDetalleEstadoCabecerabyPrefijo(String prefijo) {
+		String queryString = "from DetalleEstadoCabecera where prefijoEstado = ?";
+		Object[] params = new Object[1];
+		params[0] = prefijo;
+		List<DetalleEstadoCabecera> listDestado=super.find(queryString, params);
+		
+		return 	listDestado.get(0).getDetalleEstadoCabeceraID();
+		}
+
+
+	@Override
+	public DetalleEstadoCabecera findDetalleEstadoCabeceraByConsulta(
+			String consulta, Object[] params) {
+		
+		return (DetalleEstadoCabecera) super.find(consulta, params).get(0);
+	}
+
+	}

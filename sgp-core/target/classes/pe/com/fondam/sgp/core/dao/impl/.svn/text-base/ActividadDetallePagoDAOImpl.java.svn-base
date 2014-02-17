@@ -1,0 +1,81 @@
+package pe.com.fondam.sgp.core.dao.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.orm.jpa.JpaTemplate;
+import org.springframework.stereotype.Repository;
+
+import pe.com.fondam.sgp.core.commons.bs.JpaBaseDAOImpl;
+import pe.com.fondam.sgp.core.dao.ActividadDetallePagoDAO;
+import pe.com.fondam.sgp.core.domain.ActividadDetallePago;
+/**
+*
+* @author Zolanch Távara
+*/
+@Repository
+public class ActividadDetallePagoDAOImpl extends JpaBaseDAOImpl implements ActividadDetallePagoDAO {
+
+	/********************** inyecciones **************************/
+
+	@Autowired
+	public ActividadDetallePagoDAOImpl(
+			@Qualifier("jpaTemplate") JpaTemplate jpaTemplate) {
+		this.setJpaTemplate(jpaTemplate);
+	}
+	
+	/********************** metodos **************************/
+	@Override
+	public void saveActividadDetallePago(
+			ActividadDetallePago actividadDetallePago) {
+	super.save(actividadDetallePago);	
+	}
+
+	@Override
+	public ActividadDetallePago updateActividadDetallePago(
+			ActividadDetallePago actividadDetallePago) {
+		return super.update(actividadDetallePago);
+	}
+
+	@Override
+	public void deleteActividadDetallePago(
+			ActividadDetallePago actividadDetallePago) {
+		ActividadDetallePago actividadDetalleP=findActividadDetallePagoById(actividadDetallePago.getActividadDetallePagoID());
+		super.delete(actividadDetalleP);
+	}
+
+	@Override
+	public ActividadDetallePago findActividadDetallePagoById(Integer id) {
+		return super.findById(ActividadDetallePago.class, id);
+	}
+	
+	public List<ActividadDetallePago> findActividadDetallePagoByCronogramaCostoAct(Integer cronoCostoActID) {
+		String queryString = "from ActividadDetallePago where cronogramaCostoActividad.cronogramaCostoActividadID = ? ";
+		Object[] params = new Object[1];
+		params[0] = cronoCostoActID;
+		return super.find(queryString, params);
+	}
+	
+	public List<ActividadDetallePago> findActividadDetallePagoByDesembolsoID(Integer desembolsoID) {
+		String queryString = "from ActividadDetallePago where desembolso.desembolsoID = ? ";
+		Object[] params = new Object[1];
+		params[0] = desembolsoID;
+		return super.find(queryString, params);
+	}
+	
+	public List<ActividadDetallePago> findActividadDetallePagoByDetallePagoLiquidacionID(Integer detallePagoLiquidacionID) {
+		String queryString = "from ActividadDetallePago where  detallePagoLiquidacion.detallePagoLiquidacionID = ? ";
+		Object[] params = new Object[1];
+		params[0] = detallePagoLiquidacionID;
+		return super.find(queryString, params);
+	}
+
+	@Override
+	public List<ActividadDetallePago> findActividadDetallePago(
+			String queryString, Object[] params) {
+		return super.find(queryString, params);
+
+	}
+
+}

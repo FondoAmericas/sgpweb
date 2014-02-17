@@ -1,0 +1,137 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.bean.OrgBienTranferidoBean;
+import pe.com.fondam.sgp.core.dao.OrgBienTranferidoDAO;
+import pe.com.fondam.sgp.core.domain.OrgBienTranferido;
+import pe.com.fondam.sgp.core.service.BeneficiariosPorResultadoService;
+import pe.com.fondam.sgp.core.service.OrgBienTranferidoService;
+import pe.com.fondam.sgp.core.service.TablaEspecificaService;
+
+@Service
+public class OrgBienTranferidoServiceImpl implements OrgBienTranferidoService {
+
+	//***************** inyecciones *******************//
+	@Resource
+	OrgBienTranferidoDAO orgBienTranferidoDAO;
+	
+	@Resource
+	BeneficiariosPorResultadoService beneficiariosPorResultadoService;
+	
+	@Resource
+	TablaEspecificaService tablaEspecificaService;
+	
+	//***************** metodos *******************//
+	@Override
+	public OrgBienTranferido updateOrgBienTranferido(
+			OrgBienTranferido orgBienTranferido) {
+		return orgBienTranferidoDAO.updateOrgBienTranferido(orgBienTranferido);
+	}
+
+
+	@Override
+	public List<OrgBienTranferido> findOrgBienTranferidoByPropuestaTransferenciaId(
+			Integer propuestaTransferenciaId) {
+		
+		String consulta = " from OrgBienTranferido where propuestaTransferenciaBien.propuestaTransferencia.propuestaTransferenciaID = ? ";
+		Object[] params = new Object[1];
+		params[0]=propuestaTransferenciaId;
+		
+		return orgBienTranferidoDAO.findOrgBienTranferidoByConsulta(consulta, params);
+	}
+
+
+	@Override
+	public Integer findOrgBienTranferidoByOrganizacionId(Integer organizacionID) {
+		String consulta = " from OrgBienTranferido where organizacion.organizacionID = ? ";
+		Object[] params = new Object[1];
+		params[0]=organizacionID;
+		
+		return orgBienTranferidoDAO.findOrgBienTranferidoByConsulta(consulta, params).size();
+	}
+	
+	//************* listas ****************//
+	@Override
+	public List<OrgBienTranferido> llenaListOrgBienTranferido(
+			List<OrgBienTranferido> listOrgBienTranferido) {
+
+		for (OrgBienTranferido orgBienTranferido : listOrgBienTranferido) {
+			orgBienTranferido
+					.getPropuestaTransferenciaBeneficiario()
+					.setBeneficiariosPorResultado(
+							beneficiariosPorResultadoService
+									.findBeneficiariosPorResultadoById(orgBienTranferido
+											.getPropuestaTransferenciaBeneficiario()
+											.getBeneficiariosPorResultado()
+											.getBeneficiariosPorResultadoID()));
+			orgBienTranferido
+					.getPropuestaTransferenciaBeneficiario()
+					.getBeneficiariosPorResultado()
+					.setDescripcionEstrato(
+							tablaEspecificaService
+									.findTablaEspecificaById(
+											orgBienTranferido
+													.getPropuestaTransferenciaBeneficiario()
+													.getBeneficiariosPorResultado()
+													.getFkidtablaespEstrato())
+									.getDescripcionCabecera());
+		}
+		return listOrgBienTranferido;
+	}
+
+
+	@Override
+	public List<OrgBienTranferidoBean> llenaListOrgBienTranferidoBean(
+			List<OrgBienTranferido> listOrgBienTranferido) {
+		
+		List<OrgBienTranferidoBean> listOrgBienTranferidoBean=new  ArrayList<OrgBienTranferidoBean>();
+		
+		for (OrgBienTranferido orgBienTranferido : listOrgBienTranferido) {
+		listOrgBienTranferidoBean.add(llenaOrgBienTranferidoBean( orgBienTranferido));	
+		}
+		return listOrgBienTranferidoBean;
+	}
+
+
+	private OrgBienTranferidoBean llenaOrgBienTranferidoBean(
+			OrgBienTranferido orgBienTranferido) {
+		OrgBienTranferidoBean orgBienTranferidoBean = new OrgBienTranferidoBean();
+		
+		orgBienTranferidoBean.setOrganizacion(orgBienTranferido.getOrganizacion());
+		orgBienTranferidoBean.setOrgBienTranferidoID(orgBienTranferido.getOrgBienTranferidoID());
+		orgBienTranferidoBean.setPropuestaTransferenciaBeneficiario(orgBienTranferido.getPropuestaTransferenciaBeneficiario());
+		orgBienTranferidoBean.setPropuestaTransferenciaBien(orgBienTranferido.getPropuestaTransferenciaBien());
+		orgBienTranferidoBean.setObservaciones(orgBienTranferido.getObservaciones());
+		
+		return orgBienTranferidoBean;
+	}
+
+
+	@Override
+	public void deleteOrgBienTranferido(Integer idRegistro) {
+		orgBienTranferidoDAO.deleteOrgBienTranferido(findOrgBienTranferidoById(idRegistro));
+		
+	}
+
+	@Override
+	public OrgBienTranferido findOrgBienTranferidoById(Integer orgBienTranferidoId) {
+		return orgBienTranferidoDAO.findOrgBienTranferidoById(orgBienTranferidoId);
+	}
+
+
+	@Override
+	public List<OrgBienTranferido> findOrgBienTranferidoByPropuestaTransferenciaBienId(
+			Integer propuestaTransferenciaBienID) {
+		String consulta = " from OrgBienTranferido where propuestaTransferenciaBien.propuestaTransferenciaBienID = ? ";
+		Object[] params = new Object[1];
+		params[0]=propuestaTransferenciaBienID;
+		
+		return orgBienTranferidoDAO.findOrgBienTranferidoByConsulta(consulta, params);
+	}
+}

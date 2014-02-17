@@ -1,0 +1,60 @@
+package pe.com.fondam.sgp.core.dao.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.orm.jpa.JpaTemplate;
+import org.springframework.stereotype.Repository;
+
+import pe.com.fondam.sgp.core.commons.bs.JpaBaseDAOImpl;
+import pe.com.fondam.sgp.core.dao.TmpPersonalTecnicoAdministrativoDAO;
+import pe.com.fondam.sgp.core.domain.TmpPersonalTecnicoAdministrativo;
+
+@Repository
+public class TmpPersonalTecnicoAdministrativoDAOImpl extends JpaBaseDAOImpl implements TmpPersonalTecnicoAdministrativoDAO{
+
+	@Autowired
+	public TmpPersonalTecnicoAdministrativoDAOImpl(
+			@Qualifier("jpaTemplate") JpaTemplate jpaTemplate) {
+		this.setJpaTemplate(jpaTemplate);
+	}
+	
+	public void saveTmpPersonalTecnicoAdministrativo(TmpPersonalTecnicoAdministrativo tmpPersonalTecnicoAdministrativo) {
+	super.save(tmpPersonalTecnicoAdministrativo);
+
+	}
+
+	public TmpPersonalTecnicoAdministrativo updateTmpPersonalTecnicoAdministrativo(TmpPersonalTecnicoAdministrativo tmpPersonalTecnicoAdministrativo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	public void deleteTmpPersonalTecnicoAdministrativo(TmpPersonalTecnicoAdministrativo tmpPersonalTecnicoAdministrativo) {
+		super.delete(tmpPersonalTecnicoAdministrativo);
+
+	}
+
+
+	public TmpPersonalTecnicoAdministrativo findTmpPersonalTecnicoAdministrativoById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	public List<TmpPersonalTecnicoAdministrativo> findTmpPersonalTecnicoAdministrativo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TmpPersonalTecnicoAdministrativo> findTmpPersonalTecnicoAdministrativoByTMPInstitucionID(Integer tmpInstitucionID) {
+		String queryString1 = "from TmpPersonalTecnicoAdministrativo where tmpInstitucion.tMPInstitucionID= ? ";
+		Object[] params1 = new Object[1];
+		params1[0] = tmpInstitucionID;
+
+		return super.find(queryString1, params1);
+	}
+
+}

@@ -1,0 +1,52 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.dao.DesembolsoDAO;
+import pe.com.fondam.sgp.core.domain.Desembolso;
+import pe.com.fondam.sgp.core.service.DesembolsoService;
+
+@Service
+public class DesembolsoServiceImpl implements DesembolsoService {
+
+	/************** inyecciones ***************/
+	@Resource
+	DesembolsoDAO desembolsoDAO;
+
+	
+	
+	/************** metodos ***************/
+	@Override
+	public List<Desembolso> findDesembolsoByDatoProyectoID(
+			Integer datoProyectoID) {
+		return desembolsoDAO.findDesembolsoByDatoProyectoID(datoProyectoID);
+	}
+
+
+
+	@Override
+	public Desembolso updateDesembolso(Desembolso desembolso) {
+		return desembolsoDAO.updateDesembolso(desembolso);
+	}
+
+
+
+	@Override
+	public List<Desembolso> findDesembolsoByDatoProyectoIDByFuenteFinanciadoraId(
+			Integer datoProyectoId, Integer fuenteFinanciadoraId) {
+		String queryString = "from Desembolso where datoProyecto.datoProyectoID = ? and fuenteFinanciadora.fuenteFinanciadoraID = ? order by desembolsoID asc";
+		Object[] params = new Object[2];
+		params[0] = datoProyectoId;
+		params[1] = fuenteFinanciadoraId;
+		return desembolsoDAO.findDesembolso(queryString, params);
+	}
+
+	
+	
+	
+	
+}

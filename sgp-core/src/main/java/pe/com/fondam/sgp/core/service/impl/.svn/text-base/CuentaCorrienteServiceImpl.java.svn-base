@@ -1,0 +1,50 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.dao.CuentaCorrienteDAO;
+import pe.com.fondam.sgp.core.domain.CuentaCorriente;
+import pe.com.fondam.sgp.core.service.CuentaCorrienteService;
+
+@Service
+public class CuentaCorrienteServiceImpl implements CuentaCorrienteService {
+
+	//******  inyecciones  **********//
+	@Resource
+	CuentaCorrienteDAO cuentaCorrienteDAO;
+
+	//******  metodos **********//
+	@Override
+	public CuentaCorriente findCuentaCorrienteById(int cuentaCorrienteId) {
+		return cuentaCorrienteDAO.findCuentaCorrienteById(cuentaCorrienteId);
+	}
+
+	@Override
+	public List<CuentaCorriente> findCuentaCorrienteByDatoProyectoId(
+			Integer datoProyectoID) {
+		String consulta= " from CuentaCorriente where datoProyecto.datoProyectoID = ?";
+		Object[] params= new Object[1];
+		params[0]=datoProyectoID;
+		
+		return cuentaCorrienteDAO.findCuentaCorrienteByConsulta(consulta, params);
+	}
+
+	@Override
+	public CuentaCorriente updateCuentaCorriente(CuentaCorriente cuentaCorriente) {
+		return cuentaCorrienteDAO.updateCuentaCorriente(cuentaCorriente);
+	}
+
+	@Override
+	public void deleteCuentaCorriente(Integer cuentaCorrienteId) {
+		cuentaCorrienteDAO.deleteCuentaCorriente(cuentaCorrienteDAO.findCuentaCorrienteById(cuentaCorrienteId));
+		
+	}
+	
+
+	
+	
+}

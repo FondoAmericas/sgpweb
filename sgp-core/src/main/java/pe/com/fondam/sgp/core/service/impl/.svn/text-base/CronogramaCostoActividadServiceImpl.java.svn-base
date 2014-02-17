@@ -1,0 +1,43 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.dao.CronogramaCostoActividadDAO;
+import pe.com.fondam.sgp.core.domain.CronogramaCostoActividad;
+import pe.com.fondam.sgp.core.service.CronogramaCostoActividadService;
+
+@Service
+public class CronogramaCostoActividadServiceImpl implements CronogramaCostoActividadService {
+
+
+	/************** inyecciones ***************/
+	@Resource
+	CronogramaCostoActividadDAO cronogramaCostoActividadDAO;
+
+	/************** metodos ***************/
+	@Override
+	public CronogramaCostoActividad findCronogramaCostoActividadById(Integer cronogramaCostoActividadID) {
+		return cronogramaCostoActividadDAO.findCronogramaCostoActividadById(cronogramaCostoActividadID);
+	}
+
+	@Override
+	public List<CronogramaCostoActividad> findCronogramaCostoActividadByCostoActividadIdByFuenteFinanciadoraIdByCantidadMayorCero(Integer costoActividadId,Integer fuenteFinanciadoraId) {
+
+		String consulta =" from CronogramaCostoActividad where costoActividad.costoActividadID = ? and fuenteFinanciadora.fuenteFinanciadoraID = ? and cantidad > 0";
+		Object[] variable= new Object[2];
+		variable[0]=costoActividadId;
+		variable[1]=fuenteFinanciadoraId;
+		
+		return cronogramaCostoActividadDAO.findCronogramaCostoActividad(consulta, variable);
+	}
+
+	@Override
+	public List<CronogramaCostoActividad> findCronogramaCostoActividadByCostoActividadID(Integer costoActividadID) {
+		return cronogramaCostoActividadDAO.findCronogramaCostoActividadByCostoActividadID(costoActividadID);
+	}
+
+}

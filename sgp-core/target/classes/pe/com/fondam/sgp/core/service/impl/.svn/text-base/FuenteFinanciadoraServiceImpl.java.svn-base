@@ -1,0 +1,26 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.dao.FuenteFinanciadoraDAO;
+import pe.com.fondam.sgp.core.domain.FuenteFinanciadora;
+import pe.com.fondam.sgp.core.service.FuenteFinanciadoraService;
+
+@Service
+public class FuenteFinanciadoraServiceImpl implements FuenteFinanciadoraService {
+
+	//*****************  inyecciones  *****************//
+	@Resource
+	FuenteFinanciadoraDAO fuenteFinanciadoraDAO; 
+	
+	
+	//*********  metodos  *************//
+	@Override
+	public FuenteFinanciadora findFuenteFinanciadoraById(
+			int fuenteFinanciadoraId) {
+		return fuenteFinanciadoraDAO.findFuenteFinanciadoraById(fuenteFinanciadoraId);
+	}
+
+}

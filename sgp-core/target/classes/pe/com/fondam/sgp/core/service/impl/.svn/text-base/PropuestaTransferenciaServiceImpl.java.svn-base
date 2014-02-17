@@ -1,0 +1,54 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.dao.PropuestaTransferenciaDAO;
+import pe.com.fondam.sgp.core.domain.PropuestaTransferencia;
+import pe.com.fondam.sgp.core.service.PropuestaTransferenciaService;
+
+@Service
+public class PropuestaTransferenciaServiceImpl implements
+		PropuestaTransferenciaService {
+	
+	//********** inyeccones ***********//
+	@Resource
+	PropuestaTransferenciaDAO propuestaTransferenciaDAO;
+
+	
+	//********** metodos **************//
+	@Override
+	public PropuestaTransferencia findPropuestaTransferenciaByDatoProyectoId(
+			Integer datoProyectoID) {
+
+		String consulta= " from PropuestaTransferencia where datoProyecto.datoProyectoID = ? ";
+		Object[] params= new Object[1];
+		params[0]=datoProyectoID;
+		
+		List<PropuestaTransferencia> listPropuestaTransferencia = propuestaTransferenciaDAO.findPropuestaTransferenciaByConsulta(consulta,params);
+		PropuestaTransferencia propuestaTransferencia= null;
+		if ( listPropuestaTransferencia.size()>0){
+			propuestaTransferencia= listPropuestaTransferencia.get(0);
+		}
+		return propuestaTransferencia;
+	}
+
+
+	@Override
+	public PropuestaTransferencia updatePropuestaTransferencia(
+			PropuestaTransferencia propuestaTransferencia) {
+
+		return propuestaTransferenciaDAO.updatePropuestaTransferencia(propuestaTransferencia);
+	}
+
+
+	@Override
+	public PropuestaTransferencia findPropuestaTransferenciaById(
+			Integer propuestaTransferenciaId) {
+		return propuestaTransferenciaDAO.findPropuestaTransferenciaById(propuestaTransferenciaId);
+	}
+	
+}

@@ -1,0 +1,25 @@
+package pe.com.fondam.sgp.core.dao;
+
+import java.util.List;
+
+import pe.com.fondam.sgp.core.domain.Observacion;
+
+/**
+ * 
+ * @author Zolanch Távara
+ */
+public interface ObservacionDAO {
+
+	Integer save(Observacion observacion);
+
+	Observacion update(Observacion observacion);
+
+	void delete(Observacion observacion);
+
+	Observacion findObservacionById(Integer id);
+
+	List<Observacion> findObservacion();
+	
+	
+	
+}

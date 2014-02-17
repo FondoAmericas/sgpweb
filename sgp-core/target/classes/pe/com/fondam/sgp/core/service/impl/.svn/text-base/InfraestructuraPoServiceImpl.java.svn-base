@@ -1,0 +1,63 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.dao.DatoPlanOperativoDAO;
+import pe.com.fondam.sgp.core.dao.InfraestructuraPoDAO;
+import pe.com.fondam.sgp.core.domain.InfraestructuraPo;
+import pe.com.fondam.sgp.core.service.InfraestructuraPoService;
+
+@Service
+public class InfraestructuraPoServiceImpl implements InfraestructuraPoService {
+	//***************  inyecciones  ******************//
+	@Resource
+InfraestructuraPoDAO infraestructuraPoDAO;
+	
+	@Resource
+	DatoPlanOperativoDAO datoPlanOperativoDAO;
+	
+	//***************  metodos ******************//
+	@Override
+	public InfraestructuraPo findInfraestructuraPoByDatoPlanOperativoId(
+			Integer datoPlanOperativoID) {
+		String consulta= " from InfraestructuraPo where datoPlanOperativo.datoPlanOperativoID = ? ";
+		
+		Object[] params= new Object[1];
+		params[0]=datoPlanOperativoID;
+		
+		List<InfraestructuraPo> listInfraestructuraPo= infraestructuraPoDAO.findInfraestructuraPoByConsulta(consulta,params);
+		InfraestructuraPo infraestructuraPo= null;
+		if(listInfraestructuraPo.size()>0){
+			infraestructuraPo=listInfraestructuraPo.get(0);
+		}
+		return infraestructuraPo;
+	}
+
+	@Override
+	public InfraestructuraPo saveInfraestructuraPoVacio(Integer datoPlanOperativoID) {
+		InfraestructuraPo infraestructuraPo = new InfraestructuraPo();
+		
+		infraestructuraPo.setDatoPlanOperativo(datoPlanOperativoDAO.findDatoPlanOperativoById(datoPlanOperativoID));
+		infraestructuraPo.setDescripcion("Sin especificar");
+		infraestructuraPo.setUbicacion("Sin especificar");
+		
+		return infraestructuraPoDAO.updateInfraestructuraPo(infraestructuraPo);
+	}
+
+	@Override
+	public InfraestructuraPo findInfraestructuraPoById(
+			Integer infraestructuraPOID) {
+		return infraestructuraPoDAO.findInfraestructuraPoById(infraestructuraPOID);
+	}
+
+	@Override
+	public InfraestructuraPo updateInfraestructuraPo(
+			InfraestructuraPo infraestructuraPo) {
+		return infraestructuraPoDAO.updateInfraestructuraPo(infraestructuraPo);
+	}
+
+}

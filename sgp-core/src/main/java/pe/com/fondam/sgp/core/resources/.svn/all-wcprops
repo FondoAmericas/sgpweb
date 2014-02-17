@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/882/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/resources
+END
+jpa-entity-manager-context.xml
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/6/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/resources/jpa-entity-manager-context.xml
+END
+database.properties
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/resources/database.properties
+END
+application-context-test.xml
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/6/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/resources/application-context-test.xml
+END
+data-source-context.xml
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/6/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/resources/data-source-context.xml
+END
+application-context.xml
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/6/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/resources/application-context.xml
+END
+transaction-aop-context.xml
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/6/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/resources/transaction-aop-context.xml
+END

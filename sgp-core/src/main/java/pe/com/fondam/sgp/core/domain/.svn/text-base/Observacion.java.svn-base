@@ -1,0 +1,244 @@
+package pe.com.fondam.sgp.core.domain;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "observacion")
+public class Observacion implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1981713827732212693L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "observacion_id")
+	private Long observacionID;
+
+	@Lob
+	@Column(name = "descripcion")
+	private String descripcion;
+
+	@Column(name = "fk_idtablaesp_tipo_observacion")
+	private Integer fkIdtablaespTipoObservacion;
+
+	@Column(name = "fecha_observacion")
+	private Date fechaObservacion;
+
+	@Column(name = "fecha_atencion_observacion")
+	private Date fechaAtencionObservacion;
+
+	@Column(name = "fecha_levantamiento_observacion")
+	private Date fechaLevantamientoObservacion;
+
+	
+	@Column(name = "fk_idtablaesp_estado")
+	private Integer fkIdtablaespEstado;
+
+	@Column(name = "flag_estado")
+	private Integer flagEstado;
+
+    @ManyToOne
+    @JoinColumn
+    (name = "usuario_ID", referencedColumnName = "usuario_ID")
+    private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn
+    (name = "Dato_Proyecto_ID", referencedColumnName = "Dato_Proyecto_ID")
+    private DatoProyecto datoProyecto;
+
+    @ManyToOne
+    @JoinColumn
+    (name = "table_clase_ID", referencedColumnName = "table_clase_ID")
+    private TablaClase tablaClase ;
+
+	@Column(name = "ubicacion_en_tabla")
+	private String ubicacionEnTabla;
+	
+	public Observacion(){
+    	
+    }
+    
+    public Long getObservacionID() {
+		return observacionID;
+	}
+
+
+
+	public void setObservacionID(Long observacionID) {
+		this.observacionID = observacionID;
+	}
+
+
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+
+
+	public Integer getFkIdtablaespTipoObservacion() {
+		return fkIdtablaespTipoObservacion;
+	}
+
+
+
+	public void setFkIdtablaespTipoObservacion(Integer fkIdtablaespTipoObservacion) {
+		this.fkIdtablaespTipoObservacion = fkIdtablaespTipoObservacion;
+	}
+
+
+
+	public Date getFechaObservacion() {
+		return fechaObservacion;
+	}
+
+
+
+	public void setFechaObservacion(Date fechaObservacion) {
+		this.fechaObservacion = fechaObservacion;
+	}
+
+
+
+	public Date getFechaAtencionObservacion() {
+		return fechaAtencionObservacion;
+	}
+
+
+
+	public void setFechaAtencionObservacion(Date fechaAtencionObservacion) {
+		this.fechaAtencionObservacion = fechaAtencionObservacion;
+	}
+
+
+
+	public Date getFechaLevantamientoObservacion() {
+		return fechaLevantamientoObservacion;
+	}
+
+
+
+	public void setFechaLevantamientoObservacion(Date fechaLevantamientoObservacion) {
+		this.fechaLevantamientoObservacion = fechaLevantamientoObservacion;
+	}
+
+
+
+	public Integer getFkIdtablaespEstado() {
+		return fkIdtablaespEstado;
+	}
+
+
+
+	public void setFkIdtablaespEstado(Integer fkIdtablaespEstado) {
+		this.fkIdtablaespEstado = fkIdtablaespEstado;
+	}
+
+
+
+	public Integer getFlagEstado() {
+		return flagEstado;
+	}
+
+
+
+	public void setFlagEstado(Integer flagEstado) {
+		this.flagEstado = flagEstado;
+	}
+
+
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+
+
+	public DatoProyecto getDatoProyecto() {
+		return datoProyecto;
+	}
+
+
+
+	public void setDatoProyecto(DatoProyecto datoProyecto) {
+		this.datoProyecto = datoProyecto;
+	}
+
+
+
+	public TablaClase getTablaClase() {
+		return tablaClase;
+	}
+
+
+
+	public void setTablaClase(TablaClase tablaClase) {
+		this.tablaClase = tablaClase;
+	}
+
+
+
+	public void setUbicacionEnTabla(String ubicacionEnTabla) {
+		this.ubicacionEnTabla = ubicacionEnTabla;
+	}
+
+	public String getUbicacionEnTabla() {
+		return ubicacionEnTabla;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 0;
+		hash += (observacionID != null ? observacionID.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		// TODO: Warning - this method won't work in the case the id fields are
+		// not set
+		if (!(object instanceof Observacion)) {
+			return false;
+		}
+		Observacion other = (Observacion) object;
+		if ((this.observacionID == null && other.observacionID != null)
+				|| (this.observacionID != null && !this.observacionID
+						.equals(other.observacionID))) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "pe.com.fondam.sgp.core.domain.Observacion[observacionID="
+				+ observacionID + "]";
+	}
+
+}

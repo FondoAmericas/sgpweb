@@ -1,0 +1,701 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/1830/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl
+END
+PerfilUsuarioDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/PerfilUsuarioDAOImpl.java
+END
+TmpPerfilDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/438/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/TmpPerfilDAOImpl.java
+END
+UbicacionProyectoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/UbicacionProyectoDAOImpl.java
+END
+ActividadObligatoriaProgramaDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/983/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/ActividadObligatoriaProgramaDAOImpl.java
+END
+FuenteFinanciadoraDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/1701/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/FuenteFinanciadoraDAOImpl.java
+END
+EstadoTransaccionDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/203/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/EstadoTransaccionDAOImpl.java
+END
+LeccionApendidaDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/LeccionApendidaDAOImpl.java
+END
+CronogramaMetaPorResultadoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/532/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/CronogramaMetaPorResultadoDAOImpl.java
+END
+RaLgDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/1830/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/RaLgDAOImpl.java
+END
+InformeFinalBienDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/InformeFinalBienDAOImpl.java
+END
+RubroEspecialDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/6/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/RubroEspecialDAOImpl.java
+END
+ActivoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/ActivoDAOImpl.java
+END
+DatoUsuarioDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/612/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/DatoUsuarioDAOImpl.java
+END
+DetallePagoLiquidacionDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/DetallePagoLiquidacionDAOImpl.java
+END
+IngresoPropioDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/1808/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/IngresoPropioDAOImpl.java
+END
+CostoActividadDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/1827/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/CostoActividadDAOImpl.java
+END
+PartidaGenericaDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/545/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/PartidaGenericaDAOImpl.java
+END
+ObservacionDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/ObservacionDAOImpl.java
+END
+PartidaEspecificaDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/545/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/PartidaEspecificaDAOImpl.java
+END
+TmpBeneficiariosPorResultadoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/TmpBeneficiariosPorResultadoDAOImpl.java
+END
+DepProvDistDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/1687/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/DepProvDistDAOImpl.java
+END
+ConclusionDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/ConclusionDAOImpl.java
+END
+RestriccionDepProvDistDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/RestriccionDepProvDistDAOImpl.java
+END
+TmpEvaluacionDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/1764/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/TmpEvaluacionDAOImpl.java
+END
+SubAreaTematicaDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/671/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/SubAreaTematicaDAOImpl.java
+END
+TmpImagenOArchivoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/TmpImagenOArchivoDAOImpl.java
+END
+PercepcionEjecucionPresupuestalDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/!svn/ver/6/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/PercepcionEjecucionPresupuestalDAOImpl.java
+END
+RestriccionSubAreaTematicaDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/RestriccionSubAreaTematicaDAOImpl.java
+END
+InstitucionDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/1642/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/InstitucionDAOImpl.java
+END
+ActividadPerfilDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/ActividadPerfilDAOImpl.java
+END
+ObservacionProyDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/295/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/ObservacionProyDAOImpl.java
+END
+PropuestaTransferenciaBienDaoImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/PropuestaTransferenciaBienDaoImpl.java
+END
+GanaciaBancariaDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/6/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/GanaciaBancariaDAOImpl.java
+END
+FuncionalidadDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/FuncionalidadDAOImpl.java
+END
+TipoCambioDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/1483/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/TipoCambioDAOImpl.java
+END
+ResultadoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/1797/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/ResultadoDAOImpl.java
+END
+ReporteAvanceBeneficiarioDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/ReporteAvanceBeneficiarioDAOImpl.java
+END
+BienDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/BienDAOImpl.java
+END
+IndicadorResultadoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/532/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/IndicadorResultadoDAOImpl.java
+END
+MetaPerfilDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/432/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/MetaPerfilDAOImpl.java
+END
+AvanceResultadoActividadDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/1412/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/AvanceResultadoActividadDAOImpl.java
+END
+ObservacionInspecAdminDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/6/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/ObservacionInspecAdminDAOImpl.java
+END
+ActividadDetallePagoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/1815/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/ActividadDetallePagoDAOImpl.java
+END
+DetalleInspeccionAdminDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/6/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/DetalleInspeccionAdminDAOImpl.java
+END
+PropuestaTransferenciaBeneficiarioDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/PropuestaTransferenciaBeneficiarioDAOImpl.java
+END
+BeneficiariosPorResultadoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/BeneficiariosPorResultadoDAOImpl.java
+END
+InspectorDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/295/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/InspectorDAOImpl.java
+END
+EstadoCabeceraDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/EstadoCabeceraDAOImpl.java
+END
+TipoPeriodoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/1690/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/TipoPeriodoDAOImpl.java
+END
+InformeFinalDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/InformeFinalDAOImpl.java
+END
+IndicadorMarcoLogicoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/IndicadorMarcoLogicoDAOImpl.java
+END
+TmpFuenteFinanciadoraDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/1754/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/TmpFuenteFinanciadoraDAOImpl.java
+END
+CompromisoPagoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/1813/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/CompromisoPagoDAOImpl.java
+END
+TablaGeneralDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/322/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/TablaGeneralDAOImpl.java
+END
+CronogramaVisitaDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/CronogramaVisitaDAOImpl.java
+END
+TablaClaseDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/203/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/TablaClaseDAOImpl.java
+END
+OrgBienTranferidoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/OrgBienTranferidoDAOImpl.java
+END
+PercepcionSobreDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/6/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/PercepcionSobreDAOImpl.java
+END
+ResumenProyectoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/ResumenProyectoDAOImpl.java
+END
+InspeccionTecnicaDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/295/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/InspeccionTecnicaDAOImpl.java
+END
+MaterialProducidoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/MaterialProducidoDAOImpl.java
+END
+EvaluacionFinalDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/EvaluacionFinalDAOImpl.java
+END
+LiquidacionGastoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/LiquidacionGastoDAOImpl.java
+END
+CategoriaActividadDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/545/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/CategoriaActividadDAOImpl.java
+END
+PerfilDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/520/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/PerfilDAOImpl.java
+END
+RiesgoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/791/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/RiesgoDAOImpl.java
+END
+RestricionProgramaDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/RestricionProgramaDAOImpl.java
+END
+MetaPorActividadDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/1819/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/MetaPorActividadDAOImpl.java
+END
+DetalleEstadoCabeceraDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/DetalleEstadoCabeceraDAOImpl.java
+END
+RecursoUtilizadoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/RecursoUtilizadoDAOImpl.java
+END
+DocInternoFondamDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/1125/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/DocInternoFondamDAOImpl.java
+END
+PagoLiquidacionDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/1821/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/PagoLiquidacionDAOImpl.java
+END
+TmpInstitucionDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/TmpInstitucionDAOImpl.java
+END
+TmpActividadPerfilDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/438/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/TmpActividadPerfilDAOImpl.java
+END
+TablaEspecificaDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/953/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/TablaEspecificaDAOImpl.java
+END
+RubroGenericoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/RubroGenericoDAOImpl.java
+END
+TmpDatoProyectoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/1756/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/TmpDatoProyectoDAOImpl.java
+END
+ReporteAvanceDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/ReporteAvanceDAOImpl.java
+END
+CronogramaMetaPorActividadDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/CronogramaMetaPorActividadDAOImpl.java
+END
+TipoActividadObligatoriaProgramaDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/!svn/ver/6/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/TipoActividadObligatoriaProgramaDAOImpl.java
+END
+FuncionalidadPerfilDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/FuncionalidadPerfilDAOImpl.java
+END
+InfraestructuraPoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/InfraestructuraPoDAOImpl.java
+END
+PropuestaTransferenciaDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/PropuestaTransferenciaDAOImpl.java
+END
+TmpPersonalTecnicoAdministrativoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/!svn/ver/438/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/TmpPersonalTecnicoAdministrativoDAOImpl.java
+END
+DatoProyectoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/1739/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/DatoProyectoDAOImpl.java
+END
+ProgramaDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/ProgramaDAOImpl.java
+END
+EvaluadorDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/1764/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/EvaluadorDAOImpl.java
+END
+EfectoProyectoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/EfectoProyectoDAOImpl.java
+END
+DesembolsoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/1815/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/DesembolsoDAOImpl.java
+END
+OrganizacionDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/OrganizacionDAOImpl.java
+END
+CronogramaCostoActividadDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/1291/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/CronogramaCostoActividadDAOImpl.java
+END
+DirectivaBeneficiarioDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/DirectivaBeneficiarioDAOImpl.java
+END
+TmpMetaPerfilDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/438/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/TmpMetaPerfilDAOImpl.java
+END
+InspeccionAdminDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/6/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/InspeccionAdminDAOImpl.java
+END
+ProblemaSolucionDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/ProblemaSolucionDAOImpl.java
+END
+EvaluacionDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/EvaluacionDAOImpl.java
+END
+TmpUbicacionProyectoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/438/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/TmpUbicacionProyectoDAOImpl.java
+END
+DescripcionEfDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/DescripcionEfDAOImpl.java
+END
+UsuarioDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/UsuarioDAOImpl.java
+END
+CuentaCorrienteDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/CuentaCorrienteDAOImpl.java
+END
+TmpResumenProyectoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/432/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/TmpResumenProyectoDAOImpl.java
+END
+ImagenOArchivoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/ImagenOArchivoDAOImpl.java
+END
+ApreciacionResultadoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/1412/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/ApreciacionResultadoDAOImpl.java
+END
+PersonalTecnicoAdministrativoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/PersonalTecnicoAdministrativoDAOImpl.java
+END
+TelefonoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/6/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/TelefonoDAOImpl.java
+END
+ActaCierreDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/6/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/ActaCierreDAOImpl.java
+END
+DetalleDesembolsoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/1816/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/DetalleDesembolsoDAOImpl.java
+END
+ConclusionRecomendacionDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/6/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/ConclusionRecomendacionDAOImpl.java
+END
+MarcoLogicoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/MarcoLogicoDAOImpl.java
+END
+FechaCambioEstadoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/6/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/FechaCambioEstadoDAOImpl.java
+END
+InformeVisitaCampoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/6/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/InformeVisitaCampoDAOImpl.java
+END
+ActividadDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/956/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/ActividadDAOImpl.java
+END
+PuntajeEvaluacionDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/PuntajeEvaluacionDAOImpl.java
+END
+DetalleConcluIfDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/DetalleConcluIfDAOImpl.java
+END
+DatoPlanOperativoDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/DatoPlanOperativoDAOImpl.java
+END
+InformePersTecnAdminDAOImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/6/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/dao/impl/InformePersTecnAdminDAOImpl.java
+END

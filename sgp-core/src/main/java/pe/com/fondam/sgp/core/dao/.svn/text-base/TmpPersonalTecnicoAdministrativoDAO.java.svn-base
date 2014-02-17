@@ -1,0 +1,15 @@
+package pe.com.fondam.sgp.core.dao;
+
+import java.util.List;
+
+import pe.com.fondam.sgp.core.domain.TmpPersonalTecnicoAdministrativo;
+
+public interface TmpPersonalTecnicoAdministrativoDAO {
+
+	public void saveTmpPersonalTecnicoAdministrativo(TmpPersonalTecnicoAdministrativo tmpPersonalTecnicoAdministrativo);
+	public TmpPersonalTecnicoAdministrativo updateTmpPersonalTecnicoAdministrativo(TmpPersonalTecnicoAdministrativo tmpPersonalTecnicoAdministrativo);
+	public void deleteTmpPersonalTecnicoAdministrativo(TmpPersonalTecnicoAdministrativo tmpPersonalTecnicoAdministrativo);
+	public TmpPersonalTecnicoAdministrativo findTmpPersonalTecnicoAdministrativoById(Integer id);
+	public List<TmpPersonalTecnicoAdministrativo> findTmpPersonalTecnicoAdministrativo();
+	public List<TmpPersonalTecnicoAdministrativo> findTmpPersonalTecnicoAdministrativoByTMPInstitucionID(	Integer tmpInstitucionID);
+}

@@ -1,0 +1,10 @@
+package pe.com.fondam.sgp.core.service;
+
+import pe.com.fondam.sgp.core.domain.Observacion;
+
+public interface ObservacionService {
+	//List<DatoProyecto> findDatoProyectoByProgramaID(Integer actividadID);
+	void saveObservacion(Observacion observacion);
+	void updateObservacion(Observacion observacion);
+
+}

@@ -1,0 +1,824 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.dao.ActividadPerfilDAO;
+import pe.com.fondam.sgp.core.dao.BeneficiariosPorResultadoDAO;
+import pe.com.fondam.sgp.core.dao.DatoProyectoDAO;
+import pe.com.fondam.sgp.core.dao.DatoUsuarioDAO;
+import pe.com.fondam.sgp.core.dao.DepProvDistDAO;
+import pe.com.fondam.sgp.core.dao.EvaluacionDAO;
+import pe.com.fondam.sgp.core.dao.EvaluadorDAO;
+import pe.com.fondam.sgp.core.dao.FuenteFinanciadoraDAO;
+import pe.com.fondam.sgp.core.dao.ImagenOArchivoDAO;
+import pe.com.fondam.sgp.core.dao.InstitucionDAO;
+import pe.com.fondam.sgp.core.dao.MetaPerfilDAO;
+import pe.com.fondam.sgp.core.dao.PerfilDAO;
+import pe.com.fondam.sgp.core.dao.PerfilUsuarioDAO;
+import pe.com.fondam.sgp.core.dao.PersonalTecnicoAdministrativoDAO;
+import pe.com.fondam.sgp.core.dao.ResumenProyectoDAO;
+import pe.com.fondam.sgp.core.dao.TmpActividadPerfilDAO;
+import pe.com.fondam.sgp.core.dao.TmpBeneficiariosPorResultadoDAO;
+import pe.com.fondam.sgp.core.dao.TmpDatoProyectoDAO;
+import pe.com.fondam.sgp.core.dao.TmpEvaluacionDAO;
+import pe.com.fondam.sgp.core.dao.TmpFuenteFinanciadoraDAO;
+import pe.com.fondam.sgp.core.dao.TmpImagenOArchivoDAO;
+import pe.com.fondam.sgp.core.dao.TmpInstitucionDAO;
+import pe.com.fondam.sgp.core.dao.TmpMetaPerfilDAO;
+import pe.com.fondam.sgp.core.dao.TmpPerfilDAO;
+import pe.com.fondam.sgp.core.dao.TmpPersonalTecnicoAdministrativoDAO;
+import pe.com.fondam.sgp.core.dao.TmpResumenProyectoDAO;
+import pe.com.fondam.sgp.core.dao.TmpUbicacionProyectoDAO;
+import pe.com.fondam.sgp.core.dao.UbicacionProyectoDAO;
+import pe.com.fondam.sgp.core.dao.UsuarioDAO;
+import pe.com.fondam.sgp.core.domain.ActividadPerfil;
+import pe.com.fondam.sgp.core.domain.BeneficiariosPorResultado;
+import pe.com.fondam.sgp.core.domain.DatoProyecto;
+import pe.com.fondam.sgp.core.domain.DatoUsuario;
+import pe.com.fondam.sgp.core.domain.DepProvDist;
+import pe.com.fondam.sgp.core.domain.Evaluacion;
+import pe.com.fondam.sgp.core.domain.Evaluador;
+import pe.com.fondam.sgp.core.domain.FuenteFinanciadora;
+import pe.com.fondam.sgp.core.domain.ImagenOArchivo;
+import pe.com.fondam.sgp.core.domain.Institucion;
+import pe.com.fondam.sgp.core.domain.MetaPerfil;
+import pe.com.fondam.sgp.core.domain.Perfil;
+import pe.com.fondam.sgp.core.domain.PerfilUsuario;
+import pe.com.fondam.sgp.core.domain.PersonalTecnicoAdministrativo;
+import pe.com.fondam.sgp.core.domain.ResumenProyecto;
+import pe.com.fondam.sgp.core.domain.TmpActividadPerfil;
+import pe.com.fondam.sgp.core.domain.TmpBeneficiariosPorResultado;
+import pe.com.fondam.sgp.core.domain.TmpDatoProyecto;
+import pe.com.fondam.sgp.core.domain.TmpEvaluacion;
+import pe.com.fondam.sgp.core.domain.TmpFuenteFinanciadora;
+import pe.com.fondam.sgp.core.domain.TmpImagenOArchivo;
+import pe.com.fondam.sgp.core.domain.TmpInstitucion;
+import pe.com.fondam.sgp.core.domain.TmpMetaPerfil;
+import pe.com.fondam.sgp.core.domain.TmpPerfil;
+import pe.com.fondam.sgp.core.domain.TmpPersonalTecnicoAdministrativo;
+import pe.com.fondam.sgp.core.domain.TmpResumenProyecto;
+import pe.com.fondam.sgp.core.domain.TmpUbicacionProyecto;
+import pe.com.fondam.sgp.core.domain.UbicacionProyecto;
+import pe.com.fondam.sgp.core.domain.Usuario;
+import pe.com.fondam.sgp.core.service.TablaTemporalService;
+
+@Service
+public class TablaTemporalServiceImpl implements TablaTemporalService {
+
+	@Resource
+	private TmpDatoProyectoDAO tmpDatoProyectoDAO;
+
+	@Resource
+	private TmpInstitucionDAO tmpInstitucionDAO;
+
+	@Resource
+	private TmpPerfilDAO tmpPerfilDAO;
+
+	@Resource
+	private TmpFuenteFinanciadoraDAO tmpFuenteFinanciadoraDAO;
+
+	@Resource
+	private TmpEvaluacionDAO tmpEvaluacionDAO;
+
+	@Resource
+	private TmpImagenOArchivoDAO tmpImagenOArchivoDAO;
+
+	@Resource
+	private TmpResumenProyectoDAO tmpResumenProyectoDAO;
+
+	@Resource
+	private TmpActividadPerfilDAO tmpActividadPerfilDAO;
+
+	@Resource
+	private TmpMetaPerfilDAO tmpMetaPerfilDAO;
+
+	@Resource
+	private DepProvDistDAO depProvDistDAO;
+
+	@Resource
+	private TmpUbicacionProyectoDAO tmpUbicacionProyectoDAO;
+
+	@Resource
+	private TmpBeneficiariosPorResultadoDAO tmpBeneficiariosPorResultadoDAO;
+
+	@Resource
+	private TmpPersonalTecnicoAdministrativoDAO tmpPersonalTecnicoAdministrativoDAO;
+
+	@Resource
+	private FuenteFinanciadoraDAO fuenteFinanciadoraDAO;
+
+	@Resource
+	private InstitucionDAO institucionDAO;
+
+	@Resource
+	private PerfilDAO perfilDAO;
+
+	@Resource
+	private EvaluadorDAO evaluadorDAO;
+
+	@Resource
+	private EvaluacionDAO evaluacionDAO;
+
+	@Resource
+	private ImagenOArchivoDAO imagenOArchivoDAO;
+
+	@Resource
+	private BeneficiariosPorResultadoDAO beneficiariosPorResultadoDAO;
+
+	@Resource
+	private UbicacionProyectoDAO ubicacionProyectoDAO;
+
+	@Resource
+	private ActividadPerfilDAO actividadPerfilDAO;
+
+	@Resource
+	private MetaPerfilDAO metaPerfilDAO;
+
+	@Resource
+	private ResumenProyectoDAO resumenProyectoDAO;
+
+	@Resource
+	DatoProyectoDAO datoProyectoDAO;
+
+	@Resource
+	DatoUsuarioDAO datoUsuarioDAO;
+
+	@Resource
+	PerfilUsuarioDAO perfilUsuarioDAO;
+
+	@Resource
+	UsuarioDAO usuarioDAO;
+
+	@Resource
+	private PersonalTecnicoAdministrativoDAO personalTecnicoAdministrativoDAO;
+
+	Integer idProyecto = 0;
+	Integer idInstitucion = 0;
+	DatoProyecto dProyecto = null;
+	FuenteFinanciadora fFinanciadora = null;
+	Institucion institucion = null;
+	Perfil perfil = null;
+
+	@Override
+	public List<TmpDatoProyecto> findTmpDatoProyectoByProgramaID(
+			Integer idPrograma) {
+
+		return tmpDatoProyectoDAO.findTmpDatoProyectoByProgramaID(idPrograma);
+	}
+
+	@Override
+	public void saveTmpDatoProyecto(TmpDatoProyecto tmpDatoProyecto) {
+		tmpDatoProyectoDAO.saveTmpDatoProyecto(tmpDatoProyecto);
+
+	}
+
+	@Override
+	public void saveDepProvDist(DepProvDist depProvDist) {
+		depProvDistDAO.saveDepProvDist(depProvDist);
+	}
+
+	@Override
+	public void saveTmpUbicacionProyecto(
+			TmpUbicacionProyecto tmpUbicacionProyecto) {
+		tmpUbicacionProyectoDAO.saveTmpUbicacionProyecto(tmpUbicacionProyecto);
+
+	}
+
+	@Override
+	public void saveTmpInstitucion(TmpInstitucion tmpInstitucion) {
+		tmpInstitucionDAO.saveTmpInstitucion(tmpInstitucion);
+
+	}
+
+	@Override
+	public void saveTmpPerfil(TmpPerfil tmpPerfil) {
+		tmpPerfilDAO.saveTmpPerfil(tmpPerfil);
+
+	}
+
+	public void saveTmpImagenOArchivo(TmpImagenOArchivo tmpImagenOArchivo) {
+		tmpImagenOArchivoDAO.saveTmpImagenOArchivo(tmpImagenOArchivo);
+
+	}
+
+	public TmpImagenOArchivo findTmpImagenOArchivoById(Integer id) {
+		return tmpImagenOArchivoDAO.findTmpImagenOArchivoById(id);
+	}
+
+	public void saveTmpResumenProyecto(TmpResumenProyecto tmpResumenProyecto) {
+		tmpResumenProyectoDAO.saveTmpResumenProyecto(tmpResumenProyecto);
+
+	}
+
+	public void saveTmpActividadPerfil(TmpActividadPerfil tmpActividadPerfil) {
+		tmpActividadPerfilDAO.saveTmpActividadPerfil(tmpActividadPerfil);
+
+	}
+
+	public void saveTmpMetaPerfil(TmpMetaPerfil tmpMetaPerfil) {
+		tmpMetaPerfilDAO.saveTmpMetaPerfil(tmpMetaPerfil);
+
+	}
+
+	public List<TmpFuenteFinanciadora> findTmpFuenteFinanciadoraByTmpDatoProyectoByEstadoInstitucion(
+			Integer idPrograma) {
+		List<TmpFuenteFinanciadora> listTmpFuenteFinanciadora = tmpFuenteFinanciadoraDAO
+				.findTmpFuenteFinanciadoraByProgramaId(idPrograma);
+
+		return listTmpFuenteFinanciadora;
+	}
+
+	public TmpDatoProyecto findTmpDatoProyectoById(Integer idProyecto) {
+
+		return tmpDatoProyectoDAO.findTmpDatoProyectoById(idProyecto);
+	}
+
+	@Override
+	public TmpPerfil findTmpPerfilByTmpDatoProyectoID(Integer idProyecto) {
+
+		return tmpPerfilDAO.findTmpPerfilByTmpDatoProyectoID(idProyecto);
+	}
+
+	@Override
+	public TmpFuenteFinanciadora findTmpFuenteFinanciadoraByTmpIdDatoProyecto(
+			Integer idProyecto) {
+
+		return tmpFuenteFinanciadoraDAO
+				.findTmpFuenteFinanciadoraByTmpIdDatoProyecto(idProyecto);
+	}
+
+	public TmpInstitucion findTmpInstitucionById(Integer id) {
+		return tmpInstitucionDAO.findTmpInstitucionById(id);
+
+	}
+
+	@Override
+	public TmpEvaluacion findTmpEvaluacionById(Integer id) {
+
+		return tmpEvaluacionDAO.findTmpEvaluacionById(id);
+	}
+
+	@Override
+	public void saveTmpEvaluacion(TmpEvaluacion tmpEvaluacion) {
+		tmpEvaluacionDAO.saveTmpEvaluacion(tmpEvaluacion);
+
+	}
+
+	@Override
+	public TmpEvaluacion updateTmpEvaluacion(TmpEvaluacion tmpEvaluacion) {
+		return tmpEvaluacionDAO.updateTmpEvaluacion(tmpEvaluacion);
+
+	}
+
+	@Override
+	public TmpEvaluacion findTmpEvaluacion(TmpEvaluacion evaluacion) {
+
+		return tmpEvaluacionDAO.findTmpEvaluacion(evaluacion);
+	}
+
+	@Override
+	public List<TmpDatoProyecto> findTmpDatoProyectoByEstadoPerfil(
+			Integer idPrograma) {
+		int tipoEvaluacion = 173;
+		List<TmpDatoProyecto> listTmpDatoProyectoNew = new ArrayList<TmpDatoProyecto>();
+		List<TmpDatoProyecto> listTmpDatoProyecto = tmpDatoProyectoDAO
+				.findTmpDatoProyectoByProgramaID(idPrograma);
+		if (listTmpDatoProyecto != null && listTmpDatoProyecto.size() != 0) {
+			for (TmpDatoProyecto tmpDatoProyecto : listTmpDatoProyecto) {
+				TmpEvaluacion tmpEva = tmpEvaluacionDAO
+						.findTmpEvaluacionByTipoEvaluacionByTmpDatoProyectoID(
+								tipoEvaluacion,
+								tmpDatoProyecto.getTMPDatoProyectoID());
+				if (tmpEva != null) {
+					TmpFuenteFinanciadora tmpFuenteFinanciadora = tmpFuenteFinanciadoraDAO
+							.findTmpFuenteFinanciadoraByTmpIdDatoProyecto(tmpDatoProyecto
+									.getTMPDatoProyectoID());
+					TmpInstitucion tmpInstitucion = tmpInstitucionDAO
+							.findTmpInstitucionById(tmpFuenteFinanciadora
+									.getTMPInstitucion().getTMPInstitucionID());
+					if (tmpInstitucion.getFkIdDetalleEstadoCabEstInstitucion() == 2) {
+						TmpPerfil tmpPerfil = tmpPerfilDAO
+								.findTmpPerfilByTmpDatoProyectoID(tmpDatoProyecto
+										.gettMPDatoProyectoID());
+						if (tmpPerfil.getFkIddetallestadocabEstperfil() != 6) {
+							listTmpDatoProyectoNew.add(tmpDatoProyecto);
+						}
+					}
+
+				}
+			}
+		}
+
+		return listTmpDatoProyectoNew;
+	}
+
+	public void saveTmpBeneficiariosPorResultado(
+			TmpBeneficiariosPorResultado tmpBeneficiariosPorResultado) {
+		tmpBeneficiariosPorResultadoDAO
+				.saveTmpBeneficiariosPorResultado(tmpBeneficiariosPorResultado);
+
+	}
+
+	public void saveTmpFuenteFinanciadora(
+			TmpFuenteFinanciadora tmpFuenteFinanciadora) {
+		tmpFuenteFinanciadoraDAO
+				.saveTmpFuenteFinanciadora(tmpFuenteFinanciadora);
+
+	}
+
+	public List<TmpImagenOArchivo> findTmpImagenOArchivoByPerfilByID(
+			int idPerfil) {
+
+		List<TmpImagenOArchivo> listTmpImagenOArchivo = tmpImagenOArchivoDAO
+				.findTmpImagenOArchivoByPerfilByID(idPerfil);
+		return listTmpImagenOArchivo;
+	}
+
+	@Override
+	public void saveInformacionTMPatablas(Integer tmpDatoProyectoId) {
+
+		TmpPerfil tmpPerfil = tmpPerfilDAO
+				.findTmpPerfilByTmpDatoProyectoID(tmpDatoProyectoId);
+		TmpDatoProyecto tmpDatoProyecto = tmpDatoProyectoDAO
+				.findTmpDatoProyectoById(tmpDatoProyectoId);
+		// fuente finaciadora ejecutor
+		TmpFuenteFinanciadora tmpFuenteFinanciadora = tmpFuenteFinanciadoraDAO
+				.findTmpFuenteFinanciadoraByTmpIdDatoProyecto(tmpDatoProyectoId);
+		// fuente finaciadora no ejecutor
+		List<TmpFuenteFinanciadora> listTmpFuenteFinanciadora = tmpFuenteFinanciadoraDAO
+				.findTmpFuenteFinanciadoraByTmpIdDatoProyectoList(tmpDatoProyectoId);
+		TmpInstitucion tmpInstitucion = tmpInstitucionDAO
+				.findTmpInstitucionById(tmpFuenteFinanciadora
+						.getTMPInstitucion().getTMPInstitucionID());
+
+		List<TmpImagenOArchivo> listTmpImagenOArchivo = tmpImagenOArchivoDAO
+				.findTmpImagenOArchivoByPerfilByID(tmpPerfil.getTMPPerfilID());
+		List<TmpUbicacionProyecto> listTmpUbicacionProyecto = tmpUbicacionProyectoDAO
+				.findTmpUbicacionProyectoBytmpDatoProyectoID(tmpDatoProyectoId);
+		List<TmpActividadPerfil> listTmpActividadPerfil = tmpActividadPerfilDAO
+				.findTmpActividadPerfilByTmpPerfilID(tmpPerfil.getTMPPerfilID());
+		List<TmpEvaluacion> tmpEvaluacion = tmpEvaluacionDAO
+				.findTmpEvaluacionByTmpDatoProyectoID(tmpDatoProyectoId);
+		List<TmpResumenProyecto> ListTmpResumenProyecto = tmpResumenProyectoDAO
+				.findTmpResumenProyectoByTmpDatoProyectoID(tmpDatoProyectoId);
+		List<TmpPersonalTecnicoAdministrativo> listTmpPersonalTecnicoAdministrativo = tmpPersonalTecnicoAdministrativoDAO
+				.findTmpPersonalTecnicoAdministrativoByTMPInstitucionID(tmpInstitucion
+						.getTMPInstitucionID());
+
+		if (tmpDatoProyecto != null) {
+			//System.out.println("11REGISTRE Proyecto:::idProyecto::"+ idProyecto);
+
+			DatoProyecto datoProyecto = new DatoProyecto();
+			datoProyecto.setCantidadPeriodo(tmpDatoProyecto
+					.getCantidadPeriodo());
+			datoProyecto.setCodigoProyecto(tmpDatoProyecto.getCodigoProyecto());
+			datoProyecto.setNombreProyecto(tmpDatoProyecto.getNombreProyecto());
+			datoProyecto.setDuracionProyecto(tmpDatoProyecto
+					.getDuracionProyecto());
+			datoProyecto.setFkIddetallestadocabEstproy(tmpDatoProyecto
+					.getFkIddetallestadocabEstproy());
+			datoProyecto.setPrograma(tmpDatoProyecto.getPrograma());
+			datoProyecto.setNumero_orden_dato_proyecto(tmpDatoProyecto
+					.getNumeroOrdenDatoProyecto());
+			datoProyecto.setSubAreaTematica(tmpDatoProyecto
+					.getSubAreaTematica());
+
+			idProyecto = datoProyectoDAO.saveDatoProyecto(datoProyecto);
+
+			//System.out.println("REGISTRE Proyecto::idProyecto::" + idProyecto);
+		}
+
+		if (listTmpFuenteFinanciadora != null
+				&& listTmpFuenteFinanciadora.size() != 0) {
+			for (TmpFuenteFinanciadora tmpFuenteFinanciadora1 : listTmpFuenteFinanciadora) {
+
+				Institucion institucionUpdate = institucionDAO
+						.findInstitucionByRUC(tmpFuenteFinanciadora1
+								.getTMPInstitucion().getRucInstitucion());
+				Institucion institucion = new Institucion();
+				institucion.setContacto(tmpFuenteFinanciadora1
+						.getTMPInstitucion().getContacto());
+				institucion
+						.setFkIdDetalleEstadoCabEstInstitucion(tmpFuenteFinanciadora1
+								.getTMPInstitucion()
+								.getFkIdDetalleEstadoCabEstInstitucion());
+				institucion.setNombreInstitucion(tmpFuenteFinanciadora1
+						.getTMPInstitucion().getNombreInstitucion());
+				institucion.setRucInstitucion(tmpFuenteFinanciadora1
+						.getTMPInstitucion().getRucInstitucion());
+				institucion.setObservacionDeInstitucion(tmpFuenteFinanciadora1
+						.getTMPInstitucion().getObservacionDeInstitucion());
+				institucion.setTelefono(tmpFuenteFinanciadora1
+						.getTMPInstitucion().getTelefono());
+				institucion.setRepresentanteLegal(tmpFuenteFinanciadora1
+						.getTMPInstitucion().getRepresentanteLegal());
+				institucion.setDireccion(tmpFuenteFinanciadora1
+						.getTMPInstitucion().getDireccion());
+				institucion.setCorreo(tmpFuenteFinanciadora1.getTMPInstitucion().getCorreo());
+				if (institucionUpdate != null) {
+					institucion.setInstitucionID(institucionUpdate
+							.getInstitucionID());
+					institucionDAO.updateInstitucion(institucion);
+
+				} else {
+
+					institucionDAO.saveInstitucion(institucion);
+				}// CAMBIE
+				if (tmpFuenteFinanciadora1.getDefineSiEsEjecutor() == 1) {
+					this.institucion = institucion;
+				}
+				dProyecto = datoProyectoDAO.findDatoProyectoById(idProyecto);
+				FuenteFinanciadora fuenteFinanciadora = new FuenteFinanciadora();
+				fuenteFinanciadora.setDatoProyecto(dProyecto);
+				fuenteFinanciadora.setMontoFinanciado(tmpFuenteFinanciadora1
+						.getMontoFinanciado());
+				fuenteFinanciadora.setInstitucion(institucion);
+				fuenteFinanciadora
+						.setFkIdtablaespTipoFuenteFinanciadora(tmpFuenteFinanciadora1
+								.getFkIdtablaespTipoFuenteFinanciadora());
+				fuenteFinanciadora
+						.setFkIdtablaespTipoMoneda(tmpFuenteFinanciadora1
+								.getFkIdtablaespTipoMoneda());
+				fuenteFinanciadora.setDefineSiEsEjecutor(tmpFuenteFinanciadora1
+						.getDefineSiEsEjecutor());
+				fuenteFinanciadoraDAO
+						.saveFuenteFinanciadora(fuenteFinanciadora);
+
+			}
+
+		}
+
+		if (listTmpPersonalTecnicoAdministrativo != null
+				&& listTmpPersonalTecnicoAdministrativo.size() != 0) {
+			for (TmpPersonalTecnicoAdministrativo tmpPersonalTecnicoAdministrativo : listTmpPersonalTecnicoAdministrativo) {
+				PersonalTecnicoAdministrativo personalTecnicoAdministrativo = new PersonalTecnicoAdministrativo();
+				personalTecnicoAdministrativo
+						.setFkIdpersonalTecnicoAdmReemplazo(tmpPersonalTecnicoAdministrativo
+								.getFkIdpersonalTecnicoAdmReemplazo());
+				personalTecnicoAdministrativo
+						.setFkIdtablaespEtapaPersonalTecnico(tmpPersonalTecnicoAdministrativo
+								.getFkIdtablaespEtapaPersonalTecnico());
+				personalTecnicoAdministrativo
+						.setFkIdtablaespFormacionProfesional(tmpPersonalTecnicoAdministrativo
+								.getFkIdtablaespFormacionProfesional());
+				personalTecnicoAdministrativo
+						.setFkIdtablaespTiempoDedicado(tmpPersonalTecnicoAdministrativo
+								.getFkIdtablaespTiempoDedicado());
+				personalTecnicoAdministrativo.setInstitucion(institucion);
+				personalTecnicoAdministrativo
+						.setNombreCompleto(tmpPersonalTecnicoAdministrativo
+								.getNombreCompleto());
+				personalTecnicoAdministrativo
+						.setPorcentageParticipacion(tmpPersonalTecnicoAdministrativo
+								.getPorcentageParticipacion());
+				personalTecnicoAdministrativo
+						.setResponsabilidad(tmpPersonalTecnicoAdministrativo
+								.getResponsabilidad());
+				personalTecnicoAdministrativo
+						.setSalarioMensual(tmpPersonalTecnicoAdministrativo
+								.getSalarioMensual());
+				personalTecnicoAdministrativoDAO
+						.savePersonalTecnicoAdministrativo(personalTecnicoAdministrativo);
+			}
+		}
+
+		if (tmpPerfil != null) {
+			perfil = new Perfil();
+			perfil.setDatoProyecto(dProyecto);
+			perfil.setDuracionMeses(tmpPerfil.getDuracionMeses());
+			perfil.setMontoContrapartida(tmpPerfil.getMontoContrapartida());
+			perfil.setMontoSolicitadoFondam(tmpPerfil
+					.getMontoSolicitadoFondam());
+			perfil.setFkIddetallestadocabEstperfil(tmpPerfil
+					.getFkIddetallestadocabEstperfil());
+			perfilDAO.savePerfil(perfil);
+
+			//System.out.println("REGISTRE perfilDAO:::idperfilDAO::");
+		}
+
+		if (listTmpImagenOArchivo != null && listTmpImagenOArchivo.size() != 0) {
+			for (TmpImagenOArchivo tmpImagenOarchivo : listTmpImagenOArchivo) {
+				ImagenOArchivo imagenOArchivo = new ImagenOArchivo();
+				imagenOArchivo.setDatoProyecto(dProyecto);
+				imagenOArchivo.setDescripcionDocImg(tmpImagenOarchivo
+						.getDescripcionDocImg());
+				imagenOArchivo.setFkIdtablaespTipoArchivo(tmpImagenOarchivo
+						.getFkIdtablaespTipoArchivo());
+				imagenOArchivo.setImagen(tmpImagenOarchivo.getImagen());
+				imagenOArchivo.setPerfil(perfil);
+				imagenOArchivo.setPrograma(dProyecto.getPrograma());
+				imagenOArchivoDAO.saveImagenOArchivo(imagenOArchivo);
+			}
+		}
+		if (ListTmpResumenProyecto != null
+				&& ListTmpResumenProyecto.size() != 0) {
+			for (TmpResumenProyecto tmpResumenProyecto : ListTmpResumenProyecto) {
+				ResumenProyecto resumenProyecto = new ResumenProyecto();
+				resumenProyecto.setDatoProyecto(dProyecto);
+				resumenProyecto.setDefinicion(tmpResumenProyecto
+						.getDefinicion());
+				resumenProyecto
+						.setFkIdtablaespTipoResumenProy(tmpResumenProyecto
+								.getFkIdtablaespTipoResumenProy());
+				resumenProyecto.setFkIdTablaGeneral(tmpResumenProyecto
+						.getFkIdTablaGeneral());
+				resumenProyectoDAO.saveResumenProyecto(resumenProyecto);
+			}
+		}
+		if (listTmpUbicacionProyecto != null
+				&& listTmpUbicacionProyecto.size() != 0) {
+			for (TmpUbicacionProyecto tmpUbicacionProyecto : listTmpUbicacionProyecto) {
+				UbicacionProyecto ubicacionProyecto = new UbicacionProyecto();
+				ubicacionProyecto.setDatoProyecto(dProyecto);
+				ubicacionProyecto.setDepProvDist(tmpUbicacionProyecto
+						.getDepProvDist());
+				ubicacionProyecto.setDetalleUbicacion(tmpUbicacionProyecto
+						.getDetalleUbicacion());
+				ubicacionProyectoDAO.saveUbicacionProyecto(ubicacionProyecto);
+				List<TmpBeneficiariosPorResultado> listaBeneficiarios = tmpBeneficiariosPorResultadoDAO
+						.findTmpBeneficiariosPorResultadoByTmpubicacionproyectoID(tmpUbicacionProyecto
+								.getTMPUbicacionProyectoID());
+				if (listaBeneficiarios != null
+						&& listaBeneficiarios.size() != 0) {
+					for (TmpBeneficiariosPorResultado TmpBeneficiario : listaBeneficiarios) {
+						BeneficiariosPorResultado beneficiarios = new BeneficiariosPorResultado();
+						beneficiarios.setCantidadProgramado(TmpBeneficiario
+								.getCantidadProgramado());
+						beneficiarios
+								.setCaracteristicasPoblacion(TmpBeneficiario
+										.getCaracteristicasPoblacion());
+						beneficiarios.setDescripcion(TmpBeneficiario
+								.getCaracteristicasPoblacion());
+						beneficiarios.setFkidtablaespEstrato(TmpBeneficiario
+								.getFkidtablaespEstrato());
+						beneficiarios
+								.setFkIdtablaespTipoBeneficiario(TmpBeneficiario
+										.getFkIdtablaespTipoBeneficiario());
+						beneficiarios.setPerfil(perfil);
+						beneficiarios.setUbicacionProyecto(ubicacionProyecto);
+						beneficiarios.setEstadoEliminado(1);
+						
+						beneficiariosPorResultadoDAO
+								.updateBeneficiariosPorResultado(beneficiarios);
+					}
+				}
+
+			}
+
+		}
+		if (listTmpActividadPerfil != null
+				&& listTmpActividadPerfil.size() != 0) {
+			for (TmpActividadPerfil tmpActividadPerfil : listTmpActividadPerfil) {
+				ActividadPerfil actividadPerfil = new ActividadPerfil();
+				actividadPerfil.setDescripcionActividad(tmpActividadPerfil
+						.getDescripcionActividad());
+				actividadPerfil.setDuracionMeses(tmpActividadPerfil
+						.getDuracionMeses());
+				actividadPerfil.setNombreActividad(tmpActividadPerfil
+						.getNombreActividad());
+				actividadPerfil.setPerfil(perfil);
+				actividadPerfilDAO.saveActividadPerfil(actividadPerfil);
+				List<TmpMetaPerfil> listaTmpMetaPerfil = tmpMetaPerfilDAO
+						.findTmpMetaPerfilByTmpActividadPerfilID(tmpActividadPerfil
+								.getTMPActividadPerfilID());
+				if (listaTmpMetaPerfil != null
+						&& listaTmpMetaPerfil.size() != 0) {
+					for (TmpMetaPerfil tmpMetaPerfil : listaTmpMetaPerfil) {
+						MetaPerfil metaPerfil = new MetaPerfil();
+						metaPerfil.setFkIdtablaespUnidadMedida(tmpMetaPerfil
+								.getFkIdtablaespUnidadMedida());
+						metaPerfil.setCantidad(tmpMetaPerfil.getCantidad());
+						metaPerfil.setActividadPerfil(actividadPerfil);
+						metaPerfilDAO.saveMetaPerfil(metaPerfil);
+					}
+				}
+
+			}
+
+		}
+		if (tmpEvaluacion != null && tmpEvaluacion.size() != 0) {
+			for (TmpEvaluacion tmpEvaluacion2 : tmpEvaluacion) {
+				Evaluacion eval = new Evaluacion();
+				eval.setCalificacion(tmpEvaluacion2.getCalificacion());
+				eval.setObservacion(tmpEvaluacion2.getObservacion());
+				Evaluador evaluador = evaluadorDAO
+						.findEvaluadorByID(tmpEvaluacion2.getEvaluadorID()
+								.getEvaluadorID());
+				eval.setEvaluador(evaluador);
+				eval.setDatoProyecto(dProyecto);
+				evaluacionDAO.saveEvaluacion(eval);
+			}
+		}
+		// Crear usuario Ejecutor
+		//System.out.println("dProyecto.getCodigoProyecto()"+ dProyecto.getCodigoProyecto());
+		crearEjecutorByDatoProyectoID(dProyecto.getCodigoProyecto(),
+				dProyecto.getDatoProyectoID(), tmpInstitucion);
+
+		// pongo en uno el flag de temp dato proyecto para que se sepa que esta
+		// aprobado
+		tmpDatoProyecto.setFlagPasoTablaNormal(1);
+		tmpDatoProyectoDAO.updateTmpDatoProyecto(tmpDatoProyecto);
+	}
+
+	public void crearEjecutorByDatoProyectoID(String codigoProyecto,
+			int datoProyectoID, TmpInstitucion tInstitucion) {
+
+		DatoUsuario datoUsuario = new DatoUsuario();
+		datoUsuario.setNombre(tInstitucion.getNombreInstitucion());
+		datoUsuario.setPaterno("");
+		datoUsuario.setMaterno("");
+		datoUsuario.setNumeroDocumento(tInstitucion.getRucInstitucion());
+		datoUsuario.setEstadoEliminado(1);
+		datoUsuario.setFkIdtablaespTipoDocumento(166);
+		datoUsuario.setDatoProyectoID(datoProyectoID);
+		datoUsuario.setEmail(tInstitucion.getCorreo());
+		datoUsuario.setJerarquia(238);
+		//System.out.println("codigoProyecto" + codigoProyecto);
+		datoUsuarioDAO.saveDatoUsuario(datoUsuario);
+
+		String[] listPasswor = new String[30];
+		listPasswor = codigoProyecto.split("\\.");
+		String password = "";
+		System.out.println("listPasswor" + listPasswor.length);
+
+		for (int i = 0; i < listPasswor.length; i++) {
+			password += listPasswor[i].toString();
+		}
+		System.out.println("pasword::" + password);
+		PerfilUsuario perfilUsuario = perfilUsuarioDAO.findPerfilUsuarioById(7);
+		Usuario usuario = new Usuario();
+		usuario.setLogin(password);
+		usuario.setPassword(password);
+		usuario.setPerfilUsuario(perfilUsuario);
+		usuario.setDatoUsuario(datoUsuario);
+
+		usuarioDAO.saveUsuario(usuario);
+
+	}
+
+	@Override
+	public void deleteTMP(Integer tmpDatoProyectoId) {
+		TmpPerfil tmpPerfil = tmpPerfilDAO
+				.findTmpPerfilByTmpDatoProyectoID(tmpDatoProyectoId);
+		TmpDatoProyecto tmpDatoProyecto = tmpDatoProyectoDAO
+				.findTmpDatoProyectoById(tmpDatoProyectoId);
+		TmpFuenteFinanciadora tmpFuenteFinanciadora = tmpFuenteFinanciadoraDAO
+				.findTmpFuenteFinanciadoraByTmpIdDatoProyecto(tmpDatoProyectoId);
+		List<TmpFuenteFinanciadora> listTmpFuenteFinanciadora = tmpFuenteFinanciadoraDAO
+				.findTmpFuenteFinanciadoraByTmpIdDatoProyectoAndNoejecutor(tmpDatoProyectoId);
+		TmpInstitucion tmpInstitucion = tmpInstitucionDAO
+				.findTmpInstitucionById(tmpFuenteFinanciadora
+						.getTMPInstitucion().getTMPInstitucionID());
+		List<TmpImagenOArchivo> listTmpImagenOArchivo = null;
+		List<TmpActividadPerfil> listTmpActividadPerfil = null;
+		if (tmpPerfil != null) {
+			listTmpImagenOArchivo = tmpImagenOArchivoDAO
+					.findTmpImagenOArchivoByPerfilByID(tmpPerfil
+							.getTMPPerfilID());
+			listTmpActividadPerfil = tmpActividadPerfilDAO
+					.findTmpActividadPerfilByTmpPerfilID(tmpPerfil
+							.getTMPPerfilID());
+		}
+
+		List<TmpUbicacionProyecto> listTmpUbicacionProyecto = tmpUbicacionProyectoDAO
+				.findTmpUbicacionProyectoBytmpDatoProyectoID(tmpDatoProyectoId);
+		List<TmpEvaluacion> tmpEvaluacion = tmpEvaluacionDAO
+				.findTmpEvaluacionByTmpDatoProyectoID(tmpDatoProyectoId);
+		List<TmpResumenProyecto> ListTmpResumenProyecto = tmpResumenProyectoDAO
+				.findTmpResumenProyectoByTmpDatoProyectoID(tmpDatoProyectoId);
+		List<TmpPersonalTecnicoAdministrativo> listTmpPersonalTecnicoAdministrativo = tmpPersonalTecnicoAdministrativoDAO
+				.findTmpPersonalTecnicoAdministrativoByTMPInstitucionID(tmpInstitucion
+						.getTMPInstitucionID());
+		if (tmpFuenteFinanciadora != null) {
+			tmpFuenteFinanciadoraDAO
+					.deleteTmpFuenteFinanciadora(tmpFuenteFinanciadora);
+			tmpInstitucionDAO.deleteTmpInstitucion(tmpFuenteFinanciadora
+					.getTMPInstitucion());
+		}
+		if (listTmpFuenteFinanciadora != null) {
+			for (TmpFuenteFinanciadora tmpFuenteFinanciad : listTmpFuenteFinanciadora) {
+				tmpFuenteFinanciadoraDAO
+						.deleteTmpFuenteFinanciadora(tmpFuenteFinanciad);
+				tmpInstitucionDAO.deleteTmpInstitucion(tmpFuenteFinanciad
+						.getTMPInstitucion());
+			}
+
+		}
+		if (listTmpActividadPerfil != null) {
+			for (TmpActividadPerfil tmpActividadPerfil : listTmpActividadPerfil) {
+				List<TmpMetaPerfil> listaTmpMetaPerfil = tmpMetaPerfilDAO
+						.findTmpMetaPerfilByTmpActividadPerfilID(tmpActividadPerfil
+								.getTMPActividadPerfilID());
+				for (TmpMetaPerfil tmpMetaPerfil : listaTmpMetaPerfil) {
+					tmpMetaPerfilDAO.deleteTmpMetaPerfil(tmpMetaPerfil);
+				}
+				tmpActividadPerfilDAO
+						.deleteTmpActividadPerfil(tmpActividadPerfil);
+			}
+		}
+		if (listTmpUbicacionProyecto != null) {
+			for (TmpUbicacionProyecto tmpUbicacionProyecto : listTmpUbicacionProyecto) {
+				List<TmpBeneficiariosPorResultado> listaBeneficiarios = tmpBeneficiariosPorResultadoDAO
+						.findTmpBeneficiariosPorResultadoByTmpubicacionproyectoID(tmpUbicacionProyecto
+								.getTMPUbicacionProyectoID());
+				if (listaBeneficiarios != null) {
+					for (TmpBeneficiariosPorResultado tmpBeneficiariosPorResultado : listaBeneficiarios) {
+						tmpBeneficiariosPorResultadoDAO
+								.deleteTmpBeneficiariosPorResultado(tmpBeneficiariosPorResultado);
+					}
+				}
+				tmpUbicacionProyectoDAO
+						.deleteTmpUbicacionProyecto(tmpUbicacionProyecto);
+			}
+		}
+		if (ListTmpResumenProyecto != null) {
+			for (TmpResumenProyecto tmpResumenProyecto : ListTmpResumenProyecto) {
+				tmpResumenProyectoDAO
+						.deleteTmpResumenProyecto(tmpResumenProyecto);
+			}
+		}
+		if (tmpEvaluacion != null) {
+			for (TmpEvaluacion tmpEvaluaci : tmpEvaluacion) {
+				tmpEvaluacionDAO.deleteTmpEvaluacion(tmpEvaluaci);
+			}
+		}
+		if (listTmpImagenOArchivo != null) {
+			for (TmpImagenOArchivo tmpImagenOArchivo : listTmpImagenOArchivo) {
+				tmpImagenOArchivoDAO.deleteTmpImagenOArchivo(tmpImagenOArchivo);
+			}
+		}
+		if (tmpPerfil != null) {
+			tmpPerfilDAO.deleteTmpPerfil(tmpPerfil);
+		}
+		if (listTmpPersonalTecnicoAdministrativo != null) {
+			for (TmpPersonalTecnicoAdministrativo tmpPersonalTecnicoAdministrativo : listTmpPersonalTecnicoAdministrativo) {
+				tmpPersonalTecnicoAdministrativoDAO
+						.deleteTmpPersonalTecnicoAdministrativo(tmpPersonalTecnicoAdministrativo);
+			}
+		}
+		if (tmpDatoProyecto != null) {
+			tmpDatoProyectoDAO.deleteTmpDatoProyecto(tmpDatoProyecto);
+		}
+
+	}
+
+	@Override
+	public void updateTmpInstitucion(TmpInstitucion tmpInstituc) {
+		tmpInstitucionDAO.updateTmpInstitucion(tmpInstituc);
+
+	}
+
+	@Override
+	public void updateTmpPerfil(TmpPerfil tmpPerfil) {
+		tmpPerfilDAO.updateTmpPerfil(tmpPerfil);
+
+	}
+
+	@Override
+	public List<TmpActividadPerfil> findTmpActividadPerfilByPerfilID(
+			Integer tmpPerfilID) {
+		return tmpActividadPerfilDAO
+				.findTmpActividadPerfilByPerfilID(tmpPerfilID);
+	}
+
+	@Override
+	public TmpEvaluacion findTmpEvaluacionByTmpDatoProyectoIDbyTipoEvaluacion(
+			Integer idProyecto, int tipoEvaluacion) {
+		return tmpEvaluacionDAO
+				.findTmpEvaluacionByTipoEvaluacionByTmpDatoProyectoID(
+						tipoEvaluacion, idProyecto);
+	}
+
+	/*
+	 * @Override public void updateTmpEvaluacion(TmpEvaluacion evaluacion) {
+	 * tmpEvaluacionDAO.updateTmpEvaluacion(evaluacion);
+	 * 
+	 * }
+	 */
+
+	@Override
+	public List<TmpResumenProyecto> findTmpResumenProyectoByTmpDatoProyectoID(
+			Integer idProyecto) {
+
+		return tmpResumenProyectoDAO
+				.findTmpResumenProyectoByTmpDatoProyectoID(idProyecto);
+	}
+
+	@Override
+	public List<TmpEvaluacion> findListTmpEvaluacionByTmpDatoProyectoIDByTipoEvaluacion(
+			Integer idProyecto, int tipoEvaluacion) {
+		String queryString = "from TmpEvaluacion where evaluadorID.fkIdtablaespTipoEvaluacion = ? and tmpDatoProyectoID.tMPDatoProyectoID=? ";
+		Object[] params = new Object[2];
+		params[0] = tipoEvaluacion;
+		params[1] = idProyecto;
+
+		return tmpEvaluacionDAO.findByConsulta(queryString, params);
+
+	}
+
+}

@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1842/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/form/planOperativo
+END
+CostoActividadForm.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/1842/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/form/planOperativo/CostoActividadForm.java
+END
+BeneficiarioForm.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/535/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/form/planOperativo/BeneficiarioForm.java
+END
+PeriodoMontoForm.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/554/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/form/planOperativo/PeriodoMontoForm.java
+END
+MetaActividadForm.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/1392/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/form/planOperativo/MetaActividadForm.java
+END
+PlanOperativoForm.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/form/planOperativo/PlanOperativoForm.java
+END
+CronogramaCostoActividadForm.java
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/!svn/ver/848/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/form/planOperativo/CronogramaCostoActividadForm.java
+END
+IndicadorForm.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/535/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/form/planOperativo/IndicadorForm.java
+END
+ResultadoForm.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/956/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/form/planOperativo/ResultadoForm.java
+END
+CronogramaMetaForm.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/535/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/form/planOperativo/CronogramaMetaForm.java
+END
+ActividadForm.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/form/planOperativo/ActividadForm.java
+END

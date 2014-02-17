@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
+
+	<!-- Definicion de datasources referentes al contexto de jndi relativo a 
+		la aplicacion -->
+	<!-- 
+	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/sgpDS"/> 
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+   		<property name="jndiName" value="pe.com.fondam.sgp.core" />
+	</bean>
+	-->
+	<!-- Setup local data source -->
+   <bean id="dataSource" destroy-method="close" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${database.driver}"></property>
+		<property name="url" value="${database.url}"></property>
+		<property name="username" value="${database.username}"></property>
+		<property name="password" value="${database.password}"></property>
+<!--		<property name="initialSize" value="3" />-->
+<!--		<property name="maxActive" value="60" />-->
+<!--		<property name="minIdle" value="3" />-->
+<!--		<property name="maxWait" value="10000" />-->
+<!--		<property name="removeAbandoned" value="true" />-->
+<!--		<property name="removeAbandonedTimeout" value="5" />-->
+<!--		<property name="accessToUnderlyingConnectionAllowed" value="true" />-->
+<!--		<property name="testOnBorrow" value="true" />-->
+<!--		<property name="testWhileIdle" value="true" />-->
+<!--		<property name="timeBetweenEvictionRunsMillis" value="10000" />-->
+<!--		<property name="validationQuery" value="select 1 from dual" />-->
+    </bean>
+
+</beans>

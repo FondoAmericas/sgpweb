@@ -1,0 +1,17 @@
+package pe.com.fondam.sgp.core.dao;
+
+import java.util.List;
+
+import pe.com.fondam.sgp.core.domain.InformeFinalBien;
+
+public interface InformeFinalBienDAO {
+
+	List<InformeFinalBien> findInformeFinalBienByConsulta(String consulta,
+			Object[] params);
+
+	InformeFinalBien updateInformeFinalBien(
+			InformeFinalBien informeFinalBienSave);
+
+	void deleteInformeFinalBien(InformeFinalBien informeFinalBien);
+
+}

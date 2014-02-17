@@ -1,0 +1,118 @@
+package pe.com.fondam.sgp.core.form.planOperativo;
+
+import java.util.List;
+
+import pe.com.fondam.sgp.core.domain.DatoProyecto;
+
+public class PlanOperativoForm {
+	private Integer datoProyectoID;
+	private DatoProyecto datoProyecto;
+	private String codigoProyecto;
+	private String nombreProyecto;
+	private String cantidadPerido;
+	private Integer datoPlanOperativoID;
+	private String version;
+	private Integer estadoPlanOperativo;
+	private String estadoPlanOperativoDescripcion;
+	private List<ResultadoForm> listResultadoForm;
+	private Integer idTipoMoneda;
+	private String tipoMonedaNombre;
+
+	public Integer getDatoProyectoID() {
+		return datoProyectoID;
+	}
+
+	public void setDatoProyectoID(Integer datoProyectoID) {
+		this.datoProyectoID = datoProyectoID;
+	}
+
+	public String getCodigoProyecto() {
+		return codigoProyecto;
+	}
+
+	public void setCodigoProyecto(String codigoProyecto) {
+		this.codigoProyecto = codigoProyecto;
+	}
+
+	public String getNombreProyecto() {
+		return nombreProyecto;
+	}
+
+	public void setNombreProyecto(String nombreProyecto) {
+		this.nombreProyecto = nombreProyecto;
+	}
+
+	public String getCantidadPerido() {
+		return cantidadPerido;
+	}
+
+	public void setCantidadPerido(String cantidadPerido) {
+		this.cantidadPerido = cantidadPerido;
+	}
+
+	public Integer getDatoPlanOperativoID() {
+		return datoPlanOperativoID;
+	}
+
+	public void setDatoPlanOperativoID(Integer datoPlanOperativoID) {
+		this.datoPlanOperativoID = datoPlanOperativoID;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public Integer getEstadoPlanOperativo() {
+		return estadoPlanOperativo;
+	}
+
+	public void setEstadoPlanOperativo(Integer estadoPlanOperativo) {
+		this.estadoPlanOperativo = estadoPlanOperativo;
+	}
+
+	public String getEstadoPlanOperativoDescripcion() {
+		return estadoPlanOperativoDescripcion;
+	}
+
+	public void setEstadoPlanOperativoDescripcion(
+			String estadoPlanOperativoDescripcion) {
+		this.estadoPlanOperativoDescripcion = estadoPlanOperativoDescripcion;
+	}
+
+	public List<ResultadoForm> getListResultadoForm() {
+		return listResultadoForm;
+	}
+
+	public void setListResultadoForm(List<ResultadoForm> listResultadoForm) {
+		this.listResultadoForm = listResultadoForm;
+	}
+	
+	public Integer getIdTipoMoneda() {
+		return idTipoMoneda;
+	}
+	
+	public void setIdTipoMoneda(Integer idTipoMoneda) {
+		this.idTipoMoneda = idTipoMoneda;
+	}
+	
+	public String getTipoMonedaNombre() {
+		return tipoMonedaNombre;
+	}
+	
+	public void setTipoMonedaNombre(String tipoMonedaNombre) {
+		this.tipoMonedaNombre = tipoMonedaNombre;
+	}
+
+	public void setDatoProyecto(DatoProyecto datoProyecto) {
+		this.datoProyecto = datoProyecto;
+	}
+
+	public DatoProyecto getDatoProyecto() {
+		return datoProyecto;
+	}
+
+}

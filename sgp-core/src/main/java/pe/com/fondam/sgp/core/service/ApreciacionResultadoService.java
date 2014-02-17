@@ -1,0 +1,21 @@
+package pe.com.fondam.sgp.core.service;
+
+import java.util.List;
+
+import pe.com.fondam.sgp.core.domain.ApreciacionResultado;
+
+public interface ApreciacionResultadoService {
+
+	List<ApreciacionResultado> findApreciacionResultadoXReporteAvanceId(
+			Integer reporteAvanceId);
+
+	ApreciacionResultado findApreciacionResultadoById(
+			Integer apreciacionResultadoID);
+
+	void saveApreciacionResultado(ApreciacionResultado apreciacionResultado);
+
+	ApreciacionResultado updateApreciacionResultado(ApreciacionResultado apreciacionResultado);
+
+	void deleteApreciacionResultado(Integer apreciacionResultadoID);
+
+}

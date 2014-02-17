@@ -1,0 +1,74 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.dao.DetalleEstadoCabeceraDAO;
+import pe.com.fondam.sgp.core.dao.EstadoCabeceraDAO;
+import pe.com.fondam.sgp.core.domain.DetalleEstadoCabecera;
+import pe.com.fondam.sgp.core.service.DetalleEstadoCabeceraService;
+
+@Service
+public class DetalleEstadoCabeceraServiceImpl implements
+		DetalleEstadoCabeceraService {
+
+	//************* inyecciones ***********//
+	@Resource
+	EstadoCabeceraDAO estadoCabeceraDAO;
+
+	@Resource
+	DetalleEstadoCabeceraDAO detalleEstadoCabeceraDAO;
+
+	public DetalleEstadoCabeceraDAO getDetalleEstadoCabeceraDAO() {
+		return detalleEstadoCabeceraDAO;
+	}
+
+	public void setDetalleEstadoCabeceraDAO(
+			DetalleEstadoCabeceraDAO detalleEstadoCabeceraDAO) {
+		this.detalleEstadoCabeceraDAO = detalleEstadoCabeceraDAO;
+	}
+
+	
+	//************* metodos ***********//
+	@Override
+	public List<DetalleEstadoCabecera> findDetalleEstadoCabecerabyPrefijoEstadoCabeceraPrefijo(
+			String prefijo) {
+		int id = estadoCabeceraDAO.findPrefijoEstadoCabeceraByID(prefijo);
+		//System.out.println(id);
+		return detalleEstadoCabeceraDAO
+				.findDetalleEstadoCabecerabyEstadoCabeceraId(id);
+	}
+
+	@Override
+	public int findDetalleEstadoCabecerabyPrefijoEstado(String prefijo) {
+
+		return detalleEstadoCabeceraDAO
+				.findDetalleEstadoCabecerabyPrefijo(prefijo);
+	}
+
+	@Override
+	public DetalleEstadoCabecera findDetalleEstadoCabeceraById(
+			int detalleEstadoCabeceraId) {
+		return detalleEstadoCabeceraDAO
+				.findDetalleEstadoCabeceraById(detalleEstadoCabeceraId);
+	}
+
+	@Override
+	public DetalleEstadoCabecera findDetalleEstadoCabecerabyPrefijoEstadoCabeceraByPrefijoDetalleEstado(
+			String prefijoEstadoCabecera, String prefijoDetalleEstadoCabecera) {
+		
+		int estadoCabeceraID = estadoCabeceraDAO.findPrefijoEstadoCabeceraByID(prefijoEstadoCabecera);
+		
+		String consulta = " from DetalleEstadoCabecera where prefijoEstado = ? and estadoCabecera.estadoCabeceraID = ? ";
+		Object[] params = new Object[2];
+		params[0]= prefijoDetalleEstadoCabecera;
+		params[1]= estadoCabeceraID;
+		
+		
+		return detalleEstadoCabeceraDAO.findDetalleEstadoCabeceraByConsulta(consulta,params);
+	}
+
+}

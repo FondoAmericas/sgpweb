@@ -1,0 +1,38 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.dao.ResumenProyectoDAO;
+import pe.com.fondam.sgp.core.domain.ResumenProyecto;
+import pe.com.fondam.sgp.core.service.ResumenProyectoService;
+
+@Service
+public class ResumenProyectoServiceImpl implements ResumenProyectoService {
+
+	//************* inyecciones *********///
+	@Resource
+	ResumenProyectoDAO resumenProyectoDAO;
+	
+	
+	//************* inyecciones *********///
+	@Override
+	public void updateResumenProyecto(ResumenProyecto resumenProyecto) {
+		resumenProyectoDAO.updateResumenProyecto(resumenProyecto);	
+	}
+
+
+	@Override
+	public ResumenProyecto findResumenProyectoById(Integer resumenProyectoId) {
+		return resumenProyectoDAO.findResumenProyectoById(resumenProyectoId);
+	}
+
+
+	@Override
+	public void deleteResumenProyecto(Integer resumenProyectoId) {
+		resumenProyectoDAO.deleteResumenProyecto(resumenProyectoDAO.findResumenProyectoById(resumenProyectoId));
+		
+	}
+
+}

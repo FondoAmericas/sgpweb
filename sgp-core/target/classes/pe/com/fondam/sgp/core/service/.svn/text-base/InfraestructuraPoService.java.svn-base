@@ -1,0 +1,16 @@
+package pe.com.fondam.sgp.core.service;
+
+import pe.com.fondam.sgp.core.domain.InfraestructuraPo;
+
+public interface InfraestructuraPoService {
+
+	InfraestructuraPo findInfraestructuraPoByDatoPlanOperativoId(
+			Integer datoPlanOperativoID);
+
+	InfraestructuraPo saveInfraestructuraPoVacio(Integer datoPlanOperativoID);
+
+	InfraestructuraPo findInfraestructuraPoById(Integer infraestructuraPOID);
+
+	InfraestructuraPo updateInfraestructuraPo(InfraestructuraPo infraestructuraPo);
+
+}

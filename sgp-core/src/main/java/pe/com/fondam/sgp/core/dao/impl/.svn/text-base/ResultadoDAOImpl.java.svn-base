@@ -1,0 +1,70 @@
+package pe.com.fondam.sgp.core.dao.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.orm.jpa.JpaTemplate;
+import org.springframework.stereotype.Repository;
+
+import pe.com.fondam.sgp.core.commons.bs.JpaBaseDAOImpl;
+import pe.com.fondam.sgp.core.dao.ResultadoDAO;
+import pe.com.fondam.sgp.core.domain.Resultado;
+
+@Repository
+public class ResultadoDAOImpl extends JpaBaseDAOImpl implements ResultadoDAO {
+
+	@Autowired
+	public ResultadoDAOImpl(@Qualifier("jpaTemplate") JpaTemplate jpaTemplate) {
+		this.setJpaTemplate(jpaTemplate);
+	}
+
+	@Override
+	public void saveResultado(Resultado resultado) {
+		super.save(resultado);
+	}
+
+	@Override
+	public Resultado updateResultado(Resultado resultado) {
+		return super.update(resultado);
+	}
+
+	@Override
+	public void deleteResultado(Resultado resultado) {
+		Resultado resultado2 = findResultadoById(resultado.getResultadoID());
+		super.delete(resultado2);
+	}
+
+	@Override
+	public Resultado findResultadoById(Integer id) {
+		return super.findById(Resultado.class, id);
+	}
+
+	@Override
+	public List<Resultado> findListResultado() {
+		return super.find("from Resultado");
+	}
+
+	@Override
+	public List<Resultado> findListResultadoByDatoPlanOperativoID(Integer datoPlanOperativoID) {
+
+		String queryString = "from Resultado resultado where resultado.datoPlanOperativo.datoPlanOperativoID = ? order by resultado.codigoResultado desc";
+		Object[] params = new Object[1];
+		params[0] = datoPlanOperativoID;
+		return super.find(queryString, params);
+	}
+
+	@Override
+	public List<Resultado> findListResultadoByDatoProyectoID(Integer datoProyectoID) {
+		String queryString = "from Resultado  where datoPlanOperativo.datoProyecto.datoProyectoID = ?";
+		Object[] params = new Object[1];
+		params[0] = datoProyectoID;
+		return super.find(queryString, params);
+	}
+
+	@Override
+	public List<Resultado> findListResultadoXConsulta(String consulta,Object[] params) {
+		return super.find(consulta, params);
+	}
+
+}

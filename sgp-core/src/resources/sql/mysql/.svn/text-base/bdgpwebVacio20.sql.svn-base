@@ -1,0 +1,2544 @@
+/*
+SQLyog Enterprise - MySQL GUI v8.05 
+MySQL - 5.5.11 : Database - bdgpweb
+*********************************************************************
+*/
+
+/*!40101 SET NAMES utf8 */;
+
+/*!40101 SET SQL_MODE=''*/;
+
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`bdgpweb` /*!40100 DEFAULT CHARACTER SET utf8 */;
+
+USE `bdgpweb`;
+
+/*Table structure for table `acta_cierre` */
+
+DROP TABLE IF EXISTS `acta_cierre`;
+
+CREATE TABLE `acta_cierre` (
+  `Acta_Cierre_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `descripcion` varchar(255) NOT NULL,
+  `Dato_Proyecto_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Acta_Cierre_ID`),
+  KEY `TC_Acta_Cierre2322` (`Dato_Proyecto_ID`),
+  CONSTRAINT `FK_Acta_Cierre820` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `acta_cierre` */
+
+LOCK TABLES `acta_cierre` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `actividad` */
+
+DROP TABLE IF EXISTS `actividad`;
+
+CREATE TABLE `actividad` (
+  `Actividad_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_actividad` int(11) NOT NULL,
+  `nombre_actividad` varchar(255) NOT NULL,
+  `descripcion_actividad` varchar(255) NOT NULL,
+  `duracion_meses` int(11) NOT NULL,
+  `fk_idtablaesp_actividad_transf` int(11) NOT NULL,
+  `Resultado_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Actividad_ID`),
+  KEY `TC_Actividad2228` (`Resultado_ID`),
+  CONSTRAINT `FK_Actividad840` FOREIGN KEY (`Resultado_ID`) REFERENCES `resultado` (`Resultado_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `actividad` */
+
+LOCK TABLES `actividad` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `actividad_detalle_pago` */
+
+DROP TABLE IF EXISTS `actividad_detalle_pago`;
+
+CREATE TABLE `actividad_detalle_pago` (
+  `Actividad_Detalle_Pago_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idactividades` int(11) NOT NULL,
+  `porcentaje_monto_total` int(11) NOT NULL,
+  `monto_gastado` double(11,2) NOT NULL,
+  `monto_por_gastar_de_activ` double(11,2) NOT NULL,
+  `Cronograma_Costo_Actividad_ID` int(11) NOT NULL,
+  `Desembolso_ID` int(11) DEFAULT NULL,
+  `Detalle_Pago_Liquidacion_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Actividad_Detalle_Pago_ID`),
+  KEY `TC_Actividad_Detalle_Pago2268` (`Detalle_Pago_Liquidacion_ID`),
+  KEY `TC_Actividad_Detalle_Pago2269` (`Cronograma_Costo_Actividad_ID`),
+  KEY `TC_Actividad_Detalle_Pago2270` (`Desembolso_ID`),
+  CONSTRAINT `FK_Actividad_Detalle_Pago856` FOREIGN KEY (`Cronograma_Costo_Actividad_ID`) REFERENCES `cronograma_costo_actividad` (`Cronograma_Costo_Actividad_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Actividad_Detalle_Pago877` FOREIGN KEY (`Desembolso_ID`) REFERENCES `desembolso` (`Desembolso_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Actividad_Detalle_Pago888` FOREIGN KEY (`Detalle_Pago_Liquidacion_ID`) REFERENCES `detalle_pago_liquidacion` (`Detalle_Pago_Liquidacion_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `actividad_detalle_pago` */
+
+LOCK TABLES `actividad_detalle_pago` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `actividad_obligatoria_programa` */
+
+DROP TABLE IF EXISTS `actividad_obligatoria_programa`;
+
+CREATE TABLE `actividad_obligatoria_programa` (
+  `Actividad_Obligatoria_Programa_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Programa_ID` int(11) NOT NULL,
+  `Tipo_Actividad_Obligatoria_Programa_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Actividad_Obligatoria_Programa_ID`),
+  KEY `TC_Actividad_Obligatoria_Pr2246` (`Programa_ID`),
+  KEY `TC_Actividad_Obligatoria_Pr2247` (`Tipo_Actividad_Obligatoria_Programa_ID`),
+  CONSTRAINT `FK_Actividad_Obligatoria_Pr865` FOREIGN KEY (`Programa_ID`) REFERENCES `programa` (`Programa_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Actividad_Obligatoria_Pr869` FOREIGN KEY (`Tipo_Actividad_Obligatoria_Programa_ID`) REFERENCES `tipo_actividad_obligatoria_programa` (`Tipo_Actividad_Obligatoria_Programa_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `actividad_obligatoria_programa` */
+
+LOCK TABLES `actividad_obligatoria_programa` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `actividad_perfil` */
+
+DROP TABLE IF EXISTS `actividad_perfil`;
+
+CREATE TABLE `actividad_perfil` (
+  `Actividad_Perfil_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_actividad` varchar(255) NOT NULL,
+  `descripcion_actividad` varchar(255) NOT NULL,
+  `duracion_meses` int(11) NOT NULL,
+  `Perfil_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Actividad_Perfil_ID`),
+  KEY `TC_Actividad_Perfil2346` (`Perfil_ID`),
+  CONSTRAINT `FK_Actividad_Perfil872` FOREIGN KEY (`Perfil_ID`) REFERENCES `perfil` (`Perfil_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `actividad_perfil` */
+
+LOCK TABLES `actividad_perfil` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `activo` */
+
+DROP TABLE IF EXISTS `activo`;
+
+CREATE TABLE `activo` (
+  `Activo_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_categoria_activo` int(11) NOT NULL,
+  `descripcion_activo` varchar(255) NOT NULL,
+  PRIMARY KEY (`Activo_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `activo` */
+
+LOCK TABLES `activo` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `apreciacion_resultado` */
+
+DROP TABLE IF EXISTS `apreciacion_resultado`;
+
+CREATE TABLE `apreciacion_resultado` (
+  `Apreciacion_Resultado_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_apreciacion_resultado_ra` int(11) NOT NULL,
+  `comentario` varchar(255) NOT NULL,
+  `Reporte_Avance_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Apreciacion_Resultado_ID`),
+  KEY `TC_Apreciacion_Resultado2279` (`Reporte_Avance_ID`),
+  CONSTRAINT `FK_Apreciacion_Resultado893` FOREIGN KEY (`Reporte_Avance_ID`) REFERENCES `reporte_avance` (`Reporte_Avance_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `apreciacion_resultado` */
+
+LOCK TABLES `apreciacion_resultado` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `avance_resultado_actividad` */
+
+DROP TABLE IF EXISTS `avance_resultado_actividad`;
+
+CREATE TABLE `avance_resultado_actividad` (
+  `Avance_Resultado_Actividad_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `cantidad_avance_ejecutado` int(11) NOT NULL,
+  `descripcion_actividad` varchar(255) NOT NULL,
+  `resumen_ejecutivo_periodo` varchar(255) NOT NULL,
+  `elemento_verificacion` varchar(255) NOT NULL,
+  `observaciones` varchar(255) NOT NULL,
+  `ejecutado` int(1) NOT NULL,
+  `Reporte_Avance_ID` int(11) NOT NULL,
+  `cronograma_metas_por_actividad_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Avance_Resultado_Actividad_ID`),
+  KEY `TC_Avance_Resultado_Activid2348` (`Reporte_Avance_ID`),
+  KEY `FK_Cronograma_Costo_Actividad` (`cronograma_metas_por_actividad_ID`),
+  CONSTRAINT `FK_Avance_Resultado_Activid899` FOREIGN KEY (`Reporte_Avance_ID`) REFERENCES `reporte_avance` (`Reporte_Avance_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Cronograma_Costo_Actividad854` FOREIGN KEY (`cronograma_metas_por_actividad_ID`) REFERENCES `cronograma_meta_por_actividad` (`Cronograma_Meta_Por_Actividad_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `avance_resultado_actividad` */
+
+LOCK TABLES `avance_resultado_actividad` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `beneficiarios_por_resultado` */
+
+DROP TABLE IF EXISTS `beneficiarios_por_resultado`;
+
+CREATE TABLE `beneficiarios_por_resultado` (
+  `Beneficiarios_Por_Resultado_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_beneficiario` int(6) NOT NULL,
+  `caracteristicas_poblacion` varchar(255) NOT NULL,
+  `cantidad_programado` int(11) NOT NULL,
+  `fk_idtablaesp_Estrato` int(11) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `Resultado_ID` int(11) DEFAULT NULL,
+  `Perfil_ID` int(11) DEFAULT NULL,
+  `ubicacion_proyecto_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Beneficiarios_Por_Resultado_ID`),
+  KEY `TC_Beneficiarios_Por_Result2222` (`Resultado_ID`),
+  KEY `TC_Beneficiarios_Por_Result2226` (`Perfil_ID`),
+  KEY `fk_beneficiarios_por_resultado_ubicacion_proyecto1` (`ubicacion_proyecto_ID`),
+  CONSTRAINT `FK_Beneficiarios_Por_Result839` FOREIGN KEY (`Resultado_ID`) REFERENCES `resultado` (`Resultado_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Beneficiarios_Por_Result874` FOREIGN KEY (`Perfil_ID`) REFERENCES `perfil` (`Perfil_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_beneficiarios_por_resultado_ubicacion_proyecto1` FOREIGN KEY (`ubicacion_proyecto_ID`) REFERENCES `ubicacion_proyecto` (`Ubicacion_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `beneficiarios_por_resultado` */
+
+LOCK TABLES `beneficiarios_por_resultado` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `bien` */
+
+DROP TABLE IF EXISTS `bien`;
+
+CREATE TABLE `bien` (
+  `Bien_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `descripcion_bien` varchar(255) NOT NULL,
+  `fk_idtablaesp_tipo_bien` int(11) NOT NULL,
+  `fk_idtablaesp_unidad_medida` int(11) NOT NULL,
+  `cantidad_total` int(11) NOT NULL,
+  `cantidad_sin_transferir` int(11) NOT NULL,
+  `fk_id_detalle_est_cab_estado_conservacion` int(11) NOT NULL,
+  `observacion` varchar(255) NOT NULL,
+  `localizacion_ubicacion` varchar(255) NOT NULL,
+  `costo_unitario` double(11,2) NOT NULL,
+  `fk_idtablaesp_tipo_moneda_cu` int(11) NOT NULL,
+  `costo_total` double(11,2) NOT NULL,
+  `fk_idtablaesp_tipo_moneda_ct` int(11) NOT NULL,
+  `Informe_Final_ID` int(11) NOT NULL,
+  `Activo_ID` int(11) NOT NULL,
+  `Propuesta_Transferencia_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Bien_ID`),
+  KEY `TC_Bien2314` (`Informe_Final_ID`),
+  KEY `TC_Bien2315` (`Propuesta_Transferencia_ID`),
+  KEY `TC_Bien2313` (`Activo_ID`),
+  CONSTRAINT `FK_Bien919` FOREIGN KEY (`Informe_Final_ID`) REFERENCES `informe_final` (`Informe_Final_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Bien928` FOREIGN KEY (`Activo_ID`) REFERENCES `activo` (`Activo_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Bien933` FOREIGN KEY (`Propuesta_Transferencia_ID`) REFERENCES `propuesta_transferencia` (`Propuesta_Transferencia_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `bien` */
+
+LOCK TABLES `bien` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `categoria_actividad` */
+
+DROP TABLE IF EXISTS `categoria_actividad`;
+
+CREATE TABLE `categoria_actividad` (
+  `Categoria_Actividad_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_actividad` int(11) NOT NULL,
+  `descripcion_categoria_actividad` varchar(255) NOT NULL,
+  PRIMARY KEY (`Categoria_Actividad_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+/*Data for the table `categoria_actividad` */
+
+LOCK TABLES `categoria_actividad` WRITE;
+
+insert  into `categoria_actividad`(`Categoria_Actividad_ID`,`fk_idtablaesp_tipo_actividad`,`descripcion_categoria_actividad`) values (1,171,'Administrativo\r\n'),(2,172,'Instalación'),(3,172,'Inversión'),(4,172,'Productiva');
+
+UNLOCK TABLES;
+
+/*Table structure for table `compromiso_pago` */
+
+DROP TABLE IF EXISTS `compromiso_pago`;
+
+CREATE TABLE `compromiso_pago` (
+  `Compromiso_Pago_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `monto_compromiso` double(11,2) NOT NULL,
+  `observacion` varchar(255) NOT NULL,
+  `Cronograma_Costo_Actividad_ID` int(11) DEFAULT NULL,
+  `Liquidacion_Gasto_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Compromiso_Pago_ID`),
+  KEY `TC_Compromiso_Pago2272` (`Cronograma_Costo_Actividad_ID`),
+  KEY `TC_Compromiso_Pago2271` (`Liquidacion_Gasto_ID`),
+  CONSTRAINT `FK_Compromiso_Pago857` FOREIGN KEY (`Cronograma_Costo_Actividad_ID`) REFERENCES `cronograma_costo_actividad` (`Cronograma_Costo_Actividad_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Compromiso_Pago880` FOREIGN KEY (`Liquidacion_Gasto_ID`) REFERENCES `liquidacion_gasto` (`Liquidacion_Gasto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `compromiso_pago` */
+
+LOCK TABLES `compromiso_pago` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `conclusion` */
+
+DROP TABLE IF EXISTS `conclusion`;
+
+CREATE TABLE `conclusion` (
+  `Conclusion_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `comentario` varchar(255) NOT NULL,
+  `Informe_Final_ID` int(11) NOT NULL,
+  `Detalle_Conclu_IF_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Conclusion_ID`),
+  KEY `TC_Conclusion2319` (`Detalle_Conclu_IF_ID`),
+  KEY `TC_Conclusion2318` (`Informe_Final_ID`),
+  CONSTRAINT `FK_Conclusion920` FOREIGN KEY (`Informe_Final_ID`) REFERENCES `informe_final` (`Informe_Final_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Conclusion930` FOREIGN KEY (`Detalle_Conclu_IF_ID`) REFERENCES `detalle_conclu_if` (`Detalle_Conclu_IF_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `conclusion` */
+
+LOCK TABLES `conclusion` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `conclusion_recomendacion` */
+
+DROP TABLE IF EXISTS `conclusion_recomendacion`;
+
+CREATE TABLE `conclusion_recomendacion` (
+  `Conclusion_Recomendacion_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_observacion` int(6) NOT NULL,
+  `conclusion` varchar(255) NOT NULL,
+  `recomendacion` varchar(255) NOT NULL,
+  `accion_tomada` varchar(255) NOT NULL,
+  `requiere_seguimiento` int(6) NOT NULL COMMENT 'Estado de 1 o 0 para saber si se requiere un seguimiento',
+  `Informe_Visita_Campo_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Conclusion_Recomendacion_ID`),
+  KEY `TC_Conclusion_Recomendacion2304` (`Informe_Visita_Campo_ID`),
+  CONSTRAINT `FK_Conclusion_Recomendacion909` FOREIGN KEY (`Informe_Visita_Campo_ID`) REFERENCES `informe_visita_campo` (`Informe_Visita_Campo_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `conclusion_recomendacion` */
+
+LOCK TABLES `conclusion_recomendacion` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `costo_actividad` */
+
+DROP TABLE IF EXISTS `costo_actividad`;
+
+CREATE TABLE `costo_actividad` (
+  `Costo_Actividad_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `monto_gastado` double(11,2) NOT NULL,
+  `fk_idtablaesp_tipo_moneda_mg` int(11) NOT NULL,
+  `fk_idtablaesp_unidad_medida` int(11) NOT NULL,
+  `cantidad_total` int(11) NOT NULL,
+  `fk_idtablaesp_tipo_moneda_ct` int(11) NOT NULL,
+  `precio_unitario` double(11,2) NOT NULL,
+  `fk_idtablaesp_tipo_moneda_pu` int(11) NOT NULL,
+  `observacion` varchar(255) NOT NULL,
+  `detalle_partida_generica` varchar(255) NOT NULL,
+  `detalle_rubro_generico` varchar(255) NOT NULL,
+  `Actividad_ID` int(11) NOT NULL,
+  `Rubro_Generico_ID` int(11) DEFAULT NULL,
+  `Partida_Especifica_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Costo_Actividad_ID`),
+  KEY `TC_Costo_Actividad2232` (`Rubro_Generico_ID`),
+  KEY `TC_Costo_Actividad2233` (`Actividad_ID`),
+  KEY `TC_Costo_Actividad2231` (`Partida_Especifica_ID`),
+  CONSTRAINT `FK_Costo_Actividad845` FOREIGN KEY (`Actividad_ID`) REFERENCES `actividad` (`Actividad_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Costo_Actividad860` FOREIGN KEY (`Rubro_Generico_ID`) REFERENCES `rubro_generico` (`Rubro_Generico_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Costo_Actividad862` FOREIGN KEY (`Partida_Especifica_ID`) REFERENCES `partida_especifica` (`Partida_Especifica_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `costo_actividad` */
+
+LOCK TABLES `costo_actividad` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `cronograma_costo_actividad` */
+
+DROP TABLE IF EXISTS `cronograma_costo_actividad`;
+
+CREATE TABLE `cronograma_costo_actividad` (
+  `Cronograma_Costo_Actividad_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Costo_Actividad_ID` int(11) NOT NULL,
+  `periodo` varchar(255) NOT NULL,
+  `estado_liquidacion` varchar(255) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `observacion` varchar(255) NOT NULL,
+  `Fuente_Financiadora_ID` int(11) DEFAULT NULL,
+  `Detalle_Pago_Liquidacion_ID` int(11) DEFAULT NULL,
+  `ejecutado` int(11) NOT NULL,
+  PRIMARY KEY (`Cronograma_Costo_Actividad_ID`),
+  KEY `TC_Cronograma_Costo_Activid2236` (`Fuente_Financiadora_ID`),
+  KEY `TC_Cronograma_Costo_Activid2237` (`Costo_Actividad_ID`),
+  CONSTRAINT `FK_Cronograma_Costo_Activid832` FOREIGN KEY (`Fuente_Financiadora_ID`) REFERENCES `fuente_financiadora` (`Fuente_Financiadora_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Cronograma_Costo_Activid851` FOREIGN KEY (`Costo_Actividad_ID`) REFERENCES `costo_actividad` (`Costo_Actividad_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `cronograma_costo_actividad` */
+
+LOCK TABLES `cronograma_costo_actividad` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `cronograma_meta_por_actividad` */
+
+DROP TABLE IF EXISTS `cronograma_meta_por_actividad`;
+
+CREATE TABLE `cronograma_meta_por_actividad` (
+  `Cronograma_Meta_Por_Actividad_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `periodo` varchar(255) NOT NULL,
+  `cantidad_meta_actividad_prog_por_periodo` int(11) NOT NULL,
+  `cantidad_meta_actividad_prog_por_periodo_ejecutada` int(11) NOT NULL,
+  `Meta_Por_Actividad_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Cronograma_Meta_Por_Actividad_ID`),
+  KEY `TC_Cronograma_Meta_Por_Act2230` (`Meta_Por_Actividad_ID`),
+  CONSTRAINT `FK_Cronorgrama_Meta_Por_Act8480` FOREIGN KEY (`Meta_Por_Actividad_ID`) REFERENCES `meta_por_actividad` (`Meta_Por_Actividad_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `cronograma_meta_por_actividad` */
+
+LOCK TABLES `cronograma_meta_por_actividad` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `cronograma_meta_por_resultado` */
+
+DROP TABLE IF EXISTS `cronograma_meta_por_resultado`;
+
+CREATE TABLE `cronograma_meta_por_resultado` (
+  `Cronograma_Meta_Por_Resultado_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `avance_meta` int(11) NOT NULL,
+  `periodo` varchar(255) NOT NULL,
+  `Resultado_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Cronograma_Meta_Por_Resultado_ID`),
+  KEY `TC_Cronograma_Meta_Por_Resu2227` (`Resultado_ID`),
+  CONSTRAINT `FK_Cronograma_Meta_Por_Resu841` FOREIGN KEY (`Resultado_ID`) REFERENCES `resultado` (`Resultado_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `cronograma_meta_por_resultado` */
+
+LOCK TABLES `cronograma_meta_por_resultado` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `cronograma_visita` */
+
+DROP TABLE IF EXISTS `cronograma_visita`;
+
+CREATE TABLE `cronograma_visita` (
+  `Cronograma_Visita_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha_visita_inicio` date NOT NULL,
+  `fecha_visita_fin` date NOT NULL,
+  `periodo` varchar(255) NOT NULL,
+  `Dato_Proyecto_ID` int(11) NOT NULL,
+  `Ubicacion_Proyecto_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Cronograma_Visita_ID`),
+  KEY `TC_Cronograma_Visita2283` (`Dato_Proyecto_ID`),
+  KEY `TC_Cronograma_Visita2284` (`Ubicacion_Proyecto_ID`),
+  CONSTRAINT `FK_Cronograma_Visita816` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Cronograma_Visita945` FOREIGN KEY (`Ubicacion_Proyecto_ID`) REFERENCES `ubicacion_proyecto` (`Ubicacion_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `cronograma_visita` */
+
+LOCK TABLES `cronograma_visita` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `cuenta_corriente` */
+
+DROP TABLE IF EXISTS `cuenta_corriente`;
+
+CREATE TABLE `cuenta_corriente` (
+  `Cuenta_Corriente_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `numero_cuenta` varchar(255) NOT NULL,
+  `fk_idtablaesp_tipomoneda` int(11) NOT NULL,
+  `fk_idtablaesp_banco` int(11) NOT NULL,
+  `Dato_Proyecto_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Cuenta_Corriente_ID`),
+  KEY `TC_Cuenta_Corriente2258` (`Dato_Proyecto_ID`),
+  CONSTRAINT `FK_Cuenta_Corriente812` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `cuenta_corriente` */
+
+LOCK TABLES `cuenta_corriente` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `dato_plan_operativo` */
+
+DROP TABLE IF EXISTS `dato_plan_operativo`;
+
+CREATE TABLE `dato_plan_operativo` (
+  `Dato_Plan_Operativo_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `version` varchar(255) NOT NULL,
+  `fk_id_detalle_estado_cab_estado_plan_oper` int(11) NOT NULL,
+  `Dato_Proyecto_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Dato_Plan_Operativo_ID`),
+  KEY `TC_Dato_Plan_Operativo2234` (`Dato_Proyecto_ID`),
+  CONSTRAINT `FK_Dato_Plan_Operativo807` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `dato_plan_operativo` */
+
+LOCK TABLES `dato_plan_operativo` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `dato_proyecto` */
+
+DROP TABLE IF EXISTS `dato_proyecto`;
+
+CREATE TABLE `dato_proyecto` (
+  `Dato_Proyecto_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `duracion_proyecto` int(11) NOT NULL,
+  `cantidad_Periodo` int(11) NOT NULL,
+  `nombre_proyecto` varchar(255) NOT NULL,
+  `numero_orden_dato_proyecto` int(11) NOT NULL,
+  `codigo_proyecto` varchar(255) NOT NULL,
+  `fk_iddetallestadocab_estproy` int(11) NOT NULL,
+  `Sub_Area_Tematica_ID` int(11) DEFAULT NULL,
+  `Programa_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Dato_Proyecto_ID`),
+  KEY `TC_Dato_Proyecto2215` (`Sub_Area_Tematica_ID`),
+  KEY `TC_Dato_Proyecto2214` (`Programa_ID`),
+  CONSTRAINT `FK_Dato_Proyecto806` FOREIGN KEY (`Sub_Area_Tematica_ID`) REFERENCES `sub_area_tematica` (`Sub_Area_Tematica_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Dato_Proyecto864` FOREIGN KEY (`Programa_ID`) REFERENCES `programa` (`Programa_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `dato_proyecto` */
+
+LOCK TABLES `dato_proyecto` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `dato_usuario` */
+
+DROP TABLE IF EXISTS `dato_usuario`;
+
+CREATE TABLE `dato_usuario` (
+  `Dato_Usuario_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) NOT NULL,
+  `paterno` varchar(255) NOT NULL,
+  `materno` varchar(255) NOT NULL,
+  `fk_idtablaesp_tipo_documento` int(11) NOT NULL,
+  `numero_documento` varchar(255) NOT NULL,
+  `direccion` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `observacion` varchar(255) DEFAULT NULL,
+  `estado_eliminado` int(11) NOT NULL,
+  `fk_idtablaesp_jerarquia` int(11) NOT NULL,
+  `Dep_Prov_Dist_ID` int(11) NOT NULL,
+  `dato_proyecto_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Dato_Usuario_ID`),
+  KEY `TC_Dato_Usuario2323` (`Dep_Prov_Dist_ID`),
+  CONSTRAINT `FK_Dato_Usuario944` FOREIGN KEY (`Dep_Prov_Dist_ID`) REFERENCES `dep_prov_dist` (`Dep_Prov_Dist_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+/*Data for the table `dato_usuario` */
+
+LOCK TABLES `dato_usuario` WRITE;
+
+insert  into `dato_usuario`(`Dato_Usuario_ID`,`nombre`,`paterno`,`materno`,`fk_idtablaesp_tipo_documento`,`numero_documento`,`direccion`,`email`,`observacion`,`estado_eliminado`,`fk_idtablaesp_jerarquia`,`Dep_Prov_Dist_ID`,`dato_proyecto_ID`) values (1,'nombre1','paterno1','materno1',165,'4545','direccion','','',1,238,52,NULL),(2,'nombre2','paterno2','materno2',165,'4545','direccion','','',1,238,45,NULL),(3,'nombre3','paterno3','materno3',165,'45563533','direccion','','',1,238,45,NULL),(4,'nombre4','paterno4','materno4',165,'1635','direccion','','',1,238,22,NULL),(5,'nombre5','paterno5','materno5',165,'4536','direccion','','',1,238,54,NULL),(6,'nombre6','paterno6','materno6',165,'543543','direccion','','',1,238,22,NULL),(7,'nombre7','paterno7','materno7',165,'543543','','','',1,239,214,NULL);
+
+UNLOCK TABLES;
+
+/*Table structure for table `dep_prov_dist` */
+
+DROP TABLE IF EXISTS `dep_prov_dist`;
+
+CREATE TABLE `dep_prov_dist` (
+  `Dep_Prov_Dist_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `id_departamento` varchar(255) NOT NULL,
+  `id_provincia` varchar(255) NOT NULL,
+  `id_distrito` varchar(255) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  PRIMARY KEY (`Dep_Prov_Dist_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2048 DEFAULT CHARSET=utf8;
+
+/*Data for the table `dep_prov_dist` */
+
+LOCK TABLES `dep_prov_dist` WRITE;
+
+insert  into `dep_prov_dist`(`Dep_Prov_Dist_ID`,`id_departamento`,`id_provincia`,`id_distrito`,`descripcion`) values (1,'1','0','0','AMAZONAS'),(2,'1','1','0','CHACHAPOYAS'),(3,'1','1','1','CHACHAPOYAS'),(4,'1','1','2','ASUNCION'),(5,'1','1','3','BALSAS'),(6,'1','1','4','CHETO'),(7,'1','1','5','CHILIQUIN'),(8,'1','1','6','CHUQUIBAMBA'),(9,'1','1','7','GRANADA'),(10,'1','1','8','HUANCAS'),(11,'1','1','9','LA JALCA'),(12,'1','1','10','LEIMEBAMBA'),(13,'1','1','11','LEVANTO'),(14,'1','1','12','MAGDALENA'),(15,'1','1','13','MARISCAL CASTILLA'),(16,'1','1','14','MOLINOPAMPA'),(17,'1','1','15','MONTEVIDEO'),(18,'1','1','16','OLLEROS'),(19,'1','1','17','QUINJALCA'),(20,'1','1','18','SAN FRANCISCO DE DAGUAS'),(21,'1','1','19','SAN ISIDRO DE MAINO'),(22,'1','1','20','SOLOCO'),(23,'1','1','21','SONCHE'),(24,'1','2','0','BAGUA'),(25,'1','2','1','LA PECA'),(26,'1','2','2','ARAMANGO'),(27,'1','2','3','COPALLIN'),(28,'1','2','4','EL PARCO'),(29,'1','2','5','IMAZA'),(30,'1','3','0','BONGARA'),(31,'1','3','1','JUMBILLA'),(32,'1','3','2','CHISQUILLA'),(33,'1','3','3','CHURUJA'),(34,'1','3','4','COROSHA'),(35,'1','3','5','CUISPES'),(36,'1','3','6','FLORIDA'),(37,'1','3','7','JAZAN'),(38,'1','3','8','RECTA'),(39,'1','3','9','SAN CARLOS'),(40,'1','3','10','SHIPASBAMBA'),(41,'1','3','11','VALERA'),(42,'1','3','12','YAMBRASBAMBA'),(43,'1','4','0','CONDORCANQUI'),(44,'1','4','1','NIEVA'),(45,'1','4','2','EL CENEPA'),(46,'1','4','3','RIO SANTIAGO'),(47,'1','5','0','LUYA'),(48,'1','5','1','LAMUD'),(49,'1','5','2','CAMPORREDONDO'),(50,'1','5','3','COCABAMBA'),(51,'1','5','4','COLCAMAR'),(52,'1','5','5','CONILA'),(53,'1','5','6','INGUILPATA'),(54,'1','5','7','LONGUITA'),(55,'1','5','8','LONYA CHICO'),(56,'1','5','9','LUYA'),(57,'1','5','10','LUYA VIEJO'),(58,'1','5','11','MARIA'),(59,'1','5','12','OCALLI'),(60,'1','5','13','OCUMAL'),(61,'1','5','14','PISUQUIA'),(62,'1','5','15','PROVIDENCIA'),(63,'1','5','16','SAN CRISTOBAL'),(64,'1','5','17','SAN FRANCISCO DEL YESO'),(65,'1','5','18','SAN JERONIMO'),(66,'1','5','19','SAN JUAN DE LOPECANCHA'),(67,'1','5','20','SANTA CATALINA'),(68,'1','5','21','SANTO TOMAS'),(69,'1','5','22','TINGO'),(70,'1','5','23','TRITA'),(71,'1','6','0','RODRIGUEZ DE MENDOZA'),(72,'1','6','1','SAN NICOLAS'),(73,'1','6','2','CHIRIMOTO'),(74,'1','6','3','COCHAMAL'),(75,'1','6','4','HUAMBO'),(76,'1','6','5','LIMABAMBA'),(77,'1','6','6','LONGAR'),(78,'1','6','7','MARISCAL BENAVIDES'),(79,'1','6','8','MILPUC'),(80,'1','6','9','OMIA'),(81,'1','6','10','SANTA ROSA'),(82,'1','6','11','TOTORA'),(83,'1','6','12','VISTA ALEGRE'),(84,'1','7','0','UTCUBAMBA'),(85,'1','7','1','BAGUA GRANDE'),(86,'1','7','2','CAJARURO'),(87,'1','7','3','CUMBA'),(88,'1','7','4','EL MILAGRO'),(89,'1','7','5','JAMALCA'),(90,'1','7','6','LONYA GRANDE'),(91,'1','7','7','YAMON'),(92,'2','0','0','ANCASH'),(93,'2','1','0','HUARAZ'),(94,'2','1','1','HUARAZ'),(95,'2','1','2','COCHABAMBA'),(96,'2','1','3','COLCABAMBA'),(97,'2','1','4','HUANCHAY'),(98,'2','1','5','INDEPENDENCIA'),(99,'2','1','6','JANGAS'),(100,'2','1','7','LA LIBERTAD'),(101,'2','1','8','OLLEROS'),(102,'2','1','9','PAMPAS'),(103,'2','1','10','PARIACOTO'),(104,'2','1','11','PIRA'),(105,'2','1','12','TARICA'),(106,'2','2','0','AIJA'),(107,'2','2','1','AIJA'),(108,'2','2','2','CORIS'),(109,'2','2','3','HUACLLAN'),(110,'2','2','4','LA MERCED'),(111,'2','2','5','SUCCHA'),(112,'2','3','0','ANTONIO RAYMONDI'),(113,'2','3','1','LLAMELLIN'),(114,'2','3','2','ACZO'),(115,'2','3','3','CHACCHO'),(116,'2','3','4','CHINGAS'),(117,'2','3','5','MIRGAS'),(118,'2','3','6','SAN JUAN DE RONTOY'),(119,'2','4','0','ASUNCION'),(120,'2','4','1','CHACAS'),(121,'2','4','2','ACOCHACA'),(122,'2','5','0','BOLOGNESI'),(123,'2','5','1','CHIQUIAN'),(124,'2','5','2','ABELARDO PARDO LEZAMETA'),(125,'2','5','3','ANTONIO RAYMONDI'),(126,'2','5','4','AQUIA'),(127,'2','5','5','CAJACAY'),(128,'2','5','6','CANIS'),(129,'2','5','7','COLQUIOC'),(130,'2','5','8','HUALLANCA'),(131,'2','5','9','HUASTA'),(132,'2','5','10','HUAYLLACAYAN'),(133,'2','5','11','LA PRIMAVERA'),(134,'2','5','12','MANGAS'),(135,'2','5','13','PACLLON'),(136,'2','5','14','SAN MIGUEL DE CORPANQUI'),(137,'2','5','15','TICLLOS'),(138,'2','6','0','CARHUAZ'),(139,'2','6','1','CARHUAZ'),(140,'2','6','2','ACOPAMPA'),(141,'2','6','3','AMASHCA'),(142,'2','6','4','ANTA'),(143,'2','6','5','ATAQUERO'),(144,'2','6','6','MARCARA'),(145,'2','6','7','PARIAHUANCA'),(146,'2','6','8','SAN MIGUEL DE ACO'),(147,'2','6','9','SHILLA'),(148,'2','6','10','TINCO'),(149,'2','6','11','YUNGAR'),(150,'2','7','0','CARLOS FERMIN FITZCARRALD'),(151,'2','7','1','SAN LUIS'),(152,'2','7','2','SAN NICOLAS'),(153,'2','7','3','YAUYA'),(154,'2','8','0','CASMA'),(155,'2','8','1','CASMA'),(156,'2','8','2','BUENA VISTA ALTA'),(157,'2','8','3','COMANDANTE NOEL'),(158,'2','8','4','YAUTAN'),(159,'2','9','0','CORONGO'),(160,'2','9','1','CORONGO'),(161,'2','9','2','ACO'),(162,'2','9','3','BAMBAS'),(163,'2','9','4','CUSCA'),(164,'2','9','5','LA PAMPA'),(165,'2','9','6','YANAC'),(166,'2','9','7','YUPAN'),(167,'2','10','0','HUARI'),(168,'2','10','1','HUARI'),(169,'2','10','2','ANRA'),(170,'2','10','3','CAJAY'),(171,'2','10','4','CHAVIN DE HUANTAR'),(172,'2','10','5','HUACACHI'),(173,'2','10','6','HUACCHIS'),(174,'2','10','7','HUACHIS'),(175,'2','10','8','HUANTAR'),(176,'2','10','9','MASIN'),(177,'2','10','10','PAUCAS'),(178,'2','10','11','PONTO'),(179,'2','10','12','RAHUAPAMPA'),(180,'2','10','13','RAPAYAN'),(181,'2','10','14','SAN MARCOS'),(182,'2','10','15','SAN PEDRO DE CHANA'),(183,'2','10','16','UCO'),(184,'2','11','0','HUARMEY'),(185,'2','11','1','HUARMEY'),(186,'2','11','2','COCHAPETI'),(187,'2','11','3','CULEBRAS'),(188,'2','11','4','HUAYAN'),(189,'2','11','5','MALVAS'),(190,'2','12','0','HUAYLAS'),(191,'2','12','1','CARAZ'),(192,'2','12','2','HUALLANCA'),(193,'2','12','3','HUATA'),(194,'2','12','4','HUAYLAS'),(195,'2','12','5','MATO'),(196,'2','12','6','PAMPAROMAS'),(197,'2','12','7','PUEBLO LIBRE'),(198,'2','12','8','SANTA CRUZ'),(199,'2','12','9','SANTO TORIBIO'),(200,'2','12','10','YURACMARCA'),(201,'2','13','0','MARISCAL LUZURIAGA'),(202,'2','13','1','PISCOBAMBA'),(203,'2','13','2','CASCA'),(204,'2','13','3','ELEAZAR GUZMAN BARRON'),(205,'2','13','4','FIDEL OLIVAS ESCUDERO'),(206,'2','13','5','LLAMA'),(207,'2','13','6','LLUMPA'),(208,'2','13','7','LUCMA'),(209,'2','13','8','MUSGA'),(210,'2','14','0','OCROS'),(211,'2','14','1','OCROS'),(212,'2','14','2','ACAS'),(213,'2','14','3','CAJAMARQUILLA'),(214,'2','14','4','CARHUAPAMPA'),(215,'2','14','5','COCHAS'),(216,'2','14','6','CONGAS'),(217,'2','14','7','LLIPA'),(218,'2','14','8','SAN CRISTOBAL DE RAJAN'),(219,'2','14','9','SAN PEDRO'),(220,'2','14','10','SANTIAGO DE CHILCAS'),(221,'2','15','0','PALLASCA'),(222,'2','15','1','CABANA'),(223,'2','15','2','BOLOGNESI'),(224,'2','15','3','CONCHUCOS'),(225,'2','15','4','HUACASCHUQUE'),(226,'2','15','5','HUANDOVAL'),(227,'2','15','6','LACABAMBA'),(228,'2','15','7','LLAPO'),(229,'2','15','8','PALLASCA'),(230,'2','15','9','PAMPAS'),(231,'2','15','10','SANTA ROSA'),(232,'2','15','11','TAUCA'),(233,'2','16','0','POMABAMBA'),(234,'2','16','1','POMABAMBA'),(235,'2','16','2','HUAYLLAN'),(236,'2','16','3','PAROBAMBA'),(237,'2','16','4','QUINUABAMBA'),(238,'2','17','0','RECUAY'),(239,'2','17','1','RECUAY'),(240,'2','17','2','CATAC'),(241,'2','17','3','COTAPARACO'),(242,'2','17','4','HUAYLLAPAMPA'),(243,'2','17','5','LLACLLIN'),(244,'2','17','6','MARCA'),(245,'2','17','7','PAMPAS CHICO'),(246,'2','17','8','PARARIN'),(247,'2','17','9','TAPACOCHA'),(248,'2','17','10','TICAPAMPA'),(249,'2','18','0','SANTA'),(250,'2','18','1','CHIMBOTE'),(251,'2','18','2','CACERES DEL PERU'),(252,'2','18','3','COISHCO'),(253,'2','18','4','MACATE'),(254,'2','18','5','MORO'),(255,'2','18','6','NEPE'),(256,'2','18','7','SAMANCO'),(257,'2','18','8','SANTA'),(258,'2','18','9','NUEVO CHIMBOTE'),(259,'2','19','0','SIHUAS'),(260,'2','19','1','SIHUAS'),(261,'2','19','2','ACOBAMBA'),(262,'2','19','3','ALFONSO UGARTE'),(263,'2','19','4','CASHAPAMPA'),(264,'2','19','5','CHINGALPO'),(265,'2','19','6','HUAYLLABAMBA'),(266,'2','19','7','QUICHES'),(267,'2','19','8','RAGASH'),(268,'2','19','9','SAN JUAN'),(269,'2','19','10','SICSIBAMBA'),(270,'2','20','0','YUNGAY'),(271,'2','20','1','YUNGAY'),(272,'2','20','2','CASCAPARA'),(273,'2','20','3','MANCOS'),(274,'2','20','4','MATACOTO'),(275,'2','20','5','QUILLO'),(276,'2','20','6','RANRAHIRCA'),(277,'2','20','7','SHUPLUY'),(278,'2','20','8','YANAMA'),(279,'3','0','0','APURIMAC'),(280,'3','1','0','ABANCAY'),(281,'3','1','1','ABANCAY'),(282,'3','1','2','CHACOCHE'),(283,'3','1','3','CIRCA'),(284,'3','1','4','CURAHUASI'),(285,'3','1','5','HUANIPACA'),(286,'3','1','6','LAMBRAMA'),(287,'3','1','7','PICHIRHUA'),(288,'3','1','8','SAN PEDRO DE CACHORA'),(289,'3','1','9','TAMBURCO'),(290,'3','2','0','ANDAHUAYLAS'),(291,'3','2','1','ANDAHUAYLAS'),(292,'3','2','2','ANDARAPA'),(293,'3','2','3','CHIARA'),(294,'3','2','4','HUANCARAMA'),(295,'3','2','5','HUANCARAY'),(296,'3','2','6','HUAYANA'),(297,'3','2','7','KISHUARA'),(298,'3','2','8','PACOBAMBA'),(299,'3','2','9','PACUCHA'),(300,'3','2','10','PAMPACHIRI'),(301,'3','2','11','POMACOCHA'),(302,'3','2','12','SAN ANTONIO DE CACHI'),(303,'3','2','13','SAN JERONIMO'),(304,'3','2','14','SAN MIGUEL DE CHACCRAMPA'),(305,'3','2','15','SANTA MARIA DE CHICMO'),(306,'3','2','16','TALAVERA'),(307,'3','2','17','TUMAY HUARACA'),(308,'3','2','18','TURPO'),(309,'3','2','19','KAQUIABAMBA'),(310,'3','3','0','ANTABAMBA'),(311,'3','3','1','ANTABAMBA'),(312,'3','3','2','EL ORO'),(313,'3','3','3','HUAQUIRCA'),(314,'3','3','4','JUAN ESPINOZA MEDRANO'),(315,'3','3','5','OROPESA'),(316,'3','3','6','PACHACONAS'),(317,'3','3','7','SABAINO'),(318,'3','4','0','AYMARAES'),(319,'3','4','1','CHALHUANCA'),(320,'3','4','2','CAPAYA'),(321,'3','4','3','CARAYBAMBA'),(322,'3','4','4','CHAPIMARCA'),(323,'3','4','5','COLCABAMBA'),(324,'3','4','6','COTARUSE'),(325,'3','4','7','HUAYLLO'),(326,'3','4','8','JUSTO APU SAHUARAURA'),(327,'3','4','9','LUCRE'),(328,'3','4','10','POCOHUANCA'),(329,'3','4','11','SAN JUAN DE CHAC'),(330,'3','4','12','SA'),(331,'3','4','13','SORAYA'),(332,'3','4','14','TAPAIRIHUA'),(333,'3','4','15','TINTAY'),(334,'3','4','16','TORAYA'),(335,'3','4','17','YANACA'),(336,'3','5','0','COTABAMBAS'),(337,'3','5','1','TAMBOBAMBA'),(338,'3','5','2','COTABAMBAS'),(339,'3','5','3','COYLLURQUI'),(340,'3','5','4','HAQUIRA'),(341,'3','5','5','MARA'),(342,'3','5','6','CHALLHUAHUACHO'),(343,'3','6','0','CHINCHEROS'),(344,'3','6','1','CHINCHEROS'),(345,'3','6','2','ANCO-HUALLO'),(346,'3','6','3','COCHARCAS'),(347,'3','6','4','HUACCANA'),(348,'3','6','5','OCOBAMBA'),(349,'3','6','6','ONGOY'),(350,'3','6','7','URANMARCA'),(351,'3','6','8','RANRACANCHA'),(352,'3','7','0','GRAU'),(353,'3','7','1','CHUQUIBAMBILLA'),(354,'3','7','2','CURPAHUASI'),(355,'3','7','3','GAMARRA'),(356,'3','7','4','HUAYLLATI'),(357,'3','7','5','MAMARA'),(358,'3','7','6','MICAELA BASTIDAS'),(359,'3','7','7','PATAYPAMPA'),(360,'3','7','8','PROGRESO'),(361,'3','7','9','SAN ANTONIO'),(362,'3','7','10','SANTA ROSA'),(363,'3','7','11','TURPAY'),(364,'3','7','12','VILCABAMBA'),(365,'3','7','13','VIRUNDO'),(366,'3','7','14','CURASCO'),(367,'4','0','0','AREQUIPA'),(368,'4','1','0','AREQUIPA'),(369,'4','1','1','AREQUIPA'),(370,'4','1','2','ALTO SELVA ALEGRE'),(371,'4','1','3','CAYMA'),(372,'4','1','4','CERRO COLORADO'),(373,'4','1','5','CHARACATO'),(374,'4','1','6','CHIGUATA'),(375,'4','1','7','JACOBO HUNTER'),(376,'4','1','8','LA JOYA'),(377,'4','1','9','MARIANO MELGAR'),(378,'4','1','10','MIRAFLORES'),(379,'4','1','11','MOLLEBAYA'),(380,'4','1','12','PAUCARPATA'),(381,'4','1','13','POCSI'),(382,'4','1','14','POLOBAYA'),(383,'4','1','15','QUEQUE'),(384,'4','1','16','SABANDIA'),(385,'4','1','17','SACHACA'),(386,'4','1','18','SAN JUAN DE SIGUAS'),(387,'4','1','19','SAN JUAN DE TARUCANI'),(388,'4','1','20','SANTA ISABEL DE SIGUAS'),(389,'4','1','21','SANTA RITA DE SIGUAS'),(390,'4','1','22','SOCABAYA'),(391,'4','1','23','TIABAYA'),(392,'4','1','24','UCHUMAYO'),(393,'4','1','25','VITOR'),(394,'4','1','26','YANAHUARA'),(395,'4','1','27','YARABAMBA'),(396,'4','1','28','YURA'),(397,'4','1','29','JOSE LUIS BUSTAMANTE Y RIVERO'),(398,'4','2','0','CAMANA'),(399,'4','2','1','CAMANA'),(400,'4','2','2','JOSE MARIA QUIMPER'),(401,'4','2','3','MARIANO NICOLAS VALCARCEL'),(402,'4','2','4','MARISCAL CACERES'),(403,'4','2','5','NICOLAS DE PIEROLA'),(404,'4','2','6','OCO'),(405,'4','2','7','QUILCA'),(406,'4','2','8','SAMUEL PASTOR'),(407,'4','3','0','CARAVELI'),(408,'4','3','1','CARAVELI'),(409,'4','3','2','ACARI'),(410,'4','3','3','ATICO'),(411,'4','3','4','ATIQUIPA'),(412,'4','3','5','BELLA UNION'),(413,'4','3','6','CAHUACHO'),(414,'4','3','7','CHALA'),(415,'4','3','8','CHAPARRA'),(416,'4','3','9','HUANUHUANU'),(417,'4','3','10','JAQUI'),(418,'4','3','11','LOMAS'),(419,'4','3','12','QUICACHA'),(420,'4','3','13','YAUCA'),(421,'4','4','0','CASTILLA'),(422,'4','4','1','APLAO'),(423,'4','4','2','ANDAGUA'),(424,'4','4','3','AYO'),(425,'4','4','4','CHACHAS'),(426,'4','4','5','CHILCAYMARCA'),(427,'4','4','6','CHOCO'),(428,'4','4','7','HUANCARQUI'),(429,'4','4','8','MACHAGUAY'),(430,'4','4','9','ORCOPAMPA'),(431,'4','4','10','PAMPACOLCA'),(432,'4','4','11','TIPAN'),(433,'4','4','12','U'),(434,'4','4','13','URACA'),(435,'4','4','14','VIRACO'),(436,'4','5','0','CAYLLOMA'),(437,'4','5','1','CHIVAY'),(438,'4','5','2','ACHOMA'),(439,'4','5','3','CABANACONDE'),(440,'4','5','4','CALLALLI'),(441,'4','5','5','CAYLLOMA'),(442,'4','5','6','COPORAQUE'),(443,'4','5','7','HUAMBO'),(444,'4','5','8','HUANCA'),(445,'4','5','9','ICHUPAMPA'),(446,'4','5','10','LARI'),(447,'4','5','11','LLUTA'),(448,'4','5','12','MACA'),(449,'4','5','13','MADRIGAL'),(450,'4','5','14','SAN ANTONIO DE CHUCA'),(451,'4','5','15','SIBAYO'),(452,'4','5','16','TAPAY'),(453,'4','5','17','TISCO'),(454,'4','5','18','TUTI'),(455,'4','5','19','YANQUE'),(456,'4','5','20','MAJES'),(457,'4','6','0','CONDESUYOS'),(458,'4','6','1','CHUQUIBAMBA'),(459,'4','6','2','ANDARAY'),(460,'4','6','3','CAYARANI'),(461,'4','6','4','CHICHAS'),(462,'4','6','5','IRAY'),(463,'4','6','6','RIO GRANDE'),(464,'4','6','7','SALAMANCA'),(465,'4','6','8','YANAQUIHUA'),(466,'4','7','0','ISLAY'),(467,'4','7','1','MOLLENDO'),(468,'4','7','2','COCACHACRA'),(469,'4','7','3','DEAN VALDIVIA'),(470,'4','7','4','ISLAY'),(471,'4','7','5','MEJIA'),(472,'4','7','6','PUNTA DE BOMBON'),(473,'4','8','0','LA UNION'),(474,'4','8','1','COTAHUASI'),(475,'4','8','2','ALCA'),(476,'4','8','3','CHARCANA'),(477,'4','8','4','HUAYNACOTAS'),(478,'4','8','5','PAMPAMARCA'),(479,'4','8','6','PUYCA'),(480,'4','8','7','QUECHUALLA'),(481,'4','8','8','SAYLA'),(482,'4','8','9','TAURIA'),(483,'4','8','10','TOMEPAMPA'),(484,'4','8','11','TORO'),(485,'5','0','0','AYACUCHO'),(486,'5','1','0','HUAMANGA'),(487,'5','1','1','AYACUCHO'),(488,'5','1','2','ACOCRO'),(489,'5','1','3','ACOS VINCHOS'),(490,'5','1','4','CARMEN ALTO'),(491,'5','1','5','CHIARA'),(492,'5','1','6','OCROS'),(493,'5','1','7','PACAYCASA'),(494,'5','1','8','QUINUA'),(495,'5','1','9','SAN JOSE DE TICLLAS'),(496,'5','1','10','SAN JUAN BAUTISTA'),(497,'5','1','11','SANTIAGO DE PISCHA'),(498,'5','1','12','SOCOS'),(499,'5','1','13','TAMBILLO'),(500,'5','1','14','VINCHOS'),(501,'5','1','15','JESUS NAZARENO'),(502,'5','2','0','CANGALLO'),(503,'5','2','1','CANGALLO'),(504,'5','2','2','CHUSCHI'),(505,'5','2','3','LOS MOROCHUCOS'),(506,'5','2','4','MARIA PARADO DE BELLIDO'),(507,'5','2','5','PARAS'),(508,'5','2','6','TOTOS'),(509,'5','3','0','HUANCA SANCOS'),(510,'5','3','1','SANCOS'),(511,'5','3','2','CARAPO'),(512,'5','3','3','SACSAMARCA'),(513,'5','3','4','SANTIAGO DE LUCANAMARCA'),(514,'5','4','0','HUANTA'),(515,'5','4','1','HUANTA'),(516,'5','4','2','AYAHUANCO'),(517,'5','4','3','HUAMANGUILLA'),(518,'5','4','4','IGUAIN'),(519,'5','4','5','LURICOCHA'),(520,'5','4','6','SANTILLANA'),(521,'5','4','7','SIVIA'),(522,'5','4','8','LLOCHEGUA'),(523,'5','5','0','LA MAR'),(524,'5','5','1','SAN MIGUEL'),(525,'5','5','2','ANCO'),(526,'5','5','3','AYNA'),(527,'5','5','4','CHILCAS'),(528,'5','5','5','CHUNGUI'),(529,'5','5','6','LUIS CARRANZA'),(530,'5','5','7','SANTA ROSA'),(531,'5','5','8','TAMBO'),(532,'5','6','0','LUCANAS'),(533,'5','6','1','PUQUIO'),(534,'5','6','2','AUCARA'),(535,'5','6','3','CABANA'),(536,'5','6','4','CARMEN SALCEDO'),(537,'5','6','5','CHAVI'),(538,'5','6','6','CHIPAO'),(539,'5','6','7','HUAC-HUAS'),(540,'5','6','8','LARAMATE'),(541,'5','6','9','LEONCIO PRADO'),(542,'5','6','10','LLAUTA'),(543,'5','6','11','LUCANAS'),(544,'5','6','12','OCA'),(545,'5','6','13','OTOCA'),(546,'5','6','14','SAISA'),(547,'5','6','15','SAN CRISTOBAL'),(548,'5','6','16','SAN JUAN'),(549,'5','6','17','SAN PEDRO'),(550,'5','6','18','SAN PEDRO DE PALCO'),(551,'5','6','19','SANCOS'),(552,'5','6','20','SANTA ANA DE HUAYCAHUACHO'),(553,'5','6','21','SANTA LUCIA'),(554,'5','7','0','PARINACOCHAS'),(555,'5','7','1','CORACORA'),(556,'5','7','2','CHUMPI'),(557,'5','7','3','CORONEL CASTA'),(558,'5','7','4','PACAPAUSA'),(559,'5','7','5','PULLO'),(560,'5','7','6','PUYUSCA'),(561,'5','7','7','SAN FRANCISCO DE RAVACAYCO'),(562,'5','7','8','UPAHUACHO'),(563,'5','8','0','PAUCAR DEL SARA SARA'),(564,'5','8','1','PAUSA'),(565,'5','8','2','COLTA'),(566,'5','8','3','CORCULLA'),(567,'5','8','4','LAMPA'),(568,'5','8','5','MARCABAMBA'),(569,'5','8','6','OYOLO'),(570,'5','8','7','PARARCA'),(571,'5','8','8','SAN JAVIER DE ALPABAMBA'),(572,'5','8','9','SAN JOSE DE USHUA'),(573,'5','8','10','SARA SARA'),(574,'5','9','0','SUCRE'),(575,'5','9','1','QUEROBAMBA'),(576,'5','9','2','BELEN'),(577,'5','9','3','CHALCOS'),(578,'5','9','4','CHILCAYOC'),(579,'5','9','5','HUACA'),(580,'5','9','6','MORCOLLA'),(581,'5','9','7','PAICO'),(582,'5','9','8','SAN PEDRO DE LARCAY'),(583,'5','9','9','SAN SALVADOR DE QUIJE'),(584,'5','9','10','SANTIAGO DE PAUCARAY'),(585,'5','9','11','SORAS'),(586,'5','10','0','VICTOR FAJARDO'),(587,'5','10','1','HUANCAPI'),(588,'5','10','2','ALCAMENCA'),(589,'5','10','3','APONGO'),(590,'5','10','4','ASQUIPATA'),(591,'5','10','5','CANARIA'),(592,'5','10','6','CAYARA'),(593,'5','10','7','COLCA'),(594,'5','10','8','HUAMANQUIQUIA'),(595,'5','10','9','HUANCARAYLLA'),(596,'5','10','10','HUAYA'),(597,'5','10','11','SARHUA'),(598,'5','10','12','VILCANCHOS'),(599,'5','11','0','VILCAS HUAMAN'),(600,'5','11','1','VILCAS HUAMAN'),(601,'5','11','2','ACCOMARCA'),(602,'5','11','3','CARHUANCA'),(603,'5','11','4','CONCEPCION'),(604,'5','11','5','HUAMBALPA'),(605,'5','11','6','INDEPENDENCIA'),(606,'5','11','7','SAURAMA'),(607,'5','11','8','VISCHONGO'),(608,'6','0','0','CAJAMARCA'),(609,'6','1','0','CAJAMARCA'),(610,'6','1','1','CAJAMARCA'),(611,'6','1','2','ASUNCION'),(612,'6','1','3','CHETILLA'),(613,'6','1','4','COSPAN'),(614,'6','1','5','ENCA'),(615,'6','1','6','JESUS'),(616,'6','1','7','LLACANORA'),(617,'6','1','8','LOS BA'),(618,'6','1','9','MAGDALENA'),(619,'6','1','10','MATARA'),(620,'6','1','11','NAMORA'),(621,'6','1','12','SAN JUAN'),(622,'6','2','0','CAJABAMBA'),(623,'6','2','1','CAJABAMBA'),(624,'6','2','2','CACHACHI'),(625,'6','2','3','CONDEBAMBA'),(626,'6','2','4','SITACOCHA'),(627,'6','3','0','CELENDIN'),(628,'6','3','1','CELENDIN'),(629,'6','3','2','CHUMUCH'),(630,'6','3','3','CORTEGANA'),(631,'6','3','4','HUASMIN'),(632,'6','3','5','JORGE CHAVEZ'),(633,'6','3','6','JOSE GALVEZ'),(634,'6','3','7','MIGUEL IGLESIAS'),(635,'6','3','8','OXAMARCA'),(636,'6','3','9','SOROCHUCO'),(637,'6','3','10','SUCRE'),(638,'6','3','11','UTCO'),(639,'6','3','12','LA LIBERTAD DE PALLAN'),(640,'6','4','0','CHOTA'),(641,'6','4','1','CHOTA'),(642,'6','4','2','ANGUIA'),(643,'6','4','3','CHADIN'),(644,'6','4','4','CHIGUIRIP'),(645,'6','4','5','CHIMBAN'),(646,'6','4','6','CHOROPAMPA'),(647,'6','4','7','COCHABAMBA'),(648,'6','4','8','CONCHAN'),(649,'6','4','9','HUAMBOS'),(650,'6','4','10','LAJAS'),(651,'6','4','11','LLAMA'),(652,'6','4','12','MIRACOSTA'),(653,'6','4','13','PACCHA'),(654,'6','4','14','PION'),(655,'6','4','15','QUEROCOTO'),(656,'6','4','16','SAN JUAN DE LICUPIS'),(657,'6','4','17','TACABAMBA'),(658,'6','4','18','TOCMOCHE'),(659,'6','4','19','CHALAMARCA'),(660,'6','5','0','CONTUMAZA'),(661,'6','5','1','CONTUMAZA'),(662,'6','5','2','CHILETE'),(663,'6','5','3','CUPISNIQUE'),(664,'6','5','4','GUZMANGO'),(665,'6','5','5','SAN BENITO'),(666,'6','5','6','SANTA CRUZ DE TOLED'),(667,'6','5','7','TANTARICA'),(668,'6','5','8','YONAN'),(669,'6','6','0','CUTERVO'),(670,'6','6','1','CUTERVO'),(671,'6','6','2','CALLAYUC'),(672,'6','6','3','CHOROS'),(673,'6','6','4','CUJILLO'),(674,'6','6','5','LA RAMADA'),(675,'6','6','6','PIMPINGOS'),(676,'6','6','7','QUEROCOTILLO'),(677,'6','6','8','SAN ANDRES DE CUTERVO'),(678,'6','6','9','SAN JUAN DE CUTERVO'),(679,'6','6','10','SAN LUIS DE LUCMA'),(680,'6','6','11','SANTA CRUZ'),(681,'6','6','12','SANTO DOMINGO DE LA CAPILLA'),(682,'6','6','13','SANTO TOMAS'),(683,'6','6','14','SOCOTA'),(684,'6','6','15','TORIBIO CASANOVA'),(685,'6','7','0','HUALGAYOC'),(686,'6','7','1','BAMBAMARCA'),(687,'6','7','2','CHUGUR'),(688,'6','7','3','HUALGAYOC'),(689,'6','8','0','JAEN'),(690,'6','8','1','JAEN'),(691,'6','8','2','BELLAVISTA'),(692,'6','8','3','CHONTALI'),(693,'6','8','4','COLASAY'),(694,'6','8','5','HUABAL'),(695,'6','8','6','LAS PIRIAS'),(696,'6','8','7','POMAHUACA'),(697,'6','8','8','PUCARA'),(698,'6','8','9','SALLIQUE'),(699,'6','8','10','SAN FELIPE'),(700,'6','8','11','SAN JOSE DEL ALTO'),(701,'6','8','12','SANTA ROSA'),(702,'6','9','0','SAN IGNACIO'),(703,'6','9','1','SAN IGNACIO'),(704,'6','9','2','CHIRINOS'),(705,'6','9','3','HUARANGO'),(706,'6','9','4','LA COIPA'),(707,'6','9','5','NAMBALLE'),(708,'6','9','6','SAN JOSE DE LOURDES'),(709,'6','9','7','TABACONAS'),(710,'6','10','0','SAN MARCOS'),(711,'6','10','1','PEDRO GALVEZ'),(712,'6','10','2','CHANCAY'),(713,'6','10','3','EDUARDO VILLANUEVA'),(714,'6','10','4','GREGORIO PITA'),(715,'6','10','5','ICHOCAN'),(716,'6','10','6','JOSE MANUEL QUIROZ'),(717,'6','10','7','JOSE SABOGAL'),(718,'6','11','0','SAN MIGUEL'),(719,'6','11','1','SAN MIGUEL'),(720,'6','11','2','BOLIVAR'),(721,'6','11','3','CALQUIS'),(722,'6','11','4','CATILLUC'),(723,'6','11','5','EL PRADO'),(724,'6','11','6','LA FLORIDA'),(725,'6','11','7','LLAPA'),(726,'6','11','8','NANCHOC'),(727,'6','11','9','NIEPOS'),(728,'6','11','10','SAN GREGORIO'),(729,'6','11','11','SAN SILVESTRE DE COCHAN'),(730,'6','11','12','TONGOD'),(731,'6','11','13','UNION AGUA BLANCA'),(732,'6','12','0','SAN PABLO'),(733,'6','12','1','SAN PABLO'),(734,'6','12','2','SAN BERNARDINO'),(735,'6','12','3','SAN LUIS'),(736,'6','12','4','TUMBADEN'),(737,'6','13','0','SANTA CRUZ'),(738,'6','13','1','SANTA CRUZ'),(739,'6','13','2','ANDABAMBA'),(740,'6','13','3','CATACHE'),(741,'6','13','4','CHANCAYBA'),(742,'6','13','5','LA ESPERANZA'),(743,'6','13','6','NINABAMBA'),(744,'6','13','7','PULAN'),(745,'6','13','8','SAUCEPAMPA'),(746,'6','13','9','SEXI'),(747,'6','13','10','UTICYACU'),(748,'6','13','11','YAUYUCAN'),(749,'7','0','0','CALLAO'),(750,'7','1','0','CALLAO'),(751,'7','1','1','CALLAO'),(752,'7','1','2','BELLAVISTA'),(753,'7','1','3','CARMEN DE LA LEGUA REYNOSO'),(754,'7','1','4','LA PERLA'),(755,'7','1','5','LA PUNTA'),(756,'7','1','6','VENTANILLA'),(757,'8','0','0','CUSCO'),(758,'8','1','0','CUSCO'),(759,'8','1','1','CUSCO'),(760,'8','1','2','CCORCA'),(761,'8','1','3','POROY'),(762,'8','1','4','SAN JERONIMO'),(763,'8','1','5','SAN SEBASTIAN'),(764,'8','1','6','SANTIAGO'),(765,'8','1','7','SAYLLA'),(766,'8','1','8','WANCHAQ'),(767,'8','2','0','ACOMAYO'),(768,'8','2','1','ACOMAYO'),(769,'8','2','2','ACOPIA'),(770,'8','2','3','ACOS'),(771,'8','2','4','MOSOC LLACTA'),(772,'8','2','5','POMACANCHI'),(773,'8','2','6','RONDOCAN'),(774,'8','2','7','SANGARARA'),(775,'8','3','0','ANTA'),(776,'8','3','1','ANTA'),(777,'8','3','2','ANCAHUASI'),(778,'8','3','3','CACHIMAYO'),(779,'8','3','4','CHINCHAYPUJIO'),(780,'8','3','5','HUAROCONDO'),(781,'8','3','6','LIMATAMBO'),(782,'8','3','7','MOLLEPATA'),(783,'8','3','8','PUCYURA'),(784,'8','3','9','ZURITE'),(785,'8','4','0','CALCA'),(786,'8','4','1','CALCA'),(787,'8','4','2','COYA'),(788,'8','4','3','LAMAY'),(789,'8','4','4','LARES'),(790,'8','4','5','PISAC'),(791,'8','4','6','SAN SALVADOR'),(792,'8','4','7','TARAY'),(793,'8','4','8','YANATILE'),(794,'8','5','0','CANAS'),(795,'8','5','1','YANAOCA'),(796,'8','5','2','CHECCA'),(797,'8','5','3','KUNTURKANKI'),(798,'8','5','4','LANGUI'),(799,'8','5','5','LAYO'),(800,'8','5','6','PAMPAMARCA'),(801,'8','5','7','QUEHUE'),(802,'8','5','8','TUPAC AMARU'),(803,'8','6','0','CANCHIS'),(804,'8','6','1','SICUANI'),(805,'8','6','2','CHECACUPE'),(806,'8','6','3','COMBAPATA'),(807,'8','6','4','MARANGANI'),(808,'8','6','5','PITUMARCA'),(809,'8','6','6','SAN PABLO'),(810,'8','6','7','SAN PEDRO'),(811,'8','6','8','TINTA'),(812,'8','7','0','CHUMBIVILCAS'),(813,'8','7','1','SANTO TOMAS'),(814,'8','7','2','CAPACMARCA'),(815,'8','7','3','CHAMACA'),(816,'8','7','4','COLQUEMARCA'),(817,'8','7','5','LIVITACA'),(818,'8','7','6','LLUSCO'),(819,'8','7','7','QUI'),(820,'8','7','8','VELILLE'),(821,'8','8','0','ESPINAR'),(822,'8','8','1','ESPINAR'),(823,'8','8','2','CONDOROMA'),(824,'8','8','3','COPORAQUE'),(825,'8','8','4','OCORURO'),(826,'8','8','5','PALLPATA'),(827,'8','8','6','PICHIGUA'),(828,'8','8','7','SUYCKUTAMBO'),(829,'8','8','8','ALTO PICHIGUA'),(830,'8','9','0','LA CONVENCION'),(831,'8','9','1','SANTA ANA'),(832,'8','9','2','ECHARATE'),(833,'8','9','3','HUAYOPATA'),(834,'8','9','4','MARANURA'),(835,'8','9','5','OCOBAMBA'),(836,'8','9','6','QUELLOUNO'),(837,'8','9','7','KIMBIRI'),(838,'8','9','8','SANTA TERESA'),(839,'8','9','9','VILCABAMBA'),(840,'8','9','10','PICHARI'),(841,'8','10','0','PARURO'),(842,'8','10','1','PARURO'),(843,'8','10','2','ACCHA'),(844,'8','10','3','CCAPI'),(845,'8','10','4','COLCHA'),(846,'8','10','5','HUANOQUITE'),(847,'8','10','6','OMACHA'),(848,'8','10','7','PACCARITAMBO'),(849,'8','10','8','PILLPINTO'),(850,'8','10','9','YAURISQUE'),(851,'8','11','0','PAUCARTAMBO'),(852,'8','11','1','PAUCARTAMBO'),(853,'8','11','2','CAICAY'),(854,'8','11','3','CHALLABAMBA'),(855,'8','11','4','COLQUEPATA'),(856,'8','11','5','HUANCARANI'),(857,'8','11','6','KOS'),(858,'8','12','0','QUISPICANCHI'),(859,'8','12','1','URCOS'),(860,'8','12','2','ANDAHUAYLILLAS'),(861,'8','12','3','CAMANTI'),(862,'8','12','4','CCARHUAYO'),(863,'8','12','5','CCATCA'),(864,'8','12','6','CUSIPATA'),(865,'8','12','7','HUARO'),(866,'8','12','8','LUCRE'),(867,'8','12','9','MARCAPATA'),(868,'8','12','10','OCONGATE'),(869,'8','12','11','OROPESA'),(870,'8','12','12','QUIQUIJANA'),(871,'8','13','0','URUBAMBA'),(872,'8','13','1','URUBAMBA'),(873,'8','13','2','CHINCHERO'),(874,'8','13','3','HUAYLLABAMBA'),(875,'8','13','4','MACHUPICCHU'),(876,'8','13','5','MARAS'),(877,'8','13','6','OLLANTAYTAMBO'),(878,'8','13','7','YUCAY'),(879,'9','0','0','HUANCAVELICA'),(880,'9','1','0','HUANCAVELICA'),(881,'9','1','1','HUANCAVELICA'),(882,'9','1','2','ACOBAMBILLA'),(883,'9','1','3','ACORIA'),(884,'9','1','4','CONAYCA'),(885,'9','1','5','CUENCA'),(886,'9','1','6','HUACHOCOLPA'),(887,'9','1','7','HUAYLLAHUARA'),(888,'9','1','8','IZCUCHACA'),(889,'9','1','9','LARIA'),(890,'9','1','10','MANTA'),(891,'9','1','11','MARISCAL CACERES'),(892,'9','1','12','MOYA'),(893,'9','1','13','NUEVO OCCORO'),(894,'9','1','14','PALCA'),(895,'9','1','15','PILCHACA'),(896,'9','1','16','VILCA'),(897,'9','1','17','YAULI'),(898,'9','1','18','ASCENSION'),(899,'9','1','19','HUANDO'),(900,'9','2','0','ACOBAMBA'),(901,'9','2','1','ACOBAMBA'),(902,'9','2','2','ANDABAMBA'),(903,'9','2','3','ANTA'),(904,'9','2','4','CAJA'),(905,'9','2','5','MARCAS'),(906,'9','2','6','PAUCARA'),(907,'9','2','7','POMACOCHA'),(908,'9','2','8','ROSARIO'),(909,'9','3','0','ANGARAES'),(910,'9','3','1','LIRCAY'),(911,'9','3','2','ANCHONGA'),(912,'9','3','3','CALLANMARCA'),(913,'9','3','4','CCOCHACCASA'),(914,'9','3','5','CHINCHO'),(915,'9','3','6','CONGALLA'),(916,'9','3','7','HUANCA-HUANCA'),(917,'9','3','8','HUAYLLAY GRANDE'),(918,'9','3','9','JULCAMARCA'),(919,'9','3','10','SAN ANTONIO DE ANTAPARCO'),(920,'9','3','11','SANTO TOMAS DE PATA'),(921,'9','3','12','SECCLLA'),(922,'9','4','0','CASTROVIRREYNA'),(923,'9','4','1','CASTROVIRREYNA'),(924,'9','4','2','ARMA'),(925,'9','4','3','AURAHUA'),(926,'9','4','4','CAPILLAS'),(927,'9','4','5','CHUPAMARCA'),(928,'9','4','6','COCAS'),(929,'9','4','7','HUACHOS'),(930,'9','4','8','HUAMATAMBO'),(931,'9','4','9','MOLLEPAMPA'),(932,'9','4','10','SAN JUAN'),(933,'9','4','11','SANTA ANA'),(934,'9','4','12','TANTARA'),(935,'9','4','13','TICRAPO'),(936,'9','5','0','CHURCAMPA'),(937,'9','5','1','CHURCAMPA'),(938,'9','5','2','ANCO'),(939,'9','5','3','CHINCHIHUASI'),(940,'9','5','4','EL CARMEN'),(941,'9','5','5','LA MERCED'),(942,'9','5','6','LOCROJA'),(943,'9','5','7','PAUCARBAMBA'),(944,'9','5','8','SAN MIGUEL DE MAYOCC'),(945,'9','5','9','SAN PEDRO DE CORIS'),(946,'9','5','10','PACHAMARCA'),(947,'9','6','0','HUAYTARA'),(948,'9','6','1','HUAYTARA'),(949,'9','6','2','AYAVI'),(950,'9','6','3','CORDOVA'),(951,'9','6','4','HUAYACUNDO ARMA'),(952,'9','6','5','LARAMARCA'),(953,'9','6','6','OCOYO'),(954,'9','6','7','PILPICHACA'),(955,'9','6','8','QUERCO'),(956,'9','6','9','QUITO-ARMA'),(957,'9','6','10','SAN ANTONIO DE CUSICANCHA'),(958,'9','6','11','SAN FRANCISCO DE SANGAYAICO'),(959,'9','6','12','SAN ISIDRO'),(960,'9','6','13','SANTIAGO DE CHOCORVOS'),(961,'9','6','14','SANTIAGO DE QUIRAHUARA'),(962,'9','6','15','SANTO DOMINGO DE CAPILLAS'),(963,'9','6','16','TAMBO'),(964,'9','7','0','TAYACAJA'),(965,'9','7','1','PAMPAS'),(966,'9','7','2','ACOSTAMBO'),(967,'9','7','3','ACRAQUIA'),(968,'9','7','4','AHUAYCHA'),(969,'9','7','5','COLCABAMBA'),(970,'9','7','6','DANIEL HERNANDEZ'),(971,'9','7','7','HUACHOCOLPA'),(972,'9','7','9','HUARIBAMBA'),(973,'9','7','10',''),(974,'9','7','11','PAZOS'),(975,'9','7','13','QUISHUAR'),(976,'9','7','14','SALCABAMBA'),(977,'9','7','15','SALCAHUASI'),(978,'9','7','16','SAN MARCOS DE ROCCHAC'),(979,'9','7','17','SURCUBAMBA'),(980,'9','7','18','TINTAY PUNCU'),(981,'10','0','0','HUANUCO'),(982,'10','1','0','HUANUCO'),(983,'10','1','1','HUANUCO'),(984,'10','1','2','AMARILIS'),(985,'10','1','3','CHINCHAO'),(986,'10','1','4','CHURUBAMBA'),(987,'10','1','5','MARGOS'),(988,'10','1','6','QUISQUI'),(989,'10','1','7','SAN FRANCISCO DE CAYRAN'),(990,'10','1','8','SAN PEDRO DE CHAULAN'),(991,'10','1','9','SANTA MARIA DEL VALLE'),(992,'10','1','10','YARUMAYO'),(993,'10','1','11','PILLCO MARCA'),(994,'10','2','0','AMBO'),(995,'10','2','1','AMBO'),(996,'10','2','2','CAYNA'),(997,'10','2','3','COLPAS'),(998,'10','2','4','CONCHAMARCA'),(999,'10','2','5','HUACAR'),(1000,'10','2','6','SAN FRANCISCO'),(1001,'10','2','7','SAN RAFAEL'),(1002,'10','2','8','TOMAY KICHWA'),(1003,'10','3','0','DOS DE MAYO'),(1004,'10','3','1','LA UNION'),(1005,'10','3','7','CHUQUIS'),(1006,'10','3','11','MARIAS'),(1007,'10','3','13','PACHAS'),(1008,'10','3','16','QUIVILLA'),(1009,'10','3','17','RIPAN'),(1010,'10','3','21','SHUNQUI'),(1011,'10','3','22','SILLAPATA'),(1012,'10','3','23','YANAS'),(1013,'10','4','0','HUACAYBAMBA'),(1014,'10','4','1','HUACAYBAMBA'),(1015,'10','4','2','CANCHABAMBA'),(1016,'10','4','3','COCHABAMBA'),(1017,'10','4','4','PINRA'),(1018,'10','5','0','HUAMALIES'),(1019,'10','5','1','LLATA'),(1020,'10','5','2','ARANCAY'),(1021,'10','5','3','CHAVIN DE PARIARCA'),(1022,'10','5','4','JACAS GRANDE'),(1023,'10','5','5','JIRCAN'),(1024,'10','5','6','MIRAFLORES'),(1025,'10','5','7','MONZON'),(1026,'10','5','8','PUNCHAO'),(1027,'10','5','9','PU'),(1028,'10','5','10','SINGA'),(1029,'10','5','11','TANTAMAYO'),(1030,'10','6','0','LEONCIO PRADO'),(1031,'10','6','1','RUPA-RUPA'),(1032,'10','6','2','DANIEL ALOMIA ROBLES'),(1033,'10','6','3','HERMILIO VALDIZAN'),(1034,'10','6','4','JOSE CRESPO Y CASTILLO'),(1035,'10','6','5','LUYANDO'),(1036,'10','6','6','MARIANO DAMASO BERAUN'),(1037,'10','7','0','MARA'),(1038,'10','7','1','HUACRACHUCO'),(1039,'10','7','2','CHOLON'),(1040,'10','7','3','SAN BUENAVENTURA'),(1041,'10','8','0','PACHITEA'),(1042,'10','8','1','PANAO'),(1043,'10','8','2','CHAGLLA'),(1044,'10','8','3','MOLINO'),(1045,'10','8','4','UMARI'),(1046,'10','9','0','PUERTO INCA'),(1047,'10','9','1','PUERTO INCA'),(1048,'10','9','2','CODO DEL POZUZO'),(1049,'10','9','3','HONORIA'),(1050,'10','9','4','TOURNAVISTA'),(1051,'10','9','5','YUYAPICHIS'),(1052,'10','10','0','LAURICOCHA'),(1053,'10','10','1','JESUS'),(1054,'10','10','2','BA'),(1055,'10','10','3','JIVIA'),(1056,'10','10','4','QUEROPALCA'),(1057,'10','10','5','RONDOS'),(1058,'10','10','6','SAN FRANCISCO DE ASIS'),(1059,'10','10','7','SAN MIGUEL DE CAURI'),(1060,'10','11','0','YAROWILCA'),(1061,'10','11','1','CHAVINILLO'),(1062,'10','11','2','CAHUAC'),(1063,'10','11','3','CHACABAMBA'),(1064,'10','11','4','APARICIO POMARES'),(1065,'10','11','5','JACAS CHICO'),(1066,'10','11','6','OBAS'),(1067,'10','11','7','PAMPAMARCA'),(1068,'10','11','8','CHORAS'),(1069,'11','0','0','ICA'),(1070,'11','1','0','ICA'),(1071,'11','1','1','ICA'),(1072,'11','1','2','LA TINGUI'),(1073,'11','1','3','LOS AQUIJES'),(1074,'11','1','4','OCUCAJE'),(1075,'11','1','5','PACHACUTEC'),(1076,'11','1','6','PARCONA'),(1077,'11','1','7','PUEBLO NUEVO'),(1078,'11','1','8','SALAS'),(1079,'11','1','9','SAN JOSE DE LOS MOLINOS'),(1080,'11','1','10','SAN JUAN BAUTISTA'),(1081,'11','1','11','SANTIAGO'),(1082,'11','1','12','SUBTANJALLA'),(1083,'11','1','13','TATE'),(1084,'11','1','14','YAUCA DEL ROSARIO'),(1085,'11','2','0','CHINCHA'),(1086,'11','2','1','CHINCHA ALTA'),(1087,'11','2','2','ALTO LARAN'),(1088,'11','2','3','CHAVIN'),(1089,'11','2','4','CHINCHA BAJA'),(1090,'11','2','5','EL CARMEN'),(1091,'11','2','6','GROCIO PRADO'),(1092,'11','2','7','PUEBLO NUEVO'),(1093,'11','2','8','SAN JUAN DE YANAC'),(1094,'11','2','9','SAN PEDRO DE HUACARPANA'),(1095,'11','2','10','SUNAMPE'),(1096,'11','2','11','TAMBO DE MORA'),(1097,'11','3','0','NAZCA'),(1098,'11','3','1','NAZCA'),(1099,'11','3','2','CHANGUILLO'),(1100,'11','3','3','EL INGENIO'),(1101,'11','3','4','MARCONA'),(1102,'11','3','5','VISTA ALEGRE'),(1103,'11','4','0','PALPA'),(1104,'11','4','1','PALPA'),(1105,'11','4','2','LLIPATA'),(1106,'11','4','3','RIO GRANDE'),(1107,'11','4','4','SANTA CRUZ'),(1108,'11','4','5','TIBILLO'),(1109,'11','5','0','PISCO'),(1110,'11','5','1','PISCO'),(1111,'11','5','2','HUANCANO'),(1112,'11','5','3','HUMAY'),(1113,'11','5','4','INDEPENDENCIA'),(1114,'11','5','5','PARACAS'),(1115,'11','5','6','SAN ANDRES'),(1116,'11','5','7','SAN CLEMENTE'),(1117,'11','5','8','TUPAC AMARU INCA'),(1118,'12','0','0','JUNIN'),(1119,'12','1','0','HUANCAYO'),(1120,'12','1','1','HUANCAYO'),(1121,'12','1','4','CARHUACALLANGA'),(1122,'12','1','5','CHACAPAMPA'),(1123,'12','1','6','CHICCHE'),(1124,'12','1','7','CHILCA'),(1125,'12','1','8','CHONGOS ALTO'),(1126,'12','1','11','CHUPURO'),(1127,'12','1','12','COLCA'),(1128,'12','1','13','CULLHUAS'),(1129,'12','1','14','EL TAMBO'),(1130,'12','1','16','HUACRAPUQUIO'),(1131,'12','1','17','HUALHUAS'),(1132,'12','1','19','HUANCAN'),(1133,'12','1','20','HUASICANCHA'),(1134,'12','1','21','HUAYUCACHI'),(1135,'12','1','22','INGENIO'),(1136,'12','1','24','PARIAHUANCA'),(1137,'12','1','25','PILCOMAYO'),(1138,'12','1','26','PUCARA'),(1139,'12','1','27','QUICHUAY'),(1140,'12','1','28','QUILCAS'),(1141,'12','1','29','SAN AGUSTIN'),(1142,'12','1','30','SAN JERONIMO DE TUNAN'),(1143,'12','1','32','SA'),(1144,'12','1','33','SAPALLANGA'),(1145,'12','1','34','SICAYA'),(1146,'12','1','35','SANTO DOMINGO DE ACOBAMBA'),(1147,'12','1','36','VIQUES'),(1148,'12','2','0','CONCEPCION'),(1149,'12','2','1','CONCEPCION'),(1150,'12','2','2','ACO'),(1151,'12','2','3','ANDAMARCA'),(1152,'12','2','4','CHAMBARA'),(1153,'12','2','5','COCHAS'),(1154,'12','2','6','COMAS'),(1155,'12','2','7','HEROINAS TOLEDO'),(1156,'12','2','8','MANZANARES'),(1157,'12','2','9','MARISCAL CASTILLA'),(1158,'12','2','10','MATAHUASI'),(1159,'12','2','11','MITO'),(1160,'12','2','12','NUEVE DE JULIO'),(1161,'12','2','13','ORCOTUNA'),(1162,'12','2','14','SAN JOSE DE QUERO'),(1163,'12','2','15','SANTA ROSA DE OCOPA'),(1164,'12','3','0','CHANCHAMAYO'),(1165,'12','3','1','CHANCHAMAYO'),(1166,'12','3','2','PERENE'),(1167,'12','3','3','PICHANAQUI'),(1168,'12','3','4','SAN LUIS DE SHUARO'),(1169,'12','3','5','SAN RAMON'),(1170,'12','3','6','VITOC'),(1171,'12','4','0','JAUJA'),(1172,'12','4','1','JAUJA'),(1173,'12','4','2','ACOLLA'),(1174,'12','4','3','APATA'),(1175,'12','4','4','ATAURA'),(1176,'12','4','5','CANCHAYLLO'),(1177,'12','4','6','CURICACA'),(1178,'12','4','7','EL MANTARO'),(1179,'12','4','8','HUAMALI'),(1180,'12','4','9','HUARIPAMPA'),(1181,'12','4','10','HUERTAS'),(1182,'12','4','11','JANJAILLO'),(1183,'12','4','12','JULCAN'),(1184,'12','4','13','LEONOR ORDO'),(1185,'12','4','14','LLOCLLAPAMPA'),(1186,'12','4','15','MARCO'),(1187,'12','4','16','MASMA'),(1188,'12','4','17','MASMA CHICCHE'),(1189,'12','4','18','MOLINOS'),(1190,'12','4','19','MONOBAMBA'),(1191,'12','4','20','MUQUI'),(1192,'12','4','21','MUQUIYAUYO'),(1193,'12','4','22','PACA'),(1194,'12','4','23','PACCHA'),(1195,'12','4','24','PANCAN'),(1196,'12','4','25','PARCO'),(1197,'12','4','26','POMACANCHA'),(1198,'12','4','27','RICRAN'),(1199,'12','4','28','SAN LORENZO'),(1200,'12','4','29','SAN PEDRO DE CHUNAN'),(1201,'12','4','30','SAUSA'),(1202,'12','4','31','SINCOS'),(1203,'12','4','32','TUNAN MARCA'),(1204,'12','4','33','YAULI'),(1205,'12','4','34','YAUYOS'),(1206,'12','5','0','JUNIN'),(1207,'12','5','1','JUNIN'),(1208,'12','5','2','CARHUAMAYO'),(1209,'12','5','3','ONDORES'),(1210,'12','5','4','ULCUMAYO'),(1211,'12','6','0','SATIPO'),(1212,'12','6','1','SATIPO'),(1213,'12','6','2','COVIRIALI'),(1214,'12','6','3','LLAYLLA'),(1215,'12','6','4','MAZAMARI'),(1216,'12','6','5','PAMPA HERMOSA'),(1217,'12','6','6','PANGOA'),(1218,'12','6','7','RIO NEGRO'),(1219,'12','6','8','RIO TAMBO'),(1220,'12','7','0','TARMA'),(1221,'12','7','1','TARMA'),(1222,'12','7','2','ACOBAMBA'),(1223,'12','7','3','HUARICOLCA'),(1224,'12','7','4','HUASAHUASI'),(1225,'12','7','5','LA UNION'),(1226,'12','7','6','PALCA'),(1227,'12','7','7','PALCAMAYO'),(1228,'12','7','8','SAN PEDRO DE CAJAS'),(1229,'12','7','9','TAPO'),(1230,'12','8','0','YAULI'),(1231,'12','8','1','LA OROYA'),(1232,'12','8','2','CHACAPALPA'),(1233,'12','8','3','HUAY-HUAY'),(1234,'12','8','4','MARCAPOMACOCHA'),(1235,'12','8','5','MOROCOCHA'),(1236,'12','8','6','PACCHA'),(1237,'12','8','7','SANTA BARBARA DE CARHUACAYAN'),(1238,'12','8','8','SANTA ROSA DE SACCO'),(1239,'12','8','9','SUITUCANCHA'),(1240,'12','8','10','YAULI'),(1241,'12','9','0','CHUPACA'),(1242,'12','9','1','CHUPACA'),(1243,'12','9','2','AHUAC'),(1244,'12','9','3','CHONGOS BAJO'),(1245,'12','9','4','HUACHAC'),(1246,'12','9','5','HUAMANCACA CHICO'),(1247,'12','9','6','SAN JUAN DE ISCOS'),(1248,'12','9','7','SAN JUAN DE JARPA'),(1249,'12','9','8','TRES DE DICIEMBRE'),(1250,'12','9','9','YANACANCHA'),(1251,'13','0','0','LA LIBERTAD'),(1252,'13','1','0','TRUJILLO'),(1253,'13','1','1','TRUJILLO'),(1254,'13','1','2','EL PORVENIR'),(1255,'13','1','3','FLORENCIA DE MORA'),(1256,'13','1','4','HUANCHACO'),(1257,'13','1','5','LA ESPERANZA'),(1258,'13','1','6','LAREDO'),(1259,'13','1','7','MOCHE'),(1260,'13','1','8','POROTO'),(1261,'13','1','9','SALAVERRY'),(1262,'13','1','10','SIMBAL'),(1263,'13','1','11','VICTOR LARCO HERRERA'),(1264,'13','2','0','ASCOPE'),(1265,'13','2','1','ASCOPE'),(1266,'13','2','2','CHICAMA'),(1267,'13','2','3','CHOCOPE'),(1268,'13','2','4','MAGDALENA DE CAO'),(1269,'13','2','5','PAIJAN'),(1270,'13','2','6','RAZURI'),(1271,'13','2','7','SANTIAGO DE CAO'),(1272,'13','2','8','CASA GRANDE'),(1273,'13','3','0','BOLIVAR'),(1274,'13','3','1','BOLIVAR'),(1275,'13','3','2','BAMBAMARCA'),(1276,'13','3','3','CONDORMARCA'),(1277,'13','3','4','LONGOTEA'),(1278,'13','3','5','UCHUMARCA'),(1279,'13','3','6','UCUNCHA'),(1280,'13','4','0','CHEPEN'),(1281,'13','4','1','CHEPEN'),(1282,'13','4','2','PACANGA'),(1283,'13','4','3','PUEBLO NUEVO'),(1284,'13','5','0','JULCAN'),(1285,'13','5','1','JULCAN'),(1286,'13','5','2','CALAMARCA'),(1287,'13','5','3','CARABAMBA'),(1288,'13','5','4','HUASO'),(1289,'13','6','0','OTUZCO'),(1290,'13','6','1','OTUZCO'),(1291,'13','6','2','AGALLPAMPA'),(1292,'13','6','4','CHARAT'),(1293,'13','6','5','HUARANCHAL'),(1294,'13','6','6','LA CUESTA'),(1295,'13','6','8','MACHE'),(1296,'13','6','10','PARANDAY'),(1297,'13','6','11','SALPO'),(1298,'13','6','13','SINSICAP'),(1299,'13','6','14','USQUIL'),(1300,'13','7','0','PACASMAYO'),(1301,'13','7','1','SAN PEDRO DE LLOC'),(1302,'13','7','2','GUADALUPE'),(1303,'13','7','3','JEQUETEPEQUE'),(1304,'13','7','4','PACASMAYO'),(1305,'13','7','5','SAN JOSE'),(1306,'13','8','0','PATAZ'),(1307,'13','8','1','TAYABAMBA'),(1308,'13','8','2','BULDIBUYO'),(1309,'13','8','3','CHILLIA'),(1310,'13','8','4','HUANCASPATA'),(1311,'13','8','5','HUAYLILLAS'),(1312,'13','8','6','HUAYO'),(1313,'13','8','7','ONGON'),(1314,'13','8','8','PARCOY'),(1315,'13','8','9','PATAZ'),(1316,'13','8','10','PIAS'),(1317,'13','8','11','SANTIAGO DE CHALLAS'),(1318,'13','8','12','TAURIJA'),(1319,'13','8','13','URPAY'),(1320,'13','9','0','SANCHEZ CARRION'),(1321,'13','9','1','HUAMACHUCO'),(1322,'13','9','2','CHUGAY'),(1323,'13','9','3','COCHORCO'),(1324,'13','9','4','CURGOS'),(1325,'13','9','5','MARCABAL'),(1326,'13','9','6','SANAGORAN'),(1327,'13','9','7','SARIN'),(1328,'13','9','8','SARTIMBAMBA'),(1329,'13','10','0','SANTIAGO DE CHUCO'),(1330,'13','10','1','SANTIAGO DE CHUCO'),(1331,'13','10','2','ANGASMARCA'),(1332,'13','10','3','CACHICADAN'),(1333,'13','10','4','MOLLEBAMBA'),(1334,'13','10','5','MOLLEPATA'),(1335,'13','10','6','QUIRUVILCA'),(1336,'13','10','7','SANTA CRUZ DE CHUCA'),(1337,'13','10','8','SITABAMBA'),(1338,'13','11','0','GRAN CHIMU'),(1339,'13','11','1','CASCAS'),(1340,'13','11','2','LUCMA'),(1341,'13','11','3','MARMOT'),(1342,'13','11','4','SAYAPULLO'),(1343,'13','12','0','VIRU'),(1344,'13','12','1','VIRU'),(1345,'13','12','2','CHAO'),(1346,'13','12','3','GUADALUPITO'),(1347,'14','0','0','LAMBAYEQUE'),(1348,'14','1','0','CHICLAYO'),(1349,'14','1','1','CHICLAYO'),(1350,'14','1','2','CHONGOYAPE'),(1351,'14','1','3','ETEN'),(1352,'14','1','4','ETEN PUERTO'),(1353,'14','1','5','JOSE LEONARDO ORTIZ'),(1354,'14','1','6','LA VICTORIA'),(1355,'14','1','7','LAGUNAS'),(1356,'14','1','8','MONSEFU'),(1357,'14','1','9','NUEVA ARICA'),(1358,'14','1','10','OYOTUN'),(1359,'14','1','11','PICSI'),(1360,'14','1','12','PIMENTEL'),(1361,'14','1','13','REQUE'),(1362,'14','1','14','SANTA ROSA'),(1363,'14','1','15','SA'),(1364,'14','1','16','CAYALTI'),(1365,'14','1','17','PATAPO'),(1366,'14','1','18','POMALCA'),(1367,'14','1','19','PUCALA'),(1368,'14','1','20','TUMAN'),(1369,'14','2','0','FERRE'),(1370,'14','2','1','FERRE'),(1371,'14','2','2','CA'),(1372,'14','2','3','INCAHUASI'),(1373,'14','2','4','MANUEL ANTONIO MESONES MURO'),(1374,'14','2','5','PITIPO'),(1375,'14','2','6','PUEBLO NUEVO'),(1376,'14','3','0','LAMBAYEQUE'),(1377,'14','3','1','LAMBAYEQUE'),(1378,'14','3','2','CHOCHOPE'),(1379,'14','3','3','ILLIMO'),(1380,'14','3','4','JAYANCA'),(1381,'14','3','5','MOCHUMI'),(1382,'14','3','6','MORROPE'),(1383,'14','3','7','MOTUPE'),(1384,'14','3','8','OLMOS'),(1385,'14','3','9','PACORA'),(1386,'14','3','10','SALAS'),(1387,'14','3','11','SAN JOSE'),(1388,'14','3','12','TUCUME'),(1389,'15','0','0','LIMA'),(1390,'15','1','0','LIMA'),(1391,'15','1','1','LIMA'),(1392,'15','1','2','ANCON'),(1393,'15','1','3','ATE'),(1394,'15','1','4','BARRANCO'),(1395,'15','1','5','BRE'),(1396,'15','1','6','CARABAYLLO'),(1397,'15','1','7','CHACLACAYO'),(1398,'15','1','8','CHORRILLOS'),(1399,'15','1','9','CIENEGUILLA'),(1400,'15','1','10','COMAS'),(1401,'15','1','11','EL AGUSTINO'),(1402,'15','1','12','INDEPENDENCIA'),(1403,'15','1','13','JESUS MARIA'),(1404,'15','1','14','LA MOLINA'),(1405,'15','1','15','LA VICTORIA'),(1406,'15','1','16','LINCE'),(1407,'15','1','17','LOS OLIVOS'),(1408,'15','1','18','LURIGANCHO'),(1409,'15','1','19','LURIN'),(1410,'15','1','20','MAGDALENA DEL MAR'),(1411,'15','1','21','MAGDALENA VIEJA'),(1412,'15','1','22','MIRAFLORES'),(1413,'15','1','23','PACHACAMAC'),(1414,'15','1','24','PUCUSANA'),(1415,'15','1','25','PUENTE PIEDRA'),(1416,'15','1','26','PUNTA HERMOSA'),(1417,'15','1','27','PUNTA NEGRA'),(1418,'15','1','28','RIMAC'),(1419,'15','1','29','SAN BARTOLO'),(1420,'15','1','30','SAN BORJA'),(1421,'15','1','31','SAN ISIDRO'),(1422,'15','1','32','SAN JUAN DE LURIGANCHO'),(1423,'15','1','33','SAN JUAN DE MIRAFLORES'),(1424,'15','1','34','SAN LUIS'),(1425,'15','1','35','SAN MARTIN DE PORRES'),(1426,'15','1','36','SAN MIGUEL'),(1427,'15','1','37','SANTA ANITA'),(1428,'15','1','38','SANTA MARIA DEL MAR'),(1429,'15','1','39','SANTA ROSA'),(1430,'15','1','40','SANTIAGO DE SURCO'),(1431,'15','1','41','SURQUILLO'),(1432,'15','1','42','VILLA EL SALVADOR'),(1433,'15','1','43','VILLA MARIA DEL TRIUNFO'),(1434,'15','2','0','BARRANCA'),(1435,'15','2','1','BARRANCA'),(1436,'15','2','2','PARAMONGA'),(1437,'15','2','3','PATIVILCA'),(1438,'15','2','4','SUPE'),(1439,'15','2','5','SUPE PUERTO'),(1440,'15','3','0','CAJATAMBO'),(1441,'15','3','1','CAJATAMBO'),(1442,'15','3','2','COPA'),(1443,'15','3','3','GORGOR'),(1444,'15','3','4','HUANCAPON'),(1445,'15','3','5','MANAS'),(1446,'15','4','0','CANTA'),(1447,'15','4','1','CANTA'),(1448,'15','4','2','ARAHUAY'),(1449,'15','4','3','HUAMANTANGA'),(1450,'15','4','4','HUAROS'),(1451,'15','4','5','LACHAQUI'),(1452,'15','4','6','SAN BUENAVENTURA'),(1453,'15','4','7','SANTA ROSA DE QUIVES'),(1454,'15','5','0','CA'),(1455,'15','5','1','SAN VICENTE DE CA'),(1456,'15','5','2','ASIA'),(1457,'15','5','3','CALANGO'),(1458,'15','5','4','CERRO AZUL'),(1459,'15','5','5','CHILCA'),(1460,'15','5','6','COAYLLO'),(1461,'15','5','7','IMPERIAL'),(1462,'15','5','8','LUNAHUANA'),(1463,'15','5','9','MALA'),(1464,'15','5','10','NUEVO IMPERIAL'),(1465,'15','5','11','PACARAN'),(1466,'15','5','12','QUILMANA'),(1467,'15','5','13','SAN ANTONIO'),(1468,'15','5','14','SAN LUIS'),(1469,'15','5','15','SANTA CRUZ DE FLORES'),(1470,'15','5','16','ZU'),(1471,'15','6','0','HUARAL'),(1472,'15','6','1','HUARAL'),(1473,'15','6','2','ATAVILLOS ALTO'),(1474,'15','6','3','ATAVILLOS BAJO'),(1475,'15','6','4','AUCALLAMA'),(1476,'15','6','5','CHANCAY'),(1477,'15','6','6','IHUARI'),(1478,'15','6','7','LAMPIAN'),(1479,'15','6','8','PACARAOS'),(1480,'15','6','9','SAN MIGUEL DE ACOS'),(1481,'15','6','10','SANTA CRUZ DE ANDAMARCA'),(1482,'15','6','11','SUMBILCA'),(1483,'15','6','12','VEINTISIETE DE NOVIEMBRE'),(1484,'15','7','0','HUAROCHIRI'),(1485,'15','7','1','MATUCANA'),(1486,'15','7','2','ANTIOQUIA'),(1487,'15','7','3','CALLAHUANCA'),(1488,'15','7','4','CARAMPOMA'),(1489,'15','7','5','CHICLA'),(1490,'15','7','6','CUENCA'),(1491,'15','7','7','HUACHUPAMPA'),(1492,'15','7','8','HUANZA'),(1493,'15','7','9','HUAROCHIRI'),(1494,'15','7','10','LAHUAYTAMBO'),(1495,'15','7','11','LANGA'),(1496,'15','7','12','LARAOS'),(1497,'15','7','13','MARIATANA'),(1498,'15','7','14','RICARDO PALMA'),(1499,'15','7','15','SAN ANDRES DE TUPICOCHA'),(1500,'15','7','16','SAN ANTONIO'),(1501,'15','7','17','SAN BARTOLOME'),(1502,'15','7','18','SAN DAMIAN'),(1503,'15','7','19','SAN JUAN DE IRIS'),(1504,'15','7','20','SAN JUAN DE TANTARANCHE'),(1505,'15','7','21','SAN LORENZO DE QUINTI'),(1506,'15','7','22','SAN MATEO'),(1507,'15','7','23','SAN MATEO DE OTAO'),(1508,'15','7','24','SAN PEDRO DE CASTA'),(1509,'15','7','25','SAN PEDRO DE HUANCAYRE'),(1510,'15','7','26','SANGALLAYA'),(1511,'15','7','27','SANTA CRUZ DE COCACHACRA'),(1512,'15','7','28','SANTA EULALIA'),(1513,'15','7','29','SANTIAGO DE ANCHUCAYA'),(1514,'15','7','30','SANTIAGO DE TUNA'),(1515,'15','7','31','SANTO DOMINGO DE LOS OLLEROS'),(1516,'15','7','32','SURCO'),(1517,'15','8','0','HUAURA'),(1518,'15','8','1','HUACHO'),(1519,'15','8','2','AMBAR'),(1520,'15','8','3','CALETA DE CARQUIN'),(1521,'15','8','4','CHECRAS'),(1522,'15','8','5','HUALMAY'),(1523,'15','8','6','HUAURA'),(1524,'15','8','7','LEONCIO PRADO'),(1525,'15','8','8','PACCHO'),(1526,'15','8','9','SANTA LEONOR'),(1527,'15','8','10','SANTA MARIA'),(1528,'15','8','11','SAYAN'),(1529,'15','8','12','VEGUETA'),(1530,'15','9','0','OYON'),(1531,'15','9','1','OYON'),(1532,'15','9','2','ANDAJES'),(1533,'15','9','3','CAUJUL'),(1534,'15','9','4','COCHAMARCA'),(1535,'15','9','5','NAVAN'),(1536,'15','9','6','PACHANGARA'),(1537,'15','10','0','YAUYOS'),(1538,'15','10','1','YAUYOS'),(1539,'15','10','2','ALIS'),(1540,'15','10','3','AYAUCA'),(1541,'15','10','4','AYAVIRI'),(1542,'15','10','5','AZANGARO'),(1543,'15','10','6','CACRA'),(1544,'15','10','7','CARANIA'),(1545,'15','10','8','CATAHUASI'),(1546,'15','10','9','CHOCOS'),(1547,'15','10','10','COCHAS'),(1548,'15','10','11','COLONIA'),(1549,'15','10','12','HONGOS'),(1550,'15','10','13','HUAMPARA'),(1551,'15','10','14','HUANCAYA'),(1552,'15','10','15','HUANGASCAR'),(1553,'15','10','16','HUANTAN'),(1554,'15','10','17','HUA'),(1555,'15','10','18','LARAOS'),(1556,'15','10','19','LINCHA'),(1557,'15','10','20','MADEAN'),(1558,'15','10','21','MIRAFLORES'),(1559,'15','10','22','OMAS'),(1560,'15','10','23','PUTINZA'),(1561,'15','10','24','QUINCHES'),(1562,'15','10','25','QUINOCAY'),(1563,'15','10','26','SAN JOAQUIN'),(1564,'15','10','27','SAN PEDRO DE PILAS'),(1565,'15','10','28','TANTA'),(1566,'15','10','29','TAURIPAMPA'),(1567,'15','10','30','TOMAS'),(1568,'15','10','31','TUPE'),(1569,'15','10','32','VI'),(1570,'15','10','33','VITIS'),(1571,'16','0','0','LORETO'),(1572,'16','1','0','MAYNAS'),(1573,'16','1','1','IQUITOS'),(1574,'16','1','2','ALTO NANAY'),(1575,'16','1','3','FERNANDO LORES'),(1576,'16','1','4','INDIANA'),(1577,'16','1','5','LAS AMAZONAS'),(1578,'16','1','6','MAZAN'),(1579,'16','1','7','NAPO'),(1580,'16','1','8','PUNCHANA'),(1581,'16','1','9','PUTUMAYO'),(1582,'16','1','10','TORRES CAUSANA'),(1583,'16','1','12','BELEN'),(1584,'16','1','13','SAN JUAN BAUTISTA'),(1585,'16','2','0','ALTO AMAZONAS'),(1586,'16','2','1','YURIMAGUAS'),(1587,'16','2','2','BALSAPUERTO'),(1588,'16','2','3','BARRANCA'),(1589,'16','2','4','CAHUAPANAS'),(1590,'16','2','5','JEBEROS'),(1591,'16','2','6','LAGUNAS'),(1592,'16','2','7','MANSERICHE'),(1593,'16','2','8','MORONA'),(1594,'16','2','9','PASTAZA'),(1595,'16','2','10','SANTA CRUZ'),(1596,'16','2','11','TENIENTE CESAR LOPEZ ROJAS'),(1597,'16','3','0','LORETO'),(1598,'16','3','1','NAUTA'),(1599,'16','3','2','PARINARI'),(1600,'16','3','3','TIGRE'),(1601,'16','3','4','TROMPETEROS'),(1602,'16','3','5','URARINAS'),(1603,'16','4','0','MARISCAL RAMON CASTILLA'),(1604,'16','4','1','RAMON CASTILLA'),(1605,'16','4','2','PEBAS'),(1606,'16','4','3','YAVARI'),(1607,'16','4','4','SAN PABLO'),(1608,'16','5','0','REQUENA'),(1609,'16','5','1','REQUENA'),(1610,'16','5','2','ALTO TAPICHE'),(1611,'16','5','3','CAPELO'),(1612,'16','5','4','EMILIO SAN MARTIN'),(1613,'16','5','5','MAQUIA'),(1614,'16','5','6','PUINAHUA'),(1615,'16','5','7','SAQUENA'),(1616,'16','5','8','SOPLIN'),(1617,'16','5','9','TAPICHE'),(1618,'16','5','10','JENARO HERRERA'),(1619,'16','5','11','YAQUERANA'),(1620,'16','6','0','UCAYALI'),(1621,'16','6','1','CONTAMANA'),(1622,'16','6','2','INAHUAYA'),(1623,'16','6','3','PADRE MARQUEZ'),(1624,'16','6','4','PAMPA HERMOSA'),(1625,'16','6','5','SARAYACU'),(1626,'16','6','6','VARGAS GUERRA'),(1627,'17','0','0','MADRE DE DIOS'),(1628,'17','1','0','TAMBOPATA'),(1629,'17','1','1','TAMBOPATA'),(1630,'17','1','2','INAMBARI'),(1631,'17','1','3','LAS PIEDRAS'),(1632,'17','1','4','LABERINTO'),(1633,'17','2','0','MANU'),(1634,'17','2','1','MANU'),(1635,'17','2','2','FITZCARRALD'),(1636,'17','2','3','MADRE DE DIOS'),(1637,'17','2','4','HUEPETUHE'),(1638,'17','3','0','TAHUAMANU'),(1639,'17','3','1','I'),(1640,'17','3','2','IBERIA'),(1641,'17','3','3','TAHUAMANU'),(1642,'18','0','0','MOQUEGUA'),(1643,'18','1','0','MARISCAL NIETO'),(1644,'18','1','1','MOQUEGUA'),(1645,'18','1','2','CARUMAS'),(1646,'18','1','3','CUCHUMBAYA'),(1647,'18','1','4','SAMEGUA'),(1648,'18','1','5','SAN CRISTOBAL'),(1649,'18','1','6','TORATA'),(1650,'18','2','0','GENERAL SANCHEZ CERRO'),(1651,'18','2','1','OMATE'),(1652,'18','2','2','CHOJATA'),(1653,'18','2','3','COALAQUE'),(1654,'18','2','4','ICHU'),(1655,'18','2','5','LA CAPILLA'),(1656,'18','2','6','LLOQUE'),(1657,'18','2','7','MATALAQUE'),(1658,'18','2','8','PUQUINA'),(1659,'18','2','9','QUINISTAQUILLAS'),(1660,'18','2','10','UBINAS'),(1661,'18','2','11','YUNGA'),(1662,'18','3','0','ILO'),(1663,'18','3','1','ILO'),(1664,'18','3','2','EL ALGARROBAL'),(1665,'18','3','3','PACOCHA'),(1666,'19','0','0','PASCO'),(1667,'19','1','0','PASCO'),(1668,'19','1','1','CHAUPIMARCA'),(1669,'19','1','2','HUACHON'),(1670,'19','1','3','HUARIACA'),(1671,'19','1','4','HUAYLLAY'),(1672,'19','1','5','NINACACA'),(1673,'19','1','6','PALLANCHACRA'),(1674,'19','1','7','PAUCARTAMBO'),(1675,'19','1','8','SAN FCO.DE ASIS DE YARUSYACAN'),(1676,'19','1','9','SIMON BOLIVAR'),(1677,'19','1','10','TICLACAYAN'),(1678,'19','1','11','TINYAHUARCO'),(1679,'19','1','12','VICCO'),(1680,'19','1','13','YANACANCHA'),(1681,'19','2','0','DANIEL ALCIDES CARRION'),(1682,'19','2','1','YANAHUANCA'),(1683,'19','2','2','CHACAYAN'),(1684,'19','2','3','GOYLLARISQUIZGA'),(1685,'19','2','4','PAUCAR'),(1686,'19','2','5','SAN PEDRO DE PILLAO'),(1687,'19','2','6','SANTA ANA DE TUSI'),(1688,'19','2','7','TAPUC'),(1689,'19','2','8','VILCABAMBA'),(1690,'19','3','0','OXAPAMPA'),(1691,'19','3','1','OXAPAMPA'),(1692,'19','3','2','CHONTABAMBA'),(1693,'19','3','3','HUANCABAMBA'),(1694,'19','3','4','PALCAZU'),(1695,'19','3','5','POZUZO'),(1696,'19','3','6','PUERTO BERMUDEZ'),(1697,'19','3','7','VILLA RICA'),(1698,'20','0','0','PIURA'),(1699,'20','1','0','PIURA'),(1700,'20','1','1','PIURA'),(1701,'20','1','4','CASTILLA'),(1702,'20','1','5','CATACAOS'),(1703,'20','1','7','CURA MORI'),(1704,'20','1','8','EL TALLAN'),(1705,'20','1','9','LA ARENA'),(1706,'20','1','10','LA UNION'),(1707,'20','1','11','LAS LOMAS'),(1708,'20','1','14','TAMBO GRANDE'),(1709,'20','2','0','AYABACA'),(1710,'20','2','1','AYABACA'),(1711,'20','2','2','FRIAS'),(1712,'20','2','3','JILILI'),(1713,'20','2','4','LAGUNAS'),(1714,'20','2','5','MONTERO'),(1715,'20','2','6','PACAIPAMPA'),(1716,'20','2','7','PAIMAS'),(1717,'20','2','8','SAPILLICA'),(1718,'20','2','9','SICCHEZ'),(1719,'20','2','10','SUYO'),(1720,'20','3','0','HUANCABAMBA'),(1721,'20','3','1','HUANCABAMBA'),(1722,'20','3','2','CANCHAQUE'),(1723,'20','3','3','EL CARMEN DE LA FRONTERA'),(1724,'20','3','4','HUARMACA'),(1725,'20','3','5','LALAQUIZ'),(1726,'20','3','6','SAN MIGUEL DE EL FAIQUE'),(1727,'20','3','7','SONDOR'),(1728,'20','3','8','SONDORILLO'),(1729,'20','4','0','MORROPON'),(1730,'20','4','1','CHULUCANAS'),(1731,'20','4','2','BUENOS AIRES'),(1732,'20','4','3','CHALACO'),(1733,'20','4','4','LA MATANZA'),(1734,'20','4','5','MORROPON'),(1735,'20','4','6','SALITRAL'),(1736,'20','4','7','SAN JUAN DE BIGOTE'),(1737,'20','4','8','SANTA CATALINA DE MOSSA'),(1738,'20','4','9','SANTO DOMINGO'),(1739,'20','4','10','YAMANGO'),(1740,'20','5','0','PAITA'),(1741,'20','5','1','PAITA'),(1742,'20','5','2','AMOTAPE'),(1743,'20','5','3','ARENAL'),(1744,'20','5','4','COLAN'),(1745,'20','5','5','LA HUACA'),(1746,'20','5','6','TAMARINDO'),(1747,'20','5','7','VICHAYAL'),(1748,'20','6','0','SULLANA'),(1749,'20','6','1','SULLANA'),(1750,'20','6','2','BELLAVISTA'),(1751,'20','6','3','IGNACIO ESCUDERO'),(1752,'20','6','4','LANCONES'),(1753,'20','6','5','MARCAVELICA'),(1754,'20','6','6','MIGUEL CHECA'),(1755,'20','6','7','QUERECOTILLO'),(1756,'20','6','8','SALITRAL'),(1757,'20','7','0','TALARA'),(1758,'20','7','1','PARI'),(1759,'20','7','2','EL ALTO'),(1760,'20','7','3','LA BREA'),(1761,'20','7','4','LOBITOS'),(1762,'20','7','5','LOS ORGANOS'),(1763,'20','7','6','MANCORA'),(1764,'20','8','0','SECHURA'),(1765,'20','8','1','SECHURA'),(1766,'20','8','2','BELLAVISTA DE LA UNION'),(1767,'20','8','3','BERNAL'),(1768,'20','8','4','CRISTO NOS VALGA'),(1769,'20','8','5','VICE'),(1770,'20','8','6','RINCONADA LLICUAR'),(1771,'21','0','0','PUNO'),(1772,'21','1','0','PUNO'),(1773,'21','1','1','PUNO'),(1774,'21','1','2','ACORA'),(1775,'21','1','3','AMANTANI'),(1776,'21','1','4','ATUNCOLLA'),(1777,'21','1','5','CAPACHICA'),(1778,'21','1','6','CHUCUITO'),(1779,'21','1','7','COATA'),(1780,'21','1','8','HUATA'),(1781,'21','1','9','MA'),(1782,'21','1','10','PAUCARCOLLA'),(1783,'21','1','11','PICHACANI'),(1784,'21','1','12','PLATERIA'),(1785,'21','1','13','SAN ANTONIO'),(1786,'21','1','14','TIQUILLACA'),(1787,'21','1','15','VILQUE'),(1788,'21','2','0','AZANGARO'),(1789,'21','2','1','AZANGARO'),(1790,'21','2','2','ACHAYA'),(1791,'21','2','3','ARAPA'),(1792,'21','2','4','ASILLO'),(1793,'21','2','5','CAMINACA'),(1794,'21','2','6','CHUPA'),(1795,'21','2','7','JOSE DOMINGO CHOQUEHUANCA'),(1796,'21','2','8','MU'),(1797,'21','2','9','POTONI'),(1798,'21','2','10','SAMAN'),(1799,'21','2','11','SAN ANTON'),(1800,'21','2','12','SAN JOSE'),(1801,'21','2','13','SAN JUAN DE SALINAS'),(1802,'21','2','14','SANTIAGO DE PUPUJA'),(1803,'21','2','15','TIRAPATA'),(1804,'21','3','0','CARABAYA'),(1805,'21','3','1','MACUSANI'),(1806,'21','3','2','AJOYANI'),(1807,'21','3','3','AYAPATA'),(1808,'21','3','4','COASA'),(1809,'21','3','5','CORANI'),(1810,'21','3','6','CRUCERO'),(1811,'21','3','7','ITUATA'),(1812,'21','3','8','OLLACHEA'),(1813,'21','3','9','SAN GABAN'),(1814,'21','3','10','USICAYOS'),(1815,'21','4','0','CHUCUITO'),(1816,'21','4','1','JULI'),(1817,'21','4','2','DESAGUADERO'),(1818,'21','4','3','HUACULLANI'),(1819,'21','4','4','KELLUYO'),(1820,'21','4','5','PISACOMA'),(1821,'21','4','6','POMATA'),(1822,'21','4','7','ZEPITA'),(1823,'21','5','0','EL COLLAO'),(1824,'21','5','1','ILAVE'),(1825,'21','5','2','CAPAZO'),(1826,'21','5','3','PILCUYO'),(1827,'21','5','4','SANTA ROSA'),(1828,'21','5','5','CONDURIRI'),(1829,'21','6','0','HUANCANE'),(1830,'21','6','1','HUANCANE'),(1831,'21','6','2','COJATA'),(1832,'21','6','3','HUATASANI'),(1833,'21','6','4','INCHUPALLA'),(1834,'21','6','5','PUSI'),(1835,'21','6','6','ROSASPATA'),(1836,'21','6','7','TARACO'),(1837,'21','6','8','VILQUE CHICO'),(1838,'21','7','0','LAMPA'),(1839,'21','7','1','LAMPA'),(1840,'21','7','2','CABANILLA'),(1841,'21','7','3','CALAPUJA'),(1842,'21','7','4','NICASIO'),(1843,'21','7','5','OCUVIRI'),(1844,'21','7','6','PALCA'),(1845,'21','7','7','PARATIA'),(1846,'21','7','8','PUCARA'),(1847,'21','7','9','SANTA LUCIA'),(1848,'21','7','10','VILAVILA'),(1849,'21','8','0','MELGAR'),(1850,'21','8','1','AYAVIRI'),(1851,'21','8','2','ANTAUTA'),(1852,'21','8','3','CUPI'),(1853,'21','8','4','LLALLI'),(1854,'21','8','5','MACARI'),(1855,'21','8','6','NU'),(1856,'21','8','7','ORURILLO'),(1857,'21','8','8','SANTA ROSA'),(1858,'21','8','9','UMACHIRI'),(1859,'21','9','0','MOHO'),(1860,'21','9','1','MOHO'),(1861,'21','9','2','CONIMA'),(1862,'21','9','3','HUAYRAPATA'),(1863,'21','9','4','TILALI'),(1864,'21','10','0','SAN ANTONIO DE PUTINA'),(1865,'21','10','1','PUTINA'),(1866,'21','10','2','ANANEA'),(1867,'21','10','3','PEDRO VILCA APAZA'),(1868,'21','10','4','QUILCAPUNCU'),(1869,'21','10','5','SINA'),(1870,'21','11','0','SAN ROMAN'),(1871,'21','11','1','JULIACA'),(1872,'21','11','2','CABANA'),(1873,'21','11','3','CABANILLAS'),(1874,'21','11','4','CARACOTO'),(1875,'21','12','0','SANDIA'),(1876,'21','12','1','SANDIA'),(1877,'21','12','2','CUYOCUYO'),(1878,'21','12','3','LIMBANI'),(1879,'21','12','4','PATAMBUCO'),(1880,'21','12','5','PHARA'),(1881,'21','12','6','QUIACA'),(1882,'21','12','7','SAN JUAN DEL ORO'),(1883,'21','12','8','YANAHUAYA'),(1884,'21','12','9','ALTO INAMBARI'),(1885,'21','13','0','YUNGUYO'),(1886,'21','13','1','YUNGUYO'),(1887,'21','13','2','ANAPIA'),(1888,'21','13','3','COPANI'),(1889,'21','13','4','CUTURAPI'),(1890,'21','13','5','OLLARAYA'),(1891,'21','13','6','TINICACHI'),(1892,'21','13','7','UNICACHI'),(1893,'22','0','0','SAN MARTIN'),(1894,'22','1','0','MOYOBAMBA'),(1895,'22','1','1','MOYOBAMBA'),(1896,'22','1','2','CALZADA'),(1897,'22','1','3','HABANA'),(1898,'22','1','4','JEPELACIO'),(1899,'22','1','5','SORITOR'),(1900,'22','1','6','YANTALO'),(1901,'22','2','0','BELLAVISTA'),(1902,'22','2','1','BELLAVISTA'),(1903,'22','2','2','ALTO BIAVO'),(1904,'22','2','3','BAJO BIAVO'),(1905,'22','2','4','HUALLAGA'),(1906,'22','2','5','SAN PABLO'),(1907,'22','2','6','SAN RAFAEL'),(1908,'22','3','0','EL DORADO'),(1909,'22','3','1','SAN JOSE DE SISA'),(1910,'22','3','2','AGUA BLANCA'),(1911,'22','3','3','SAN MARTIN'),(1912,'22','3','4','SANTA ROSA'),(1913,'22','3','5','SHATOJA'),(1914,'22','4','0','HUALLAGA'),(1915,'22','4','1','SAPOSOA'),(1916,'22','4','2','ALTO SAPOSOA'),(1917,'22','4','3','EL ESLABON'),(1918,'22','4','4','PISCOYACU'),(1919,'22','4','5','SACANCHE'),(1920,'22','4','6','TINGO DE SAPOSOA'),(1921,'22','5','0','LAMAS'),(1922,'22','5','1','LAMAS'),(1923,'22','5','2','ALONSO DE ALVARADO'),(1924,'22','5','3','BARRANQUITA'),(1925,'22','5','4','CAYNARACHI'),(1926,'22','5','5','CU'),(1927,'22','5','6','PINTO RECODO'),(1928,'22','5','7','RUMISAPA'),(1929,'22','5','8','SAN ROQUE DE CUMBAZA'),(1930,'22','5','9','SHANAO'),(1931,'22','5','10','TABALOSOS'),(1932,'22','5','11','ZAPATERO'),(1933,'22','6','0','MARISCAL CACERES'),(1934,'22','6','1','JUANJUI'),(1935,'22','6','2','CAMPANILLA'),(1936,'22','6','3','HUICUNGO'),(1937,'22','6','4','PACHIZA'),(1938,'22','6','5','PAJARILLO'),(1939,'22','7','0','PICOTA'),(1940,'22','7','1','PICOTA'),(1941,'22','7','2','BUENOS AIRES'),(1942,'22','7','3','CASPISAPA'),(1943,'22','7','4','PILLUANA'),(1944,'22','7','5','PUCACACA'),(1945,'22','7','6','SAN CRISTOBAL'),(1946,'22','7','7','SAN HILARION'),(1947,'22','7','8','SHAMBOYACU'),(1948,'22','7','9','TINGO DE PONASA'),(1949,'22','7','10','TRES UNIDOS'),(1950,'22','8','0','RIOJA'),(1951,'22','8','1','RIOJA'),(1952,'22','8','2','AWAJUN'),(1953,'22','8','3','ELIAS SOPLIN VARGAS'),(1954,'22','8','4','NUEVA CAJAMARCA'),(1955,'22','8','5','PARDO MIGUEL'),(1956,'22','8','6','POSIC'),(1957,'22','8','7','SAN FERNANDO'),(1958,'22','8','8','YORONGOS'),(1959,'22','8','9','YURACYACU'),(1960,'22','9','0','SAN MARTIN'),(1961,'22','9','1','TARAPOTO'),(1962,'22','9','2','ALBERTO LEVEAU'),(1963,'22','9','3','CACATACHI'),(1964,'22','9','4','CHAZUTA'),(1965,'22','9','5','CHIPURANA'),(1966,'22','9','6','EL PORVENIR'),(1967,'22','9','7','HUIMBAYOC'),(1968,'22','9','8','JUAN GUERRA'),(1969,'22','9','9','LA BANDA DE SHILCAYO'),(1970,'22','9','10','MORALES'),(1971,'22','9','11','PAPAPLAYA'),(1972,'22','9','12','SAN ANTONIO'),(1973,'22','9','13','SAUCE'),(1974,'22','9','14','SHAPAJA'),(1975,'22','10','0','TOCACHE'),(1976,'22','10','1','TOCACHE'),(1977,'22','10','2','NUEVO PROGRESO'),(1978,'22','10','3','POLVORA'),(1979,'22','10','4','SHUNTE'),(1980,'22','10','5','UCHIZA'),(1981,'23','0','0','TACNA'),(1982,'23','1','0','TACNA'),(1983,'23','1','1','TACNA'),(1984,'23','1','2','ALTO DE LA ALIANZA'),(1985,'23','1','3','CALANA'),(1986,'23','1','4','CIUDAD NUEVA'),(1987,'23','1','5','INCLAN'),(1988,'23','1','6','PACHIA'),(1989,'23','1','7','PALCA'),(1990,'23','1','8','POCOLLAY'),(1991,'23','1','9','SAMA'),(1992,'23','1','10','CORONEL GREGORIO ALBARRACIN LANCHIPA'),(1993,'23','2','0','CANDARAVE'),(1994,'23','2','1','CANDARAVE'),(1995,'23','2','2','CAIRANI'),(1996,'23','2','3','CAMILACA'),(1997,'23','2','4','CURIBAYA'),(1998,'23','2','5','HUANUARA'),(1999,'23','2','6','QUILAHUANI'),(2000,'23','3','0','JORGE BASADRE'),(2001,'23','3','1','LOCUMBA'),(2002,'23','3','2','ILABAYA'),(2003,'23','3','3','ITE'),(2004,'23','4','0','TARATA'),(2005,'23','4','1','TARATA'),(2006,'23','4','2','CHUCATAMANI'),(2007,'23','4','3','ESTIQUE'),(2008,'23','4','4','ESTIQUE-PAMPA'),(2009,'23','4','5','SITAJARA'),(2010,'23','4','6','SUSAPAYA'),(2011,'23','4','7','TARUCACHI'),(2012,'23','4','8','TICACO'),(2013,'24','0','0','TUMBES'),(2014,'24','1','0','TUMBES'),(2015,'24','1','1','TUMBES'),(2016,'24','1','2','CORRALES'),(2017,'24','1','3','LA CRUZ'),(2018,'24','1','4','PAMPAS DE HOSPITAL'),(2019,'24','1','5','SAN JACINTO'),(2020,'24','1','6','SAN JUAN DE LA VIRGEN'),(2021,'24','2','0','CONTRALMIRANTE VILLAR'),(2022,'24','2','1','ZORRITOS'),(2023,'24','2','2','CASITAS'),(2024,'24','3','0','ZARUMILLA'),(2025,'24','3','1','ZARUMILLA'),(2026,'24','3','2','AGUAS VERDES'),(2027,'24','3','3','MATAPALO'),(2028,'24','3','4','PAPAYAL'),(2029,'25','0','0','UCAYALI'),(2030,'25','1','0','CORONEL PORTILLO'),(2031,'25','1','1','CALLERIA'),(2032,'25','1','2','CAMPOVERDE'),(2033,'25','1','3','IPARIA'),(2034,'25','1','4','MASISEA'),(2035,'25','1','5','YARINACOCHA'),(2036,'25','1','6','NUEVA REQUENA'),(2037,'25','2','0','ATALAYA'),(2038,'25','2','1','RAYMONDI'),(2039,'25','2','2','SEPAHUA'),(2040,'25','2','3','TAHUANIA'),(2041,'25','2','4','YURUA'),(2042,'25','3','0','PADRE ABAD'),(2043,'25','3','1','PADRE ABAD'),(2044,'25','3','2','IRAZOLA'),(2045,'25','3','3','CURIMANA'),(2046,'25','4','0','PURUS'),(2047,'25','4','1','PURUS');
+
+UNLOCK TABLES;
+
+/*Table structure for table `descripcion_ef` */
+
+DROP TABLE IF EXISTS `descripcion_ef`;
+
+CREATE TABLE `descripcion_ef` (
+  `Descripcion_EF_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_eval_final_cabecera` int(11) NOT NULL,
+  `descripcion_final` varchar(255) NOT NULL,
+  PRIMARY KEY (`Descripcion_EF_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `descripcion_ef` */
+
+LOCK TABLES `descripcion_ef` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `desembolso` */
+
+DROP TABLE IF EXISTS `desembolso`;
+
+CREATE TABLE `desembolso` (
+  `Desembolso_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_desembolso` int(11) NOT NULL,
+  `tipo_cambio` double(11,2) NOT NULL,
+  `fecha_tipo_cambio` date NOT NULL,
+  `monto_solicitado` double(11,2) NOT NULL,
+  `fk_idtablaesp_tipo_moneda_ms` int(11) NOT NULL,
+  `monto_autorizado` double(11,2) NOT NULL,
+  `fk_idtablaesp_tipo_moneda_ma` int(11) NOT NULL,
+  `saldo_desembolso_anterior` double(11,2) NOT NULL,
+  `periodo` varchar(255) NOT NULL,
+  `fk_idtablaesp_est_desembolso` int(11) NOT NULL,
+  `version_de_periodo` int(11) NOT NULL,
+  `Dato_Proyecto_ID` int(11) NOT NULL,
+  `Fuente_Financiadora_ID` int(11) NOT NULL,
+  `Cuenta_Corriente_ID` int(11) DEFAULT NULL,
+  `Rubro_Especial_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Desembolso_ID`),
+  KEY `TC_Desembolso2260` (`Cuenta_Corriente_ID`),
+  KEY `TC_Desembolso2261` (`Fuente_Financiadora_ID`),
+  KEY `TC_Desembolso2259` (`Rubro_Especial_ID`),
+  KEY `TC_Desembolso2262` (`Dato_Proyecto_ID`),
+  CONSTRAINT `FK_Desembolso813` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Desembolso833` FOREIGN KEY (`Fuente_Financiadora_ID`) REFERENCES `fuente_financiadora` (`Fuente_Financiadora_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Desembolso875` FOREIGN KEY (`Cuenta_Corriente_ID`) REFERENCES `cuenta_corriente` (`Cuenta_Corriente_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Desembolso878` FOREIGN KEY (`Rubro_Especial_ID`) REFERENCES `rubro_especial` (`Rubro_Especial_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `desembolso` */
+
+LOCK TABLES `desembolso` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `detalle_conclu_if` */
+
+DROP TABLE IF EXISTS `detalle_conclu_if`;
+
+CREATE TABLE `detalle_conclu_if` (
+  `Detalle_Conclu_IF_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fl_idtablaesp_cabecera_conclu_IF` int(11) NOT NULL,
+  `descripcion_conclusion` varchar(255) NOT NULL,
+  PRIMARY KEY (`Detalle_Conclu_IF_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `detalle_conclu_if` */
+
+LOCK TABLES `detalle_conclu_if` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `detalle_estado_cabecera` */
+
+DROP TABLE IF EXISTS `detalle_estado_cabecera`;
+
+CREATE TABLE `detalle_estado_cabecera` (
+  `Detalle_Estado_Cabecera_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `prefijo_estado` varchar(255) NOT NULL,
+  `descrip_estado` varchar(255) NOT NULL,
+  `estado_eliminado` int(11) NOT NULL,
+  `Estado_Cabecera_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Detalle_Estado_Cabecera_ID`),
+  KEY `TC_Detalle_Estado_Cabecera2248` (`Estado_Cabecera_ID`),
+  CONSTRAINT `FK_Detalle_Estado_Cabecera870` FOREIGN KEY (`Estado_Cabecera_ID`) REFERENCES `estado_cabecera` (`Estado_Cabecera_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
+
+/*Data for the table `detalle_estado_cabecera` */
+
+LOCK TABLES `detalle_estado_cabecera` WRITE;
+
+insert  into `detalle_estado_cabecera`(`Detalle_Estado_Cabecera_ID`,`prefijo_estado`,`descrip_estado`,`estado_eliminado`,`Estado_Cabecera_ID`) values (1,'peval','Por Evaluar',1,1),(2,'apro','Aprovado',1,1),(3,'recha','Rechazado',1,1),(4,'peval','Por Evaluar',1,2),(5,'apro','Aprovado',1,2),(6,'recha','Rechazado',1,2),(7,'peval','Por Evaluar',1,3),(8,'revi','En Revision',1,3),(9,'apro','Aprobado',1,3),(10,'recha','Rechazado',1,3),(11,'elab','En Elaboracion',1,4),(12,'revi','En Revision',1,4),(13,'apro','Aprobado',1,4),(14,'recha','Rechazado',1,4),(15,'ejec','En Ejecución',1,4),(16,'pen','Pendiente de Desembolso',1,4),(17,'canc','Cancelado',1,4),(18,'rprf','En Reprogramación o Reformulación',1,4),(19,'trans','En Transferencia',1,4),(20,'para','Paralizado',1,4),(21,'cerr','Cerrado',1,4),(22,'peval','Por Evaluar',1,5),(23,'apro','Aprobado',1,5),(24,'recha','Rechazado',1,5),(25,'elab','En Elaboración',1,6),(26,'revi','En Revisión',1,6),(27,'apro','Aprobado',1,6),(28,'modi','Por Modificación',1,6),(29,'apro','Aprobada',1,7),(30,'modi','Por Modificación',1,7),(31,'revi','En Revisión',1,7),(32,'elab','En Elaboración',1,7),(33,'progen','Propuesta Generada ',1,7),(34,'repgen','Reporte Generado',1,8),(35,'elab','En Elaboración',1,8),(36,'revi','En Revisión',1,8),(37,'apro','Aprobado',1,8),(38,'modi','Por Modificación',1,8),(39,'recha','Rechazada',1,9),(40,'modi','Por Modificación',1,9),(41,'apro','Aprobada',1,9),(42,'revi','En Revisión',1,9),(43,'progen','Propuesta Generada',1,9),(44,'parame','Parametrizando',1,9),(45,'elab','En Elaboración',1,9),(46,'insp','Por Inspección',1,10),(47,'peninf','Pendiente Informe',1,10),(48,'revi','En Revisión',1,10),(49,'recha','Rechazada',1,10),(50,'apro','Aprobada',1,10),(51,'elab','En Elaboración',1,11),(52,'liqgen','Liquidación Generada',1,11),(53,'apro','Aprobada',1,11),(54,'revi','En Revisión',1,11),(55,'modi','Por Modificación',1,11);
+
+UNLOCK TABLES;
+
+/*Table structure for table `detalle_inspeccion_admin` */
+
+DROP TABLE IF EXISTS `detalle_inspeccion_admin`;
+
+CREATE TABLE `detalle_inspeccion_admin` (
+  `Detalle_Inspeccion_Admin_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_superv_admin` int(11) NOT NULL,
+  `descripcion_detalle_inspec_admin` varchar(255) NOT NULL,
+  `estado_eliminado` int(6) NOT NULL,
+  PRIMARY KEY (`Detalle_Inspeccion_Admin_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `detalle_inspeccion_admin` */
+
+LOCK TABLES `detalle_inspeccion_admin` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `detalle_pago_liquidacion` */
+
+DROP TABLE IF EXISTS `detalle_pago_liquidacion`;
+
+CREATE TABLE `detalle_pago_liquidacion` (
+  `Detalle_Pago_Liquidacion_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_unidad_medida` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `precio_unitario` double(11,2) NOT NULL,
+  `precio_total` double(11,2) NOT NULL,
+  `fk_id_detalle_estado_cab_estado_pago_liq` int(11) NOT NULL,
+  `Pago_Liquidacion_ID` int(11) NOT NULL,
+  `Activo_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Detalle_Pago_Liquidacion_ID`),
+  KEY `TC_Detalle_Pago_Liquidacion2267` (`Pago_Liquidacion_ID`),
+  KEY `TC_Detalle_Pago_Liquidacion2266` (`Activo_ID`),
+  CONSTRAINT `FK_Detalle_Pago_Liquidacion886` FOREIGN KEY (`Pago_Liquidacion_ID`) REFERENCES `pago_liquidacion` (`Pago_Liquidacion_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Detalle_Pago_Liquidacion927` FOREIGN KEY (`Activo_ID`) REFERENCES `activo` (`Activo_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `detalle_pago_liquidacion` */
+
+LOCK TABLES `detalle_pago_liquidacion` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `directiva_beneficiario` */
+
+DROP TABLE IF EXISTS `directiva_beneficiario`;
+
+CREATE TABLE `directiva_beneficiario` (
+  `Directiva_Beneficiario_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_cargo` int(11) NOT NULL,
+  `nombre_completo` varchar(255) NOT NULL,
+  `fk_idtablaesp_tipo_documento` varchar(255) NOT NULL,
+  `numero_documento` varchar(255) NOT NULL,
+  `acreditacion` varchar(255) NOT NULL,
+  `vigencia_poder` varchar(255) NOT NULL,
+  `Propuesta_Transferencia_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Directiva_Beneficiario_ID`),
+  KEY `TC_Directiva_Beneficiario2321` (`Propuesta_Transferencia_ID`),
+  CONSTRAINT `FK_Directiva_Beneficiario935` FOREIGN KEY (`Propuesta_Transferencia_ID`) REFERENCES `propuesta_transferencia` (`Propuesta_Transferencia_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `directiva_beneficiario` */
+
+LOCK TABLES `directiva_beneficiario` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `doc_interno_fondam` */
+
+DROP TABLE IF EXISTS `doc_interno_fondam`;
+
+CREATE TABLE `doc_interno_fondam` (
+  `Doc_Interno_Fondam_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_informe` int(11) NOT NULL,
+  `numero_documento` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `observacion` varchar(255) NOT NULL,
+  `Liquidacion_Gasto_ID` int(11) NOT NULL,
+  `Reporte_Avance_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Doc_Interno_Fondam_ID`),
+  KEY `TC_Doc_Interno_Fondam2353` (`Reporte_Avance_ID`),
+  KEY `TC_Doc_Interno_Fondam2352` (`Liquidacion_Gasto_ID`),
+  CONSTRAINT `FK_Doc_Interno_Fondam884` FOREIGN KEY (`Liquidacion_Gasto_ID`) REFERENCES `liquidacion_gasto` (`Liquidacion_Gasto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Doc_Interno_Fondam898` FOREIGN KEY (`Reporte_Avance_ID`) REFERENCES `reporte_avance` (`Reporte_Avance_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `doc_interno_fondam` */
+
+LOCK TABLES `doc_interno_fondam` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `efecto_proyecto` */
+
+DROP TABLE IF EXISTS `efecto_proyecto`;
+
+CREATE TABLE `efecto_proyecto` (
+  `Efecto_Proyecto_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_efecto_Proy` int(11) NOT NULL,
+  `comentario` varchar(255) NOT NULL,
+  `Informe_Final_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Efecto_Proyecto_ID`),
+  KEY `TC_Efecto_Proyecto2306` (`Informe_Final_ID`),
+  CONSTRAINT `FK_Efecto_Proyecto914` FOREIGN KEY (`Informe_Final_ID`) REFERENCES `informe_final` (`Informe_Final_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `efecto_proyecto` */
+
+LOCK TABLES `efecto_proyecto` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `estado_cabecera` */
+
+DROP TABLE IF EXISTS `estado_cabecera`;
+
+CREATE TABLE `estado_cabecera` (
+  `Estado_Cabecera_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `prefijo_estado` varchar(255) NOT NULL,
+  `descripcion_documento` varchar(255) NOT NULL,
+  `estado_eliminado` int(11) NOT NULL,
+  PRIMARY KEY (`Estado_Cabecera_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+
+/*Data for the table `estado_cabecera` */
+
+LOCK TABLES `estado_cabecera` WRITE;
+
+insert  into `estado_cabecera`(`Estado_Cabecera_ID`,`prefijo_estado`,`descripcion_documento`,`estado_eliminado`) values (1,'estins','Estado Institucion',1),(2,'estper','Estado Perfil',1),(3,'estplo','Estado Plan Operativo',1),(4,'estPro','Estado de Proyecto',1),(5,'estdese','Estado de Desembolso',1),(6,'estinf','Estado de Informe Final',1),(7,'estprtr','Estado Propuesta de Transferencia',1),(8,'estrpav','Estado de Reporte de Avance',1),(9,'estrprf','Estado de Reprogramacion & Reformulacion',1),(10,'estvscp','Estado de Inspeccion de Visita de Campo',1),(11,'estligs','Estado Liquidacion de Gastos',1);
+
+UNLOCK TABLES;
+
+/*Table structure for table `estado_transaccion` */
+
+DROP TABLE IF EXISTS `estado_transaccion`;
+
+CREATE TABLE `estado_transaccion` (
+  `estado_transaccion_ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `fecha_transaccion` date NOT NULL,
+  `fk_id_detalle_estado_cab_estado_eval` int(11) NOT NULL,
+  `Dato_Usuario_ID` int(11) NOT NULL,
+  `tabla_clase_ID` bigint(20) NOT NULL,
+  `valor_tabla_id` bigint(20) NOT NULL,
+  PRIMARY KEY (`estado_transaccion_ID`),
+  KEY `TC_Fecha_Cambio_Estado2336` (`Dato_Usuario_ID`),
+  KEY `fk_estado_transaccion_ID` (`tabla_clase_ID`),
+  CONSTRAINT `fk_estado_transaccion_ID` FOREIGN KEY (`tabla_clase_ID`) REFERENCES `tabla_clase` (`table_clase_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Fecha_Cambio_Estado939` FOREIGN KEY (`Dato_Usuario_ID`) REFERENCES `dato_usuario` (`Dato_Usuario_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='valor_tabla_id es para guardar el id de la tabla que se esta';
+
+/*Data for the table `estado_transaccion` */
+
+LOCK TABLES `estado_transaccion` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `evaluacion` */
+
+DROP TABLE IF EXISTS `evaluacion`;
+
+CREATE TABLE `evaluacion` (
+  `Evaluacion_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `calificacion` double(11,2) NOT NULL,
+  `Observacion` varchar(500) DEFAULT NULL,
+  `Dato_Proyecto_ID` int(11) NOT NULL,
+  `Evaluador_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Evaluacion_ID`),
+  KEY `TC_Evaluacion2255` (`Dato_Proyecto_ID`),
+  KEY `TC_Evaluacion2256` (`Evaluador_ID`),
+  CONSTRAINT `FK_Evaluacion822` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Evaluacion938` FOREIGN KEY (`Evaluador_ID`) REFERENCES `evaluador` (`Evaluador_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `evaluacion` */
+
+LOCK TABLES `evaluacion` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `evaluacion_final` */
+
+DROP TABLE IF EXISTS `evaluacion_final`;
+
+CREATE TABLE `evaluacion_final` (
+  `Evaluacion_Final_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `comentario` varchar(255) NOT NULL,
+  `Informe_Final_ID` int(11) NOT NULL,
+  `Descripcion_EF_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Evaluacion_Final_ID`),
+  KEY `TC_Evaluacion_Final2310` (`Descripcion_EF_ID`),
+  KEY `TC_Evaluacion_Final2311` (`Informe_Final_ID`),
+  CONSTRAINT `FK_Evaluacion_Final917` FOREIGN KEY (`Informe_Final_ID`) REFERENCES `informe_final` (`Informe_Final_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Evaluacion_Final924` FOREIGN KEY (`Descripcion_EF_ID`) REFERENCES `descripcion_ef` (`Descripcion_EF_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `evaluacion_final` */
+
+LOCK TABLES `evaluacion_final` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `evaluador` */
+
+DROP TABLE IF EXISTS `evaluador`;
+
+CREATE TABLE `evaluador` (
+  `Evaluador_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_evaluacion` int(11) NOT NULL,
+  `dato_usuario_ID` int(11) NOT NULL,
+  `Programa_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Evaluador_ID`),
+  KEY `TC_Programa_ID_2451` (`Programa_ID`),
+  KEY `TC_dato_usuario_ID_5489` (`dato_usuario_ID`),
+  CONSTRAINT `dato_usuario_ID_5489` FOREIGN KEY (`dato_usuario_ID`) REFERENCES `dato_usuario` (`Dato_Usuario_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Programa_ID_2451` FOREIGN KEY (`Programa_ID`) REFERENCES `programa` (`Programa_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `evaluador` */
+
+LOCK TABLES `evaluador` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `fuente_financiadora` */
+
+DROP TABLE IF EXISTS `fuente_financiadora`;
+
+CREATE TABLE `fuente_financiadora` (
+  `Fuente_Financiadora_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `define_si_es_ejecutor` int(6) NOT NULL COMMENT 'Este campo es un check que define si en este proyecto esta institucion es ejecutara o no.',
+  `fk_idtablaesp_tipo_fuente_financiadora` int(11) NOT NULL,
+  `monto_financiado` double(11,2) NOT NULL,
+  `fk_idtablaesp_tipo_moneda` int(11) NOT NULL,
+  `Dato_Proyecto_ID` int(11) NOT NULL,
+  `Institucion_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Fuente_Financiadora_ID`),
+  KEY `TC_Fuente_Financiadora2217` (`Institucion_ID`),
+  KEY `TC_Fuente_Financiadora2216` (`Dato_Proyecto_ID`),
+  CONSTRAINT `FK_Fuente_Financiadora808` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Fuente_Financiadora828` FOREIGN KEY (`Institucion_ID`) REFERENCES `institucion` (`Institucion_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `fuente_financiadora` */
+
+LOCK TABLES `fuente_financiadora` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `funcionalidad` */
+
+DROP TABLE IF EXISTS `funcionalidad`;
+
+CREATE TABLE `funcionalidad` (
+  `Funcionalidad_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  PRIMARY KEY (`Funcionalidad_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+
+/*Data for the table `funcionalidad` */
+
+LOCK TABLES `funcionalidad` WRITE;
+
+insert  into `funcionalidad`(`Funcionalidad_ID`,`titulo`,`url`) values (1,'Instalar Comité Técnico','showInstalarComiteTecnico.jspx'),(2,'Evaluación Institucional','showEvaluacionInstitucional.jspx'),(3,'Evaluar Perfil','showEvaluacionTecnica.jspx'),(4,'Evaluar Proyecto','showEvaluacionProyecto.jspx'),(5,'Crear Programa','showPrograma.jspx'),(6,'Evaluar Plan Operativo','evaluarPlanOperativo/EvalPlanOper.jspx'),(7,'Gestionar Cronograma Visitas de Campo','GestionarCronogramasVisitasCampo/GCronogVisitCampo.jspx'),(8,'Gestionar Informe Visitas de Campo ','gestionarInformeVisitaCampo/GInformeVisitCampo .jspx'),(9,'Gestionar Reporte Fiel Cumplimiento Técnico','gestionarReporteFielCumplimientoTecnico/GRepFielCumplimTec.jspx'),(10,'Evaluar Informe Avance y Liquidación de Gastos','evaluarInformeAvanceyLiquidacionGasto/EInfAvanceyLiqGastos.jspx'),(11,'Supervisar Ejecución de Proyecto','supervisarEjecucionProyecto/SupervisarEjecProy.jspx'),(12,'Gestionar Informe de Gestión','GestionarInformeGestion/GInformeGestion.jspx'),(13,'Evaluar Propuesta Transferencia e Informe Final','evaluarPropuestaTransferenciaeInformeFinal/EPropTransfInfFinal.jspx'),(14,'Elaborar Contrato','elaborarContrato/ElaborarContrato.jspx'),(15,'Autorizar Desembolso','autorizarDesembolso/AutorizarDesembolso.jspx'),(16,'Evaluar Informe de Avance y Liquidación de Gastos','evaluarInformeAvanceyLiquidacionGasto/EInfAvanceyLiqGastos.jspx'),(17,'Gestionar Acta Cierre y Transferencia','GestionarActaCierreyTransferencia/GActaCierreyTransferencia.jspx'),(18,'Gestionar Reporte Fiel Cumplimiento A& F','gestionarReporteFielCumplimientoAdmFinanciero/GReporteFielCumplimientoAF.jspx'),(19,'Gestionar Datos Institucionales','showGestionarDatosInstitucionales.jspx'),(20,'Gestionar Perfil','showGestionarPerfil.jspx'),(21,'Gestionar Proyecto','showProyecto.jspx'),(22,'Gestionar Plan Operativo','showPlanOperativoNew.jspx'),(23,'Gestionar Ejecución de Proyecto','gestionarEjecucionProyecto/GEjecucióndeProyecto.jspx'),(24,'Solicitar RP & RF','solicitarRPRF/SolicitarRPRF.jspx'),(25,'Gestionar Propuesta de Transferencia e Informe Final',' gestionarPropTransfeInfFinal/GPropTransfeInfFinal.jspx'),(26,'Aprobar Proyecto','aprobarProyecto/AprobarProyecto.jspx'),(27,'Gestionar Informe Avance y Liquidación de Gastos','gestionarInfAvanceyLiqGastos/GInfAvanceyLiqGastos.jspx');
+
+UNLOCK TABLES;
+
+/*Table structure for table `funcionalidad_perfil` */
+
+DROP TABLE IF EXISTS `funcionalidad_perfil`;
+
+CREATE TABLE `funcionalidad_perfil` (
+  `Funcionalidad_Perfil_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Perfil_Usuario_ID` int(11) NOT NULL,
+  `Funcionalidad_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Funcionalidad_Perfil_ID`),
+  KEY `TC_Funcionalidad_Perfil2355` (`Perfil_Usuario_ID`),
+  KEY `TC_Funcionalidad_Perfil2354` (`Funcionalidad_ID`),
+  CONSTRAINT `FK_Funcionalidad_Perfil942` FOREIGN KEY (`Perfil_Usuario_ID`) REFERENCES `perfil_usuario` (`Perfil_Usuario_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Funcionalidad_Perfil947` FOREIGN KEY (`Funcionalidad_ID`) REFERENCES `funcionalidad` (`Funcionalidad_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+
+/*Data for the table `funcionalidad_perfil` */
+
+LOCK TABLES `funcionalidad_perfil` WRITE;
+
+insert  into `funcionalidad_perfil`(`Funcionalidad_Perfil_ID`,`Perfil_Usuario_ID`,`Funcionalidad_ID`) values (1,1,5),(2,1,6),(3,1,7),(4,1,8),(5,1,9),(6,2,10),(7,2,11),(8,2,8),(9,2,6),(10,2,12),(11,2,13),(12,3,6),(13,3,14),(14,3,15),(15,3,8),(16,3,10),(17,3,17),(18,3,13),(19,3,18),(20,4,2),(21,4,3),(22,4,4),(23,5,26),(24,6,1),(25,7,19),(26,7,20),(27,7,21),(28,7,22),(29,7,27),(30,7,23),(31,7,24),(32,7,25);
+
+UNLOCK TABLES;
+
+/*Table structure for table `ganacia_bancaria` */
+
+DROP TABLE IF EXISTS `ganacia_bancaria`;
+
+CREATE TABLE `ganacia_bancaria` (
+  `Ganacia_Bancaria_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `monto` double(11,2) NOT NULL,
+  `fk_idtablaesp_tipo_moneda` int(11) NOT NULL,
+  `compromiso` varchar(255) NOT NULL,
+  `entidad` varchar(255) NOT NULL,
+  `Dato_Proyecto_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Ganacia_Bancaria_ID`),
+  KEY `TC_Ganacia_Bancaria2343` (`Dato_Proyecto_ID`),
+  CONSTRAINT `FK_Ganacia_Bancaria825` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `ganacia_bancaria` */
+
+LOCK TABLES `ganacia_bancaria` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `imagen_o_archivo` */
+
+DROP TABLE IF EXISTS `imagen_o_archivo`;
+
+CREATE TABLE `imagen_o_archivo` (
+  `Imagen_O_Archivo_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `descripcion_doc_img` varchar(255) NOT NULL,
+  `imagen` longblob NOT NULL,
+  `fk_idtablaesp_tipo_archivo` int(11) NOT NULL,
+  `Dato_Proyecto_ID` int(11) DEFAULT NULL,
+  `Programa_ID` int(11) DEFAULT NULL,
+  `Perfil_ID` int(11) DEFAULT NULL,
+  `Pago_Liquidacion_ID` int(11) DEFAULT NULL,
+  `Reporte_Avance_ID` int(11) DEFAULT NULL,
+  `Informe_Visita_Campo_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Imagen_O_Archivo_ID`),
+  KEY `TC_Imagen_O_Archivo2295` (`Dato_Proyecto_ID`),
+  KEY `TC_Imagen_O_Archivo2294` (`Perfil_ID`),
+  KEY `TC_Imagen_O_Archivo2292` (`Reporte_Avance_ID`),
+  KEY `TC_Imagen_O_Archivo2291` (`Programa_ID`),
+  KEY `TC_Imagen_O_Archivo2293` (`Informe_Visita_Campo_ID`),
+  KEY `TC_Imagen_O_Archivo2290` (`Pago_Liquidacion_ID`),
+  CONSTRAINT `FK_Imagen_O_Archivo826` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Imagen_O_Archivo867` FOREIGN KEY (`Programa_ID`) REFERENCES `programa` (`Programa_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Imagen_O_Archivo873` FOREIGN KEY (`Perfil_ID`) REFERENCES `perfil` (`Perfil_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Imagen_O_Archivo887` FOREIGN KEY (`Pago_Liquidacion_ID`) REFERENCES `pago_liquidacion` (`Pago_Liquidacion_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Imagen_O_Archivo897` FOREIGN KEY (`Reporte_Avance_ID`) REFERENCES `reporte_avance` (`Reporte_Avance_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Imagen_O_Archivo903` FOREIGN KEY (`Informe_Visita_Campo_ID`) REFERENCES `informe_visita_campo` (`Informe_Visita_Campo_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `imagen_o_archivo` */
+
+LOCK TABLES `imagen_o_archivo` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `indicador_marco_logico` */
+
+DROP TABLE IF EXISTS `indicador_marco_logico`;
+
+CREATE TABLE `indicador_marco_logico` (
+  `Indicador_Marco_Logico_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Marco_Logico_ID` int(11) NOT NULL,
+  `indicador` varchar(255) NOT NULL,
+  `definicion_indicador` varchar(255) NOT NULL,
+  `unidad_medida` varchar(255) NOT NULL,
+  `medio_verificacion` varchar(255) NOT NULL,
+  `situacion_actural` int(11) NOT NULL,
+  `situacion_final` int(11) NOT NULL,
+  PRIMARY KEY (`Indicador_Marco_Logico_ID`),
+  KEY `TC_Indicador_Marco_Logico2219` (`Marco_Logico_ID`),
+  CONSTRAINT `FK_Indicador_Marco_Logico837` FOREIGN KEY (`Marco_Logico_ID`) REFERENCES `marco_logico` (`Marco_Logico_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `indicador_marco_logico` */
+
+LOCK TABLES `indicador_marco_logico` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `indicador_resultado` */
+
+DROP TABLE IF EXISTS `indicador_resultado`;
+
+CREATE TABLE `indicador_resultado` (
+  `Indicador_Resultado_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_indicador_resultado` int(11) NOT NULL,
+  `definicion_indicador` varchar(255) NOT NULL,
+  `fk_idtablaesp_unidad_medida` int(11) NOT NULL,
+  `medio_verificacion` varchar(255) NOT NULL,
+  `situacion_actual` int(11) NOT NULL,
+  `situacion_final` int(11) NOT NULL,
+  `logro_alcanzado` int(11) NOT NULL,
+  `observacion` varchar(255) NOT NULL,
+  `Resultado_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Indicador_Resultado_ID`),
+  KEY `TC_Indicador_Resultado2221` (`Resultado_ID`),
+  CONSTRAINT `FK_Indicador_Resultado838` FOREIGN KEY (`Resultado_ID`) REFERENCES `resultado` (`Resultado_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `indicador_resultado` */
+
+LOCK TABLES `indicador_resultado` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `informe_final` */
+
+DROP TABLE IF EXISTS `informe_final`;
+
+CREATE TABLE `informe_final` (
+  `Informe_Final_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `resultado_proyecto` varchar(255) NOT NULL,
+  `fk_id_detalle_estado_cab_est_inf_final` int(11) NOT NULL,
+  `Dato_Proyecto_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Informe_Final_ID`),
+  KEY `TC_Informe_Final2305` (`Dato_Proyecto_ID`),
+  CONSTRAINT `FK_Informe_Final818` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `informe_final` */
+
+LOCK TABLES `informe_final` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `informe_pers_tecn_admin` */
+
+DROP TABLE IF EXISTS `informe_pers_tecn_admin`;
+
+CREATE TABLE `informe_pers_tecn_admin` (
+  `Informe_Pers_Tecn_Admin_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `comentario` varchar(255) NOT NULL,
+  `Personal_Tecnico_Administrativo_ID` int(11) NOT NULL,
+  `Informe_Visita_Campo_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Informe_Pers_Tecn_Admin_ID`),
+  KEY `TC_Informe_Pers_Tecn_Admin2303` (`Informe_Visita_Campo_ID`),
+  KEY `TC_Informe_Pers_Tecn_Admin2302` (`Personal_Tecnico_Administrativo_ID`),
+  CONSTRAINT `FK_Informe_Pers_Tecn_Admin871` FOREIGN KEY (`Personal_Tecnico_Administrativo_ID`) REFERENCES `personal_tecnico_administrativo` (`Personal_Tecnico_Administrativo_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Informe_Pers_Tecn_Admin908` FOREIGN KEY (`Informe_Visita_Campo_ID`) REFERENCES `informe_visita_campo` (`Informe_Visita_Campo_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `informe_pers_tecn_admin` */
+
+LOCK TABLES `informe_pers_tecn_admin` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `informe_visita_campo` */
+
+DROP TABLE IF EXISTS `informe_visita_campo`;
+
+CREATE TABLE `informe_visita_campo` (
+  `Informe_Visita_Campo_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_inspeccion` int(11) NOT NULL,
+  `fk_idtablaesp_modalidad_inspec` int(11) NOT NULL,
+  `fk_id_detalle_estado_cab_est_inf_visita_campo` int(11) NOT NULL,
+  `fecha_inspeccion` date NOT NULL,
+  `fecha_presentacion` date NOT NULL,
+  `fecha_inicio_inspeccion` date NOT NULL,
+  `fecha_fin_inspeccion` date NOT NULL,
+  `alcance` varchar(255) NOT NULL,
+  `descripcion_alcance` varchar(255) NOT NULL,
+  `aspecto_importante` varchar(255) NOT NULL,
+  `conclusion_recomendacion` varchar(255) NOT NULL,
+  `Dato_Proyecto_ID` int(11) NOT NULL,
+  `Cronograma_Visita_ID` int(11) NOT NULL,
+  `Inspector_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Informe_Visita_Campo_ID`),
+  KEY `TC_Informe_Visita_Campo2289` (`Dato_Proyecto_ID`),
+  KEY `TC_Informe_Visita_Campo2288` (`Inspector_ID`),
+  KEY `TC_Informe_Visita_Campo2287` (`Cronograma_Visita_ID`),
+  CONSTRAINT `FK_Informe_Visita_Campo817` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Informe_Visita_Campo901` FOREIGN KEY (`Cronograma_Visita_ID`) REFERENCES `cronograma_visita` (`Cronograma_Visita_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Informe_Visita_Campo902` FOREIGN KEY (`Inspector_ID`) REFERENCES `inspector` (`Inspector_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `informe_visita_campo` */
+
+LOCK TABLES `informe_visita_campo` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `infraestructura_po` */
+
+DROP TABLE IF EXISTS `infraestructura_po`;
+
+CREATE TABLE `infraestructura_po` (
+  `Infraestructura_PO_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `descripcion` varchar(255) NOT NULL,
+  `ubicacion` varchar(255) NOT NULL,
+  `Dato_Plan_Operativo_ID` int(11) NOT NULL,
+  `Activo_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Infraestructura_PO_ID`),
+  KEY `TC_Infraestructura_PO2249` (`Activo_ID`),
+  KEY `TC_Infraestructura_PO2250` (`Dato_Plan_Operativo_ID`),
+  CONSTRAINT `FK_Infraestructura_PO853` FOREIGN KEY (`Dato_Plan_Operativo_ID`) REFERENCES `dato_plan_operativo` (`Dato_Plan_Operativo_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Infraestructura_PO929` FOREIGN KEY (`Activo_ID`) REFERENCES `activo` (`Activo_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `infraestructura_po` */
+
+LOCK TABLES `infraestructura_po` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `ingreso_propio` */
+
+DROP TABLE IF EXISTS `ingreso_propio`;
+
+CREATE TABLE `ingreso_propio` (
+  `Ingreso_Propio_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_comprobante_pago` int(11) NOT NULL,
+  `numero_comprobante` varchar(255) NOT NULL,
+  `fecha_emision` date NOT NULL,
+  `ruc_comprador` varchar(255) NOT NULL,
+  `razon_social` varchar(255) NOT NULL,
+  `concepto` varchar(255) NOT NULL,
+  `fk_idtablaesp_unidad_medida` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `precio_sin_igv` double(11,2) NOT NULL,
+  `precio_total` double(11,2) NOT NULL,
+  `Resultado_ID` int(11) NOT NULL,
+  `Actividad_ID` int(11) NOT NULL,
+  `Liquidacion_Gasto_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Ingreso_Propio_ID`),
+  KEY `TC_Ingreso_Propio2274` (`Resultado_ID`),
+  KEY `TC_Ingreso_Propio2275` (`Actividad_ID`),
+  KEY `TC_Ingreso_Propio2273` (`Liquidacion_Gasto_ID`),
+  CONSTRAINT `FK_Ingreso_Propio842` FOREIGN KEY (`Resultado_ID`) REFERENCES `resultado` (`Resultado_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Ingreso_Propio847` FOREIGN KEY (`Actividad_ID`) REFERENCES `actividad` (`Actividad_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Ingreso_Propio881` FOREIGN KEY (`Liquidacion_Gasto_ID`) REFERENCES `liquidacion_gasto` (`Liquidacion_Gasto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `ingreso_propio` */
+
+LOCK TABLES `ingreso_propio` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `inspeccion_admin` */
+
+DROP TABLE IF EXISTS `inspeccion_admin`;
+
+CREATE TABLE `inspeccion_admin` (
+  `Inspeccion_Admin_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `estado_eliminado` int(6) NOT NULL,
+  `si_no` int(6) NOT NULL,
+  `Informe_Visita_Campo_ID` int(11) NOT NULL,
+  `Detalle_Inspeccion_Admin_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Inspeccion_Admin_ID`),
+  KEY `TC_Inspeccion_Admin2299` (`Informe_Visita_Campo_ID`),
+  KEY `TC_Inspeccion_Admin2298` (`Detalle_Inspeccion_Admin_ID`),
+  CONSTRAINT `FK_Inspeccion_Admin905` FOREIGN KEY (`Informe_Visita_Campo_ID`) REFERENCES `informe_visita_campo` (`Informe_Visita_Campo_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Inspeccion_Admin913` FOREIGN KEY (`Detalle_Inspeccion_Admin_ID`) REFERENCES `detalle_inspeccion_admin` (`Detalle_Inspeccion_Admin_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `inspeccion_admin` */
+
+LOCK TABLES `inspeccion_admin` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `inspeccion_tecnica` */
+
+DROP TABLE IF EXISTS `inspeccion_tecnica`;
+
+CREATE TABLE `inspeccion_tecnica` (
+  `Inspeccion_Tecnica_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `porcentaje_avance` double(11,2) NOT NULL,
+  `avance_fisico` int(11) NOT NULL,
+  `Meta_Por_Actividad_ID` int(11) NOT NULL,
+  `Informe_Visita_Campo_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Inspeccion_Tecnica_ID`),
+  KEY `TC_Inspeccion_Tecnica2296` (`Informe_Visita_Campo_ID`),
+  KEY `TC_Inspeccion_Tecnica2297` (`Meta_Por_Actividad_ID`),
+  CONSTRAINT `FK_Inspeccion_Tecnica850` FOREIGN KEY (`Meta_Por_Actividad_ID`) REFERENCES `meta_por_actividad` (`Meta_Por_Actividad_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Inspeccion_Tecnica904` FOREIGN KEY (`Informe_Visita_Campo_ID`) REFERENCES `informe_visita_campo` (`Informe_Visita_Campo_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `inspeccion_tecnica` */
+
+LOCK TABLES `inspeccion_tecnica` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `inspector` */
+
+DROP TABLE IF EXISTS `inspector`;
+
+CREATE TABLE `inspector` (
+  `Inspector_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `monto_viatico` double(11,2) NOT NULL,
+  `fk_idtablaesp_tipo_moneda` int(11) NOT NULL,
+  `Cronograma_Visita_ID` int(11) NOT NULL,
+  `Dato_Usuario_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Inspector_ID`),
+  KEY `TC_Inspector2285` (`Dato_Usuario_ID`),
+  KEY `TC_Inspector2286` (`Cronograma_Visita_ID`),
+  CONSTRAINT `FK_Inspector900` FOREIGN KEY (`Cronograma_Visita_ID`) REFERENCES `cronograma_visita` (`Cronograma_Visita_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Inspector940` FOREIGN KEY (`Dato_Usuario_ID`) REFERENCES `dato_usuario` (`Dato_Usuario_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `inspector` */
+
+LOCK TABLES `inspector` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `institucion` */
+
+DROP TABLE IF EXISTS `institucion`;
+
+CREATE TABLE `institucion` (
+  `Institucion_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_institucion` varchar(255) NOT NULL,
+  `ruc_institucion` varchar(255) NOT NULL,
+  `direccion` varchar(255) NOT NULL,
+  `telefono` varchar(255) NOT NULL,
+  `representante_legal` varchar(255) NOT NULL,
+  `contacto` varchar(255) NOT NULL,
+  `observacion_de_institucion` varchar(255) NOT NULL,
+  `fk_id_detalle_estado_cab_est_institucion` int(11) NOT NULL,
+  `correo` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`Institucion_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `institucion` */
+
+LOCK TABLES `institucion` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `leccion_apendida` */
+
+DROP TABLE IF EXISTS `leccion_apendida`;
+
+CREATE TABLE `leccion_apendida` (
+  `Leccion_Apendida_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_leccion` int(11) NOT NULL,
+  `comentario` varchar(255) NOT NULL,
+  `Informe_Final_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Leccion_Apendida_ID`),
+  KEY `TC_Leccion_Apendida2312` (`Informe_Final_ID`),
+  CONSTRAINT `FK_Leccion_Apendida918` FOREIGN KEY (`Informe_Final_ID`) REFERENCES `informe_final` (`Informe_Final_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `leccion_apendida` */
+
+LOCK TABLES `leccion_apendida` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `liquidacion_gasto` */
+
+DROP TABLE IF EXISTS `liquidacion_gasto`;
+
+CREATE TABLE `liquidacion_gasto` (
+  `Liquidacion_Gasto_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_id_detalle_estado_cab_est_liq_gasto` int(11) NOT NULL,
+  `periodo` varchar(255) NOT NULL,
+  `cod_version` int(11) NOT NULL,
+  `fecha_inicio` date NOT NULL,
+  `fecha_fin` date NOT NULL,
+  `saldo_disponible` double(11,2) NOT NULL,
+  `observacion` varchar(255) NOT NULL,
+  `num_liq_parcial` int(11) NOT NULL,
+  `num_vuelta_liq_parcial` int(11) NOT NULL,
+  `Dato_Proyecto_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Liquidacion_Gasto_ID`),
+  KEY `TC_Liquidacion_Gasto2263` (`Dato_Proyecto_ID`),
+  CONSTRAINT `FK_Liquidacion_Gasto814` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `liquidacion_gasto` */
+
+LOCK TABLES `liquidacion_gasto` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `marco_logico` */
+
+DROP TABLE IF EXISTS `marco_logico`;
+
+CREATE TABLE `marco_logico` (
+  `Marco_Logico_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `resumen_ejecutivo` varchar(255) NOT NULL,
+  `fin_descrip` varchar(255) NOT NULL,
+  `fin_supuesto` varchar(255) NOT NULL,
+  `proposito_descrip` varchar(255) NOT NULL,
+  `proposito_supuesto` varchar(255) NOT NULL,
+  `Dato_Proyecto_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Marco_Logico_ID`),
+  KEY `TC_Marco_Logico2218` (`Dato_Proyecto_ID`),
+  CONSTRAINT `FK_Marco_Logico811` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `marco_logico` */
+
+LOCK TABLES `marco_logico` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `material_producido` */
+
+DROP TABLE IF EXISTS `material_producido`;
+
+CREATE TABLE `material_producido` (
+  `Material_Producido_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_material` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `descripcion_material_producido` varchar(255) NOT NULL,
+  `Informe_Final_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Material_Producido_ID`),
+  KEY `TC_Material_Producido2309` (`Informe_Final_ID`),
+  CONSTRAINT `FK_Material_Producido916` FOREIGN KEY (`Informe_Final_ID`) REFERENCES `informe_final` (`Informe_Final_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `material_producido` */
+
+LOCK TABLES `material_producido` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `meta_perfil` */
+
+DROP TABLE IF EXISTS `meta_perfil`;
+
+CREATE TABLE `meta_perfil` (
+  `Meta_Perfil_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_unidad_medida` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `Actividad_Perfil_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Meta_Perfil_ID`),
+  KEY `TC_Meta_Perfil2347` (`Actividad_Perfil_ID`),
+  CONSTRAINT `FK_Meta_Perfil946` FOREIGN KEY (`Actividad_Perfil_ID`) REFERENCES `actividad_perfil` (`Actividad_Perfil_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `meta_perfil` */
+
+LOCK TABLES `meta_perfil` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `meta_por_actividad` */
+
+DROP TABLE IF EXISTS `meta_por_actividad`;
+
+CREATE TABLE `meta_por_actividad` (
+  `Meta_Por_Actividad_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_indicador_actividad` int(11) NOT NULL,
+  `fk_idtablaesp_unidad_medida` int(11) NOT NULL,
+  `cantidad_meta_actividad` int(11) NOT NULL,
+  `cantidad_meta_actividad_ejecutada` int(11) NOT NULL,
+  `logro_alcanzado` int(11) NOT NULL,
+  `contribucion_proposito` varchar(255) NOT NULL,
+  `Actividad_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Meta_Por_Actividad_ID`),
+  KEY `TC_Meta_Por_Actividad2229` (`Actividad_ID`),
+  CONSTRAINT `FK_Meta_Por_Actividad844` FOREIGN KEY (`Actividad_ID`) REFERENCES `actividad` (`Actividad_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `meta_por_actividad` */
+
+LOCK TABLES `meta_por_actividad` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `observacion_inspec_admin` */
+
+DROP TABLE IF EXISTS `observacion_inspec_admin`;
+
+CREATE TABLE `observacion_inspec_admin` (
+  `Observacion_Inspec_Admin_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_supev_admin` int(11) NOT NULL,
+  `observacion` varchar(255) NOT NULL,
+  `Informe_Visita_Campo_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Observacion_Inspec_Admin_ID`),
+  KEY `TC_Observacion_Inspec_Admin2300` (`Informe_Visita_Campo_ID`),
+  CONSTRAINT `FK_Observacion_Inspec_Admin912` FOREIGN KEY (`Informe_Visita_Campo_ID`) REFERENCES `informe_visita_campo` (`Informe_Visita_Campo_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `observacion_inspec_admin` */
+
+LOCK TABLES `observacion_inspec_admin` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `observacion_proy` */
+
+DROP TABLE IF EXISTS `observacion_proy`;
+
+CREATE TABLE `observacion_proy` (
+  `Observacion_Proy_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `tipo_observacion` varchar(255) NOT NULL,
+  `observacion` varchar(255) NOT NULL,
+  `Dato_Proyecto_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Observacion_Proy_ID`),
+  KEY `TC_Observacion_Proy2331` (`Dato_Proyecto_ID`),
+  CONSTRAINT `FK_Observacion_Proy823` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `observacion_proy` */
+
+LOCK TABLES `observacion_proy` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `org_bien_tranferido` */
+
+DROP TABLE IF EXISTS `org_bien_tranferido`;
+
+CREATE TABLE `org_bien_tranferido` (
+  `Org_Bien_Tranferido_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Beneficiarios_Por_Resultado_ID` int(11) NOT NULL,
+  `Organizacion_ID` int(11) NOT NULL,
+  `Bien_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Org_Bien_Tranferido_ID`),
+  KEY `TC_Org_Bien_Tranferido2350` (`Organizacion_ID`),
+  KEY `TC_Org_Bien_Tranferido2351` (`Beneficiarios_Por_Resultado_ID`),
+  KEY `TC_Org_Bien_Tranferido2349` (`Bien_ID`),
+  CONSTRAINT `FK_Org_Bien_Tranferido843` FOREIGN KEY (`Beneficiarios_Por_Resultado_ID`) REFERENCES `beneficiarios_por_resultado` (`Beneficiarios_Por_Resultado_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Org_Bien_Tranferido923` FOREIGN KEY (`Organizacion_ID`) REFERENCES `organizacion` (`Organizacion_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Org_Bien_Tranferido926` FOREIGN KEY (`Bien_ID`) REFERENCES `bien` (`Bien_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `org_bien_tranferido` */
+
+LOCK TABLES `org_bien_tranferido` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `organizacion` */
+
+DROP TABLE IF EXISTS `organizacion`;
+
+CREATE TABLE `organizacion` (
+  `Organizacion_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_organizacion` varchar(255) NOT NULL,
+  `situacion_final` varchar(255) NOT NULL,
+  `Informe_Final_ID` int(11) NOT NULL,
+  `Propuesta_Transferencia_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Organizacion_ID`),
+  KEY `TC_Organizacion2308` (`Informe_Final_ID`),
+  KEY `TC_Organizacion2307` (`Propuesta_Transferencia_ID`),
+  CONSTRAINT `FK_Organizacion915` FOREIGN KEY (`Informe_Final_ID`) REFERENCES `informe_final` (`Informe_Final_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Organizacion931` FOREIGN KEY (`Propuesta_Transferencia_ID`) REFERENCES `propuesta_transferencia` (`Propuesta_Transferencia_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `organizacion` */
+
+LOCK TABLES `organizacion` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `pago_liquidacion` */
+
+DROP TABLE IF EXISTS `pago_liquidacion`;
+
+CREATE TABLE `pago_liquidacion` (
+  `Pago_Liquidacion_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `numero_cheque` varchar(255) NOT NULL,
+  `cheque_cobrado` int(6) NOT NULL COMMENT 'Estado si ha sido cobrado o no.',
+  `fk_idtablaesp_tipo_comprobante_pago` int(11) NOT NULL,
+  `numero_documento` varchar(255) NOT NULL,
+  `fecha_emision` date NOT NULL,
+  `ruc_proveedor` varchar(255) NOT NULL,
+  `razon_social` varchar(255) NOT NULL,
+  `monto_total` double(11,2) NOT NULL,
+  `monto_igv` double(11,2) NOT NULL,
+  `saldo_pagado` double(11,2) NOT NULL,
+  `saldo_disponible` double(11,2) NOT NULL,
+  `Liquidacion_Gasto_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Pago_Liquidacion_ID`),
+  KEY `TC_Pago_Liquidacion2265` (`Liquidacion_Gasto_ID`),
+  CONSTRAINT `FK_Pago_Liquidacion879` FOREIGN KEY (`Liquidacion_Gasto_ID`) REFERENCES `liquidacion_gasto` (`Liquidacion_Gasto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `pago_liquidacion` */
+
+LOCK TABLES `pago_liquidacion` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `partida_especifica` */
+
+DROP TABLE IF EXISTS `partida_especifica`;
+
+CREATE TABLE `partida_especifica` (
+  `Partida_Especifica_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `descripcion_partida_especifica` varchar(255) NOT NULL,
+  `estado_eliminado` int(11) NOT NULL,
+  `Partida_Generica_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Partida_Especifica_ID`),
+  KEY `TC_Partida_Especifica2241` (`Partida_Generica_ID`),
+  CONSTRAINT `FK_Partida_Especifica861` FOREIGN KEY (`Partida_Generica_ID`) REFERENCES `partida_generica` (`Partida_Generica_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8;
+
+/*Data for the table `partida_especifica` */
+
+LOCK TABLES `partida_especifica` WRITE;
+
+insert  into `partida_especifica`(`Partida_Especifica_ID`,`descripcion_partida_especifica`,`estado_eliminado`,`Partida_Generica_ID`) values (1,'Dirección y/o Coordinación',1,1),(2,'Personal Administrativo',1,1),(3,'Personal contable',1,1),(4,'Apoyo secretarial y otros',1,1),(5,'Pasajes',1,2),(6,'Alojamiento',1,2),(7,'Alimentación',1,2),(8,'Materiales de Escritorio y PAD',1,3),(9,'Impresos y fotocopiados',1,3),(10,'Combustibles y Lubricantes',1,3),(11,'Otros',1,3),(12,'Alquiler de Local',1,4),(13,'Mantenimiento y Reparaciones',1,4),(14,'Servicios Básicos y Comunicaciones',1,4),(15,'Gastos Bancarios',1,4),(16,'Misceláneos',1,4),(17,'Profesional',1,5),(18,'Técnicos',1,5),(19,'Mano de Obra no Calificada',1,5),(20,'Pasajes',1,6),(21,'Alojamiento',1,6),(22,'Alimentación',1,6),(23,'Materiales de Escritorio y PAD',1,7),(24,'Combustibles y Lubricantes',1,7),(25,'Alimentos y Refrigerios Talleres',1,7),(26,'Medicamentos, Sanidad Humana',1,7),(27,'Insumos del Proyecto',1,7),(28,'Insumos de Laboratorio',1,7),(29,'Herramientas',1,7),(30,'Animales Menores de Cría',1,7),(31,'Otros Materiales',1,7),(32,'Consultorías o Asesorías',1,8),(33,'Mantenimiento y Reparaciones',1,8),(34,'Servicios Básicos y Comunicaciones',1,8),(35,'Alquiler de Maquinaria y Equipos',1,8),(36,'Alquiler de Local',1,8),(37,'Alquiler de Medios de Transporte',1,8),(38,'Pasantías y Prácticas',1,8),(39,'Otros',1,8),(40,'Terreno Urbano',1,9),(41,'Terreno Rural',1,9),(42,'Terreno Eriazo',1,9),(43,'Vivienda',1,9),(44,'Instalaciones Productivas',1,9),(45,'De Construcción Civil',1,10),(46,'Electricistas',1,10),(47,'Mecánicos',1,10),(48,'Otros',1,10),(49,'Materiales de Construcción',1,11),(50,'Materiales Eléctricos',1,11),(51,'Materiales de Gasfitería',1,11),(52,'Otros Materiales de Construcción',1,11),(53,'Transporte',1,11),(54,'Montaje y Pruebas',1,11),(55,'Otros Servicios',1,11),(56,'Otros Bienes',1,11),(57,'Equipo y Maquinaria de Producción',1,12),(58,'Equipo de Laboratorio',1,12),(59,'Equipo de capacitación',1,12),(60,'Otros Equipos',1,12),(61,'Vehículos de Carga',1,12),(62,'Vehículos de Pasajeros',1,12),(63,'Otros Vehículos',1,12),(64,'Ganado Vacuno',1,13),(65,'Ganado Ovino',1,13),(66,'Animales de Atracción',1,13),(67,'Animales Menores de Cría',1,13),(68,'Aves',1,13),(69,'Otros',1,13),(70,'Productos Agrícolas',1,14),(71,'Productos Pecuarios',1,14),(72,'Productos Industriales',1,14),(73,'Productos Forestales',1,14),(74,'Productos Hidrobiológicos',1,14),(75,'Otros',1,14),(76,'Profesional',1,15),(77,'Técnicos',1,15),(78,'Mano de Obra no Calificada',1,15),(79,'Pasajes',1,16),(80,'Alojamiento',1,16),(81,'Alimentación',1,16),(82,'Materiales de Escritorio y PAD',1,17),(83,'Combustibles y Lubricantes',1,17),(84,'Alimentos y Refrigerios Talleres',1,17),(85,'Medicamentos, Sanidad Humana',1,17),(86,'Insumos del Proyecto',1,17),(87,'Insumos de Laboratorio',1,17),(88,'Herramientas',1,17),(89,'Animales Menores de Cría',1,17),(90,'Otros Materiales',1,17),(91,'Bienes - Fondo de Crédito',1,17),(92,'Consultorías y Asesorías',1,18),(93,'Mantenimiento y Reparación',1,18),(94,'Servicios Básicos y Comunicaciones',1,18),(95,'Alquiler de Maquinaria y Equipos',1,18),(96,'Alquiler de Medios de transporte',1,18),(97,'Alquiler de Local',1,18),(98,'Pasantías y Prácticas',1,18),(99,'Otros',1,18),(100,'Servicios - Fondo de Crédito',1,18);
+
+UNLOCK TABLES;
+
+/*Table structure for table `partida_generica` */
+
+DROP TABLE IF EXISTS `partida_generica`;
+
+CREATE TABLE `partida_generica` (
+  `Partida_Generica_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `descripcion_partida_generica` varchar(255) NOT NULL,
+  `estado_eliminado` int(11) NOT NULL,
+  `Categoria_Actividad_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Partida_Generica_ID`),
+  KEY `TC_Partida_Generica2240` (`Categoria_Actividad_ID`),
+  CONSTRAINT `FK_Partida_Generica858` FOREIGN KEY (`Categoria_Actividad_ID`) REFERENCES `categoria_actividad` (`Categoria_Actividad_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+
+/*Data for the table `partida_generica` */
+
+LOCK TABLES `partida_generica` WRITE;
+
+insert  into `partida_generica`(`Partida_Generica_ID`,`descripcion_partida_generica`,`estado_eliminado`,`Categoria_Actividad_ID`) values (1,'Mano de Obra',1,1),(2,'Pasajes y Viáticos',1,1),(3,'Bienes',1,1),(4,'Servicios',1,1),(5,'Mano de Obra',1,2),(6,'Pasajes y Viáticos',1,2),(7,'Bienes',1,2),(8,'Servicios',1,2),(9,'Terrenos e Inmuebles ',1,3),(10,'Mano de Obra',1,3),(11,'Bienes y Servicios',1,3),(12,'Maquinaria, Equipo y Vehículos',1,3),(13,'Animales de Cría  ',1,3),(14,'Ingresos ',1,4),(15,'Mano de Obra  ',1,4),(16,'Pasajes y Viáticos  ',1,4),(17,'Bienes',1,4),(18,'Servicios',1,4);
+
+UNLOCK TABLES;
+
+/*Table structure for table `percepcion_ejecucion_presupuestal` */
+
+DROP TABLE IF EXISTS `percepcion_ejecucion_presupuestal`;
+
+CREATE TABLE `percepcion_ejecucion_presupuestal` (
+  `Percepcion_Ejecucion_Presupuestal_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `percepcion_ejecucion` varchar(255) NOT NULL,
+  `Fuente_Financiadora_ID` int(11) DEFAULT NULL,
+  `Informe_Visita_Campo_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Percepcion_Ejecucion_Presupuestal_ID`),
+  KEY `TC_Percepcion_Ejecucion_Pre2344` (`Informe_Visita_Campo_ID`),
+  KEY `TC_Percepcion_Ejecucion_Pre2345` (`Fuente_Financiadora_ID`),
+  CONSTRAINT `FK_Percepcion_Ejecucion_Pre834` FOREIGN KEY (`Fuente_Financiadora_ID`) REFERENCES `fuente_financiadora` (`Fuente_Financiadora_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Percepcion_Ejecucion_Pre911` FOREIGN KEY (`Informe_Visita_Campo_ID`) REFERENCES `informe_visita_campo` (`Informe_Visita_Campo_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `percepcion_ejecucion_presupuestal` */
+
+LOCK TABLES `percepcion_ejecucion_presupuestal` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `percepcion_sobre` */
+
+DROP TABLE IF EXISTS `percepcion_sobre`;
+
+CREATE TABLE `percepcion_sobre` (
+  `Percepcion_Sobre_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_percepcion` int(11) NOT NULL,
+  `comentario` varchar(255) NOT NULL,
+  `Informe_Visita_Campo_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Percepcion_Sobre_ID`),
+  KEY `TC_Percepcion_Sobre2301` (`Informe_Visita_Campo_ID`),
+  CONSTRAINT `FK_Percepcion_Sobre907` FOREIGN KEY (`Informe_Visita_Campo_ID`) REFERENCES `informe_visita_campo` (`Informe_Visita_Campo_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `percepcion_sobre` */
+
+LOCK TABLES `percepcion_sobre` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `perfil` */
+
+DROP TABLE IF EXISTS `perfil`;
+
+CREATE TABLE `perfil` (
+  `Perfil_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `monto_solicitado_fondam` double(11,2) DEFAULT NULL,
+  `monto_contrapartida` double(11,2) DEFAULT NULL,
+  `monto_cofinanciador` double(11,2) DEFAULT NULL,
+  `duracion_meses` int(11) NOT NULL,
+  `fk_iddetallestadocab_estperfil` int(11) DEFAULT NULL,
+  `Dato_Proyecto_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Perfil_ID`),
+  KEY `TC_Perfil2254` (`Dato_Proyecto_ID`),
+  CONSTRAINT `FK_Perfil809` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `perfil` */
+
+LOCK TABLES `perfil` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `perfil_usuario` */
+
+DROP TABLE IF EXISTS `perfil_usuario`;
+
+CREATE TABLE `perfil_usuario` (
+  `Perfil_Usuario_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `descripcion_perfil` varchar(255) NOT NULL,
+  `prefijo` varchar(255) NOT NULL,
+  PRIMARY KEY (`Perfil_Usuario_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+/*Data for the table `perfil_usuario` */
+
+LOCK TABLES `perfil_usuario` WRITE;
+
+insert  into `perfil_usuario`(`Perfil_Usuario_ID`,`descripcion_perfil`,`prefijo`) values (1,'Direccion de Monitoreo & Evaluacion','DME'),(2,'Direccion Tecnica','DT'),(3,'Direccion Administracion & Finanzas','DAFI'),(4,'Comité Tecnico','CT'),(5,'Consejo Administrativo','CA'),(6,'Direccion Ejecutiva','DE'),(7,'Unidad Ejecutora','Ejecutor');
+
+UNLOCK TABLES;
+
+/*Table structure for table `personal_tecnico_administrativo` */
+
+DROP TABLE IF EXISTS `personal_tecnico_administrativo`;
+
+CREATE TABLE `personal_tecnico_administrativo` (
+  `Personal_Tecnico_Administrativo_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_completo` varchar(255) NOT NULL,
+  `fk_idtablaesp_formacion_profesional` int(11) NOT NULL,
+  `responsabilidad` varchar(255) NOT NULL,
+  `fk_idtablaesp_tiempo_dedicado` int(11) NOT NULL,
+  `porcentage_participacion` int(11) NOT NULL,
+  `fk_idtablaesp_etapa_personal_tecnico` int(11) NOT NULL,
+  `fk_idpersonal_tecnico_adm_reemplazo` int(11) NOT NULL,
+  `salario_mensual` double(11,2) NOT NULL,
+  `Institucion_ID` int(11) NOT NULL,
+  `Dato_Plan_Operativo_ID` int(11) NOT NULL,
+  `Reporte_Avance_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Personal_Tecnico_Administrativo_ID`),
+  KEY `TC_Personal_Tecnico_Adminis2251` (`Dato_Plan_Operativo_ID`),
+  KEY `TC_Personal_Tecnico_Adminis2253` (`Institucion_ID`),
+  KEY `TC_Personal_Tecnico_Adminis2252` (`Reporte_Avance_ID`),
+  CONSTRAINT `FK_Personal_Tecnico_Adminis831` FOREIGN KEY (`Institucion_ID`) REFERENCES `institucion` (`Institucion_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Personal_Tecnico_Adminis854` FOREIGN KEY (`Dato_Plan_Operativo_ID`) REFERENCES `dato_plan_operativo` (`Dato_Plan_Operativo_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Personal_Tecnico_Adminis895` FOREIGN KEY (`Reporte_Avance_ID`) REFERENCES `reporte_avance` (`Reporte_Avance_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `personal_tecnico_administrativo` */
+
+LOCK TABLES `personal_tecnico_administrativo` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `problema_solucion` */
+
+DROP TABLE IF EXISTS `problema_solucion`;
+
+CREATE TABLE `problema_solucion` (
+  `Problema_Solucion_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `problema` varchar(255) NOT NULL,
+  `solucion` varchar(255) NOT NULL,
+  `resultado` varchar(255) NOT NULL,
+  `comentario` varchar(255) NOT NULL,
+  `probelma_relevante_al_proy` int(6) NOT NULL COMMENT 'si el problema afecta al proyecto o no',
+  `Reporte_Avance_ID` int(11) NOT NULL,
+  `Informe_Visita_Campo_ID` int(11) NOT NULL,
+  `Informe_Final_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Problema_Solucion_ID`),
+  KEY `TC_Problema_Solucion2281` (`Informe_Final_ID`),
+  KEY `TC_Problema_Solucion2282` (`Reporte_Avance_ID`),
+  KEY `TC_Problema_Solucion2280` (`Informe_Visita_Campo_ID`),
+  CONSTRAINT `FK_Problema_Solucion894` FOREIGN KEY (`Reporte_Avance_ID`) REFERENCES `reporte_avance` (`Reporte_Avance_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Problema_Solucion906` FOREIGN KEY (`Informe_Visita_Campo_ID`) REFERENCES `informe_visita_campo` (`Informe_Visita_Campo_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Problema_Solucion922` FOREIGN KEY (`Informe_Final_ID`) REFERENCES `informe_final` (`Informe_Final_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `problema_solucion` */
+
+LOCK TABLES `problema_solucion` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `programa` */
+
+DROP TABLE IF EXISTS `programa`;
+
+CREATE TABLE `programa` (
+  `Programa_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `duracion_programa` int(11) NOT NULL,
+  `fk_idtablaesp_tipo_cuenta` int(11) NOT NULL,
+  `fk_idtablaesp_modalidad_financia` int(11) NOT NULL,
+  `identificador_mod_finan` varchar(255) NOT NULL,
+  `nombre_programa` varchar(255) NOT NULL,
+  `fecha_convocatoria` date NOT NULL,
+  `req_proy_grobal` int(6) NOT NULL COMMENT 'estado que indica que se requiere el proyecto global',
+  `req_eval_inst` int(6) NOT NULL COMMENT 'estado que indica que se requiere evaluacion institucional',
+  `req_eval_tec` int(6) NOT NULL COMMENT 'estado que indica que se requiere evaluacion tecnica',
+  `req_eval_proy` int(6) NOT NULL COMMENT 'estado que indica que se requiere evaluacion proyecto',
+  `Tipo_Periodo_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Programa_ID`),
+  KEY `TC_Programa2242` (`Tipo_Periodo_ID`),
+  CONSTRAINT `FK_Programa868` FOREIGN KEY (`Tipo_Periodo_ID`) REFERENCES `tipo_periodo` (`Tipo_Periodo_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `programa` */
+
+LOCK TABLES `programa` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `propuesta_transferencia` */
+
+DROP TABLE IF EXISTS `propuesta_transferencia`;
+
+CREATE TABLE `propuesta_transferencia` (
+  `Propuesta_Transferencia_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_id_detalle_estado_cab_est_inf_prop_transfer` int(11) NOT NULL,
+  `resumen_descrip_trans` varchar(255) NOT NULL,
+  `resumen_plan_trans` varchar(255) NOT NULL,
+  `Dato_Proyecto_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Propuesta_Transferencia_ID`),
+  KEY `TC_Propuesta_Transferencia2320` (`Dato_Proyecto_ID`),
+  CONSTRAINT `FK_Propuesta_Transferencia819` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `propuesta_transferencia` */
+
+LOCK TABLES `propuesta_transferencia` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `propuesta_transferencia_beneficiario` */
+
+DROP TABLE IF EXISTS `propuesta_transferencia_beneficiario`;
+
+CREATE TABLE `propuesta_transferencia_beneficiario` (
+  `propuesta_transferencia_beneficiario_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cantidad_final` int(11) NOT NULL,
+  `Propuesta_Transferencia_ID` int(11) NOT NULL,
+  `beneficiarios_por_resultado_ID` int(11) NOT NULL,
+  PRIMARY KEY (`propuesta_transferencia_beneficiario_id`),
+  KEY `fk_propuesta_transferencia_beneficiario_213` (`Propuesta_Transferencia_ID`),
+  KEY `fk_propuesta_transferencia_beneficiario_211` (`beneficiarios_por_resultado_ID`),
+  CONSTRAINT `fk_propuesta_transferencia_beneficiario_211` FOREIGN KEY (`beneficiarios_por_resultado_ID`) REFERENCES `beneficiarios_por_resultado` (`Beneficiarios_Por_Resultado_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_propuesta_transferencia_beneficiario_213` FOREIGN KEY (`Propuesta_Transferencia_ID`) REFERENCES `propuesta_transferencia` (`Propuesta_Transferencia_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Esta tabla coje la cantidad final que se tiene de beneficiar';
+
+/*Data for the table `propuesta_transferencia_beneficiario` */
+
+LOCK TABLES `propuesta_transferencia_beneficiario` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `puntaje_evaluacion` */
+
+DROP TABLE IF EXISTS `puntaje_evaluacion`;
+
+CREATE TABLE `puntaje_evaluacion` (
+  `Puntaje_Evaluacion_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `maximo` int(11) NOT NULL,
+  `minimo` int(11) NOT NULL,
+  `minimo_aprobatorio` int(11) NOT NULL,
+  `fk_idtablaesp_tipo_evaluacion` int(11) NOT NULL,
+  `Programa_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Puntaje_Evaluacion_ID`),
+  KEY `TC_Puntaje_Evaluacion2330` (`Programa_ID`),
+  CONSTRAINT `FK_Puntaje_Evaluacion866` FOREIGN KEY (`Programa_ID`) REFERENCES `programa` (`Programa_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `puntaje_evaluacion` */
+
+LOCK TABLES `puntaje_evaluacion` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `ra_lg` */
+
+DROP TABLE IF EXISTS `ra_lg`;
+
+CREATE TABLE `ra_lg` (
+  `RA_LG_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Liquidacion_Gasto_ID` int(11) NOT NULL,
+  `Reporte_Avance_ID` int(11) NOT NULL,
+  PRIMARY KEY (`RA_LG_ID`),
+  KEY `TC_RA_LG2278` (`Liquidacion_Gasto_ID`),
+  KEY `TC_RA_LG2277` (`Reporte_Avance_ID`),
+  CONSTRAINT `FK_RA_LG882` FOREIGN KEY (`Liquidacion_Gasto_ID`) REFERENCES `liquidacion_gasto` (`Liquidacion_Gasto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_RA_LG891` FOREIGN KEY (`Reporte_Avance_ID`) REFERENCES `reporte_avance` (`Reporte_Avance_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `ra_lg` */
+
+LOCK TABLES `ra_lg` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `recurso_utilizado` */
+
+DROP TABLE IF EXISTS `recurso_utilizado`;
+
+CREATE TABLE `recurso_utilizado` (
+  `Recurso_Utilizado_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `monto` double(11,2) NOT NULL,
+  `fk_idtablaesp_tipo_moneda` int(11) NOT NULL,
+  `Fuente_Financiadora_ID` int(11) DEFAULT NULL,
+  `Bien_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Recurso_Utilizado_ID`),
+  KEY `TC_Recurso_Utilizado2317` (`Bien_ID`),
+  KEY `TC_Recurso_Utilizado2316` (`Fuente_Financiadora_ID`),
+  CONSTRAINT `FK_Recurso_Utilizado835` FOREIGN KEY (`Fuente_Financiadora_ID`) REFERENCES `fuente_financiadora` (`Fuente_Financiadora_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Recurso_Utilizado925` FOREIGN KEY (`Bien_ID`) REFERENCES `bien` (`Bien_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `recurso_utilizado` */
+
+LOCK TABLES `recurso_utilizado` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `reporte_avance` */
+
+DROP TABLE IF EXISTS `reporte_avance`;
+
+CREATE TABLE `reporte_avance` (
+  `Reporte_Avance_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `periodo` varchar(255) NOT NULL,
+  `fk_id_detalle_estado_cab_est_rep_avance` int(11) NOT NULL,
+  `resumen` varchar(255) NOT NULL,
+  `Dato_Proyecto_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Reporte_Avance_ID`),
+  KEY `TC_Reporte_Avance2276` (`Dato_Proyecto_ID`),
+  CONSTRAINT `FK_Reporte_Avance815` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `reporte_avance` */
+
+LOCK TABLES `reporte_avance` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `reporte_avance_beneficiario` */
+
+DROP TABLE IF EXISTS `reporte_avance_beneficiario`;
+
+CREATE TABLE `reporte_avance_beneficiario` (
+  `reporte_avance_beneficiario_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `cantidad_lograda` int(11) NOT NULL,
+  `reporte_avance_id` int(11) NOT NULL,
+  `beneficiarios_por_resultado_id` int(11) NOT NULL,
+  PRIMARY KEY (`reporte_avance_beneficiario_ID`),
+  KEY `fk_reporte_beneficiario_210` (`beneficiarios_por_resultado_id`),
+  KEY `fk_reporte_beneficiario_213` (`reporte_avance_id`),
+  CONSTRAINT `fk_reporte_beneficiario_210` FOREIGN KEY (`beneficiarios_por_resultado_id`) REFERENCES `beneficiarios_por_resultado` (`Beneficiarios_Por_Resultado_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_reporte_beneficiario_213` FOREIGN KEY (`reporte_avance_id`) REFERENCES `reporte_avance` (`Reporte_Avance_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Esta tabla coje la cantidad lograda  que se tiene de benefic';
+
+/*Data for the table `reporte_avance_beneficiario` */
+
+LOCK TABLES `reporte_avance_beneficiario` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `restricion_programa` */
+
+DROP TABLE IF EXISTS `restricion_programa`;
+
+CREATE TABLE `restricion_programa` (
+  `Restricion_Programa_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `porcen_maximo` int(11) NOT NULL,
+  `porcen_minimo` int(11) NOT NULL,
+  `fk_idtablaesp_tipo_restriccion_prog` int(11) NOT NULL,
+  `Dato_Proyecto_ID` int(11) DEFAULT NULL,
+  `Fuente_Financiadora_ID` int(11) DEFAULT NULL,
+  `Programa_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Restricion_Programa_ID`),
+  KEY `TC_Restricion_Programa2243` (`Fuente_Financiadora_ID`),
+  KEY `TC_Restricion_Programa2245` (`Dato_Proyecto_ID`),
+  KEY `TC_Restricion_Programa2244` (`Programa_ID`),
+  CONSTRAINT `FK_Restricion_Programa827` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Restricion_Programa836` FOREIGN KEY (`Fuente_Financiadora_ID`) REFERENCES `fuente_financiadora` (`Fuente_Financiadora_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Restricion_Programa863` FOREIGN KEY (`Programa_ID`) REFERENCES `programa` (`Programa_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `restricion_programa` */
+
+LOCK TABLES `restricion_programa` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `resultado` */
+
+DROP TABLE IF EXISTS `resultado`;
+
+CREATE TABLE `resultado` (
+  `Resultado_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `definicion_resultado` varchar(255) NOT NULL,
+  `supuesto_resultado` varchar(255) NOT NULL,
+  `meta_resultado` int(11) NOT NULL,
+  `fk_idtablaesp_estrato` int(11) NOT NULL,
+  `duracion_meses` int(11) NOT NULL,
+  `Dato_Plan_Operativo_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Resultado_ID`),
+  KEY `TC_Resultado2220` (`Dato_Plan_Operativo_ID`),
+  CONSTRAINT `FK_Resultado852` FOREIGN KEY (`Dato_Plan_Operativo_ID`) REFERENCES `dato_plan_operativo` (`Dato_Plan_Operativo_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `resultado` */
+
+LOCK TABLES `resultado` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `resumen_proyecto` */
+
+DROP TABLE IF EXISTS `resumen_proyecto`;
+
+CREATE TABLE `resumen_proyecto` (
+  `Resumen_Proyecto_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_resumen_proy` int(11) NOT NULL,
+  `fk_id_tabla_general` int(11) NOT NULL,
+  `definicion` varchar(255) NOT NULL,
+  `Dato_Proyecto_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Resumen_Proyecto_ID`),
+  KEY `TC_Resumen_Proyecto2257` (`Dato_Proyecto_ID`),
+  CONSTRAINT `FK_Resumen_Proyecto810` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `resumen_proyecto` */
+
+LOCK TABLES `resumen_proyecto` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `riesgo` */
+
+DROP TABLE IF EXISTS `riesgo`;
+
+CREATE TABLE `riesgo` (
+  `Riesgo_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `descripcion_riesgo` varchar(255) NOT NULL,
+  `mitigacion_riesgo` varchar(255) NOT NULL,
+  `Actividad_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Riesgo_ID`),
+  KEY `TC_Riesgo2238` (`Actividad_ID`),
+  CONSTRAINT `FK_Riesgo846` FOREIGN KEY (`Actividad_ID`) REFERENCES `actividad` (`Actividad_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `riesgo` */
+
+LOCK TABLES `riesgo` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `rubro_especial` */
+
+DROP TABLE IF EXISTS `rubro_especial`;
+
+CREATE TABLE `rubro_especial` (
+  `Rubro_Especial_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idCategoriaActividad` int(11) NOT NULL,
+  `fk_idRubroGenerico` int(11) NOT NULL,
+  `fk_idPartidaGenerica` int(11) NOT NULL,
+  `fk_idPartidaEspecial` int(11) NOT NULL,
+  `tabla_que_lo_usa` varchar(255) NOT NULL,
+  `Prefijo` varchar(255) NOT NULL,
+  PRIMARY KEY (`Rubro_Especial_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `rubro_especial` */
+
+LOCK TABLES `rubro_especial` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `rubro_generico` */
+
+DROP TABLE IF EXISTS `rubro_generico`;
+
+CREATE TABLE `rubro_generico` (
+  `Rubro_Generico_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `idcabecera_rubrogenerico` int(11) NOT NULL,
+  `descrip_cabecera_rubro_generico` varchar(255) NOT NULL,
+  `idespecificacion_rubro_generico` int(11) NOT NULL,
+  `descrip_especificacion_rubro_generico` varchar(255) NOT NULL,
+  `Categoria_Actividad_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Rubro_Generico_ID`),
+  KEY `TC_Rubro_Generico2239` (`Categoria_Actividad_ID`),
+  CONSTRAINT `FK_Rubro_Generico859` FOREIGN KEY (`Categoria_Actividad_ID`) REFERENCES `categoria_actividad` (`Categoria_Actividad_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+/*Data for the table `rubro_generico` */
+
+LOCK TABLES `rubro_generico` WRITE;
+
+insert  into `rubro_generico`(`Rubro_Generico_ID`,`idcabecera_rubrogenerico`,`descrip_cabecera_rubro_generico`,`idespecificacion_rubro_generico`,`descrip_especificacion_rubro_generico`,`Categoria_Actividad_ID`) values (1,1,'Obras',1,'Construcciones Nuevas',3),(2,1,'Obras',2,'Ampliaciones y refacciones',3),(3,1,'Obras',3,'Otras Construcciones',3),(4,2,'Equipos',1,'Equipo de transformación o campo',3),(5,2,'Equipos',2,'Equipo de capacitación y difusión',3),(6,2,'Equipos',3,'Equipo de control y mediciones',3),(7,2,'Equipos',4,'Otros Equipos',3),(8,3,'Vehículos y equipos motorizados',1,'Vehículos en general',3),(9,4,'Animales de Cría',1,'Especificar de acuerdo al proyecto',3),(10,5,'Otras Inversiones',1,'Fondo de Crédito',3),(11,5,'Otras Inversiones',2,'Certificación y Transferencia',3),(12,5,'Otras Inversiones',3,'Supervión en Obras',3);
+
+UNLOCK TABLES;
+
+/*Table structure for table `sub_area_tematica` */
+
+DROP TABLE IF EXISTS `sub_area_tematica`;
+
+CREATE TABLE `sub_area_tematica` (
+  `Sub_Area_Tematica_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `cod_interno_sub_at` int(11) NOT NULL,
+  `cod_interno_sub_nivel` int(11) NOT NULL,
+  `descripcion_sub_at` varchar(255) NOT NULL,
+  `descripcion_sub_nivel` varchar(255) NOT NULL,
+  `estado_eliminado` int(11) NOT NULL,
+  `fk_idtablaesp_area_tematica` int(11) NOT NULL,
+  PRIMARY KEY (`Sub_Area_Tematica_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+
+/*Data for the table `sub_area_tematica` */
+
+LOCK TABLES `sub_area_tematica` WRITE;
+
+insert  into `sub_area_tematica`(`Sub_Area_Tematica_ID`,`cod_interno_sub_at`,`cod_interno_sub_nivel`,`descripcion_sub_at`,`descripcion_sub_nivel`,`estado_eliminado`,`fk_idtablaesp_area_tematica`) values (1,1,0,'Conservación de la Diversidad Biológica','',1,23),(2,1,1,'','Protección de Áreas Naturales y Ecosistemas Frágiles',1,23),(3,1,2,'','Conservación y Protección de Especies Amenazadas',1,23),(4,1,3,'','Diversidad Genética y Especies Nativas',1,23),(5,2,0,'Manejo Sostenible de Recursos Naturales','',1,23),(6,2,1,'','Manejo de Bosques, Silvo Pasturas y Agroforestería',1,23),(7,2,2,'','Agrosistemas',1,23),(8,2,3,'','Manejo de Recursos de una micro cuenca',1,23),(9,2,4,'','Manejo de Recursos Hidrobiológicos',1,23),(10,2,5,'','Recuperación y Conservación de Suelos',1,23),(11,3,0,'Fortalecimiento de la Gestión Ambiental','',1,23),(12,3,1,'','Educación Ambiental',1,23),(13,3,2,'','Fortalecimiento de la Gestión Ambiental',1,23),(14,4,0,'Prevención y Control de la Contaminación','',1,23),(15,4,1,'','Manejo de Residuos Sólidos',1,23),(16,4,0,'Econegocios','',1,23),(17,5,0,'Nutrición y Seguridad Alimentaria','',1,24),(18,6,0,'Prevención y Reducción de la Violencia Doméstica','',1,24),(19,7,0,'Promoción y Prevención para la Salud','',1,24),(20,8,0,'Protección del Binomio Madre Niño','',1,24),(21,9,0,'Manejo del Recursos Naturales, Prevención de la Salud, Seguridad Alimentaria y Nutrición','',1,25),(22,10,0,'Saneamiento Ambiental y Prevención de la Salud','',1,25),(23,11,0,'Agua Segura para consumo Humano','',1,26),(24,12,0,'Saneamiento Ambiental','',1,27);
+
+UNLOCK TABLES;
+
+/*Table structure for table `tabla_clase` */
+
+DROP TABLE IF EXISTS `tabla_clase`;
+
+CREATE TABLE `tabla_clase` (
+  `table_clase_ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `tabla_nombre` varchar(255) NOT NULL,
+  `clase_nombre` varchar(255) NOT NULL,
+  PRIMARY KEY (`table_clase_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='tabla_nombre: va a tener el nombre de todas las tablas que v';
+
+/*Data for the table `tabla_clase` */
+
+LOCK TABLES `tabla_clase` WRITE;
+
+insert  into `tabla_clase`(`table_clase_ID`,`tabla_nombre`,`clase_nombre`) values (1,'perfil','pe.com.fondam.sgp.core.domain.Perfil'),(2,'dato_proyecto','pe.com.fondam.sgp.core.domain.DatoProyecto'),(3,'institucion','pe.com.fondam.sgp.core.domain.Institucion'),(4,'dato_plan_operativo','pe.com.fondam.sgp.core.domain.DatoPlanOperativo'),(5,'desembolse','pe.com.fondam.sgp.core.domain.Desembolso'),(6,'liquidacion_gasto','pe.com.fondam.sgp.core.domain.LiquidacionGasto'),(7,'detalle_pago_liquidacion','pe.com.fondam.sgp.core.domain.DetallePagoLiquidacion'),(8,'reporte_avance','pe.com.fondam.sgp.core.domain.ReporteAvance'),(9,'informe_visita_campo','pe.com.fondam.sgp.core.domain.InformeVisitaCampo'),(10,'informe_final','pe.com.fondam.sgp.core.domain.InformeFinal'),(11,'propuesta_transferencia','pe.com.fondam.sgp.core.domain.PropuestaTransferencia');
+
+UNLOCK TABLES;
+
+/*Table structure for table `tabla_especifica` */
+
+DROP TABLE IF EXISTS `tabla_especifica`;
+
+CREATE TABLE `tabla_especifica` (
+  `Tabla_Especifica_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `descripcion_cabecera` varchar(255) NOT NULL,
+  `estado_eliminado` int(6) NOT NULL,
+  `Tabla_General_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Tabla_Especifica_ID`),
+  KEY `TC_Tabla_Especifica2264` (`Tabla_General_ID`),
+  CONSTRAINT `FK_Tabla_Especifica885` FOREIGN KEY (`Tabla_General_ID`) REFERENCES `tabla_general` (`Tabla_General_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=240 DEFAULT CHARSET=utf8;
+
+/*Data for the table `tabla_especifica` */
+
+LOCK TABLES `tabla_especifica` WRITE;
+
+insert  into `tabla_especifica`(`Tabla_Especifica_ID`,`descripcion_cabecera`,`estado_eliminado`,`Tabla_General_ID`) values (1,'Cuenta Las Américas',1,1),(2,'Cuenta Bosques Tropicales',1,1),(3,'Cofinanciamiento',1,2),(4,'Proyectos Especiales',1,2),(5,'Concurso',1,2),(6,'Ejes de Desarrollo',1,2),(7,'Scotiabank',1,3),(8,'Banco de la Nación',1,3),(9,'Banco de Credito',1,3),(10,'Azteca',1,3),(11,'Continental',1,3),(12,'Comercio',1,3),(13,'Falabella',1,3),(14,'Banco Financiero',1,3),(15,'BIF',1,3),(16,'Interbank',1,3),(17,'Ripley',1,3),(18,'Santander',1,3),(19,'Citibank',1,3),(20,'HSBC',1,3),(21,'MiBanco',1,3),(22,'Mitsui Auto Finance',1,3),(23,'Medio ambiente',1,4),(24,'Supervivencia Infantil',1,4),(25,'Mixtos',1,4),(26,'Agua y Saneamiento',1,4),(27,'Caja',1,5),(28,'Día / Hombre',1,5),(29,'Docena',1,5),(30,'Documento',1,5),(31,'Estudio',1,5),(32,'Evento',1,5),(33,'Galón',1,5),(34,'Galón / Unidad',1,5),(35,'Hectárea',1,5),(36,'Horas / Hombre',1,5),(37,'Informe',1,5),(38,'Jornal',1,5),(39,'Kilogramo',1,5),(40,'Kilómetro',1,5),(41,'Litro',1,5),(42,'Mes / Hombre',1,5),(43,'Mes / Servicio',1,5),(44,'Metro Cuadrado',1,5),(45,'Metro Cúbico',1,5),(46,'Metro Lineal',1,5),(47,'Millar',1,5),(48,'Semana / Hombre',1,5),(49,'Taller',1,5),(50,'Unidad Productiva',1,5),(51,'Unitario',1,5),(52,'% Desnutrición Infantil',1,5),(53,'% EDAs',1,5),(54,'% Parasitosis',1,5),(55,'Niño - buen rendimiento escolar',1,5),(56,'Mujer Maltratada',1,5),(57,'Promotor',1,5),(58,'Beneficiario',1,5),(59,'Caso de Violencia',1,5),(60,'Centro de Atención',1,5),(61,'JAAS',1,5),(62,'Niño - Agua Segura',1,5),(63,'Operador - AyS',1,5),(64,'Red de Atención',1,5),(65,'% Anemia - Niños',1,5),(66,'% Anemia - MEF',1,5),(67,'% Desnutrición Aguda',1,5),(68,'% Desnutrición Crónica',1,5),(69,'Mujer - Control pre-natal',1,5),(70,'% IRAs',1,5),(71,'Puntaje T',1,5),(72,'Entidades Educativas',1,5),(73,'% Disminución - Contaminantes',1,5),(74,'Organización',1,5),(75,'% Desechos Manejados',1,5),(76,'ANP',1,5),(77,'Programa - Educación Ambiental',1,5),(78,'% Incremento Poblacional - Especies Protegidas',1,5),(79,'Variedad - Especie Protegida',1,5),(80,'Dia / Equipo',1,5),(81,'Colocación',1,5),(82,'Persona - Capacitada',1,5),(83,'Programa - Medio de Comunicación',1,5),(84,'Spots',1,5),(85,'Publicación',1,5),(86,'Pasantía',1,5),(87,'Curso',1,5),(88,'Institución Beneficiada',1,5),(89,'Visita',1,5),(90,'Hora',1,5),(91,'Reunión',1,5),(92,'Convenio',1,5),(93,'Persona',1,5),(94,'Tonelada',1,5),(95,'Plantón',1,5),(96,'Obra',1,5),(97,'Especie',1,5),(98,'Construcción',1,6),(99,'Máquinaria y Equipos',1,6),(100,'Vehículos',1,6),(101,'Semovientes y Cultivos permanentes',1,6),(102,'Insumos y servicios',1,6),(103,'Otros',1,6),(104,'Factura',1,7),(105,'Recibo por Honorarios',1,7),(106,'Boleta de Venta',1,7),(107,'Declaración Jurada',1,7),(108,'Liquidación de Compras',1,7),(109,'Otro',1,7),(110,'Hombre',1,8),(111,'Mujer',1,8),(112,'Niños Menores',1,8),(113,'Población',1,8),(114,'Familias',1,8),(115,'Directos',1,9),(116,'Indirectos',1,9),(117,'Normal',1,10),(118,'Especial',1,10),(119,'Monitoreo',1,11),(120,'Inspeccion regular',1,12),(121,'Inspeccion especial',1,12),(122,'Supervición de las Actividades Control Administrativo',1,13),(123,'Supervicion de las Modalidades de Adquisiciones',1,13),(124,'Supervicion de Mantenimiento de Documentos de Sustentación de Gastos e Ingresos en Efectivo',1,13),(125,'Supervicion de Mantenimiento de Documentación de Sustentación de Empleo de Otros Recursos no en Efectivo',1,13),(126,'Opinión de los Beneficiarios',1,14),(127,'Opinión de los Técnicos',1,14),(128,'Opinión de Terceros',1,14),(129,'De la Estrategia de Sostenibilidad',1,14),(130,'De los Cambios Originados en el Entorno',1,14),(131,'De  Otros Aspectos  de Relevancia',1,14),(132,'Administrativa',1,15),(133,'Técnica',1,15),(134,'Pertinencia del Propósito con relación al problema que le dio origen:',1,16),(135,'Percepción de formación de Impactos:',1,16),(136,'Contribución de los Resultados al Propósito:',1,16),(137,'Promoción',1,17),(138,'Capacitación',1,17),(139,'Difusión',1,17),(140,'Social',1,18),(141,'Técnico',1,18),(142,'Económico - financiero',1,18),(143,'De La Estrategia de Sostenibilidad y  Propuesta de Transferencia',1,18),(144,'De Los Cambios Originados en el Medio',1,18),(145,'Tecnológicas',1,19),(146,'Metodologías Participativas',1,19),(147,'Organización de Bases',1,19),(148,'De Capacitación y Comunicación',1,19),(149,'Materia Prima',1,20),(150,'Bien Elaborado',1,20),(151,'Servicio',1,20),(152,'Otro',1,20),(153,'Análisis y Sintesis de la Gestion del Proyecto',1,21),(154,'Conclusiones y Recomendaciones',1,21),(155,'Gerente General',1,22),(156,'Director',1,22),(157,'Presidente',1,22),(158,'Otros',1,22),(159,'Ventas',1,23),(160,'Generación Otros Ingresos',1,23),(161,'Producción',1,23),(162,'Fondo de Crédito',1,23),(163,'Comercialización',1,23),(164,'Administración',1,23),(165,'DNI',1,24),(166,'RUC',1,24),(167,'carnet de extranjería',1,24),(168,'Sóles',1,25),(169,'Dólares',1,25),(170,'Euros',1,25),(171,'Administratíva',1,26),(172,'Operatíva',1,26),(173,'Evaluación Institucional',1,27),(174,'Evaluación Tecnica (Perfil)',1,27),(175,'Evaluación Proyecto',1,27),(176,'Mano de Obra',1,28),(177,'Inversiones',1,28),(178,'Gastos Administrativos',1,28),(179,'Administrativa',1,29),(180,'Fondo de Crédito',1,29),(181,'Certificación y Transferencia',1,29),(182,'Asistencia Técnica',1,29),(183,'Contrapartida',1,30),(184,'Fondo De Las Americas',1,30),(185,'Cofinanciador',1,30),(186,'Ingresos proyectados',1,30),(187,'Asociado',1,30),(188,'Otros',1,30),(189,'Propuesta',1,31),(190,'Problemática',1,31),(191,'Objetivos del Proyecto',1,31),(192,'Beneficiarios',1,31),(193,'Resultados Esperados',1,31),(194,'Nuevas competencias en beneficiarios',1,31),(195,'Aspectos Innovadores',1,31),(196,'Sostenibilidad',1,31),(197,'Replicabilidad',1,31),(198,'Compromisos de Terceros',1,31),(199,'Contrapartidas',1,31),(200,'Diagnóstico y descripción del problema que se desea enfrentar',1,32),(201,'Objetivos e identificación de beneficiarios por género ',1,32),(202,'Análisis de la alternativa de solución ',1,32),(203,'Propuesta técnica y resultados esperados ',1,32),(204,'Actividades principales y metas',1,32),(205,'Innovación',1,32),(206,'Metodología de la ejecución',1,32),(207,'Sinergias interinstitucionales',1,32),(208,'Beneficios ',1,32),(209,'Plan de sostenibilidad de los resultados y propuesta de transferencia',1,32),(210,'Ingeniero Zootecnista',1,33),(211,'Sociólogo',1,33),(212,'Abogado',1,33),(213,'Profesional de Salud',1,33),(214,'Asistenta Social',1,33),(215,'Ingeniero Civil',1,33),(216,'Ingeniero Mecanica',1,33),(217,'Ingeniero',1,33),(218,'Profesional',1,33),(219,'Profesional Especialista',1,33),(220,'Técnico',1,33),(221,'Contador',1,33),(222,'Administrador',1,33),(223,'Tiempo Parcial',1,34),(224,'Tiempo Total',1,34),(225,'Instalación',1,35),(226,'Operaciones',1,35),(227,'comentarios',1,36),(228,' estrategia de Sostenibilidad',1,36),(229,'cambios originados en el entorno',1,36),(230,'aspectos de relevancia',1,36),(231,'Memorando',1,37),(232,'Los DT nos tienen que pasar la lista de indicadores que se vana a usar.',1,38),(233,'Los DT nos tienen que pasar la lista de indicadores que se vana a usar.',1,39),(234,'pdf',1,40),(235,'jpg',1,40),(236,'doc',1,40),(237,'xls',1,40),(238,'Director',1,41),(239,'Colaborador',1,41);
+
+UNLOCK TABLES;
+
+/*Table structure for table `tabla_general` */
+
+DROP TABLE IF EXISTS `tabla_general`;
+
+CREATE TABLE `tabla_general` (
+  `Tabla_General_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `cabecera` varchar(255) NOT NULL,
+  `prefijo` varchar(255) NOT NULL,
+  `estado_eliminado` int(6) NOT NULL,
+  PRIMARY KEY (`Tabla_General_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+
+/*Data for the table `tabla_general` */
+
+LOCK TABLES `tabla_general` WRITE;
+
+insert  into `tabla_general`(`Tabla_General_ID`,`cabecera`,`prefijo`,`estado_eliminado`) values (1,'TIPO DE CUENTA ','TCNT',1),(2,'MODALIDAD DE FINANCIAMIENTO ','MDFN',1),(3,'BANCO ','BNCO',1),(4,'AREA TEMATICA ','ARTM',1),(5,'UNIDADES DE MEDIDA','UNMD',1),(6,'CATEGORIA ACTIVO','CTAC',1),(7,'TIPOS DE COMPROBANTES DE PAGOS','TCMP',1),(8,'ESTRATOS','ESTT',1),(9,'TIPO BENEFICIARIO','TPBF',1),(10,'TIPO DESEMBOLSO ','TPDB',1),(11,'TIPO INSPECCION','TINS',1),(12,'MODALIDAD INSPECCION','MINS',1),(13,'TIPO DE SUPERVICION ADMINISTRATIVA','TPSA',1),(14,'TIPO PERCEPCION','TPPC',1),(15,'TIPO OBSERVACION','TPOB',1),(16,'EFECTOS DEL PROYECTO','EFPR',1),(17,'TIPO MATERIAL','TMTR',1),(18,'EVALUACION FINAL CABECERA','EVFC',1),(19,'TIPO LECCION','TPLC',1),(20,'TIPO BIEN','TPBN',1),(21,'CABECERA CONCLUSION IF','CCIF',1),(22,'CARGO','CRGO',1),(23,'ACTIVIDAD TRANSFERENCIA ','ACTF',1),(24,'TIPO DOCUMENTO','TDOC',1),(25,'TIPO MONEDA','TMND',1),(26,'TIPO ACTIVIDAD','TACT',1),(27,'TIPO EVALUACION ','TPEV',1),(28,'TIPO RESTRICCIONES PROGRAMA ','TRPG',1),(29,'TIPO RESULTADO ACTIVIDADES OBLIGATORIA','TRAO',1),(30,'TIPO FUENTE FINANCIADORA','TFFN',1),(31,'TIPO RESUMEN PROYECTO ','TRPY',1),(32,'TIPO RESUMEN PERFIL','TRPF',1),(33,'FORMACION PROFESIONAL','FMPF',1),(34,'TIEMPO DEDICADO','TMDD',1),(35,'ETAPAS DEL PERSONAL TECNICO ','ETPT',1),(36,'APRECIACION DE RESULTADOS RA ','ARRA',1),(37,'TIPO INFORME','TINF',1),(38,'TIPO DE INDICADOR RESULTADO','TPNR',1),(39,'TIPO DE INDICADOR ACTIVIDAD','TPIA',1),(40,'TIPO DE ARCHIVO','TARC',1),(41,'JERARQUIA','JEQA',1);
+
+UNLOCK TABLES;
+
+/*Table structure for table `telefono` */
+
+DROP TABLE IF EXISTS `telefono`;
+
+CREATE TABLE `telefono` (
+  `Telefono_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `numero` varchar(255) NOT NULL,
+  `operador` varchar(255) NOT NULL,
+  `Institucion_ID` int(11) NOT NULL,
+  `Dato_Usuario_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Telefono_ID`),
+  KEY `TC_Telefono2327` (`Dato_Usuario_ID`),
+  KEY `TC_Telefono2326` (`Institucion_ID`),
+  CONSTRAINT `FK_Telefono829` FOREIGN KEY (`Institucion_ID`) REFERENCES `institucion` (`Institucion_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Telefono937` FOREIGN KEY (`Dato_Usuario_ID`) REFERENCES `dato_usuario` (`Dato_Usuario_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `telefono` */
+
+LOCK TABLES `telefono` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `tipo_actividad_obligatoria_programa` */
+
+DROP TABLE IF EXISTS `tipo_actividad_obligatoria_programa`;
+
+CREATE TABLE `tipo_actividad_obligatoria_programa` (
+  `Tipo_Actividad_Obligatoria_Programa_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_resul_activo_oblig` int(11) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  PRIMARY KEY (`Tipo_Actividad_Obligatoria_Programa_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+/*Data for the table `tipo_actividad_obligatoria_programa` */
+
+LOCK TABLES `tipo_actividad_obligatoria_programa` WRITE;
+
+insert  into `tipo_actividad_obligatoria_programa`(`Tipo_Actividad_Obligatoria_Programa_ID`,`fk_idtablaesp_tipo_resul_activo_oblig`,`descripcion`) values (1,179,'	Recupero de IGV	'),(2,179,'	Control de Proyecto (Bitácora)	'),(3,179,'	Acreditación de Beneficiarios	'),(4,180,'	Organización de la Unidad de Crédito	'),(5,181,'	Certificación y Transferencia	'),(6,182,'Asistencia Técnica	');
+
+UNLOCK TABLES;
+
+/*Table structure for table `tipo_periodo` */
+
+DROP TABLE IF EXISTS `tipo_periodo`;
+
+CREATE TABLE `tipo_periodo` (
+  `Tipo_Periodo_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `descrip_periodo` varchar(255) NOT NULL,
+  `unidad_periodo` varchar(255) NOT NULL,
+  `numero_meses` int(11) NOT NULL,
+  `estado_eliminado` int(11) NOT NULL,
+  PRIMARY KEY (`Tipo_Periodo_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+/*Data for the table `tipo_periodo` */
+
+LOCK TABLES `tipo_periodo` WRITE;
+
+insert  into `tipo_periodo`(`Tipo_Periodo_ID`,`descrip_periodo`,`unidad_periodo`,`numero_meses`,`estado_eliminado`) values (1,'Mensual','Mes',1,1),(2,'Bimestral','Bimestre',2,1),(3,'Trimestral','Trimestre',3,1),(4,'Cuatrimestral','Cuatrimestre',4,1),(5,'Semestral','Semestre',6,1);
+
+UNLOCK TABLES;
+
+/*Table structure for table `tmp_actividad_perfil` */
+
+DROP TABLE IF EXISTS `tmp_actividad_perfil`;
+
+CREATE TABLE `tmp_actividad_perfil` (
+  `TMP_Actividad_Perfil_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_actividad` varchar(255) NOT NULL,
+  `descripcion_actividad` varchar(255) NOT NULL,
+  `duracion_meses` int(11) NOT NULL,
+  `TMP_Perfil_ID` int(11) NOT NULL,
+  PRIMARY KEY (`TMP_Actividad_Perfil_ID`),
+  KEY `TC_Actividad_Perfil2346` (`TMP_Perfil_ID`),
+  CONSTRAINT `FK_tmp_Actividad_Perfil872` FOREIGN KEY (`TMP_Perfil_ID`) REFERENCES `tmp_perfil` (`TMP_Perfil_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `tmp_actividad_perfil` */
+
+LOCK TABLES `tmp_actividad_perfil` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `tmp_beneficiarios_por_resultado` */
+
+DROP TABLE IF EXISTS `tmp_beneficiarios_por_resultado`;
+
+CREATE TABLE `tmp_beneficiarios_por_resultado` (
+  `TMP_Beneficiarios_Por_Resultado_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_beneficiario` int(6) NOT NULL,
+  `caracteristicas_poblacion` varchar(255) NOT NULL,
+  `cantidad_programado` int(11) NOT NULL,
+  `fk_idtablaesp_Estrato` int(11) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `TMP_Perfil_ID` int(11) NOT NULL,
+  `tmp_ubicacion_proyecto_ID` int(11) NOT NULL,
+  PRIMARY KEY (`TMP_Beneficiarios_Por_Resultado_ID`),
+  KEY `TC_tmp_Beneficiarios_Por_Result2245` (`TMP_Perfil_ID`),
+  KEY `fk_tmp_beneficiarios_por_resultado_tmp_ubicacion_proyecto1` (`tmp_ubicacion_proyecto_ID`),
+  CONSTRAINT `fk_tmp_beneficiarios_por_resultado_tmp_ubicacion_proyecto1` FOREIGN KEY (`tmp_ubicacion_proyecto_ID`) REFERENCES `tmp_ubicacion_proyecto` (`TMP_Ubicacion_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_tmp_Bene_Por_Result986` FOREIGN KEY (`TMP_Perfil_ID`) REFERENCES `tmp_perfil` (`TMP_Perfil_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `tmp_beneficiarios_por_resultado` */
+
+LOCK TABLES `tmp_beneficiarios_por_resultado` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `tmp_dato_proyecto` */
+
+DROP TABLE IF EXISTS `tmp_dato_proyecto`;
+
+CREATE TABLE `tmp_dato_proyecto` (
+  `TMP_Dato_Proyecto_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `duracion_proyecto` int(11) NOT NULL,
+  `cantidad_Periodo` int(11) NOT NULL,
+  `nombre_proyecto` varchar(255) NOT NULL,
+  `numero_orden_dato_proyecto` int(11) NOT NULL,
+  `codigo_proyecto` varchar(255) NOT NULL,
+  `fk_iddetallestadocab_estproy` int(11) NOT NULL,
+  `Sub_Area_Tematica_ID` int(11) NOT NULL,
+  `Programa_ID` int(11) NOT NULL,
+  PRIMARY KEY (`TMP_Dato_Proyecto_ID`),
+  KEY `TC_Dato_Proyecto2215` (`Sub_Area_Tematica_ID`),
+  KEY `TC_Dato_Proyecto2214` (`Programa_ID`),
+  CONSTRAINT `FK_tmp_Dato_Proyecto806` FOREIGN KEY (`Sub_Area_Tematica_ID`) REFERENCES `sub_area_tematica` (`Sub_Area_Tematica_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_tmp_Dato_Proyecto864` FOREIGN KEY (`Programa_ID`) REFERENCES `programa` (`Programa_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `tmp_dato_proyecto` */
+
+LOCK TABLES `tmp_dato_proyecto` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `tmp_evaluacion` */
+
+DROP TABLE IF EXISTS `tmp_evaluacion`;
+
+CREATE TABLE `tmp_evaluacion` (
+  `tmp_Evaluacion_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `calificacion` double(11,2) NOT NULL,
+  `Observacion` varchar(500) DEFAULT NULL,
+  `tmp_Dato_Proyecto_ID` int(11) NOT NULL,
+  `Evaluador_ID` int(11) NOT NULL,
+  PRIMARY KEY (`tmp_Evaluacion_ID`),
+  KEY `fk_tmp_evaluacion_tmp_dato_proyecto1` (`tmp_Dato_Proyecto_ID`),
+  KEY `fk_tmp_evaluacion_evaluador1` (`Evaluador_ID`),
+  CONSTRAINT `fk_tmp_evaluacion_evaluador1` FOREIGN KEY (`Evaluador_ID`) REFERENCES `evaluador` (`Evaluador_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tmp_evaluacion_tmp_dato_proyecto1` FOREIGN KEY (`tmp_Dato_Proyecto_ID`) REFERENCES `tmp_dato_proyecto` (`TMP_Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `tmp_evaluacion` */
+
+LOCK TABLES `tmp_evaluacion` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `tmp_fuente_financiadora` */
+
+DROP TABLE IF EXISTS `tmp_fuente_financiadora`;
+
+CREATE TABLE `tmp_fuente_financiadora` (
+  `TMP_Fuente_Financiadora_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `define_si_es_ejecutor` int(6) NOT NULL COMMENT 'Este campo es un check que define si en este proyecto esta institucion es ejecutara o no.',
+  `fk_idtablaesp_tipo_fuente_financiadora` int(11) NOT NULL,
+  `monto_financiado` double(11,2) NOT NULL,
+  `fk_idtablaesp_tipo_moneda` int(11) NOT NULL,
+  `TMP_Dato_Proyecto_ID` int(11) NOT NULL,
+  `TMP_Institucion_ID` int(11) NOT NULL,
+  PRIMARY KEY (`TMP_Fuente_Financiadora_ID`),
+  KEY `TC_Fuente_Financiadora2217` (`TMP_Institucion_ID`),
+  KEY `TC_Fuente_Financiadora2216` (`TMP_Dato_Proyecto_ID`),
+  CONSTRAINT `FK_tmp_Fuente_Financiadora808` FOREIGN KEY (`TMP_Dato_Proyecto_ID`) REFERENCES `tmp_dato_proyecto` (`TMP_Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_tmp_Fuente_Financiadora828` FOREIGN KEY (`TMP_Institucion_ID`) REFERENCES `tmp_institucion` (`TMP_Institucion_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `tmp_fuente_financiadora` */
+
+LOCK TABLES `tmp_fuente_financiadora` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `tmp_imagen_o_archivo` */
+
+DROP TABLE IF EXISTS `tmp_imagen_o_archivo`;
+
+CREATE TABLE `tmp_imagen_o_archivo` (
+  `tmp_Imagen_O_Archivo_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `descripcion_doc_img` varchar(255) NOT NULL,
+  `imagen` longblob NOT NULL,
+  `fk_idtablaesp_tipo_archivo` int(11) NOT NULL,
+  `tmp_Perfil_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`tmp_Imagen_O_Archivo_ID`),
+  KEY `TC_Imagen_O_Archivo2294` (`tmp_Perfil_ID`),
+  CONSTRAINT `FK_tmp_Imagen_O_Archivo873` FOREIGN KEY (`tmp_Perfil_ID`) REFERENCES `tmp_perfil` (`TMP_Perfil_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `tmp_imagen_o_archivo` */
+
+LOCK TABLES `tmp_imagen_o_archivo` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `tmp_institucion` */
+
+DROP TABLE IF EXISTS `tmp_institucion`;
+
+CREATE TABLE `tmp_institucion` (
+  `TMP_Institucion_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_institucion` varchar(255) NOT NULL,
+  `ruc_institucion` varchar(255) NOT NULL,
+  `direccion` varchar(255) NOT NULL,
+  `telefono` varchar(255) NOT NULL,
+  `representante_legal` varchar(255) NOT NULL,
+  `contacto` varchar(255) NOT NULL,
+  `observacion_de_institucion` varchar(255) NOT NULL,
+  `fk_id_detalle_estado_cab_est_institucion` int(11) NOT NULL,
+  `correo` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`TMP_Institucion_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `tmp_institucion` */
+
+LOCK TABLES `tmp_institucion` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `tmp_meta_perfil` */
+
+DROP TABLE IF EXISTS `tmp_meta_perfil`;
+
+CREATE TABLE `tmp_meta_perfil` (
+  `TMP_Meta_Perfil_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_unidad_medida` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `TMP_Actividad_Perfil_ID` int(11) NOT NULL,
+  PRIMARY KEY (`TMP_Meta_Perfil_ID`),
+  KEY `TC_Meta_Perfil2347` (`TMP_Actividad_Perfil_ID`),
+  CONSTRAINT `FK_tmp_Meta_Perfil946` FOREIGN KEY (`TMP_Actividad_Perfil_ID`) REFERENCES `tmp_actividad_perfil` (`TMP_Actividad_Perfil_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `tmp_meta_perfil` */
+
+LOCK TABLES `tmp_meta_perfil` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `tmp_perfil` */
+
+DROP TABLE IF EXISTS `tmp_perfil`;
+
+CREATE TABLE `tmp_perfil` (
+  `TMP_Perfil_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `monto_solicitado_fondam` double(11,2) NOT NULL,
+  `monto_contrapartida` double(11,2) NOT NULL,
+  `monto_cofinanciador` double(11,2) DEFAULT NULL,
+  `fk_iddetallestadocab_estperfil` int(11) DEFAULT NULL,
+  `duracion_meses` int(11) NOT NULL,
+  `TMP_Dato_Proyecto_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`TMP_Perfil_ID`),
+  KEY `TC_Perfil2254` (`TMP_Dato_Proyecto_ID`),
+  CONSTRAINT `FK_tmp_Perfil809` FOREIGN KEY (`TMP_Dato_Proyecto_ID`) REFERENCES `tmp_dato_proyecto` (`TMP_Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `tmp_perfil` */
+
+LOCK TABLES `tmp_perfil` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `tmp_personal_tecnico_administrativo` */
+
+DROP TABLE IF EXISTS `tmp_personal_tecnico_administrativo`;
+
+CREATE TABLE `tmp_personal_tecnico_administrativo` (
+  `tmp_Personal_Tecnico_Administrativo_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_completo` varchar(255) NOT NULL,
+  `fk_idtablaesp_formacion_profesional` int(11) NOT NULL,
+  `responsabilidad` varchar(255) NOT NULL,
+  `fk_idtablaesp_tiempo_dedicado` int(11) NOT NULL,
+  `porcentage_participacion` int(11) NOT NULL,
+  `fk_idtablaesp_etapa_personal_tecnico` int(11) NOT NULL,
+  `fk_idpersonal_tecnico_adm_reemplazo` int(11) NOT NULL,
+  `salario_mensual` double(11,2) NOT NULL,
+  `tmp_Institucion_ID` int(11) NOT NULL,
+  `Dato_Plan_Operativo_ID` int(11) NOT NULL,
+  PRIMARY KEY (`tmp_Personal_Tecnico_Administrativo_ID`),
+  KEY `TC_tmp_Personal_Tecnico_Adminis2253` (`tmp_Institucion_ID`),
+  CONSTRAINT `FK_tmp_Personal_Tecnico_Adminis831` FOREIGN KEY (`tmp_Institucion_ID`) REFERENCES `tmp_institucion` (`TMP_Institucion_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `tmp_personal_tecnico_administrativo` */
+
+LOCK TABLES `tmp_personal_tecnico_administrativo` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `tmp_resumen_proyecto` */
+
+DROP TABLE IF EXISTS `tmp_resumen_proyecto`;
+
+CREATE TABLE `tmp_resumen_proyecto` (
+  `tmp_Resumen_Proyecto_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_idtablaesp_tipo_resumen_proy` int(11) NOT NULL,
+  `fk_id_tabla_general` int(11) NOT NULL,
+  `definicion` varchar(255) NOT NULL,
+  `tmp_Dato_Proyecto_ID` int(11) NOT NULL,
+  PRIMARY KEY (`tmp_Resumen_Proyecto_ID`),
+  KEY `TC_tmp_Resumen_Proyecto2260` (`tmp_Dato_Proyecto_ID`),
+  CONSTRAINT `FK_tmp_Resumen_Proyecto815` FOREIGN KEY (`tmp_Dato_Proyecto_ID`) REFERENCES `tmp_dato_proyecto` (`TMP_Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `tmp_resumen_proyecto` */
+
+LOCK TABLES `tmp_resumen_proyecto` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `tmp_ubicacion_proyecto` */
+
+DROP TABLE IF EXISTS `tmp_ubicacion_proyecto`;
+
+CREATE TABLE `tmp_ubicacion_proyecto` (
+  `TMP_Ubicacion_Proyecto_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `detalle_ubicacion` varchar(255) NOT NULL,
+  `TMP_Dato_Proyecto_ID` int(11) NOT NULL,
+  `Dep_Prov_Dist_ID` int(11) NOT NULL,
+  PRIMARY KEY (`TMP_Ubicacion_Proyecto_ID`),
+  KEY `TC_Ubicacion_Proyecto2328` (`TMP_Dato_Proyecto_ID`),
+  KEY `TC_Ubicacion_Proyecto2329` (`Dep_Prov_Dist_ID`),
+  CONSTRAINT `FK_tmp_Ubicacion_Proyecto821` FOREIGN KEY (`TMP_Dato_Proyecto_ID`) REFERENCES `tmp_dato_proyecto` (`TMP_Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_tmp_Ubicacion_Proyecto943` FOREIGN KEY (`Dep_Prov_Dist_ID`) REFERENCES `dep_prov_dist` (`Dep_Prov_Dist_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `tmp_ubicacion_proyecto` */
+
+LOCK TABLES `tmp_ubicacion_proyecto` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `ubicacion_proyecto` */
+
+DROP TABLE IF EXISTS `ubicacion_proyecto`;
+
+CREATE TABLE `ubicacion_proyecto` (
+  `Ubicacion_Proyecto_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `detalle_ubicacion` varchar(255) NOT NULL,
+  `Dato_Proyecto_ID` int(11) NOT NULL,
+  `Dep_Prov_Dist_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Ubicacion_Proyecto_ID`),
+  KEY `TC_Ubicacion_Proyecto2328` (`Dato_Proyecto_ID`),
+  KEY `TC_Ubicacion_Proyecto2329` (`Dep_Prov_Dist_ID`),
+  CONSTRAINT `FK_Ubicacion_Proyecto821` FOREIGN KEY (`Dato_Proyecto_ID`) REFERENCES `dato_proyecto` (`Dato_Proyecto_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Ubicacion_Proyecto943` FOREIGN KEY (`Dep_Prov_Dist_ID`) REFERENCES `dep_prov_dist` (`Dep_Prov_Dist_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `ubicacion_proyecto` */
+
+LOCK TABLES `ubicacion_proyecto` WRITE;
+
+UNLOCK TABLES;
+
+/*Table structure for table `usuario` */
+
+DROP TABLE IF EXISTS `usuario`;
+
+CREATE TABLE `usuario` (
+  `Usuario_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `login` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `Dato_Usuario_ID` int(11) NOT NULL,
+  `Perfil_Usuario_ID` int(11) NOT NULL,
+  PRIMARY KEY (`Usuario_ID`),
+  KEY `TC_Usuario2325` (`Perfil_Usuario_ID`),
+  KEY `TC_Usuario2324` (`Dato_Usuario_ID`),
+  CONSTRAINT `FK_Usuario936` FOREIGN KEY (`Dato_Usuario_ID`) REFERENCES `dato_usuario` (`Dato_Usuario_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Usuario941` FOREIGN KEY (`Perfil_Usuario_ID`) REFERENCES `perfil_usuario` (`Perfil_Usuario_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+/*Data for the table `usuario` */
+
+LOCK TABLES `usuario` WRITE;
+
+insert  into `usuario`(`Usuario_ID`,`login`,`password`,`Dato_Usuario_ID`,`Perfil_Usuario_ID`) values (1,'dme','dme',7,1),(2,'dt','dt',6,2),(3,'dafi','dafi',5,3),(4,'ct','ct',4,4),(5,'ca','ca',3,5),(6,'de','de',2,6),(7,'ejecutor','ejecutor',1,7);
+
+UNLOCK TABLES;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

@@ -1,0 +1,51 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.dao.TablaEspecificaDAO;
+import pe.com.fondam.sgp.core.dao.TablaGeneralDAO;
+import pe.com.fondam.sgp.core.domain.TablaEspecifica;
+import pe.com.fondam.sgp.core.domain.TablaGeneral;
+import pe.com.fondam.sgp.core.service.TablaEspecificaService;
+@Service
+public class TablaEspecificaServiceImpl implements TablaEspecificaService{
+	
+	@Resource
+	TablaEspecificaDAO tablaEspecificaDAO;
+	
+	@Resource
+	TablaGeneralDAO tablaGeneralDAO;
+
+	public TablaEspecificaDAO getTablaEspecificaDAO() {
+		return tablaEspecificaDAO;
+	}
+
+
+	public void setTablaEspecificaDAO(TablaEspecificaDAO tablaEspecificaDAO) {
+		this.tablaEspecificaDAO = tablaEspecificaDAO;
+	}
+
+
+	@Override
+	public List<TablaEspecifica> listTablaEspecificaByTablaGeneralId(Integer id) {
+		return tablaEspecificaDAO.findTablaEspecificasByTablaGeneralId(id);
+	}
+
+	public TablaEspecifica findTablaEspecificaById(Integer tablaEspecificaID) {
+		return tablaEspecificaDAO.findTablaEspecificaById(tablaEspecificaID);  
+	}
+	
+	@Override
+	public List<TablaEspecifica> findTablaEspecificabyPrefijoTablaGeneral(
+			String prefijo) {
+		 TablaGeneral tablaGeneral=tablaGeneralDAO.findTablaGeneralByPrefijo(prefijo);
+		
+			return tablaEspecificaDAO.findTablaEspecificasByTablaGeneralId(tablaGeneral.getTablaGeneralID());
+	}
+
+
+}

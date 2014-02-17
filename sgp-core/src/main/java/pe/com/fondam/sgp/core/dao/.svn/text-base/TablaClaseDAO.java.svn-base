@@ -1,0 +1,8 @@
+package pe.com.fondam.sgp.core.dao;
+
+import pe.com.fondam.sgp.core.domain.TablaClase;
+
+public interface TablaClaseDAO {
+
+	TablaClase findByClaseNombre(String claseNombre);
+}

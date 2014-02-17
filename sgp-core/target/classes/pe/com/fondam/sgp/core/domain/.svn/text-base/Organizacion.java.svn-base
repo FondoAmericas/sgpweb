@@ -1,0 +1,136 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package pe.com.fondam.sgp.core.domain;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "organizacion")
+
+public class Organizacion implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    
+    @Column(name = "Organizacion_ID")
+    private Integer organizacionID;
+    
+    @Column(name = "nombre_organizacion")
+    private String nombreOrganizacion;
+    
+    @Lob
+    @Column(name = "situacion_final")
+    private String situacionFinal;
+   
+    @JoinColumn(name = "Propuesta_Transferencia_ID", referencedColumnName = "Propuesta_Transferencia_ID")
+    @ManyToOne
+    private PropuestaTransferencia propuestaTransferencia;
+    
+    @JoinColumn(name = "Informe_Final_ID", referencedColumnName = "Informe_Final_ID")
+    @ManyToOne
+    private InformeFinal informeFinal;
+
+    @JoinColumn(name = "Dato_Proyecto_ID", referencedColumnName = "Dato_Proyecto_ID")
+    @ManyToOne
+    private DatoProyecto datoProyecto;
+
+    public Organizacion() {
+    }
+
+    public Organizacion(Integer organizacionID) {
+        this.organizacionID = organizacionID;
+    }
+
+    public Organizacion(Integer organizacionID, String nombreOrganizacion, String situacionFinal) {
+        this.organizacionID = organizacionID;
+        this.nombreOrganizacion = nombreOrganizacion;
+        this.situacionFinal = situacionFinal;
+    }
+
+    public Integer getOrganizacionID() {
+        return organizacionID;
+    }
+
+    public void setOrganizacionID(Integer organizacionID) {
+        this.organizacionID = organizacionID;
+    }
+
+    public String getNombreOrganizacion() {
+        return nombreOrganizacion;
+    }
+
+    public void setNombreOrganizacion(String nombreOrganizacion) {
+        this.nombreOrganizacion = nombreOrganizacion;
+    }
+
+    public String getSituacionFinal() {
+        return situacionFinal;
+    }
+
+    public void setSituacionFinal(String situacionFinal) {
+        this.situacionFinal = situacionFinal;
+    }
+
+    public PropuestaTransferencia getPropuestaTransferencia() {
+        return propuestaTransferencia;
+    }
+
+    public void setPropuestaTransferencia(PropuestaTransferencia propuestaTransferencia) {
+        this.propuestaTransferencia = propuestaTransferencia;
+    }
+
+    public InformeFinal getInformeFinal() {
+        return informeFinal;
+    }
+
+    public void setInformeFinal(InformeFinal informeFinal) {
+        this.informeFinal = informeFinal;
+    }
+
+    public void setDatoProyecto(DatoProyecto datoProyecto) {
+		this.datoProyecto = datoProyecto;
+	}
+
+	public DatoProyecto getDatoProyecto() {
+		return datoProyecto;
+	}
+
+	@Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (organizacionID != null ? organizacionID.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Organizacion)) {
+            return false;
+        }
+        Organizacion other = (Organizacion) object;
+        if ((this.organizacionID == null && other.organizacionID != null) || (this.organizacionID != null && !this.organizacionID.equals(other.organizacionID))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "pe.com.fondam.sgp.core.domain.Organizacion[organizacionID=" + organizacionID + "]";
+    }
+
+}

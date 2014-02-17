@@ -1,0 +1,11 @@
+package pe.com.fondam.sgp.core.service;
+
+import pe.com.fondam.sgp.core.domain.DatoProyecto;
+
+public interface DatoProyectoService {
+
+	DatoProyecto findDatoProyectoById(Integer datoProyectoID);
+
+	void updateDatoProyecto(DatoProyecto datoProyecto);
+
+}

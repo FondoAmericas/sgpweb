@@ -1,0 +1,112 @@
+package pe.com.fondam.sgp.core.domain;
+
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "reporte_avance_beneficiario")
+
+public class ReporteAvanceBeneficiario implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4730620227716514943L;
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "reporte_avance_beneficiario_ID")
+	private Integer reporteAvanceBeneficiarioID;
+	
+	@Column(name = "cantidad_lograda")
+	private Integer cantidadLograda;
+	
+	@JoinColumn(name = "reporte_avance_id", referencedColumnName = "reporte_avance_id")
+    @ManyToOne
+	private ReporteAvance reporteAvance;
+
+	@JoinColumn(name = "beneficiarios_por_resultado_id", referencedColumnName = "beneficiarios_por_resultado_id")
+    @ManyToOne
+	private BeneficiariosPorResultado beneficiariosPorResultado;
+	
+	
+	public ReporteAvanceBeneficiario(){
+		
+	}
+
+
+	public Integer getReporteAvanceBeneficiarioID() {
+		return reporteAvanceBeneficiarioID;
+	}
+
+
+	public void setReporteAvanceBeneficiarioID(Integer reporteAvanceBeneficiarioID) {
+		this.reporteAvanceBeneficiarioID = reporteAvanceBeneficiarioID;
+	}
+
+
+	public Integer getCantidadLograda() {
+		return cantidadLograda;
+	}
+
+
+	public void setCantidadLograda(Integer cantidadLograda) {
+		this.cantidadLograda = cantidadLograda;
+	}
+
+
+	public ReporteAvance getReporteAvance() {
+		return reporteAvance;
+	}
+
+
+	public void setReporteAvance(ReporteAvance reporteAvance) {
+		this.reporteAvance = reporteAvance;
+	}
+
+
+	public BeneficiariosPorResultado getBeneficiariosPorResultado() {
+		return beneficiariosPorResultado;
+	}
+
+
+	public void setBeneficiariosPorResultado(
+			BeneficiariosPorResultado beneficiariosPorResultado) {
+		this.beneficiariosPorResultado = beneficiariosPorResultado;
+	}
+	
+	
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (reporteAvanceBeneficiarioID != null ? reporteAvanceBeneficiarioID.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof ReporteAvanceBeneficiario)) {
+            return false;
+        }
+        ReporteAvanceBeneficiario other = (ReporteAvanceBeneficiario) object;
+        if ((this.reporteAvanceBeneficiarioID == null && other.reporteAvanceBeneficiarioID != null) || (this.reporteAvanceBeneficiarioID != null && !this.reporteAvanceBeneficiarioID.equals(other.reporteAvanceBeneficiarioID))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "pe.com.fondam.sgp.core.domain.ReporteAvanceBeneficiario[reporteAvanceBeneficiarioID=" + reporteAvanceBeneficiarioID + "]";
+    }
+	
+}

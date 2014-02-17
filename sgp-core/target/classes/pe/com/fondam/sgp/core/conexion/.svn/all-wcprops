@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/1049/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/conexion
+END
+ConexionJdbcTemplate.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/1048/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/conexion/ConexionJdbcTemplate.java
+END
+ConexionJdbcTemplateImpl.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/1049/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/conexion/ConexionJdbcTemplateImpl.java
+END

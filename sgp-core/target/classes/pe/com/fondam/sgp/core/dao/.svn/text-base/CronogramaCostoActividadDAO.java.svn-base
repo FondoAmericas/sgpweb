@@ -1,0 +1,28 @@
+package pe.com.fondam.sgp.core.dao;
+
+import java.util.List;
+
+import pe.com.fondam.sgp.core.domain.CronogramaCostoActividad;
+
+public interface CronogramaCostoActividadDAO {
+
+	void saveCronogramaCostoActividad(CronogramaCostoActividad cronogramaCostoActividad);
+
+	CronogramaCostoActividad updateCronogramaCostoActividad(CronogramaCostoActividad cronogramaCostoActividad);
+
+	CronogramaCostoActividad findCronogramaCostoActividadById(Integer id);
+
+	List<CronogramaCostoActividad> findCronogramaCostoActividadByCostoActividadID(Integer costoActividadID);
+
+	List<CronogramaCostoActividad> findCronogramaCostoActividadByFuenteFinanciadoraID(Integer fuenteFinanciadoraID);
+
+	List<CronogramaCostoActividad> findCronogramaCostoActividadByCostoActividadIdAndFuenteFinanciadoraID(Integer costoActividadID, Integer fuenteFinanciadoraID);
+	
+	List<CronogramaCostoActividad> findCronogramaCostoActividadByCostoActividadIDNroPeriodo(Integer costoActividadID, String nroPeriodo);
+
+	List<CronogramaCostoActividad> findCronogramaCostoActividad(String queryString, Object[] params);
+	
+	//List findCronogramaCostoActividadByCostoActividadID_(Integer costoActividadID);
+
+
+}

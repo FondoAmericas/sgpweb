@@ -1,0 +1,40 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.dao.CronogramaMetaPorActividadDAO;
+import pe.com.fondam.sgp.core.domain.CronogramaMetaPorActividad;
+import pe.com.fondam.sgp.core.service.CronogramaMetaPorActividadService;
+
+@Service
+public class CronogramaMetaPorActividadServiceImpl implements CronogramaMetaPorActividadService {
+
+	/************************* inyecciones **************************/
+	@Resource
+	CronogramaMetaPorActividadDAO cronogramaMetaPorActividadDAO;
+	
+	/************************* metodos **************************/
+	@Override
+	public List<CronogramaMetaPorActividad> findCronogramaMetaPorActividadXMetaPorActividadId(Integer metasXActividadId) {
+		
+		String consulta =" from CronogramaMetaPorActividad where metaPorActividad.metaPorActividadID = ? ";
+		Object[] params = new Object[1];
+		params[0]= metasXActividadId;
+		return cronogramaMetaPorActividadDAO.findCronogramaMetaPorActividadXConsulta(consulta,params);
+	}
+
+	@Override
+	public CronogramaMetaPorActividad findCronogramaMetaPorActividadById(Integer cronogramaMetaActividadId) {
+		return cronogramaMetaPorActividadDAO.findCronorgramaMetaPorActividadById(cronogramaMetaActividadId);
+	}
+
+	@Override
+	public void deleteCronorgramaMetaPorActividad(CronogramaMetaPorActividad cronorgramaMetaPorActividad) {
+		cronogramaMetaPorActividadDAO.deleteCronorgramaMetaPorActividad(cronorgramaMetaPorActividad);
+	}
+
+}

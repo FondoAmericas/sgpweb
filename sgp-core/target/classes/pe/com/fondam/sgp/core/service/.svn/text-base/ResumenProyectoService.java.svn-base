@@ -1,0 +1,13 @@
+package pe.com.fondam.sgp.core.service;
+
+import pe.com.fondam.sgp.core.domain.ResumenProyecto;
+
+public interface ResumenProyectoService {
+
+	void updateResumenProyecto(ResumenProyecto resumenProyecto);
+
+	ResumenProyecto findResumenProyectoById(Integer resumenProyectoId);
+
+	void deleteResumenProyecto(Integer resumenProyectoId);
+
+}

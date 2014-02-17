@@ -1,0 +1,12 @@
+package pe.com.fondam.sgp.core.service;
+
+import pe.com.fondam.sgp.core.domain.InformeFinalBien;
+
+public interface InformeFinalBienService {
+
+	InformeFinalBien findInformeFinalBienByInformeFinalIdByBienId(
+			Integer informeFinalId, Integer bienID);
+
+	InformeFinalBien updateInformeFinalBien(InformeFinalBien informeFinalBienSave);
+
+}

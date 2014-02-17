@@ -1,0 +1,24 @@
+package pe.com.fondam.sgp.core.dao;
+
+import java.util.List;
+
+import pe.com.fondam.sgp.core.domain.ApreciacionResultado;
+
+
+
+public interface ApreciacionResultadoDAO {
+
+	void saveApreciacionResultado(ApreciacionResultado apreciacionResultado);
+	
+	ApreciacionResultado updateApreciacionResultado(ApreciacionResultado apreciacionResultado);
+	
+	void deleteActivo(ApreciacionResultado apreciacionResultado);
+	
+	ApreciacionResultado findApreciacionResultadoById(Integer id);
+
+	List<ApreciacionResultado> findApreciacionResultados(String consulta,
+			Object[] params);
+
+	void deleteApreciacionResultado(ApreciacionResultado apreciacionResultado);
+
+}

@@ -1,0 +1,29 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.dao.ObservacionDAO;
+import pe.com.fondam.sgp.core.domain.Observacion;
+import pe.com.fondam.sgp.core.service.ObservacionService;
+@Service
+public class ObservacionServiceImpl implements ObservacionService {
+
+	@Resource
+	private ObservacionDAO observacionDAO;
+
+
+	@Override
+	public void saveObservacion(Observacion observacion) {
+		observacionDAO.save(observacion);
+		
+	}
+
+	@Override
+	public void updateObservacion(Observacion observacion) {
+		observacionDAO.update(observacion);
+		
+	}
+
+}

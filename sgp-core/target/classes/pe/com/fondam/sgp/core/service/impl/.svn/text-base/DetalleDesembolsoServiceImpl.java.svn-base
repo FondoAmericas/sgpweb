@@ -1,0 +1,36 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.dao.DetalleDesembolsoDAO;
+import pe.com.fondam.sgp.core.domain.DetalleDesembolso;
+import pe.com.fondam.sgp.core.service.DetalleDesembolsoService;
+
+@Service
+public class DetalleDesembolsoServiceImpl implements DetalleDesembolsoService {
+
+	/************** inyecciones ***************/
+	@Resource
+	DetalleDesembolsoDAO detalleDesembolsoDAO;
+
+	
+	/************** metodos ***************/
+	@Override
+	public List<DetalleDesembolso> findDetalleDesembolsoByDesemboloId(
+			Integer desembolsoID) {
+		
+		return detalleDesembolsoDAO.findDetalleDesembolsoByDesembolsoID(desembolsoID);
+	}
+
+
+	@Override
+	public DetalleDesembolso updateDetalleDesembolso(DetalleDesembolso detalleDesembolso) {
+		return detalleDesembolsoDAO.updateDetalleDesembolso(detalleDesembolso);
+		
+	}
+
+}

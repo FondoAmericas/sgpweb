@@ -1,0 +1,29 @@
+package pe.com.fondam.sgp.core.dao;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import pe.com.fondam.sgp.core.domain.PagoLiquidacion;
+
+@Repository
+
+public interface PagoLiquidacionDAO {
+
+	void savePagoLiquidacion(PagoLiquidacion pagoLiquidacion);
+	
+	PagoLiquidacion updatePagoLiquidacion(
+			PagoLiquidacion pagoLiquidacion);
+	
+	void deletePagoLiquidacion(PagoLiquidacion pagoLiquidacion);
+	
+	PagoLiquidacion findPagoLiquidacionById(Integer id);
+	
+	List<PagoLiquidacion> findPagoLiquidaciones();
+
+	List<PagoLiquidacion> findPagoLiquidacione(String queryString,
+			Object[] params);
+
+	List<PagoLiquidacion> findPagoLiquidacionByLiquidacionGastoID(Integer liquidacionGastoID);
+	
+}

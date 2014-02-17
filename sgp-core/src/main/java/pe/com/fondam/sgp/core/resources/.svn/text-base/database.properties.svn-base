@@ -1,0 +1,10 @@
+#Developer localhost
+database.driver=com.mysql.jdbc.Driver
+#database.url=jdbc:mysql://ec2-174-129-9-255.compute-1.amazonaws.com:3306/bdgpweb?autoReconnect=true
+#database.username=fondam
+database.url=jdbc:mysql://localhost:3306/bdgpweb?autoReconnect=true
+database.username=root
+database.password=root
+
+# You can remove this property if you're not using Hibernate
+hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect

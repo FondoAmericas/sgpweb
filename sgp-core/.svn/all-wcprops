@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 33
+/svn/!svn/ver/1516/sgp-core/trunk
+END
+pom.xml
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/1196/sgp-core/trunk/pom.xml
+END
+.project
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/717/sgp-core/trunk/.project
+END
+.classpath
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/717/sgp-core/trunk/.classpath
+END

@@ -1,0 +1,193 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package pe.com.fondam.sgp.core.domain;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name = "programa")
+public class Programa implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    
+    @Column(name = "Programa_ID")
+    private Integer programaID;
+    
+    @Column(name = "duracion_programa")
+    private int duracionPrograma;
+    
+    @Column(name = "fk_idtablaesp_tipo_cuenta")
+    private int fkIdtablaespTipoCuenta;
+    
+    @Column(name = "fk_idtablaesp_modalidad_financia")
+    private int fkIdtablaespModalidadFinancia;
+    
+    @Column(name = "identificador_mod_finan")
+    private String identificadorModFinan;
+    
+    @Column(name = "nombre_programa")
+    private String nombrePrograma;
+    
+    @Column(name = "fecha_convocatoria")
+    @Temporal(TemporalType.DATE)
+    private Date fechaConvocatoria;
+    
+    @Column(name = "req_proy_grobal")
+    private int reqProyGrobal;
+    
+    @Column(name = "req_eval_inst")
+    private int reqEvalInst;
+    
+    @Column(name = "req_eval_tec")
+    private int reqEvalTec;
+    
+    @Column(name = "req_eval_proy")
+    private int reqEvalProy;
+    
+    
+    @ManyToOne
+    @JoinColumn(name = "Tipo_Periodo_ID", referencedColumnName = "Tipo_Periodo_ID")
+    private TipoPeriodo tipoPeriodo;
+  
+    public Integer getProgramaID() {
+        return programaID;
+    }
+
+    public void setProgramaID(Integer programaID) {
+        this.programaID = programaID;
+    }
+
+    public int getDuracionPrograma() {
+        return duracionPrograma;
+    }
+
+    public void setDuracionPrograma(int duracionPrograma) {
+        this.duracionPrograma = duracionPrograma;
+    }
+
+    public int getFkIdtablaespTipoCuenta() {
+        return fkIdtablaespTipoCuenta;
+    }
+
+    public void setFkIdtablaespTipoCuenta(int fkIdtablaespTipoCuenta) {
+        this.fkIdtablaespTipoCuenta = fkIdtablaespTipoCuenta;
+    }
+
+    public int getFkIdtablaespModalidadFinancia() {
+        return fkIdtablaespModalidadFinancia;
+    }
+
+    public void setFkIdtablaespModalidadFinancia(int fkIdtablaespModalidadFinancia) {
+        this.fkIdtablaespModalidadFinancia = fkIdtablaespModalidadFinancia;
+    }
+
+    public String getIdentificadorModFinan() {
+        return identificadorModFinan;
+    }
+
+    public void setIdentificadorModFinan(String identificadorModFinan) {
+        this.identificadorModFinan = identificadorModFinan;
+    }
+
+    public String getNombrePrograma() {
+        return nombrePrograma;
+    }
+
+    public void setNombrePrograma(String nombrePrograma) {
+        this.nombrePrograma = nombrePrograma;
+    }
+
+    public Date getFechaConvocatoria() {
+        return fechaConvocatoria;
+    }
+
+    public void setFechaConvocatoria(Date fechaConvocatoria) {
+        this.fechaConvocatoria = fechaConvocatoria;
+    }
+
+    public int getReqProyGrobal() {
+        return reqProyGrobal;
+    }
+
+    public void setReqProyGrobal(int reqProyGrobal) {
+        this.reqProyGrobal = reqProyGrobal;
+    }
+
+    public int getReqEvalInst() {
+        return reqEvalInst;
+    }
+
+    public void setReqEvalInst(int reqEvalInst) {
+        this.reqEvalInst = reqEvalInst;
+    }
+
+    public int getReqEvalTec() {
+        return reqEvalTec;
+    }
+
+    public void setReqEvalTec(int reqEvalTec) {
+        this.reqEvalTec = reqEvalTec;
+    }
+
+    public int getReqEvalProy() {
+        return reqEvalProy;
+    }
+
+    public void setReqEvalProy(int reqEvalProy) {
+        this.reqEvalProy = reqEvalProy;
+    }
+
+    
+
+    public TipoPeriodo getTipoPeriodo() {
+        return tipoPeriodo;
+    }
+
+    public void setTipoPeriodo(TipoPeriodo tipoPeriodo) {
+        this.tipoPeriodo = tipoPeriodo;
+    }
+
+  
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (programaID != null ? programaID.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Programa)) {
+            return false;
+        }
+        Programa other = (Programa) object;
+        if ((this.programaID == null && other.programaID != null) || (this.programaID != null && !this.programaID.equals(other.programaID))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "pe.com.fondam.sgp.core.domain.Programa[programaID=" + programaID + "]";
+    }
+
+}

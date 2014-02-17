@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1392/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/view/planOperativo
+END
+CostoActividadView.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/878/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/view/planOperativo/CostoActividadView.java
+END
+PlanOperativoView.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/939/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/view/planOperativo/PlanOperativoView.java
+END
+BeneficiarioResultadoView.java
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/827/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/view/planOperativo/BeneficiarioResultadoView.java
+END
+CronogramaCostoActividadView.java
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/!svn/ver/850/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/view/planOperativo/CronogramaCostoActividadView.java
+END
+IndicadorResultadoView.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/view/planOperativo/IndicadorResultadoView.java
+END
+CronogramaMetaActividadView.java
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/!svn/ver/1392/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/view/planOperativo/CronogramaMetaActividadView.java
+END
+CronogramaCostoActividad2View.java
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/!svn/ver/872/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/view/planOperativo/CronogramaCostoActividad2View.java
+END
+PeriodoView.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/872/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/view/planOperativo/PeriodoView.java
+END

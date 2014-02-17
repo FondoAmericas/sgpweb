@@ -1,0 +1,131 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/616/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao
+END
+TmpDatoProyectoDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/367/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/TmpDatoProyectoDAOTest.java
+END
+TablaEspecificaDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/326/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/TablaEspecificaDAOTest.java
+END
+TipoActividadObligatoriaProgramaDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/!svn/ver/6/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/TipoActividadObligatoriaProgramaDAOTest.java
+END
+FuncionalidadPerfilDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/6/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/FuncionalidadPerfilDAOTest.java
+END
+RestriccionProgramaDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/6/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/RestriccionProgramaDAOTest.java
+END
+TipoPeriodoDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/6/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/TipoPeriodoDAOTest.java
+END
+DatoProyectoDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/423/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/DatoProyectoDAOTest.java
+END
+ProgramaDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/367/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/ProgramaDAOTest.java
+END
+PuntajeEvaluacionDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/114/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/PuntajeEvaluacionDAOTest.java
+END
+TablaGeneralDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/326/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/TablaGeneralDAOTest.java
+END
+DepProvDistDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/153/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/DepProvDistDAOTest.java
+END
+EvaluadorDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/423/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/EvaluadorDAOTest.java
+END
+PerfilUsuarioDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/6/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/PerfilUsuarioDAOTest.java
+END
+ActividadObligatoriaProgramaDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/114/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/ActividadObligatoriaProgramaDAOTest.java
+END
+InstitucionDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/423/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/InstitucionDAOTest.java
+END
+CategoriaActividadDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/114/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/CategoriaActividadDAOTest.java
+END
+PerfilDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/423/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/PerfilDAOTest.java
+END
+FuncionalidadDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/6/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/FuncionalidadDAOTest.java
+END
+UsuarioDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/616/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/UsuarioDAOTest.java
+END
+ActivoDAOTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/114/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/ActivoDAOTest.java
+END
+TmpDatoProyectoServiceTest.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/616/sgp-core/trunk/src/test/java/pe/com/fondam/sgp/core/test/dao/TmpDatoProyectoServiceTest.java
+END

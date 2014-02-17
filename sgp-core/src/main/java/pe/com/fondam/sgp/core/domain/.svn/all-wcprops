@@ -1,0 +1,701 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/1830/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain
+END
+IndicadorResultado.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/IndicadorResultado.java
+END
+Bien.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/Bien.java
+END
+Usuario.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/Usuario.java
+END
+DescripcionEf.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/DescripcionEf.java
+END
+RestricionPrograma.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/RestricionPrograma.java
+END
+Riesgo.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1140/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/Riesgo.java
+END
+InspeccionAdmin.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/InspeccionAdmin.java
+END
+EvaluacionFinal.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/EvaluacionFinal.java
+END
+RestriccionSubAreaTematica.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/RestriccionSubAreaTematica.java
+END
+PercepcionEjecucionPresupuestal.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/PercepcionEjecucionPresupuestal.java
+END
+TmpEvaluacion.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/TmpEvaluacion.java
+END
+TmpPerfil.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/1667/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/TmpPerfil.java
+END
+TmpFuenteFinanciadora.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/TmpFuenteFinanciadora.java
+END
+CompromisoPago.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/1397/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/CompromisoPago.java
+END
+MarcoLogico.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/MarcoLogico.java
+END
+PropuestaTransferencia.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/PropuestaTransferencia.java
+END
+TmpPersonalTecnicoAdministrativo.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/TmpPersonalTecnicoAdministrativo.java
+END
+BeneficiariosPorResultado.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/BeneficiariosPorResultado.java
+END
+TmpActividadPerfil.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/TmpActividadPerfil.java
+END
+TmpInstitucion.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/TmpInstitucion.java
+END
+MetaPerfil.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/MetaPerfil.java
+END
+RubroEspecial.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/RubroEspecial.java
+END
+Activo.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/Activo.java
+END
+TmpResumenProyecto.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/TmpResumenProyecto.java
+END
+CuentaCorriente.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/CuentaCorriente.java
+END
+Funcionalidad.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/Funcionalidad.java
+END
+TipoCambio.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/1518/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/TipoCambio.java
+END
+CategoriaActividad.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/546/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/CategoriaActividad.java
+END
+LiquidacionGasto.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/1572/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/LiquidacionGasto.java
+END
+ObservacionProy.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/ObservacionProy.java
+END
+ActividadPerfil.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/ActividadPerfil.java
+END
+Institucion.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/1703/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/Institucion.java
+END
+ResumenProyecto.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/ResumenProyecto.java
+END
+InspeccionTecnica.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/InspeccionTecnica.java
+END
+SubAreaTematica.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/SubAreaTematica.java
+END
+UbicacionProyecto.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/UbicacionProyecto.java
+END
+RestriccionDepProvDist.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/RestriccionDepProvDist.java
+END
+DatoPlanOperativo.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/DatoPlanOperativo.java
+END
+Evaluador.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/1739/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/Evaluador.java
+END
+EfectoProyecto.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/EfectoProyecto.java
+END
+TablaGeneral.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/321/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/TablaGeneral.java
+END
+PartidaEspecifica.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/546/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/PartidaEspecifica.java
+END
+PartidaGenerica.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/983/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/PartidaGenerica.java
+END
+Observacion.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/Observacion.java
+END
+InformeVisitaCampo.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/InformeVisitaCampo.java
+END
+FechaCambioEstado.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/FechaCambioEstado.java
+END
+TipoPeriodo.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/1452/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/TipoPeriodo.java
+END
+InformeFinal.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/InformeFinal.java
+END
+DetalleDesembolso.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/1815/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/DetalleDesembolso.java
+END
+Telefono.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/Telefono.java
+END
+ObservacionInspecAdmin.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/ObservacionInspecAdmin.java
+END
+AvanceResultadoActividad.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/AvanceResultadoActividad.java
+END
+ImagenOArchivo.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/ImagenOArchivo.java
+END
+DetalleEstadoCabecera.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/DetalleEstadoCabecera.java
+END
+MetaPorActividad.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/MetaPorActividad.java
+END
+ProblemaSolucion.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/ProblemaSolucion.java
+END
+PropuestaTransferenciaBien.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/PropuestaTransferenciaBien.java
+END
+EstadoTransaccion.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/200/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/EstadoTransaccion.java
+END
+LeccionApendida.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/LeccionApendida.java
+END
+TmpMetaPerfil.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/TmpMetaPerfil.java
+END
+ActividadObligatoriaPrograma.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/ActividadObligatoriaPrograma.java
+END
+CronogramaCostoActividad.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/CronogramaCostoActividad.java
+END
+Organizacion.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/Organizacion.java
+END
+PercepcionSobre.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/PercepcionSobre.java
+END
+InformePersTecnAdmin.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/InformePersTecnAdmin.java
+END
+CronogramaVisita.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/CronogramaVisita.java
+END
+DepProvDist.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/DepProvDist.java
+END
+TmpBeneficiariosPorResultado.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/TmpBeneficiariosPorResultado.java
+END
+Actividad.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/Actividad.java
+END
+DetallePagoLiquidacion.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/DetallePagoLiquidacion.java
+END
+IngresoPropio.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/1633/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/IngresoPropio.java
+END
+CronogramaMetaPorActividad.java
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/CronogramaMetaPorActividad.java
+END
+Inspector.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/Inspector.java
+END
+DatoUsuario.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/DatoUsuario.java
+END
+ActaCierre.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/ActaCierre.java
+END
+RubroGenerico.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/546/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/RubroGenerico.java
+END
+TmpDatoProyecto.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1759/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/TmpDatoProyecto.java
+END
+TablaEspecifica.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/321/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/TablaEspecifica.java
+END
+DetalleInspeccionAdmin.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/DetalleInspeccionAdmin.java
+END
+ActividadDetallePago.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/1621/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/ActividadDetallePago.java
+END
+PersonalTecnicoAdministrativo.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/PersonalTecnicoAdministrativo.java
+END
+ApreciacionResultado.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/ApreciacionResultado.java
+END
+RecursoUtilizado.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/RecursoUtilizado.java
+END
+DocInternoFondam.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/DocInternoFondam.java
+END
+Resultado.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/Resultado.java
+END
+ReporteAvanceBeneficiario.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/1247/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/ReporteAvanceBeneficiario.java
+END
+Evaluacion.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/Evaluacion.java
+END
+TmpUbicacionProyecto.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/TmpUbicacionProyecto.java
+END
+Perfil.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/Perfil.java
+END
+GanaciaBancaria.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/GanaciaBancaria.java
+END
+CronogramaMetaPorResultado.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/321/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/CronogramaMetaPorResultado.java
+END
+RaLg.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/1830/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/RaLg.java
+END
+InformeFinalBien.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/InformeFinalBien.java
+END
+MaterialProducido.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/MaterialProducido.java
+END
+TmpImagenOArchivo.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/TmpImagenOArchivo.java
+END
+FuenteFinanciadora.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/554/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/FuenteFinanciadora.java
+END
+DirectivaBeneficiario.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/DirectivaBeneficiario.java
+END
+PerfilUsuario.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/PerfilUsuario.java
+END
+Desembolso.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/Desembolso.java
+END
+OrgBienTranferido.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/OrgBienTranferido.java
+END
+TablaClase.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/TablaClase.java
+END
+Conclusion.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/Conclusion.java
+END
+DetalleConcluIf.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/DetalleConcluIf.java
+END
+PuntajeEvaluacion.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/PuntajeEvaluacion.java
+END
+DatoProyecto.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/DatoProyecto.java
+END
+Programa.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/Programa.java
+END
+IndicadorMarcoLogico.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/IndicadorMarcoLogico.java
+END
+CostoActividad.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/CostoActividad.java
+END
+ConclusionRecomendacion.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/ConclusionRecomendacion.java
+END
+TipoActividadObligatoriaPrograma.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/TipoActividadObligatoriaPrograma.java
+END
+FuncionalidadPerfil.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/FuncionalidadPerfil.java
+END
+InfraestructuraPo.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/InfraestructuraPo.java
+END
+EstadoCabecera.java
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/1371/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/EstadoCabecera.java
+END
+ReporteAvance.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/ReporteAvance.java
+END
+PropuestaTransferenciaBeneficiario.java
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/1849/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/PropuestaTransferenciaBeneficiario.java
+END
+PagoLiquidacion.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/1821/sgp-core/trunk/src/main/java/pe/com/fondam/sgp/core/domain/PagoLiquidacion.java
+END

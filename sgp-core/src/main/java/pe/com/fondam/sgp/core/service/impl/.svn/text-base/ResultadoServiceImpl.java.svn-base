@@ -1,0 +1,77 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.dao.DatoPlanOperativoDAO;
+import pe.com.fondam.sgp.core.dao.DatoProyectoDAO;
+import pe.com.fondam.sgp.core.dao.ResultadoDAO;
+import pe.com.fondam.sgp.core.domain.DatoPlanOperativo;
+import pe.com.fondam.sgp.core.domain.DatoProyecto;
+import pe.com.fondam.sgp.core.domain.Resultado;
+import pe.com.fondam.sgp.core.service.ResultadoService;
+
+@Service
+public class ResultadoServiceImpl implements ResultadoService {
+
+	/********** inyecciones  *******************/
+	@Resource
+	DatoProyectoDAO datoProyectoDAO;
+	
+	@Resource
+	DatoPlanOperativoDAO datoPlanOperativoDAO;
+	
+	@Resource
+	ResultadoDAO resultadoDAO;
+	
+	/********** metodos *******************/
+	@Override
+	public List<Resultado> findResultadoXDatoProyectoID(Integer datoProyectoID) {
+		DatoProyecto datoProyecto= datoProyectoDAO.findDatoProyectoById(datoProyectoID);
+		
+		//traigo la ultima version de plan operativo y uso el datoPlanOperativoId
+		DatoPlanOperativo datoPlanOperativo =  datoPlanOperativoDAO.findDatoPlanOperativoByDatoProyectoID(datoProyecto.getDatoProyectoID());
+		
+		String consulta = " from Resultado where datoPlanOperativo.datoPlanOperativoID = ? ";
+		
+		Object[] params= new Object[1];
+		params[0]= datoPlanOperativo.getDatoPlanOperativoID();
+		
+		return resultadoDAO.findListResultadoXConsulta(consulta,params);
+	}
+	
+	
+
+	@Override
+	public Resultado findResultadoByID(Integer resultadoID) {
+		
+		return resultadoDAO.findResultadoById(resultadoID);
+	}
+
+
+	@Override
+	public List<Resultado> findResultadoXDatoPlanOperativoID(
+			Integer datoPlanOperativoID) {
+		//traigo la ultima version de plan operativo y uso el datoPlanOperativoId
+		DatoPlanOperativo datoPlanOperativo =  datoPlanOperativoDAO.findDatoPlanOperativoById(datoPlanOperativoID);
+		
+		String consulta = " from Resultado where datoPlanOperativo.datoPlanOperativoID = ? ";
+		
+		Object[] params= new Object[1];
+		params[0]= datoPlanOperativo.getDatoPlanOperativoID();
+		
+		return resultadoDAO.findListResultadoXConsulta(consulta,params);
+	}
+
+
+
+	@Override
+	public Resultado updateResultado(Resultado resultado) {
+		return resultadoDAO.updateResultado(resultado);
+	}
+
+	
+}

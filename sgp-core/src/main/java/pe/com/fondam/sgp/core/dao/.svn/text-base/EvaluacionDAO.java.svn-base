@@ -1,0 +1,36 @@
+package pe.com.fondam.sgp.core.dao;
+
+import java.util.List;
+
+import pe.com.fondam.sgp.core.domain.DatoProyecto;
+import pe.com.fondam.sgp.core.domain.Evaluacion;
+
+
+
+/**
+*
+* @author Zolanch Távara
+*/
+public interface EvaluacionDAO {
+	void saveEvaluacion(Evaluacion evaluacion);
+	
+	Evaluacion updateEvaluacion(Evaluacion evaluacion);
+	
+	void deleteEvaluacion(Evaluacion evaluacion);
+	
+	Evaluacion findEvaluacionById(Integer id);
+	
+	List<Evaluacion> findEvaluacionProyectos();
+
+	List<Evaluacion> findEvaluacionByEvaluadorId(Integer idProyecto,Integer idTipoEvaluacion);
+
+	Evaluacion findEvaluacion(Evaluacion evaluacion);
+
+	Evaluacion findEvaluacionByDatoProyectoIDbyTipoEvaluacion(
+			DatoProyecto datoProyecto, int tipoEvaluacion, int datoUsuario);
+
+		List<Evaluacion> findEvaluacionByProgramaIDbyTipoEvaluacionDatoProyecto(
+			Integer programaID);
+
+		List<Evaluacion> findConsulta(String consulta, Object[] params);
+}

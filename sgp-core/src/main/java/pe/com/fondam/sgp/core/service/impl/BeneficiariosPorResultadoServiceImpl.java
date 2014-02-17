@@ -1,0 +1,208 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.bean.BeneficiariosPorResultadoBean;
+import pe.com.fondam.sgp.core.dao.BeneficiariosPorResultadoDAO;
+import pe.com.fondam.sgp.core.domain.BeneficiariosPorResultado;
+import pe.com.fondam.sgp.core.service.BeneficiariosPorResultadoService;
+import pe.com.fondam.sgp.core.service.DepProvDistService;
+import pe.com.fondam.sgp.core.service.PropuestaTransferenciaBeneficiarioService;
+import pe.com.fondam.sgp.core.service.ReporteAvanceBeneficiarioService;
+import pe.com.fondam.sgp.core.service.ReporteAvanceService;
+import pe.com.fondam.sgp.core.service.ResultadoService;
+import pe.com.fondam.sgp.core.service.TablaEspecificaService;
+
+@Service
+public class BeneficiariosPorResultadoServiceImpl implements BeneficiariosPorResultadoService {
+
+	/************* Inyecciones **********/
+	@Resource
+	BeneficiariosPorResultadoDAO beneficiariosPorResultadoDAO;
+	
+	@Resource
+	TablaEspecificaService tablaEspecificaService;
+	
+	@Resource
+	DepProvDistService depProvDistService;
+	
+	@Resource
+	ResultadoService resultadoService;
+	
+	@Resource
+	ReporteAvanceBeneficiarioService reporteAvanceBeneficiarioService;
+	
+	@Resource
+	ReporteAvanceService reporteAvanceService;
+	
+	@Resource
+	PropuestaTransferenciaBeneficiarioService propuestaTransferenciaBeneficiarioService;
+
+	//************* Metodos **********//
+	@Override
+	public List<BeneficiariosPorResultado> findBeneficiariosPorResultadoXUbicacionProyectoId(
+			Integer ubicacionProyectoID) {
+		String consulta = " from BeneficiariosPorResultado where estadoEliminado = 1 and ubicacionProyecto.ubicacionProyectoID = ? ";
+
+		Object[] params = new Object[1];
+		params[0] = ubicacionProyectoID;
+
+		return beneficiariosPorResultadoDAO
+				.findBeneficiariosPorResultadoXConsulta(consulta, params);
+	}
+
+	@Override
+	public void saveBeneficiariosPorResultado(BeneficiariosPorResultado beneficiariosPorResultado) {
+		beneficiariosPorResultadoDAO.saveBeneficiariosPorResultado(beneficiariosPorResultado);
+
+	}
+
+	@Override
+	public BeneficiariosPorResultado findBeneficiariosPorResultadoById(Integer beneficiarioPorResultadoId) {
+		return beneficiariosPorResultadoDAO.findBeneficiariosPorResultadoById(beneficiarioPorResultadoId);
+	}
+
+	@Override
+	public List<BeneficiariosPorResultado> findBeneficiariosPorResultadoByResultadoID(Integer resultadoID) {
+		return beneficiariosPorResultadoDAO.findBeneficiariosPorResultadoByResultadoID(resultadoID);
+	}
+
+	@Override
+	public void deleteBeneficiariosPorResultado(BeneficiariosPorResultado beneficiariosPorResultado) {
+		beneficiariosPorResultado = beneficiariosPorResultadoDAO.findBeneficiariosPorResultadoById(beneficiariosPorResultado.getBeneficiariosPorResultadoID());
+		beneficiariosPorResultadoDAO.deleteBeneficiariosPorResultado(beneficiariosPorResultado);
+	}
+
+	@Override
+	public BeneficiariosPorResultado updateBeneficiariosPorResultado(
+			BeneficiariosPorResultado beneficiariosPorResultado) {
+		return beneficiariosPorResultadoDAO.updateBeneficiariosPorResultado(beneficiariosPorResultado);
+	}
+	
+	@Override
+	public List<BeneficiariosPorResultado> findBeneficiariosPorResultadoByPerfilID(
+			Integer perfilID) {
+
+		String consulta = " from BeneficiariosPorResultado where estadoEliminado = 1 and perfil.perfilID = ? and resultado.resultadoID IS NULL";
+
+		Object[] params = new Object[1];
+		params[0] = perfilID;
+
+		return beneficiariosPorResultadoDAO
+				.findBeneficiariosPorResultadoXConsulta(consulta, params);
+	}
+	
+	//************ listas *****************//
+
+	public List<BeneficiariosPorResultadoBean> llenaListBeneficiariosPorResultadoBean(List<BeneficiariosPorResultado> listBeneficiariosPorResultado){
+		
+		List<BeneficiariosPorResultadoBean> listBeneficiariosPorResultadoBean = new ArrayList<BeneficiariosPorResultadoBean>();
+		for (BeneficiariosPorResultado beneficiariosPorResultado : listBeneficiariosPorResultado) {
+
+			BeneficiariosPorResultadoBean beneficiariosPorResultadoBean = llenaBeneficiariosPorResultadoBean(beneficiariosPorResultado);
+
+			listBeneficiariosPorResultadoBean
+					.add(beneficiariosPorResultadoBean);
+		}
+		return listBeneficiariosPorResultadoBean;
+	}
+	
+	public BeneficiariosPorResultadoBean llenaBeneficiariosPorResultadoBean(
+			BeneficiariosPorResultado beneficiariosPorResultado) {
+
+		BeneficiariosPorResultadoBean beneficiariosPorResultadoBean = new BeneficiariosPorResultadoBean();
+
+		beneficiariosPorResultadoBean
+				.setBeneficiariosPorResultadoID(beneficiariosPorResultado
+						.getBeneficiariosPorResultadoID());
+		beneficiariosPorResultadoBean
+				.setCantidadProgramado(beneficiariosPorResultado
+						.getCantidadProgramado());
+		beneficiariosPorResultadoBean
+				.setCaracteristicasPoblacion(beneficiariosPorResultado
+						.getCaracteristicasPoblacion());
+		beneficiariosPorResultadoBean.setDescripcion(beneficiariosPorResultado
+				.getDescripcion());
+		beneficiariosPorResultadoBean
+				.setDescripcionEstrato(tablaEspecificaService
+						.findTablaEspecificaById(
+								beneficiariosPorResultado
+										.getFkidtablaespEstrato())
+						.getDescripcionCabecera());
+		beneficiariosPorResultadoBean
+				.setDescripcionTipoBeneficiario(tablaEspecificaService
+						.findTablaEspecificaById(
+								beneficiariosPorResultado
+										.getFkIdtablaespTipoBeneficiario())
+						.getDescripcionCabecera());
+		beneficiariosPorResultadoBean
+				.setFkidtablaespEstrato(beneficiariosPorResultado
+						.getFkidtablaespEstrato());
+		beneficiariosPorResultadoBean
+				.setFkIdtablaespTipoBeneficiario(beneficiariosPorResultado
+						.getFkIdtablaespTipoBeneficiario());
+		beneficiariosPorResultadoBean.setDepartamento(depProvDistService
+				.findDescripcionDepProvDist("depa", beneficiariosPorResultado
+						.getUbicacionProyecto().getDepProvDist()));
+		beneficiariosPorResultadoBean.setProvincia(depProvDistService
+				.findDescripcionDepProvDist("prov", beneficiariosPorResultado
+						.getUbicacionProyecto().getDepProvDist()));
+		beneficiariosPorResultadoBean.setDistrito(depProvDistService
+				.findDescripcionDepProvDist("dist", beneficiariosPorResultado
+						.getUbicacionProyecto().getDepProvDist()));
+		beneficiariosPorResultadoBean.setDetalleUbicacion(beneficiariosPorResultado.getUbicacionProyecto().getDetalleUbicacion());
+		
+		if (beneficiariosPorResultado.getResultado() != null) {
+			beneficiariosPorResultadoBean
+					.setDescripcionResultado(resultadoService
+							.findResultadoByID(
+									beneficiariosPorResultado.getResultado()
+											.getResultadoID())
+							.getDefinicionResultado());
+			beneficiariosPorResultadoBean
+					.setResultadoID(beneficiariosPorResultado.getResultado()
+							.getResultadoID());
+		} else {
+			beneficiariosPorResultadoBean
+					.setDescripcionResultado("No se asigno resultado para estos beneficiarios.");
+		}
+
+		beneficiariosPorResultadoBean
+				.setFkIdtablaespTipoBeneficiario(beneficiariosPorResultado
+						.getFkIdtablaespTipoBeneficiario());
+
+		beneficiariosPorResultadoBean
+				.setListReporteAvanceBeneficiarioBean(reporteAvanceService.llenaListReporteAvanceBeneficiarioBean(reporteAvanceBeneficiarioService
+						.findReporteAvanceBeneficiarioXBeneficiariosPorResultadoId(beneficiariosPorResultado
+								.getBeneficiariosPorResultadoID())));
+		beneficiariosPorResultadoBean.setPropuestaTransferenciaBeneficiario(propuestaTransferenciaBeneficiarioService.findPropuestaTransferenciaBeneficiarioByBeneficiarioId(beneficiariosPorResultado.getBeneficiariosPorResultadoID()));
+		beneficiariosPorResultadoBean.setDatoProyectoId(beneficiariosPorResultado.getUbicacionProyecto().getDatoProyecto().getDatoProyectoID());
+		
+		return beneficiariosPorResultadoBean;
+	}
+
+	@Override
+	public List<BeneficiariosPorResultado> llenaListBeneficiariosPorResultado(
+			List<BeneficiariosPorResultado> listBeneficiariosPorResultado) {
+		for (BeneficiariosPorResultado beneficiariosPorResultado : listBeneficiariosPorResultado) {
+			beneficiariosPorResultado = llenaBeneficiariosPorResultado(beneficiariosPorResultado);
+		}
+		return listBeneficiariosPorResultado;
+	}
+
+	private BeneficiariosPorResultado llenaBeneficiariosPorResultado(
+			BeneficiariosPorResultado beneficiariosPorResultado) {
+
+		beneficiariosPorResultado.setDescripcionEstrato(tablaEspecificaService.findTablaEspecificaById(beneficiariosPorResultado.getFkidtablaespEstrato()).getDescripcionCabecera());
+		beneficiariosPorResultado.setDescripcionTipoBeneficiario(tablaEspecificaService.findTablaEspecificaById(beneficiariosPorResultado.getFkIdtablaespTipoBeneficiario()).getDescripcionCabecera());
+		
+		return beneficiariosPorResultado;
+	}
+
+	
+}

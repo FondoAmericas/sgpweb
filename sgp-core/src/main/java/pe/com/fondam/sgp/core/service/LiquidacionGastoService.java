@@ -1,0 +1,132 @@
+package pe.com.fondam.sgp.core.service;
+
+import java.text.ParseException;
+import java.util.List;
+
+import pe.com.fondam.sgp.core.domain.Actividad;
+import pe.com.fondam.sgp.core.domain.ActividadDetallePago;
+import pe.com.fondam.sgp.core.domain.Activo;
+import pe.com.fondam.sgp.core.domain.CompromisoPago;
+import pe.com.fondam.sgp.core.domain.CostoActividad;
+import pe.com.fondam.sgp.core.domain.CronogramaCostoActividad;
+import pe.com.fondam.sgp.core.domain.DatoUsuario;
+import pe.com.fondam.sgp.core.domain.Desembolso;
+import pe.com.fondam.sgp.core.domain.DetallePagoLiquidacion;
+import pe.com.fondam.sgp.core.domain.FuenteFinanciadora;
+import pe.com.fondam.sgp.core.domain.ImagenOArchivo;
+import pe.com.fondam.sgp.core.domain.IngresoPropio;
+import pe.com.fondam.sgp.core.domain.LiquidacionGasto;
+import pe.com.fondam.sgp.core.domain.PagoLiquidacion;
+import pe.com.fondam.sgp.core.domain.RaLg;
+import pe.com.fondam.sgp.core.domain.ReporteAvance;
+import pe.com.fondam.sgp.core.domain.Resultado;
+
+
+public interface LiquidacionGastoService {
+	
+	public List<RaLg> findRaLgByDatoProyectoID(Integer datoProyectoID);
+	public List<FuenteFinanciadora> findFuenteFinanciadoraByDatoProyectoID(Integer datoProyectoID);
+	public void saveLiquidacionGasto(LiquidacionGasto liquidacionGasto);
+	public DatoUsuario findDatoUsuarioById(Integer datoUsuarioID);
+	//public List<LiquidacionGasto>  findLiquidacionGastoByFuenteFinanciadoraID(LiquidacionGasto liquidacionGasto) throws ParseException;
+	public List<LiquidacionGasto> findLiquidacionGastoByFuenteFinanciadoraID(
+			Integer datoProyectoID,Integer fuenteFinanciadoraID)throws ParseException;
+	public List<LiquidacionGasto> findLiquidacionGastoByDatoProyectoID(	Integer datoProyectoID) throws ParseException;
+	//public List<ReporteAvance> findReporteAvanceByDatoProyectoID(Integer datoProyectoID);
+	public int finNumLiqParcialByPeriodoByDatoProyectoID(
+			String periodo, Integer datoProyectoID);
+	public ReporteAvance getReporteAvanceByID(int reporteAvance);
+	public void saveRaLg(RaLg ralg);
+	public List<Resultado> findResultadoByDatoProyectoID(Integer datoProyectoID);
+	public List<Actividad> findActidadByResultadoID(Integer resultadoID);
+	public LiquidacionGasto findLiquidacionGastoByID(int liquidacionPagoID);
+	public List<IngresoPropio> findIngresoPropioByLiquidacionGasto(
+			int liquidacionGastoID);
+	public IngresoPropio findIngresoPropioByID(int ingresoPropioID);
+	void updateIngresoPropio(IngresoPropio ingresoPropio);
+	public void saveIngresoPropio(IngresoPropio ingresoPropio);
+	public List<CostoActividad> findCostoActividadByActividadID(int actividadID);
+	public List<CronogramaCostoActividad> findCronogramaCostoActividadByCostoActividadID(
+			int costoActividadID);
+	public CronogramaCostoActividad findCronogramaCostoActividadByID(
+			Integer cronogramaCostoActividadID);
+	public CostoActividad findCostoActividadByID(Integer costoActividadID);
+	public Actividad findActividadByID(Integer actividadID);
+	public CompromisoPago findCompromisoPagoByID(int compromisoPagoID);
+	public void saveCompromisoPago(CompromisoPago compromisoPago);
+	public void updateCompromisoPago(CompromisoPago compromisoPago);
+	public List<CompromisoPago> findCompromisoPagoByLiquidacionGasto(
+			int compromisoPagoID);
+	public List<PagoLiquidacion> findIngresoPagoByliquidacionGastoID(
+			int liquidacionPagoID);
+	public void savePagoLiquidacion(PagoLiquidacion pagoLiquidacion);
+	public PagoLiquidacion findPagoLiquidacionByID(int pagoLiquidacionID);
+	public void saveActivo(Activo activo);
+	public void saveDetallePagoLiquidacion(
+			DetallePagoLiquidacion detallePagoLiquidacion);
+	public List<DetallePagoLiquidacion> findDetallePagoLiquidacionByPagoLiquidacionID(
+			int pagoLiquidacionID);
+	public List<Desembolso> findDesembolsoByBLiquidacionGasto(
+			LiquidacionGasto liquidacionGasto);
+	public void saveActividadDetallePago(
+			ActividadDetallePago actividadDetallePago);
+	public IngresoPropio getIngresoPropioByComprobanteByRuc(String comprobate,
+			String ruc);
+	public List<CronogramaCostoActividad> findCronogramaCostoActividadByCostoActividadIDByFuenteFinanciadoraID(
+			int costoActividadID, int fuenteFinanciadoraID);
+	public List<CronogramaCostoActividad> findCronogramaCostoActividadByPeriodoID(
+			int periodoID);
+	List<CronogramaCostoActividad> findCronogramaCostoActividadByCostoActividadIDByPeriodoID(
+			int costoActividadID, int periodoID);
+	public List<CronogramaCostoActividad> findCronogramaCostoActividadByFuenteFinanciadoraID(
+			Integer fuenteFinanciadoraID);
+	public PagoLiquidacion updatePagoLiquidacion(PagoLiquidacion pagoLiquidacion);
+	public DetallePagoLiquidacion findDetallePagoLiquidacionByID(
+			int detallePagoID);
+	PagoLiquidacion getPagoLiquidacionByComprobanteByRuc(String comprobate,
+			String ruc);
+	public ImagenOArchivo findPagoLiquidacionByArchivoImagen(
+			Integer pagoLiquidacionID);
+	public void updateImagenOArchivoPagoLiquidacion(
+			ImagenOArchivo imagenOArchivo);
+	public void saveImagenOArchivoPagoLiquidacion(ImagenOArchivo imagenOArchivo);
+
+	double getSaldoDisponibleIngresoPago(LiquidacionGasto liquidacionGasto);
+	public Desembolso findDesembolsoByID(Integer desembolsoID);
+	public List<ActividadDetallePago> findActividadDetallePagoByDetallePagoID(
+			int detallePagoID);
+	public List<ActividadDetallePago> findActividadDetallePagoByCostoActividad(
+			int costoActividadID);
+	public ActividadDetallePago findActividadDetallePagoByID(
+			int actividadDetallePagoID);
+	public void deleteActividadDetallePago(
+			ActividadDetallePago actividadDetallePago);
+	public CompromisoPago findCompromisoPagoByCronogramaIDByLiquidacionID(
+			int cronograma, int liquidacionGastoID);
+	public ActividadDetallePago findActividadDetallePagoByCronogramaIDByLiquidacionID(
+			int cronograma, int liquidacionGastoID);
+	public List<Actividad> findActidad();
+	public List<CostoActividad> findCostoActividad();
+	public void deleteIngresoPropio(IngresoPropio ingresoPropio);
+	public void deleteCompromisoPago(CompromisoPago compromisoPago);
+	public void deletePagoLiquidacion(Integer pagoLiquidacionId);
+	public void deleteDetallePago(DetallePagoLiquidacion detallePagoLiquidacion);
+	public Activo findActivoById(Integer activoID);
+	public void updateActivo(Activo activo);
+	public void updateDetallePagoLiquidacion(
+			DetallePagoLiquidacion detallePagoLiquidacion);
+	public void deleteLiquidacionGasto(LiquidacionGasto findLiquidacionGastoByID);
+	public void deleteRaLg(RaLg raLg);
+	public RaLg findRaLgByLiquidcionGastoID(int liquidacionGastoID);
+	public LiquidacionGasto llenaLiquidacionGastoCompleto(
+			LiquidacionGasto findLiquidacionGastoByID);
+	public List<PagoLiquidacion> llenaListPagoLiquidacionCompleto(
+			List<PagoLiquidacion> listPagoLiquidacion);
+	public LiquidacionGasto llenaLiquidacionGastoCompletoConListas(
+			LiquidacionGasto liquidacionGasto);
+	public List<LiquidacionGasto> findLiquidacionGastoByDatoProyectoIDSinAprobar(
+			Integer datoProyectoID);
+	public LiquidacionGasto updateLiquidacionGasto(LiquidacionGasto liquidacionGasto);
+
+
+}

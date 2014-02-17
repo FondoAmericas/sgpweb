@@ -1,0 +1,109 @@
+package pe.com.fondam.sgp.core.constants;
+
+public class FondamConstans {
+
+	public static final String REPORT_COMPANY_NAME = "Fondo de las Americas - FONDAM";
+	public static final String CATEGORIA_ACTIVIDAD_ID_INVERSION = "3";
+	public static final String PREFIJO_TIPO_CUENTA = "TCNT";
+	public static final String PREFIJO_MODALIDAD_FINANCIAMIENTO  = "MDFN";
+	public static final String PREFIJO_BANCO = "BNCO";
+	public static final String PREFIJO_AREA_TEMATICA  = "ARTM";
+	public static final String PREFIJO_UNIDADES_MEDIDA = "UNMD";
+	public static final String PREFIJO_CATEGORIA_ACTIVO = "CTAC";
+	public static final String PREFIJO_TIPOS_COMPROBANTES_PAGOS = "TCMP";
+	public static final String PREFIJO_ESTRATOS = "ESTT";
+	
+	public static final String PREFIJO_ESTADO_REPORTE_AVANCE = "ESTRPAV";
+	public static final String PREFIJO_ESTADO_LIQUIDACION_GASTO = "ESTLIGS";
+	public static final String PREFIJO_ESTADO_PROYECTO  = "ESTPRO";
+	public static final String PREFIJO_TIPO_BENEFICIARIO = "TPBF";
+	public static final String PREFIJO_TIPO_DESEMBOLSO  = "TPDB";
+	public static final String PREFIJO_ESTADO_DESEMBOLSO  = "ESTDESE";
+	public static final String PREFIJO_TIPO_INSPECCION = "TINS";
+	public static final String PREFIJO_MODALIDAD_INSPECCION = "MINS";
+	public static final String PREFIJO_TIPO_SUPERVICION_ADMINISTRATIVA = "TPSA";
+	public static final String PREFIJO_TIPO_PERCEPCION = "TPPC";
+	public static final String PREFIJO_TIPO_OBSERVACION = "TPOB";
+	public static final String PREFIJO_EFECTOS_PROYECTO = "EFPR";
+	public static final String PREFIJO_TIPO_MATERIAL = "TMTR";
+	public static final String PREFIJO_EVALUACION_FINAL_CABECERA = "EVFC";
+	public static final String PREFIJO_TIPO_LECCION = "TPLC";
+	public static final String PREFIJO_TIPO_BIEN = "TPBN";
+	public static final String PREFIJO_CABECERA_CONCLUSION_IF = "CCIF";
+	public static final String PREFIJO_CARGO = "CRGO";
+	public static final String PREFIJO_ACTIVIDAD_TRANSFERENCIA  = "ACTF";
+	public static final String PREFIJO_TIPO_DOCUMENTO = "TDOC";
+	public static final String PREFIJO_TIPO_MONEDA = "TMND";
+	public static final String PREFIJO_TIPO_ACTIVIDAD = "TACT";
+	public static final String PREFIJO_TIPO_EVALUACION  = "TPEV";
+	public static final String PREFIJO_TIPO_RESTRICCIONES_PROGRAMA  = "TRPG";
+	public static final String PREFIJO_TIPO_RESULTADO_ACTIVIDADES_OBLIGATORIA = "TRAO";
+	public static final String PREFIJO_TIPO_FUENTE_FINANCIADORA = "TFFN";
+	public static final String PREFIJO_TIPO_RESUMEN_PROYECTO  = "TRPY";
+	public static final String PREFIJO_TIPO_RESUMEN_PERFIL = "TRPF";
+	public static final String PREFIJO_FORMACION_PROFESIONAL = "FMPF";
+	public static final String PREFIJO_TIEMPO_DEDICADO = "TMDD";
+	public static final String PREFIJO_ETAPAS_PERSONAL_TECNICO  = "ETPT";
+	public static final String PREFIJO_APRECIACION_RESULTADOS_RA  = "ARRA";
+	public static final String PREFIJO_TIPO_INFORME = "TINF";
+	public static final String PREFIJO_TIPO_INDICADOR_RESULTADO = "TPNR";
+	public static final String PREFIJO_TIPO_INDICADOR_ACTIVIDAD = "TPIA";
+	public static final String PREFIJO_TIPO_ARCHIVO = "TARC";
+	public static final String PREFIJO_JERARQUIA = "JEQA";
+	public static final String PREFIJO_TIPO_COMPROBANTE_PAGO= "TCMP";
+	public static final Integer TIPO_ACTIVIDAD_ID_ADMINISTRATIVA = 171;
+	public static final Integer TIPO_ACTIVIDAD_ID_OPERATIVA = 172;
+	public static final Integer ESTADO_REPORTE_GENERADO = 34;
+	public static final Integer ESTADO_LIQUIDACION_GASTO_GENERADA = 52;
+	public static final Integer CONSULTA_PERSONAL_TEC_ADM_POR_PLAN_OPERATIVO = 1;
+	public static final Integer CONSULTA_PERSONAL_TEC_ADM_POR_REPORTE_AVANCE = 2;
+	
+	
+	public static final String EMPTY_STRING = "";
+	public static final String STR_ZERO = "0";
+	
+	public static final String VALUE_OPCION_COMBOBOX = "value";
+	public static final String TEXT_OPCION_COMBOBOX = "text";
+	public static final String TEXT_TODO_OPCION_COMBOBOX = "Todo";
+	public static final String VALUE_TODO_OPCION_COMBOBOX = "todo";
+	
+	public final static Integer FLAG_SI_PASO_TABLA_NORMAL = 1;
+	public final static Integer FLAG_NO_PASO_TABLA_NORMAL = 0;
+	
+	public final static int DATE_FORMAT_DD_MM_YYYY = 1;
+    public final static int DATE_FORMAT_YYYY_MM_DD = 2;
+    public final static int DATE_FORMAT_DD_MM_YYYY_ = 3;
+    public final static int DATE_FORMAT_YYYY_MM_DD_ = 4;
+    
+	public static final String DATEFORMAT1 = "dd/MM/yyyy";
+	public static final String DATEFORMAT2 = "yyyy/MM/dd";
+	public static final String DATEFORMAT3 = "dd-MM-yyyy";
+	public static final String DATEFORMAT4 = "yyyy-MM-dd";
+		
+	public final static Integer INT_ONE = 1;
+	public final static Integer INT_TWO = 2;
+
+	public final static Integer INT_PERFIL_EJECUTOR = 7;
+	public final static Integer INT_PERFIL_DAFI = 3;
+	public static final int MAX_PERIODO_CRONOGRAMA_COSTO_ACTIVIDAD = 20 ;
+	public final static Integer INT_EST_DESEMBOLSO_POR_EVALUAR = 22;
+	public final static Integer INT_EST_DESEMBOLSO_APROBADO = 23;
+	public final static Integer INT_EST_DESEMBOLSO_RECHAZADO = 24;
+	public final static Integer PK_FUENTE_FINANCIADORA_FONDAM = 184;
+	
+	public static final String RUCFONDAM = "20434051950";
+	
+	
+	public static final String RECARGA_TIPO_CAMBIO_DESDE_BASE_DATOS = "1";
+	public static final String RECARGA_TIPO_CAMBIO_DESDE_PANTALLA = "2";
+	
+	public static final String INICIALIZAR_TIPO_CAMBIO = "1";
+	public static final String ELIMINAR_TIPO_CAMBIO = "2";
+	
+	public final static Integer INT_MODALIDAD_FINANCIAMIENTO = 2;
+
+	public class estado{
+		public static final String PREFIJO_ESTADO_LIQUIDACION_GASTO = "estligs";
+		
+	}
+}

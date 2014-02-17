@@ -1,0 +1,218 @@
+package pe.com.fondam.sgp.core.form.planOperativo;
+
+public class CostoActividadForm {
+
+	private Integer costoActividadID;
+	private Integer rubroGenericoID;
+	private Integer cabeceraRubroGenericoID;
+	private String descripCabeceraRubroGenerico;
+	private Integer partidaEspecificaID;
+	private String descripcionPartidaEspecifica;
+	private Integer unidadMedidaId;
+	private String unidadMedidaNombre;
+	private Integer cantidadTotal;
+	private Integer tipoMonedaPrecioUnitarioId;
+	private String tipoMonedaPrecioUnitarioNombre;
+	private Double precioUnitario;
+	private Integer tipoMonedaMontoTotalId;
+	private String tipoMonedaMontoTotalNombre;
+	private Double montoTotal;
+	private String observacion;
+	private String detallePartidaGenerica;
+	private String detalleRubroGenerico;
+	private Integer categoriaActividadID;
+	private String descripcionCategoriaActividad;
+	private Integer partidaGenericaID;
+	private String descripcionPartidaGenerica;
+	private Integer cantTotalCronogramaCostoActividad;
+
+	public Integer getCostoActividadID() {
+		return costoActividadID;
+	}
+
+	public void setCostoActividadID(Integer costoActividadID) {
+		this.costoActividadID = costoActividadID;
+	}
+
+	public Integer getRubroGenericoID() {
+		return rubroGenericoID;
+	}
+
+	public void setRubroGenericoID(Integer rubroGenericoID) {
+		this.rubroGenericoID = rubroGenericoID;
+	}
+
+	public String getDescripCabeceraRubroGenerico() {
+		return descripCabeceraRubroGenerico;
+	}
+
+	public void setDescripCabeceraRubroGenerico(
+			String descripCabeceraRubroGenerico) {
+		this.descripCabeceraRubroGenerico = descripCabeceraRubroGenerico;
+	}
+
+	public Integer getPartidaEspecificaID() {
+		return partidaEspecificaID;
+	}
+
+	public void setPartidaEspecificaID(Integer partidaEspecificaID) {
+		this.partidaEspecificaID = partidaEspecificaID;
+	}
+
+	public String getDescripcionPartidaEspecifica() {
+		return descripcionPartidaEspecifica;
+	}
+
+	public void setDescripcionPartidaEspecifica(
+			String descripcionPartidaEspecifica) {
+		this.descripcionPartidaEspecifica = descripcionPartidaEspecifica;
+	}
+
+	public Integer getUnidadMedidaId() {
+		return unidadMedidaId;
+	}
+
+	public void setUnidadMedidaId(Integer unidadMedidaId) {
+		this.unidadMedidaId = unidadMedidaId;
+	}
+
+	public String getUnidadMedidaNombre() {
+		return unidadMedidaNombre;
+	}
+
+	public void setUnidadMedidaNombre(String unidadMedidaNombre) {
+		this.unidadMedidaNombre = unidadMedidaNombre;
+	}
+
+	public Integer getCantidadTotal() {
+		return cantidadTotal;
+	}
+
+	public void setCantidadTotal(Integer cantidadTotal) {
+		this.cantidadTotal = cantidadTotal;
+	}
+
+	public Integer getTipoMonedaPrecioUnitarioId() {
+		return tipoMonedaPrecioUnitarioId;
+	}
+
+	public void setTipoMonedaPrecioUnitarioId(Integer tipoMonedaPrecioUnitarioId) {
+		this.tipoMonedaPrecioUnitarioId = tipoMonedaPrecioUnitarioId;
+	}
+
+	public String getTipoMonedaPrecioUnitarioNombre() {
+		return tipoMonedaPrecioUnitarioNombre;
+	}
+
+	public void setTipoMonedaPrecioUnitarioNombre(
+			String tipoMonedaPrecioUnitarioNombre) {
+		this.tipoMonedaPrecioUnitarioNombre = tipoMonedaPrecioUnitarioNombre;
+	}
+
+	public Double getPrecioUnitario() {
+		return precioUnitario;
+	}
+
+	public void setPrecioUnitario(Double precioUnitario) {
+		this.precioUnitario = precioUnitario;
+	}
+
+	public Integer getTipoMonedaMontoTotalId() {
+		return tipoMonedaMontoTotalId;
+	}
+
+	public void setTipoMonedaMontoTotalId(Integer tipoMonedaMontoTotalId) {
+		this.tipoMonedaMontoTotalId = tipoMonedaMontoTotalId;
+	}
+
+	public String getTipoMonedaMontoTotalNombre() {
+		return tipoMonedaMontoTotalNombre;
+	}
+
+	public void setTipoMonedaMontoTotalNombre(String tipoMonedaMontoTotalNombre) {
+		this.tipoMonedaMontoTotalNombre = tipoMonedaMontoTotalNombre;
+	}
+
+	public Double getMontoTotal() {
+		return montoTotal;
+	}
+
+	public void setMontoTotal(Double montoTotal) {
+		this.montoTotal = montoTotal;
+	}
+
+	public String getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
+	}
+
+	public String getDetallePartidaGenerica() {
+		return detallePartidaGenerica;
+	}
+
+	public void setDetallePartidaGenerica(String detallePartidaGenerica) {
+		this.detallePartidaGenerica = detallePartidaGenerica;
+	}
+
+	public String getDetalleRubroGenerico() {
+		return detalleRubroGenerico;
+	}
+
+	public void setDetalleRubroGenerico(String detalleRubroGenerico) {
+		this.detalleRubroGenerico = detalleRubroGenerico;
+	}
+	
+	public Integer getCategoriaActividadID() {
+		return categoriaActividadID;
+	}
+	
+	public void setCategoriaActividadID(Integer categoriaActividadID) {
+		this.categoriaActividadID = categoriaActividadID;
+	}
+	
+	public String getDescripcionCategoriaActividad() {
+		return descripcionCategoriaActividad;
+	}
+	
+	public void setDescripcionCategoriaActividad(
+			String descripcionCategoriaActividad) {
+		this.descripcionCategoriaActividad = descripcionCategoriaActividad;
+	}
+	
+	public Integer getPartidaGenericaID() {
+		return partidaGenericaID;
+	}
+	
+	public void setPartidaGenericaID(Integer partidaGenericaID) {
+		this.partidaGenericaID = partidaGenericaID;
+	}
+	
+	public String getDescripcionPartidaGenerica() {
+		return descripcionPartidaGenerica;
+	}
+	
+	public void setDescripcionPartidaGenerica(String descripcionPartidaGenerica) {
+		this.descripcionPartidaGenerica = descripcionPartidaGenerica;
+	}
+
+	public void setCantTotalCronogramaCostoActividad(
+			Integer cantTotalCronogramaCostoActividad) {
+		this.cantTotalCronogramaCostoActividad = cantTotalCronogramaCostoActividad;
+	}
+
+	public Integer getCantTotalCronogramaCostoActividad() {
+		return cantTotalCronogramaCostoActividad;
+	}
+
+	public void setCabeceraRubroGenericoID(Integer cabeceraRubroGenericoID) {
+		this.cabeceraRubroGenericoID = cabeceraRubroGenericoID;
+	}
+
+	public Integer getCabeceraRubroGenericoID() {
+		return cabeceraRubroGenericoID;
+	}
+
+}

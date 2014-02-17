@@ -1,0 +1,77 @@
+package pe.com.fondam.sgp.core.report;
+
+public class RptResultados {
+	private String resultado;
+	private String indicadorResultado;
+	private String definicionIndicador;
+	private String unidadMedida;
+	private String medioVerificacion;
+	private String situacionInicial;
+	private String situacionFinal;
+	private String supuesto;
+
+	public String getResultado() {
+		return resultado;
+	}
+
+	public void setResultado(String resultado) {
+		this.resultado = resultado;
+	}
+
+	public String getIndicadorResultado() {
+		return indicadorResultado;
+	}
+
+	public void setIndicadorResultado(String indicadorResultado) {
+		this.indicadorResultado = indicadorResultado;
+	}
+
+	public String getDefinicionIndicador() {
+		return definicionIndicador;
+	}
+
+	public void setDefinicionIndicador(String definicionIndicador) {
+		this.definicionIndicador = definicionIndicador;
+	}
+
+	public String getUnidadMedida() {
+		return unidadMedida;
+	}
+
+	public void setUnidadMedida(String unidadMedida) {
+		this.unidadMedida = unidadMedida;
+	}
+
+	public String getMedioVerificacion() {
+		return medioVerificacion;
+	}
+
+	public void setMedioVerificacion(String medioVerificacion) {
+		this.medioVerificacion = medioVerificacion;
+	}
+
+	public String getSituacionInicial() {
+		return situacionInicial;
+	}
+
+	public void setSituacionInicial(String situacionInicial) {
+		this.situacionInicial = situacionInicial;
+	}
+
+	public String getSituacionFinal() {
+		return situacionFinal;
+	}
+
+	public void setSituacionFinal(String situacionFinal) {
+		this.situacionFinal = situacionFinal;
+	}
+
+	public String getSupuesto() {
+		return supuesto;
+	}
+
+	public void setSupuesto(String supuesto) {
+		this.supuesto = supuesto;
+	}
+
+}

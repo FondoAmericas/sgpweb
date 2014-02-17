@@ -1,0 +1,248 @@
+package pe.com.fondam.sgp.core.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Service;
+
+import pe.com.fondam.sgp.core.dao.TablaEspecificaDAO;
+import pe.com.fondam.sgp.core.dao.TipoCambioDAO;
+import pe.com.fondam.sgp.core.domain.TablaEspecifica;
+import pe.com.fondam.sgp.core.domain.TipoCambio;
+import pe.com.fondam.sgp.core.service.TipoCambioService;
+
+@Service
+public class TipoCambioServiceImpl implements TipoCambioService {
+	
+	private final Log logger = LogFactory.getLog(TipoCambioServiceImpl.class);
+
+	/************** inyecciones ***************/
+	@Resource
+	TipoCambioDAO tipoCambioDAO;
+	
+	@Resource
+	private TablaEspecificaDAO tablaEspecificaDAO;
+	
+	/************** metodos ***************/
+	
+	@Override
+	public void saveTipoCambio(TipoCambio tipoCambio) {
+		tipoCambioDAO.saveTipoCambio(tipoCambio);		
+	}
+
+	@Override
+	public TipoCambio updateTipoCambio(TipoCambio tipoCambio) {
+		return tipoCambioDAO.updateTipoCambio(tipoCambio);
+	}
+
+	@Override
+	public void deleteTipoCambio(TipoCambio tipoCambio) {
+		tipoCambio = tipoCambioDAO.findTipoCambioById(tipoCambio.getTipoCambioID());
+		tipoCambioDAO.deleteTipoCambio(tipoCambio);		
+	}
+
+	@Override
+	public TipoCambio findTipoCambioById(Integer id) {
+	
+		return tipoCambioDAO.findTipoCambioById(id);
+	}
+
+	@Override
+	public List<TipoCambio> findTipoCambio(String consulta,
+			Object[] params) {
+		return tipoCambioDAO.findTipoCambioXConsulta(consulta, params);
+	}
+
+	@Override
+	public List<TipoCambio> findTipoCambios() {
+		return tipoCambioDAO.findTipoCambios();
+	}
+
+	@Override
+	public TipoCambio findTipoCambioByTipoMonedaDeAByDesembolsoID(
+			Integer fkIdtablaespTipoMoneda, Integer fkIdtablaespTipoMoneda2,Integer desembolsoID) {		
+		String queryString = "from TipoCambio where fkIdtablaespTipoMonedaConvertDE= ? and fkIdtablaespTipoMonedaConvertA=? and desembolso.desembolsoID=?";
+		Object[] params = new Object[3];
+		params[0] = fkIdtablaespTipoMoneda;
+		params[1] = fkIdtablaespTipoMoneda2;
+		params[2] = desembolsoID;
+	
+		List<TipoCambio> listTipoCambio = tipoCambioDAO.findTipoCambioXConsulta(queryString, params);	
+		if(listTipoCambio != null && listTipoCambio.size()>0){
+			   return listTipoCambio.get(0);
+			}else{
+				return null;			
+			}
+	}
+	
+	@Override
+	public TipoCambio findTipoCambioByTipoMonedaDeAByDatoPlanOperativoID(Integer fkIdTipoMonedaDe, Integer fkIdTipoMonedaA,Integer datoPlanOperativoID) {		
+		String queryString = "from TipoCambio where fkIdtablaespTipoMonedaConvertDE = ? and fkIdtablaespTipoMonedaConvertA = ? and datoPlanOperativo.datoPlanOperativoID = ?";
+		Object[] params = new Object[3];
+		params[0] = fkIdTipoMonedaDe;
+		params[1] = fkIdTipoMonedaA;
+		params[2] = datoPlanOperativoID;
+	
+		List<TipoCambio> listTipoCambio = tipoCambioDAO.findTipoCambioXConsulta(queryString, params);
+		if(listTipoCambio != null && listTipoCambio.size()>0){
+		   return listTipoCambio.get(0);
+		}else{
+			return null;			
+		}
+
+	}
+
+	@Override
+	public void createTipoCambio(TipoCambio tipoCambio) {
+		
+		int tipoMonedaDeId = tipoCambio.getFkIdtablaespTipoMonedaConvertDE();
+		int tipoMonedaAId = tipoCambio.getFkIdtablaespTipoMonedaConvertA();
+		TipoCambio tipoCambioTmp = null;
+		TipoCambio tipoCambioResultado = null;
+		
+		/* DE A */
+		if(tipoCambio.getDatoPlanOperativo()!= null){
+		   tipoCambioResultado = this.findTipoCambioByTipoMonedaDeAByDatoPlanOperativoID(tipoMonedaDeId, tipoMonedaAId, tipoCambio.getDatoPlanOperativo().getDatoPlanOperativoID());
+		}
+		if(tipoCambio.getDesembolso()!= null){
+		   tipoCambioResultado = this.findTipoCambioByTipoMonedaDeAByDesembolsoID(tipoMonedaDeId, tipoMonedaAId, tipoCambio.getDesembolso().getDesembolsoID());
+		}
+		if(tipoCambioResultado == null){
+		   tipoCambio.setIngresoUsuario(1);
+		   tipoCambioDAO.saveTipoCambio(tipoCambio);	
+		}else{
+		   logger.error("ya existe tipo de cambio");	
+		}
+
+		/* A DE */
+		tipoCambioTmp = new TipoCambio();
+		tipoCambioTmp.setFkIdtablaespTipoMonedaConvertDE(tipoMonedaAId);
+		tipoCambioTmp.setFkIdtablaespTipoMonedaConvertA(tipoMonedaDeId);
+		tipoCambioTmp.setTipoCambio(1/tipoCambio.getTipoCambio());
+		tipoCambioTmp.setTipoCambioID(null);
+		tipoCambioTmp.setDesembolso(tipoCambio.getDesembolso());
+		tipoCambioTmp.setDatoPlanOperativo(tipoCambio.getDatoPlanOperativo());
+		tipoCambioTmp.setFechaTipoCambio(tipoCambio.getFechaTipoCambio());
+		
+		tipoCambioResultado = null;
+		
+		if(tipoCambio.getDatoPlanOperativo()!= null){
+		   tipoCambioResultado = this.findTipoCambioByTipoMonedaDeAByDatoPlanOperativoID(tipoMonedaAId, tipoMonedaDeId, tipoCambio.getDatoPlanOperativo().getDatoPlanOperativoID());
+		}
+		if(tipoCambio.getDesembolso()!= null){
+		   tipoCambioResultado = this.findTipoCambioByTipoMonedaDeAByDesembolsoID(tipoMonedaAId, tipoMonedaDeId, tipoCambio.getDesembolso().getDesembolsoID());
+		}
+		if(tipoCambioResultado == null){
+			tipoCambioTmp.setIngresoUsuario(0);
+		   tipoCambioDAO.saveTipoCambio(tipoCambioTmp);
+		}else{
+	       logger.error("ya existe tipo de cambio");
+		}
+		
+		/* A A */
+		tipoCambioTmp = new TipoCambio();
+		tipoCambioTmp.setFkIdtablaespTipoMonedaConvertA(tipoMonedaAId);
+		tipoCambioTmp.setFkIdtablaespTipoMonedaConvertDE(tipoMonedaAId);
+		tipoCambioTmp.setTipoCambio(new Double(1));
+		tipoCambioTmp.setTipoCambioID(null);
+		tipoCambioTmp.setDesembolso(tipoCambio.getDesembolso());
+		tipoCambioTmp.setDatoPlanOperativo(tipoCambio.getDatoPlanOperativo());
+		tipoCambioTmp.setFechaTipoCambio(tipoCambio.getFechaTipoCambio());
+		
+		tipoCambioResultado = null;
+		
+		if(tipoCambio.getDatoPlanOperativo()!= null){
+			   tipoCambioResultado = this.findTipoCambioByTipoMonedaDeAByDatoPlanOperativoID(tipoMonedaAId, tipoMonedaAId, tipoCambio.getDatoPlanOperativo().getDatoPlanOperativoID());
+		}
+		if(tipoCambio.getDesembolso()!= null){
+			   tipoCambioResultado = this.findTipoCambioByTipoMonedaDeAByDesembolsoID(tipoMonedaAId, tipoMonedaAId, tipoCambio.getDesembolso().getDesembolsoID());
+		}		
+		if(tipoCambioResultado == null){
+		   tipoCambioTmp.setIngresoUsuario(0);
+		   tipoCambioDAO.saveTipoCambio(tipoCambioTmp);
+		}else{
+		   logger.error("ya existe tipo de cambio");
+		}
+		
+		/* DE DE */
+		tipoCambioTmp = new TipoCambio();
+		tipoCambioTmp.setFkIdtablaespTipoMonedaConvertA(tipoMonedaDeId);
+		tipoCambioTmp.setFkIdtablaespTipoMonedaConvertDE(tipoMonedaDeId);
+		tipoCambioTmp.setTipoCambio(new Double(1));
+		tipoCambioTmp.setTipoCambioID(null);
+		tipoCambioTmp.setDesembolso(tipoCambio.getDesembolso());
+		tipoCambioTmp.setDatoPlanOperativo(tipoCambio.getDatoPlanOperativo());
+		tipoCambioTmp.setFechaTipoCambio(tipoCambio.getFechaTipoCambio());
+		
+		tipoCambioResultado = null;
+		
+		if(tipoCambio.getDatoPlanOperativo()!= null){
+			   tipoCambioResultado = this.findTipoCambioByTipoMonedaDeAByDatoPlanOperativoID(tipoMonedaDeId, tipoMonedaDeId, tipoCambio.getDatoPlanOperativo().getDatoPlanOperativoID());
+		}
+		if(tipoCambio.getDesembolso()!= null){
+			   tipoCambioResultado = this.findTipoCambioByTipoMonedaDeAByDesembolsoID(tipoMonedaDeId, tipoMonedaDeId, tipoCambio.getDesembolso().getDesembolsoID());
+		}		
+		if(tipoCambioResultado == null){
+		   tipoCambioTmp.setIngresoUsuario(0);
+		   tipoCambioDAO.saveTipoCambio(tipoCambioTmp);
+		}else{
+		   logger.error("ya existe tipo de cambio");
+		}
+
+	}
+	
+	public String getTablaEspecificaDescripcion(Integer tablaEspecificaID) {
+		String descripcion = "";
+		if (tablaEspecificaID != null) {
+			TablaEspecifica tablaEspecifica = tablaEspecificaDAO.findTablaEspecificaById(tablaEspecificaID);
+			if (tablaEspecifica != null) {
+				descripcion = tablaEspecifica.getDescripcionCabecera();
+			}
+		}
+		return descripcion;
+	}
+
+	@Override
+	public List<TipoCambio> findTipoCambioByDatoPlanOperativoID(Integer datoPlanOperativoID) {
+		
+		String queryString = "from TipoCambio where datoPlanOperativo.datoPlanOperativoID = ? and ingresoUsuario = 1";
+		Object[] params = new Object[1];
+		params[0] = datoPlanOperativoID;
+		List<TipoCambio> lista = tipoCambioDAO.findTipoCambioXConsulta(queryString, params);
+		for (TipoCambio tipoCambio : lista) {
+			tipoCambio.setTipoMonedaDENombre(this.getTablaEspecificaDescripcion(tipoCambio.getFkIdtablaespTipoMonedaConvertDE()));
+			tipoCambio.setTipoMonedaANombre(this.getTablaEspecificaDescripcion(tipoCambio.getFkIdtablaespTipoMonedaConvertA()));
+		}
+		return lista;
+	}
+
+	@Override
+	public List<TipoCambio> findTipoCambioByDesembolsoID(Integer desembolsoID) {
+		
+		String queryString = "from TipoCambio where desembolso.desembolsoID = ?";
+		Object[] params = new Object[1];
+		params[0] = desembolsoID;	
+		return tipoCambioDAO.findTipoCambioXConsulta(queryString, params);
+	}
+
+	@Override
+	public TipoCambio findTipoCambioByDesembolsoIDByIngreso(Integer desembolsoID) {
+		String queryString = "from TipoCambio where desembolso.desembolsoID = ? and ingresoUsuario = 1";
+		Object[] params = new Object[1];
+		params[0] = desembolsoID;
+		List<TipoCambio> lista = tipoCambioDAO.findTipoCambioXConsulta(queryString, params);
+		TipoCambio tipoCambioTemp=new TipoCambio();
+		for (TipoCambio tipoCambio : lista) {
+			if(tipoCambio.getFkIdtablaespTipoMonedaConvertDE()==168){//Soles
+			tipoCambio.setTipoMonedaDENombre(this.getTablaEspecificaDescripcion(tipoCambio.getFkIdtablaespTipoMonedaConvertDE()));
+			tipoCambio.setTipoMonedaANombre(this.getTablaEspecificaDescripcion(tipoCambio.getFkIdtablaespTipoMonedaConvertA()));
+			tipoCambioTemp= tipoCambio;
+		}
+		}
+		return tipoCambioTemp;
+	}
+	
+}

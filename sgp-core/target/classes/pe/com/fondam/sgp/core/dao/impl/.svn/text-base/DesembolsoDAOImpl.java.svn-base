@@ -1,0 +1,101 @@
+package pe.com.fondam.sgp.core.dao.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.orm.jpa.JpaTemplate;
+import org.springframework.stereotype.Repository;
+
+import pe.com.fondam.sgp.core.commons.bs.JpaBaseDAOImpl;
+import pe.com.fondam.sgp.core.dao.DesembolsoDAO;
+import pe.com.fondam.sgp.core.domain.Desembolso;
+/**
+*
+* @author Zolanch Távara
+*/
+
+@Repository
+public class DesembolsoDAOImpl extends JpaBaseDAOImpl implements DesembolsoDAO {
+
+	@Autowired
+	public DesembolsoDAOImpl(@Qualifier("jpaTemplate") JpaTemplate jpaTemplate) {
+		this.setJpaTemplate(jpaTemplate);
+	}
+	
+	@Override
+	public void saveDesembolso(Desembolso desembolso) {
+		super.save(desembolso);		
+	}
+
+	@Override
+	public Desembolso updateDesembolso(Desembolso desembolso) {
+		return super.update(desembolso);
+	}
+
+	@Override
+	public void deleteDesembolso(Desembolso desembolso) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Desembolso findDesembolsoById(Integer id) {
+		return super.findById(Desembolso.class, id);
+	}
+
+	@Override
+	public List<Desembolso> findDesembolsos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public List<Desembolso> findDesembolsoUltimaVersionByDatoProyectoID(Integer datoProyectoID) {
+		String queryString = "from Desembolso where datoProyecto.datoProyectoID = ? order by desembolsoID desc";
+		Object[] params = new Object[1];
+		params[0] = datoProyectoID;
+		return super.find(queryString, params);
+	}
+	
+	@Override
+	public List<Desembolso> findDesembolsoByDatoProyectoID(Integer datoProyectoID) {
+		String queryString = "from Desembolso where datoProyecto.datoProyectoID = ? order by desembolsoID asc";
+		Object[] params = new Object[1];
+		params[0] = datoProyectoID;
+		return super.find(queryString, params);
+	}
+
+	@Override
+	public List<Desembolso> findDesembolso(String queryString, Object[] params) {
+		return super.find(queryString, params);
+	}
+	
+	
+
+	public List<Desembolso> findDesembolsoByDatoProyectoIDByPeriodo(Integer datoProyectoID, String periodo) {
+		String queryString = "from Desembolso where datoProyecto.datoProyectoID = ? and periodo = ? order by versionDePeriodo desc";
+		Object[] params = new Object[2];
+		params[0] = datoProyectoID;
+		params[1] = periodo;
+		return super.find(queryString, params);
+	}
+	
+	public List<Desembolso> findDesembolsoByCuentaCorrienteID(Integer cuentaCorrienteID) {
+		String queryString = "from Desembolso where cuentaCorriente.cuentaCorrienteID = ? ";
+		Object[] params = new Object[1];
+		params[0] = cuentaCorrienteID;
+
+		return super.find(queryString, params);
+	}
+	
+	public List<Desembolso> findDesembolsoByFuenteFinanciadoraID(Integer fuenteFinanID) {
+		String queryString = "from Desembolso where fuenteFinanciadora.fuenteFinanciadoraID = ? ";
+		Object[] params = new Object[1];
+		params[0] = fuenteFinanID;
+
+		return super.find(queryString, params);
+	}
+	
+	
+}
