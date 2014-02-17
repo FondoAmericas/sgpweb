@@ -1,0 +1,63 @@
+package pe.com.fondam.sgp.web.session;
+
+import java.io.Serializable;
+
+public class UserSession implements Serializable {
+
+	private static final long serialVersionUID = -4651501757353830784L;
+	private Integer usuarioID;
+	private String login;
+	private String password;
+	private Integer perfilUsuarioID;
+	private Integer datoUsuarioID;
+	private Integer datoProyectoID;
+
+	public Integer getUsuarioID() {
+		return usuarioID;
+	}
+
+	public void setUsuarioID(Integer usuarioID) {
+		this.usuarioID = usuarioID;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Integer getPerfilUsuarioID() {
+		return perfilUsuarioID;
+	}
+
+	public void setPerfilUsuarioID(Integer perfilUsuarioID) {
+		this.perfilUsuarioID = perfilUsuarioID;
+	}
+
+	public Integer getDatoUsuarioID() {
+		return datoUsuarioID;
+	}
+
+	public void setDatoUsuarioID(Integer datoUsuarioID) {
+		this.datoUsuarioID = datoUsuarioID;
+	}
+
+	public Integer getDatoProyectoID() {
+		return datoProyectoID;
+	}
+
+	public void setDatoProyectoID(Integer datoProyectoID) {
+		this.datoProyectoID = datoProyectoID;
+	}
+
+}

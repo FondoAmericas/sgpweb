@@ -1,0 +1,120 @@
+
+
+/* constantes */
+var RUC_FONDAM="101026326";//fuente financiadora por defecto
+var PERFIL_EJECUTOR = "7";
+var PERFIL_DAFI = "3";
+var COD_ESTADO_DESEMBOLSO_POR_EVALUAR = "22";
+var COD_ESTADO_DESEMBOLSO_APROBADO = "23";
+var COD_ESTADO_DESEMBOLSO_RECHAZADO = "24";
+
+/* fin constantes */
+
+/* objetos AJAX*/
+var objXHR25880;//COMBOBOX MODALIDAD FINANCIAMIENTO
+var objXHR25881;//COMBOBOX PROGRAMA
+var objXHR25882;//PARA TRAER LISTADO DE PROYECTOS POR LOS FILTROS DE BUSQUEDA 
+
+/* fin objetos AJAX*/
+
+/* objetos de AtssefCBX */
+var objCBXModalidadFinan;
+var objCBXPrograma;
+
+/* fin objetos de AtssefCBX */
+
+var arrayModalidadFinan = new Array();
+var arrayProgramas = new Array();
+
+
+
+/***************COMBOBOX MODALIDAD FINANCIAMIENTO**********************************************/
+
+	function cargarDataCBXModalidadFinanciamiento(){
+	objXHR25880 = new ObjetoAJAX();
+	objXHR25880.enviar("cargaComboModalidadFinan.jspx","post","llenarDataCBXModalidadFinanciamiento",null);
+	}
+	
+	function llenarDataCBXModalidadFinanciamiento(){
+		arrayModalidadFinan = JSON.parse(objXHR25880.respuestaTexto());
+		console.log("COMBOBOX MODALIDAD FINANCIAMIENTO :: " + JSON.stringify(arrayModalidadFinan));
+		rederizarCBXModalidadFinanciamiento();
+	}
+
+	
+	function rederizarCBXModalidadFinanciamiento(){
+		objCBXModalidadFinan = new AtssefCBX({
+						  AttributeCBX : { id:"cbxModalidadFinan" , name:"cbxModalidadFinan" ,style:""},
+	                      AttributeOPIni : { value: "0" , text: "-- Modalidad --"},
+						  dataCBX : arrayModalidadFinan,
+						  IDContenedor : "div_cbxModalidadFinan",
+						  funcionCBX : {
+										onchange:{estado:"1", funcion:"cargarDataCBXPrograma();"}
+						               }
+	                     });		
+	}
+	
+
+/***************FIN COMBOBOX MODALIDAD FINANCIAMIENTO**********************************************/
+
+
+function buscarProyectosTTT(){
+
+	var modFinan = document.getElementById("cbxModalidadFinan").value;
+	var programa = document.getElementById("cbxPrograma").value;
+	
+	if(modFinan==0){
+		alert("seleccionar modalidad financiamiento!");
+	}else if(programa==0){
+		alert("seleccionar programa!");
+	}else{
+		
+		$("#cuerpoReporteAvance").load("showCuerpoReporteAvance.jspx",
+						{
+							datoProyectoId : $("#datoProyectoId").val()
+						}
+				
+						,
+						function() {
+			
+			
+			/*$("#grillaReporteAvance").load("showGrillaReporteAvance.jspx",
+											{
+												datoProyectoId : $("#datoProyectoId").val()
+											});*/
+						});
+	}
+	
+}
+
+
+
+/***************COMBOBOX PROGRAMAS**********************************************/
+
+	function cargarDataCBXPrograma(){
+		objXHR25881 = new ObjetoAJAX();
+		var url = "cargarCBXPrograma.jspx?" +
+	    "idModalidadFinan=" + encodeURIComponent(objCBXModalidadFinan.getIdAtssefCBX());
+		objXHR25881.enviar(url,"post","llenarDataCBXPrograma",null);
+	}
+	
+	function llenarDataCBXPrograma(){
+		arrayProgramas = JSON.parse(objXHR25881.respuestaTexto());
+		console.log("COMBOBOX PROGRAMA :: " + JSON.stringify(arrayProgramas));
+		rederizarCBXPrograma();
+	}
+
+	
+	function rederizarCBXPrograma(){
+		objCBXPrograma = new AtssefCBX({
+						  AttributeCBX : { id:"cbxPrograma" , name:"cbxPrograma" ,style:""},
+	                      AttributeOPIni : { value: "0" , text: "-- Programa --"},
+						  dataCBX : arrayProgramas,
+						  IDContenedor : "div_cbxPrograma",
+						  funcionCBX : {
+										onchange:{estado:"0", funcion:""}
+						               }
+	                     });		
+	}
+	
+/***************FIN COMBOBOX PROGRAMAS**********************************************/

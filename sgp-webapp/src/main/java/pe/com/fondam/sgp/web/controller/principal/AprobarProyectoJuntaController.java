@@ -1,0 +1,275 @@
+package pe.com.fondam.sgp.web.controller.principal;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import pe.com.fondam.sgp.core.bean.DatoProyectoBean;
+import pe.com.fondam.sgp.core.bean.NotasDiferencia;
+import pe.com.fondam.sgp.core.domain.DatoProyecto;
+import pe.com.fondam.sgp.core.domain.DetalleEstadoCabecera;
+import pe.com.fondam.sgp.core.domain.Evaluacion;
+import pe.com.fondam.sgp.core.domain.Programa;
+import pe.com.fondam.sgp.core.domain.SubAreaTematica;
+import pe.com.fondam.sgp.core.domain.TablaEspecifica;
+import pe.com.fondam.sgp.core.service.CrearProgramaService;
+import pe.com.fondam.sgp.core.service.CuentaCorrienteService;
+import pe.com.fondam.sgp.core.service.DatoProyectoService;
+import pe.com.fondam.sgp.core.service.DetalleEstadoCabeceraService;
+import pe.com.fondam.sgp.core.service.EvaluarService;
+import pe.com.fondam.sgp.core.service.ObservacionService;
+import pe.com.fondam.sgp.core.service.PlanOperativoService;
+import pe.com.fondam.sgp.core.service.SubAreaTematicaService;
+import pe.com.fondam.sgp.core.service.TablaEspecificaService;
+import pe.com.fondam.sgp.core.util.UtilList;
+import pe.com.fondam.sgp.web.constants.SgpWebConstants;
+import pe.com.fondam.sgp.web.controller.security.SecurityController;
+import pe.com.fondam.sgp.web.session.UserSession;
+
+@Controller
+public class AprobarProyectoJuntaController {
+	protected final Log logger = LogFactory.getLog(PerfilController.class);
+
+	@Resource
+	TablaEspecificaService tablaEspecificaService;
+
+	@Resource
+	CrearProgramaService programaService;
+
+	@Resource
+	EvaluarService evaluarService;
+
+	@Resource
+	DetalleEstadoCabeceraService detalleEstadoCabeceraService;
+	
+	@Resource
+	SubAreaTematicaService subAreaTematicaService;
+
+	@Resource
+	DatoProyectoService datoProyectoService;
+	
+	@Resource
+	CuentaCorrienteService cuentaCorrienteService;
+	
+	@Resource
+	PlanOperativoService planOperativoService;
+	
+	@Resource
+	ObservacionService observacionService;
+	
+	
+	// ************ metodos ****************
+	@RequestMapping(value = "/principal/showAprobarProyectoJunta")
+	public ModelAndView showAprobarProyectoJunta(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		Map<String, Object> model = new HashMap<String, Object>();
+
+		UserSession userSession = (UserSession) request.getSession()
+				.getAttribute(SgpWebConstants.SESSION_USER);
+		if (userSession == null) {
+			return SecurityController.autenticateErrorRedirect(request);
+		} else {
+			List<TablaEspecifica> listModalidadFinanciamiento = tablaEspecificaService
+					.findTablaEspecificabyPrefijoTablaGeneral("MDFN");
+			model.put("listModalidadFinanciamiento",
+					listModalidadFinanciamiento);
+		}
+		
+		model.put("funcionalidadSelect", "showAprobarProyectoJunta.jspx");
+		
+		return new ModelAndView("mostrarAprobarProyectoJunta", model);
+	}
+
+	@RequestMapping(value = "/principal/cargarProgramasDeModalidad.jspx")
+	public void cargarComboUbigeo(
+			@RequestParam(required = true, value = "modalidadFinanciamiento") Integer modalidadFinanciamientoId,
+			@RequestParam(required = true, value = "metodo") String metodo,
+			HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+
+		PrintWriter out = null;
+		out = response.getWriter();
+
+		if (metodo.equals("programa")) {
+			out.println("<option value='0'>-- Programa --</option>");
+			List<Programa> listPrograma = programaService
+					.findProgramaByModFinan(modalidadFinanciamientoId);
+			if (!listPrograma.isEmpty()) {
+				for (Programa programa : listPrograma) {
+					out.printf("<option value='%1s'>%2s</option>",
+							programa.getProgramaID(),
+							"(" + programa.getIdentificadorModFinan() + ") "
+									+ programa.getNombrePrograma());
+				}
+			}
+		}
+	}
+
+	@RequestMapping(value = "/principal/grillaListaProyectos.jspx")
+	public ModelAndView grillaListaProyectos(
+			@RequestParam(required = false, value = "programaId") Integer programaId,
+			@RequestParam(required = false, value = "programaNombre") String programaNombre,
+			HttpServletRequest request, HttpServletResponse response) throws ParseException {
+
+		Map<String, Object> model = new HashMap<String, Object>();
+		List<DatoProyecto> listDatoProyecto = evaluarService.findDatoProyectoByProgramaID(programaId);
+
+		List<DetalleEstadoCabecera> listDetalleEstadoCabecera = new ArrayList<DetalleEstadoCabecera>();
+		for (DetalleEstadoCabecera detalleEstadoCabecera : detalleEstadoCabeceraService.findDetalleEstadoCabecerabyPrefijoEstadoCabeceraPrefijo("estPro")) {
+			if ((detalleEstadoCabecera.getDetalleEstadoCabeceraID()==SgpWebConstants.evaluarEstadoProyecto.POR_EVALUAR )||(detalleEstadoCabecera.getDetalleEstadoCabeceraID()==SgpWebConstants.evaluarEstadoProyecto.APROBADO) ||(detalleEstadoCabecera.getDetalleEstadoCabeceraID()==SgpWebConstants.evaluarEstadoProyecto.RECHAZADO)){
+				listDetalleEstadoCabecera.add(detalleEstadoCabecera);
+			}
+		}
+		model.put("listDetalleEstadoCabecera",listDetalleEstadoCabecera);
+
+		model.put("programaNombre", programaNombre);
+		model.put("listDatoProyectoBean",UtilList.orderDescList(UtilList.orderDescList(UtilList.orderDescList(llenaListDatoProyectoBean( listDatoProyecto), "promEvalProyecto"),"promEvalPerfil"),"promEvalInstitucion"));
+
+		return new ModelAndView("divGrillaListaProyectos", model);
+	}
+	
+	@RequestMapping(value = "/principal/grabarEstadoProyecto.jspx")
+	public void grabarEstadoProyecto(
+			@RequestParam(required = false, value = "datoProyectoId") Integer datoProyectoId,
+			@RequestParam(required = false, value = "estadoId") Integer estadoId,
+			HttpServletRequest request, HttpServletResponse response) throws ParseException {
+
+		DatoProyecto datoProyecto= datoProyectoService.findDatoProyectoById(datoProyectoId);
+		datoProyecto.setFkIddetallestadocabEstproy(estadoId);
+		datoProyectoService.updateDatoProyecto(datoProyecto);
+
+	}
+
+	/*************************** Listas y metodos privados ***********************************************/
+	private List<DatoProyectoBean> llenaListDatoProyectoBean(List<DatoProyecto> listDatoProyecto) throws ParseException {
+
+		List<DatoProyectoBean> listDatoProyectoBean= new ArrayList<DatoProyectoBean>();
+		for (DatoProyecto datoProyecto : listDatoProyecto) {
+			listDatoProyectoBean.add(llenaDatoProyectoBean(datoProyecto));
+		}
+		
+		return listDatoProyectoBean;
+	}
+
+	private DatoProyectoBean llenaDatoProyectoBean(DatoProyecto datoProyecto) throws ParseException {
+		DatoProyectoBean datoProyectoBean= new DatoProyectoBean();
+		
+		datoProyectoBean.setDatoProyectoID(datoProyecto.getDatoProyectoID());
+		datoProyectoBean.setCodigoProyecto(datoProyecto.getCodigoProyecto());
+		datoProyectoBean.setNombreProyecto(datoProyecto.getNombreProyecto());
+		datoProyectoBean.setFkIddetallestadocabEstproy(datoProyecto.getFkIddetallestadocabEstproy());
+		datoProyectoBean.setDuracionProyecto(datoProyecto.getDuracionProyecto());
+		
+		SubAreaTematica subAreaTematica=subAreaTematicaService.findSubAreaTematicaById(datoProyecto.getSubAreaTematica().getSubAreaTematicaID());
+		datoProyectoBean.setDescSubAreaTematica(subAreaTematica.getDescripcionSubAt());
+		datoProyectoBean.setDescAreaTematica(tablaEspecificaService.findTablaEspecificaById(subAreaTematica.getFkIdtablaespAreaTematica()).getDescripcionCabecera());
+		
+		datoProyectoBean.setPromEvalInstitucion(calculaPromedio(datoProyecto.getDatoProyectoID(), SgpWebConstants.evaluar.INSTITUCION));
+		datoProyectoBean.setPromEvalPerfil(calculaPromedio(datoProyecto.getDatoProyectoID(), SgpWebConstants.evaluar.PERFIL));
+		datoProyectoBean.setPromEvalProyecto(calculaPromedio(datoProyecto.getDatoProyectoID(), SgpWebConstants.evaluar.PROGRAMA));
+		datoProyectoBean.setListCuentaCorriente(cuentaCorrienteService.findCuentaCorrienteByDatoProyectoId(datoProyecto.getDatoProyectoID()) );
+		datoProyectoBean.setCantCuentaCorriente(datoProyectoBean.getListCuentaCorriente().size());
+		datoProyectoBean.setCuentaPlanOperativo(planOperativoService.findListPlanOperativoByDatoProyectoID(datoProyecto.getDatoProyectoID()).size());
+				
+		return datoProyectoBean;
+	}
+
+	private double calculaPromedio(int idProyecto, int tipoEvaluacion){
+		
+		List<Evaluacion> listEvaluacion =evaluarService.findEvaluacionByDatoProyectoIDAndTipoEvaluacionId(idProyecto, tipoEvaluacion);
+		/*calculo de promedios y pase de proyecto a normales*/
+		double promedioNotas = 0;
+		if  (listEvaluacion.size() == 1) {
+			promedioNotas = listEvaluacion.get(0).getCalificacion();
+			
+		} else if (listEvaluacion.size() == 2) {
+			double diferenciaNotas = 0;
+			//double promedioNotas = 0;
+
+			for (Evaluacion evaluacion2 : listEvaluacion) {
+				diferenciaNotas = Math.abs(diferenciaNotas
+						- evaluacion2.getCalificacion());
+				promedioNotas = promedioNotas
+						+ evaluacion2.getCalificacion();
+			}
+
+			promedioNotas = promedioNotas / listEvaluacion.size();
+			
+		} else if (listEvaluacion.size() == 3) {
+			int diferenciaMenor = 0;
+			List<NotasDiferencia> listNotasDiferencia = new ArrayList<NotasDiferencia>();
+			
+			NotasDiferencia notasDiferencia;
+			for (Evaluacion evaluacion2 : listEvaluacion) {
+				notasDiferencia= new NotasDiferencia();
+				notasDiferencia.setNota01(evaluacion2.getCalificacion());
+				notasDiferencia.setNota01EvaluacionId(evaluacion2
+						.getEvaluacionID());
+
+				for (Evaluacion evaluacion3 : listEvaluacion) {
+					notasDiferencia.setNota02(evaluacion3.getCalificacion());
+					notasDiferencia.setNota02EvaluacionId(evaluacion3
+							.getEvaluacionID());
+
+					notasDiferencia.setDiferencia((int) Math.abs(evaluacion2
+							.getCalificacion()
+							- evaluacion3.getCalificacion()));
+					
+					int flagIngresa = 0;
+					/*revisar aqui*/
+					if (notasDiferencia.getNota01EvaluacionId()!= notasDiferencia.getNota02EvaluacionId() ){
+					
+					for (NotasDiferencia notasDiferencia2 : listNotasDiferencia) {
+						if (((notasDiferencia.getNota01EvaluacionId() == notasDiferencia2.getNota01EvaluacionId())
+								&& (notasDiferencia.getNota02EvaluacionId() == notasDiferencia2.getNota02EvaluacionId()))
+								|| ((notasDiferencia.getNota02EvaluacionId() == notasDiferencia2.getNota01EvaluacionId())
+								&& (notasDiferencia.getNota02EvaluacionId() == notasDiferencia2.getNota01EvaluacionId()))) {
+							flagIngresa = 1;
+							break;
+						}
+					}
+					
+					if (flagIngresa == 0) {
+						listNotasDiferencia.add(notasDiferencia);
+						notasDiferencia = new NotasDiferencia();
+						notasDiferencia.setNota01(evaluacion2.getCalificacion());
+						notasDiferencia.setNota01EvaluacionId(evaluacion2
+								.getEvaluacionID());
+					}
+					}
+				}
+			}
+			diferenciaMenor=listNotasDiferencia.get(0).getDiferencia();
+			for (NotasDiferencia notasDiferenciaTemp : listNotasDiferencia) {
+				if (diferenciaMenor > notasDiferenciaTemp.getDiferencia()){
+					diferenciaMenor=notasDiferenciaTemp.getDiferencia();
+				}
+			}
+			notasDiferencia= new NotasDiferencia();
+			for (NotasDiferencia notasDiferencia02 : listNotasDiferencia) {
+				if (notasDiferencia02.getDiferencia()==diferenciaMenor){
+					notasDiferencia=notasDiferencia02;
+				}
+			}	
+			promedioNotas = (notasDiferencia.getNota01() + notasDiferencia.getNota02()) / 2;
+		
+		}
+		return promedioNotas;
+	}
+}

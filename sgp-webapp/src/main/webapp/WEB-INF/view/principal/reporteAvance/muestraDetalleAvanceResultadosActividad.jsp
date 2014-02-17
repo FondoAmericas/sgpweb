@@ -1,0 +1,110 @@
+<%@ include file="/common/taglibs.jsp"%>
+
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Avance de Resultados de Actividad</title>
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/viewMain.css" ></c:url>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/estiloContabilidad.css"></c:url>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/estiloGeneral.css"></c:url>" />
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/jquery-1.5.2.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/gestorAjax.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/AtssefGrid.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/validador.js"></script>
+
+
+<script type="text/javascript">
+	function cerrarPantalla() {
+		window.close();
+	}
+</script>
+
+</head>
+<body>
+	<div class="form-clasico">
+		<div class="encabezado">Detalle de Avance de Resultados</div>
+		<br>
+<fieldset>
+	<legend>Detalle de Avance</legend>
+			
+			<table width="100%">
+				<tr>
+					<td style="width: 25%; text-align: right; vertical-align: top;"><label>Resultado:</label>
+					</td>
+					<td colspan="3" style="width: 75%; text-align: left;">
+						<label><c:out value="${avanceResultadoActividadBean.metaPorActividad.actividad.resultado.definicionResultado }"></c:out> </label>
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 25%; text-align: right; vertical-align: top;"><label>Actividad:</label>
+					</td>
+					<td colspan="3" style="width: 75%; text-align: left;">
+						<label><c:out value="${avanceResultadoActividadBean.metaPorActividad.actividad.nombreActividad }"></c:out> </label>
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 25%; text-align: right; vertical-align: top;"><label>Descripcion de Actividad:</label>
+					</td>
+					<td colspan="3" style="width: 75%; text-align: left;">
+						<label><c:out value="${avanceResultadoActividadBean.descripcionActividad }"></c:out> </label>
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 25%; text-align: right; vertical-align: top;"><label>Meta Act. Programada:</label>
+					</td>
+					<td style="width: 25%; text-align: left;">
+					<label><c:out value="${avanceResultadoActividadBean.metaPorActividad.cantidadMetaActividad } - "></c:out><c:out value="${avanceResultadoActividadBean.descripcionUnidadMedida }"></c:out> </label>
+					</td>
+					<td colspan="2" style="width: 50%;"></td>
+				</tr>
+				<tr>
+				<td colspan="4" style="width: 100%;" ><hr style="width: 97%;"></td>
+				</tr>
+				<tr>
+					<td colspan="4" style="width: 100%;">
+						<table style="width: 100%;">
+						<tr>
+					<td style="width: 25%; text-align: right; vertical-align: top;"><label>Cantidad Avance Ejecutado:</label>
+					</td>
+					<td colspan="3" style="width: 75%; text-align: left;">
+						<label><c:out value="${avanceResultadoActividadBean.cantidadAvanceEjecutado } - "></c:out><c:out value="${avanceResultadoActividadBean.descripcionUnidadMedida }"></c:out> </label>
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 25%; text-align: right; vertical-align: top;"><label>Resumen Ejecutivo:</label>
+					</td>
+					<td colspan="3" style="width: 75%; text-align: left;">
+						<label><c:out value="${avanceResultadoActividadBean.resumenEjecutivoPeriodo }"></c:out> </label>
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 25%; text-align: right; vertical-align: top;"><label>Elemento de Verificación:</label>
+					</td>
+					<td colspan="3" style="width: 75%; text-align: left;">
+						<label><c:out value="${avanceResultadoActividadBean.elementoVerificacion }"></c:out> </label>
+					</td>
+				</tr>
+				<tr>
+					<td style="width: 25%; text-align: right; vertical-align: top;"><label>Observaciones:</label>
+					</td>
+					<td colspan="3" style="width: 75%; text-align: left;">
+						<label><c:out value="${avanceResultadoActividadBean.observaciones }"></c:out> </label>
+					</td>
+				</tr>
+				</table>
+					</td>
+				</tr>
+
+			</table>
+			</fieldset>
+		</div>
+</body>
+</html>	

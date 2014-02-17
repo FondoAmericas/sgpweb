@@ -1,0 +1,64 @@
+<%@ include file="/common/includesTaglibsGenerico.jsp"%>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+
+<script type="text/javascript">
+
+
+</script>
+
+</head>
+<body>
+
+<form id="detalleLiqGastosForm" method="post" action="#" class="form-clasico" accept-charset="UTF-8">
+<input type="hidden" value="${objLiquidacionGasto.fkIdDetalleEstadoCabEstLiqGasto}" id="fkIdDetalleEstadoCabEstLiqGasto"> 
+<div class="encabezado">DETALLE COMPROMISOS PAGO</div>
+		<br>
+  <fieldset>
+  	<legend>DETALLE COMPROMISOS PAGO</legend>
+<br>
+	     <table class="table-clasico" style="width: 100%">
+		<caption>Lista</caption>
+		<thead>
+        <tr>
+        	<th align="center"><label>Periodo</label></th>
+        	<th align="center"><label>Cantidad</label></th>
+            <th align="center"><label>Monto Compromiso</label></th>
+			<th align="center"><label>Fuente Financiadora</label></th>
+		 </tr>
+        </thead>
+        <c:forEach var="compromisoPagoG" items="${listCompromisoPago}">
+	        <tr>
+	        	<td align="center"><c:out value="${compromisoPagoG.cronogramaCostoActividad.periodo}"></c:out>
+	        	</td>
+				<td align="center"><c:out value="${compromisoPagoG.cronogramaCostoActividad.cantidad}"></c:out>&nbsp;
+				<c:forEach items="${listUnidadMedida}" var="modali">
+            		<c:if test="${ compromisoPagoG.cronogramaCostoActividad.costoActividad.fkIdtablaespUnidadMedida == modali.tablaEspecificaID}"> 
+                        <c:out value="${modali.descripcionCabecera}" />
+            		</c:if>
+        		</c:forEach>
+				</td>
+				<td align="center"><c:out value="${compromisoPagoG.montoCompromiso}"></c:out>
+				  &nbsp;
+				  <c:forEach items="${listTipoMoneda}" var="modali1">
+                       <c:if	test="${ compromisoPagoG.cronogramaCostoActividad.costoActividad.fkIdtablaespTipoMoneda==modali1.tablaEspecificaID }">
+            				<c:out value="${modali1.descripcionCabecera}" />
+                        </c:if>
+                    </c:forEach>
+				</td>
+				<td align="center"><c:out value="${compromisoPagoG.cronogramaCostoActividad.fuenteFinanciadora.institucion.nombreInstitucion}"></c:out></td>
+			</tr>
+        </c:forEach>
+        
+        </table>
+	
+	</fieldset>
+</form>
+</body>
+</html>
+
+
+
+                                                                                                                    

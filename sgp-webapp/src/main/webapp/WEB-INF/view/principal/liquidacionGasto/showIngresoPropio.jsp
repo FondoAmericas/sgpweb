@@ -1,0 +1,476 @@
+<%@include file="/common/includesTaglibsGenerico.jsp"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
+<!-- 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>GESTIONAR REPORTE DE AVANCE</title>
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/viewMain.css" ></c:url>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/estiloContabilidad.css"></c:url>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/estiloGeneral.css"></c:url>" />
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/jquery-1.5.2.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/gestorAjax.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/AtssefGrid.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/validador.js"></script>
+	-->
+<style type="text/css">
+div.ui-datepicker {
+	font-size: 62.5%;
+	background:#ade89f;
+}
+
+div.ui-dialog {
+	font-size: 62.5%;
+}
+
+div.ui-accordion {
+	font-size: 60.5%;
+}
+</style>
+
+<script type="text/javascript">
+	$(window).load(function() {
+		ocultaCampos();
+	});
+
+	function ocultaCampos() {
+		estado = "<c:out value="${estado}"></c:out>";
+		//alert(estado);
+		if ((estado == 'apro')|| (estado == 'eval')) {
+			$(".hide").hide();//attr("style","visibility: hidden;");
+			$(".disabled").attr("disabled", "disabled");
+			//alert($('#cbxInstitucionEjecutora option:selected').html());
+			//$("#div_cbxInstitucionEjecutora").attr("style","visibility: hidden;");
+		}
+	}
+</script>
+
+<script type="text/javascript">
+	
+	$(document).ready(function() {
+		if($('#mensaje').attr("value") != '' && $('#mensaje').attr("value") != undefined){
+	        alert($('#mensaje').attr("value"));
+	     }
+	});
+	
+	function fCargarActividad(){  
+	  var idResultado = $("#resultado").val();
+	  var nomMetodo = "cargarActividad";
+	    $("#actividad").load("cargarCombo.jspx", {resultadoID:idResultado,metodo:nomMetodo});
+
+	}
+
+
+function fLimpiar(){       
+	var form = document.formShowIngresoPropio;
+	form.action = "showIngresoPropio.jspx";
+	form.submit();
+
+}
+
+
+function fModificar(id){
+	var confirma = confirm("Esta seguro que desea cargar el registro para modificarlo?");
+	
+	if(confirma==true){
+    var form = document.formShowIngresoPropio;
+    form.action = "actionCargarIngresoPropio.jspx?ingresoPropioID="+id+"&fuenteFinanciadora="+$("#fuenteFinanciadora").val();
+    form.submit();
+	}
+}
+
+
+function fEliminar(id){
+	if (confirm("Desea eliminar el Ingreso Propio?")) {
+		var form = document.formShowIngresoPropio;
+	    form.action = "actionEliminarIngresoPropio.jspx?ingresoPropioID="+id+"&fuenteFinanciadora="+$("#fuenteFinanciadora").val();
+	    form.submit();
+	   
+	}
+	
+}
+
+function getMontos(){
+	if ($('#igvMonto').attr("value")=="" ){
+		alert("Ingresar igv");
+		return;
+	} 
+	if ($('#precioTotal').attr("value")=="") {
+		alert("Ingresar Pecio Total");
+		return;
+	} 
+	base = parseFloat($('#precioTotal').attr("value"));		
+	v1_igv =(parseInt($('#igvMonto').attr("value"))+100)/100;
+ 	v2_igv =parseInt($('#igvMonto').attr("value"))/100;
+ 	
+ 	subTotal = parseFloat(base/v1_igv);
+	montoIgv=parseFloat(subTotal*v2_igv);
+	document.getElementsByName('precioSinIgv')[0].value = subTotal.toFixed(2); 
+	document.getElementsByName('igv')[0].value = montoIgv.toFixed(2);
+}
+
+
+function getMensajeComprobanteRuc() {
+	var ruc = $("#rucComprador").val();
+	  var numero = $("#numeroComprobante").val();
+	   
+	 $.ajax({ url: 'actionGetMensajeComprobanteRuc.jspx',
+	               data: 'rucComprador='+ruc+'&numeroComprobante='+numero,
+	               type:'get',
+	               dataType: 'html',
+	               success: function (response) {
+						var estado=response;
+						if (estado=='SI') {
+							  alert("Documento ya existe asignado al Comprador"); 
+				               			return;
+						}else{
+							var form = document.formShowIngresoPropio;
+						    form.action = "actionRegistrarModificarIngresoPropio.jspx?";
+						    form.submit();
+						   
+						}
+	            	 		}
+	               });
+}
+
+function fRegistrar(){
+	
+	if (validar()) {
+		return;
+	}
+	
+	 if (ingresoPropioID=='0') {
+			getMensajeComprobanteRuc();	        			
+	    }else{
+	    	var form = document.formShowIngresoPropio;
+		    form.action = "actionRegistrarModificarIngresoPropio.jspx?fuenteFinanciadora="+$("#fuenteFinanciadora").val();
+		    form.submit();
+	    }    
+
+	
+}
+
+function fSalir(){
+	$('#ingresoPropioID').attr("value","");
+	}
+
+
+function validar(){
+      var cabecera = "Debe ingresar la siguiente informaci\u00F3n obligatoria(*):";
+      var mensaje = "";
+      if($('#tipoComprobante').attr("value") == 0){
+         mensaje += "\n - Tipo Comprobante.";
+      }
+      if($('#numeroComprobante').attr("value") ==''){
+         mensaje += "\n - Numero Comprobante.";
+      }
+      if($('#fechaEmision').attr("value") == 0){
+          mensaje += "\n - Fecha Emision.";
+       }
+      if($('#razonSocial').attr("value") == ''){
+         mensaje += "\n - Razon Social.";
+      }
+      if($('#concepto').attr("value") == ''){
+             mensaje += "\n - Concepto.";
+          }
+      if($('#tipoMoneda').attr("value") == ''){
+             mensaje += "\n - Tipo Moneda.";
+          }
+      if($('#observacion').attr("value") == ''){
+         mensaje += "\n - Observaci\u00F3n.";
+      }
+      if($('#razonSocial').attr("value") == ''){
+             mensaje += "\n - Saldo Disponible.";
+      }
+      if($('#precioSinIgv').attr("value") == ''){
+         mensaje += "\n - SubTotal.";
+      }
+      if($('#igv').attr("value") == ''){
+         mensaje += "\n - Igv.";
+      }
+      if($('#precioTotal').attr("value") == ''){
+             mensaje += "\n - Total.";
+          }
+      if($('#resultado').attr("value") ==0){
+             mensaje += "\n - Resultado.";
+          }
+    
+      if(mensaje != ""){
+         alert(cabecera + mensaje);
+         return true;
+      }else{
+         return false;
+      }
+   
+}
+
+function cerrar(){
+	window.close();
+}
+
+$(function() {
+	$("#fechaEmision").datepicker({
+		changeMonth : true,
+		changeYear : true
+	});
+});
+
+</script>
+<!-- </head>
+<body>-->
+<div class="form-clasico" >
+<div class="encabezado">INGRESOS PROPIOS</div>
+<form:form  name="formShowIngresoPropio"    action="showIngresoPropio.jspx" method="POST" >
+<input type="hidden" id="liquidacionGastoID" name="liquidacionGastoID" value="${liquidacionGastoID}">
+<input type="hidden" id="ingresoPropioID" name="ingresoPropioID" value="${ingresoPropioID}">
+<input type="hidden" id="mensaje" name="mensaje" value="${mensaje}">
+
+<br/>
+<fieldset style="padding-left: 15px"><legend>Ingresos que genero el proyecto</legend>
+<table style="width: 100%" class="hide">
+<tr>
+<td style="text-align: right; width: 25%;">
+    <label>Fuente Financiadora:</label>
+</td>
+<td colspan="3"  style="text-align: left; width: 75%;">
+    <label><c:out value="${fuenteFinanciadora }"></c:out>
+    <input type="hidden" id="fuenteFinanciadora" name="fuenteFinanciadora" value="<c:out value="${fuenteFinanciadora }"></c:out>"> </label>
+</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+    <label>Tipos Comprobante:</label>
+</td>
+<td >
+    <select name="tipoComprobante" id="tipoComprobante">
+        <option value="0"><c:out value="-- Seleccionar --" /></option>
+        <c:forEach items="${listTipoComprobante}" var="modali">
+            <option value="${modali.tablaEspecificaID}"    <c:if test="${ ingresoPropio.fkIdtablaespTipoComprobantePago == modali.tablaEspecificaID}"> selected="selected" </c:if>>
+            <c:out value="${modali.descripcionCabecera}" />
+            </option>
+        </c:forEach>
+    </select>
+</td>
+<td style="text-align: right;">
+<label>N&uacute;mero Comprobante:</label>
+</td>
+<td>
+<input type="text" name="numeroComprobante"    id="numeroComprobante" value="${ingresoPropio.numeroComprobante}"  maxlength="30" onkeypress="return isNumberKeyP(event);" >
+</td>
+</tr>
+<tr >
+<td style="text-align: right;">
+<label>Fecha Emision:</label>
+</td>
+<td>
+ <input type="text" name="fechaEmision" maxlength="0" id="fechaEmision" value="${fechaEmision}" onkeypress="javascript:return Valida_Dato(event,7), isNumberKeyPBD(event);" />
+<label>(dd/mm/aaaa)</label>
+</td>
+<td style="text-align: right;">
+<label>Ruc de Comprador:</label>
+</td>
+<td>
+<input type="text" name="rucComprador" maxlength="11" id="rucComprador" value="${ingresoPropio.rucComprador}" onkeypress="javascript:return Valida_Dato(event,8);" />
+</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+<label>Raz&oacute;n Social:</label>
+</td>
+<td colspan="3">
+<input type="text" style="width: 100%" name="razonSocial"    id="razonSocial" value="${ingresoPropio.razonSocial}"  maxlength="255" >
+</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+<label>Concepto:</label>
+</td>
+<td colspan="3" >
+<textarea style="width: 100%"  maxlength="250" id="concepto" name="concepto"><c:out value="${ingresoPropio.concepto}"/></textarea>
+</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+<label>Tipo Moneda:</label>
+</td>
+<td >
+<select name="tipoMoneda" id="tipoMoneda">
+        <option value="0"><c:out value="-- Seleccionar --" /></option>
+        <c:forEach items="${listTipoMoneda}" var="modali">
+            <option value="${modali.tablaEspecificaID}"  <c:if test="${ ingresoPropio.fkIdtablaespTipoMoneda == modali.tablaEspecificaID}" > selected="selected" </c:if>>
+            <c:out value="${modali.descripcionCabecera}" />
+            </option>
+        </c:forEach>
+    </select>
+</td>
+<td style="text-align: right;">
+<label>SubTotal:</label>
+</td>
+<td >
+<input type="text" name="precioSinIgv" maxlength="0" id="precioSinIgv" value="${ingresoPropio.precioSinIgv}"   onkeypress="return isNumberKeyPBD(event);"  />
+</td>
+</tr>
+<tr>
+<td>
+<label></label>
+</td>
+<td >
+</td>
+<td style="text-align: right;">
+<label>IGV <input type="text" name="igvMonto" style="width: 20px;" id="igvMonto" value="${ingresoPropio.tasaIgv}" maxlength="2" onkeypress="return isNumberKeyP(event);"  />% :
+</label>
+</td>
+<td >
+<input type="text" name="igv"  id="igv" value="${ingresoPropio.igv}" onkeypress="return isNumberKeyPBD(event);"  />
+</td>
+</tr>
+<tr>
+<td>
+<label></label>
+</td>
+<td >
+</td>
+<td style="text-align: right;">
+<label>Precio Total:</label>
+</td>
+<td >
+<input type="text" name="precioTotal"   id="precioTotal" value="${ingresoPropio.precioTotal}"  onblur="getMontos()" onkeypress="return isNumberKeyP(event);" />
+</td>
+</tr>
+<tr>
+<td style="text-align: right;">
+<label>Resultado:</label>
+</td>
+<td colspan="3">
+<select name="resultado" id="resultado"  style="width: 100%" onchange="javascript:fCargarActividad();">
+        <option value="0"><c:out value="-- Seleccionar --" /></option>
+        <c:forEach items="${listResultado}" var="modali">
+            <option value="${modali.resultadoID}" <c:if test="${ ingresoPropio.resultado.resultadoID == modali.resultadoID}"> selected="selected" </c:if>>
+            <c:out value="${modali.definicionResultado}" />
+            </option>
+        </c:forEach>
+    </select>
+</td>
+</tr>
+<tr>
+<td style="text-align: right;" >
+<label>Actividad:</label></td>
+<td colspan="3">
+<select name="actividad" id="actividad" style="width: 100%" >
+        <option value="0"><c:out value="-- Seleccionar --" /></option>
+        <c:forEach items="${listActividad}" var="modali">
+            <option value="${modali.actividadID}"   <c:if test="${ingresoPropio.actividad.actividadID== modali.actividadID}"> selected="selected"  </c:if> >
+            <c:out value="${modali.nombreActividad}" />
+            </option>
+        </c:forEach>
+    </select>
+  </td>
+</tr>
+<tr>
+<td colspan="4"style="text-align: right;" >
+<input type="button" name="Agregar" value="Grabar" onclick="javascript:fRegistrar();">
+<input type="button" name="Limpiar" value="Limpiar" onclick="javascript:fLimpiar();">
+<input type="button" value="Cerrar" id="idBtnCerrar" onclick="javascript:cerrar();"/>
+</td>
+</tr>
+
+</table>
+
+          <table class="table-clasico" style="width: 100%">
+		<caption>Lista</caption>
+		<thead>
+        <tr>
+        	<th align="center"><label>Raz&oacute;n Social</label></th>
+        	<th align="center"><label>Ruc Comprador</label></th>
+            <th align="center"><label>N&uacute;mero Comprobante</label></th>
+            <th align="center"><label>Tipo Comprobante</label></th>
+            <th align="center"><label>Resultado</label></th>
+            <th align="center"><label>Actividad</label></th>
+            <th align="center"><label>Sub Total</label></th>
+			<th align="center"><label>Igv</label></th>
+			<th align="center"><label>Precio Total</label></th>
+			<th align="center" class="hide"><label>Operaciones</label></th>
+        </tr>
+        </thead>
+        <c:forEach var="ingresoPropioG" items="${listIngresoPropio}"  varStatus="indice">
+	<c:choose>
+										<c:when test="${indice.count %2== 0}">
+											<c:set var="classIdi" value="f2"></c:set>
+										</c:when>
+										<c:otherwise>
+											<c:set var="classIdi" value="f1"></c:set>
+										</c:otherwise>
+									</c:choose>
+	<tr class="<c:out value="${classIdi}"></c:out>">
+	        	<td align="left"><c:out value="${ingresoPropioG.razonSocial}"></c:out></td>
+				<td align="left"><c:out value="${ingresoPropioG.rucComprador}"></c:out></td>
+				<td align="left"><c:out value="${ingresoPropioG.numeroComprobante}"></c:out>
+				</td>
+			<td align="left">
+	    	<c:forEach items="${listTipoComprobante}" var="modali">
+            <c:if test="${ ingresoPropioG.fkIdtablaespTipoComprobantePago == modali.tablaEspecificaID}">
+            <c:out value="${modali.descripcionCabecera}"/>
+            </c:if>
+          </c:forEach>
+    			</td>
+    			<td align="left">
+   				<c:forEach items="${listResultado}" var="modali">
+            	 <c:if test="${ ingresoPropioG.resultado.resultadoID == modali.resultadoID}">                                                                                  
+            		<c:out value="${modali.definicionResultado}" />
+            	</c:if>
+        		</c:forEach>
+				</td>
+				<td align="left">
+   				<c:forEach items="${listActividadG}" var="modali">
+                   	 <c:if test="${ ingresoPropioG.actividad.actividadID == modali.actividadID}">                                                                                  
+            		<c:out value="${modali.nombreActividad}" />
+            	</c:if>
+        		</c:forEach>
+				</td>
+		
+				<td align="center"><c:out value="${ingresoPropioG.precioSinIgv}"></c:out> &nbsp;
+				 <c:forEach items="${listTipoMoneda}" var="modali1">
+                       <c:if	test="${modali1.tablaEspecificaID== ingresoPropioG.fkIdtablaespTipoMoneda}">
+            				<c:out value="${modali1.descripcionCabecera}" />
+                        </c:if>
+                    </c:forEach>
+				</td>
+				<td align="center"><c:out value="${ingresoPropioG.igv}"></c:out>
+				 &nbsp;
+				 <c:forEach items="${listTipoMoneda}" var="modali2">
+                       <c:if	test="${modali2.tablaEspecificaID== ingresoPropioG.fkIdtablaespTipoMoneda}">
+                  				<c:out value="${modali2.descripcionCabecera}" />
+                        </c:if>
+                    </c:forEach>
+				</td>
+				
+				<td align="center"> <c:out value="${ingresoPropioG.precioTotal}"></c:out> &nbsp;
+				  <c:forEach items="${listTipoMoneda}" var="modali1">
+                       <c:if	test="${modali1.tablaEspecificaID== ingresoPropioG.fkIdtablaespTipoMoneda}">
+            				<c:out value="${modali1.descripcionCabecera}" />
+                        </c:if>
+                    </c:forEach>
+				</td>
+							<td style="text-align: center;"  class="hide">	
+                    <a href="javascript:fModificar('${ingresoPropioG.ingresoPropioID}')"  style="cursor:pointer" class="linkSelecciona" title="Modificar">Modificar</a><br/>	
+                    <a href="javascript:fEliminar('${ingresoPropioG.ingresoPropioID}')"  style="cursor:pointer" class="linkSelecciona" title="Eliminar">Eliminar</a>
+			</td>	
+			</tr>
+        </c:forEach>
+        
+        </table>                                                                                                                  
+</fieldset>
+
+</form:form>
+</div>
+<!-- 
+</body></html>
+ -->

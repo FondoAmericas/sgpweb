@@ -1,0 +1,154 @@
+<%@include file="includesTaglibs.jsp"%>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title><spring:message code="web.app.title"></spring:message>
+</title>
+	<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/estiloContabilidad.css"></c:url>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/estiloGeneral.css"></c:url>" />
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/validador.js"></script>	
+	
+<script type="text/javascript">
+	$(window).load(function() {
+		////UBICACION DEL PROYECTO
+		ocultaCampos();
+	});
+	
+	function ocultaCampos(){
+		estado= "<c:out value="${estadoPlanOperativo}"></c:out>" ;
+		//alert(estado);
+		if ((estado =='peval')||(estado =='revi')||(estado =='apro')||(estado =='recha')){
+			$(".hide").hide();//attr("style","visibility: hidden;");
+			$(".disabled").attr("disabled","disabled");	
+		}
+		
+	}
+	</script>
+	
+	
+<script>
+	
+	$(document).ready(function() {
+		 if($('#mensaje').attr("value") != '' && $('#mensaje').attr("value") != undefined){
+		        alert($('#mensaje').attr("value"));
+		     }
+		});
+	
+		</script>
+		
+		<script type="text/javascript">
+
+		function validarInfraestructura(){
+				var errores = 0;
+				var mensaje = null;
+
+				if ($("#descripcion").val().length  == 0) {
+					mensaje += "Debe ingresar una descripcion. \n";
+					errores = errores + 1;
+				}
+				
+				if ($("#ubicacion").val().length == 0) {
+					mensaje += "Debe ingresar una ubicacion. \n";
+					errores = errores + 1;
+				}
+				
+				if (errores > 0) {
+					alert(mensaje);
+				}
+
+				return errores;
+			
+		}
+
+				</script>
+
+		<script type="text/javascript">
+		function grabarInfraestructura(){
+			var validacion = validarInfraestructura();
+			if (validacion==0){
+				$.get("grabarInfraestructura.jspx", {
+					infraestructuraPOID : $("#infraestructuraPOID").val(),
+					descripcion : $("#descripcion").val(),
+					ubicacion : $("#ubicacion").val(),
+					activo : $("#activo").val()
+				}, function(){
+					window.close();
+				});
+			}
+		}
+		
+		function llenaActivo(){
+			  var categoriaActivoId = $("#categoriaActivo").val();
+			    var nomMetodo = "cargarBienActivo";
+			    $("#activo").load("cargarCombo.jspx", {categoriaActivoId:categoriaActivoId,metodo:nomMetodo});
+		}
+		
+		</script>
+</head>
+<body>
+	<div class="form-clasico">
+		<div class="encabezado">INFRAESTRUCTURA</div>
+		<br />
+		<form:form name="formResultado" method="post" action="" target="_self">
+			<input type="hidden" id="datoPlanOperativoID" name="datoPlanOperativoID"
+				value="${datoProyectoID }">
+			<input type="hidden" id="infraestructuraPOID" name="infraestructuraPOID"
+				value="${infraestructuraPo.infraestructuraPOID }">	
+			<input type="hidden" id="mensaje" name="mensaje" value="${mensaje}">
+			<fieldset>
+				<legend>MARCO LOGICO</legend>
+				<table width="100%">
+					<tr>
+						<td align="right"><label>Descripción:</label></td>
+						<td colspan="3"><textarea id="descripcion" class="disabled"
+								name="descripcion" COLS="55" ROWS="3"
+								style="width: 98%;"><c:out value="${infraestructuraPo.descripcion }"></c:out></textarea></td>
+					</tr>
+					<tr>
+						<td align="right"><label>Ubicación:</label></td>
+						<td colspan="3"><textarea id="ubicacion" class="disabled"
+								name="ubicacion" COLS="55" ROWS="3"
+								style="width: 98%;"><c:out value="${infraestructuraPo.ubicacion }"></c:out></textarea></td>
+					</tr>
+					<tr>
+				<td style="text-align: right;"><label>Categoria Activo:</label></td>
+					<td><select name="categoriaActivo" id="categoriaActivo"  class="disabled" onchange="llenaActivo()">
+							<option value="0">
+								<c:out value="-- Categoria Activo --" />
+							</option>
+							<c:forEach items="${listCategoriaActivo}" var="categoriaActivo">
+								<option value="${categoriaActivo.tablaEspecificaID}"
+									<c:if test="${ infraestructuraPo.activo.fkIdtablaespCategoriaActivo == categoriaActivo.tablaEspecificaID}"> selected="selected" </c:if>>
+									<c:out value="${categoriaActivo.descripcionCabecera}" />
+								</option>
+							</c:forEach>
+					</select></td>
+					<td style="text-align: right;"><label>Bien / Activo:</label></td>
+					<td><select name="activo" id="activo"  class="disabled">
+							<option value="0">
+								<c:out value="-- Bien/Activo --" />
+								<c:forEach items="${listActivo}" var="lActivo">
+										<option <c:if test="${lActivo.activoID == infraestructuraPo.activo.activoID }">selected="selected" </c:if>
+											value="${lActivo.activoID}">
+											<c:out value="${lActivo.descripcionActivo }" />
+										</option>
+									
+							</c:forEach>
+							</option>
+					</select></td>
+				</tr>					
+				</table>
+				<br/>
+				<div style="width: 100%; text-align: right;" class="hide"><input type="button"
+									name="btnGrabar" id="btnGrabar"
+									value="Grabar Infraestructura"
+									onclick="grabarInfraestructura()" /></div>
+				<br>
+			</fieldset>
+		</form:form>
+	</div>
+</body>
+</html>

@@ -1,0 +1,745 @@
+package pe.com.fondam.sgp.web.controller.principal;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import pe.com.fondam.sgp.core.bean.BeneficiariosPorResultadoBean;
+import pe.com.fondam.sgp.core.bean.CuentaCorrienteBean;
+import pe.com.fondam.sgp.core.bean.DatoProyectoBean;
+import pe.com.fondam.sgp.core.bean.DatoProyectoDetalleBean;
+import pe.com.fondam.sgp.core.bean.IndicadorMarcoLogicoBean;
+import pe.com.fondam.sgp.core.bean.MarcoLogicoBean;
+import pe.com.fondam.sgp.core.bean.ProgramaBean2;
+import pe.com.fondam.sgp.core.bean.UbicacionProyectoBean;
+import pe.com.fondam.sgp.core.constants.FondamConstans;
+import pe.com.fondam.sgp.core.domain.BeneficiariosPorResultado;
+import pe.com.fondam.sgp.core.domain.CuentaCorriente;
+import pe.com.fondam.sgp.core.domain.DatoProyecto;
+import pe.com.fondam.sgp.core.domain.DetalleEstadoCabecera;
+import pe.com.fondam.sgp.core.domain.FuenteFinanciadora;
+import pe.com.fondam.sgp.core.domain.ImagenOArchivo;
+import pe.com.fondam.sgp.core.domain.IndicadorMarcoLogico;
+import pe.com.fondam.sgp.core.domain.Institucion;
+import pe.com.fondam.sgp.core.domain.MarcoLogico;
+import pe.com.fondam.sgp.core.domain.Perfil;
+import pe.com.fondam.sgp.core.domain.Programa;
+import pe.com.fondam.sgp.core.domain.ResumenProyecto;
+import pe.com.fondam.sgp.core.domain.SubAreaTematica;
+import pe.com.fondam.sgp.core.domain.TablaEspecifica;
+import pe.com.fondam.sgp.core.domain.TipoPeriodo;
+import pe.com.fondam.sgp.core.domain.UbicacionProyecto;
+import pe.com.fondam.sgp.core.service.CrearProgramaService;
+import pe.com.fondam.sgp.core.service.DatoProyectoService;
+import pe.com.fondam.sgp.core.service.EvaluarService;
+import pe.com.fondam.sgp.core.service.IndicadorMarcoLogicoService;
+import pe.com.fondam.sgp.core.service.IngresarPerfilService;
+import pe.com.fondam.sgp.core.service.InstalarComiteTecnicoService;
+import pe.com.fondam.sgp.core.service.MarcoLogicoService;
+import pe.com.fondam.sgp.core.service.RegistroPerfilService;
+import pe.com.fondam.sgp.core.service.TablaEspecificaService;
+import pe.com.fondam.sgp.core.service.UtilService;
+import pe.com.fondam.sgp.web.InOutFiles.FileUploadDownload;
+import pe.com.fondam.sgp.web.InOutFiles.LinkFile;
+import pe.com.fondam.sgp.web.constants.SgpWebConstants;
+
+@Controller
+public class AprobarProyectoController {
+	
+		protected final Log logger = LogFactory.getLog(PerfilController.class);
+		
+		@Resource
+		private	EvaluarService evaluarService;
+		
+		@Resource
+		DatoProyectoService datoProyectoService;
+		
+		@Resource
+		MarcoLogicoService marcoLogicoService;
+		
+		@Resource
+		IndicadorMarcoLogicoService indicadorMarcoLogicoService;
+		
+		@Resource
+		InstalarComiteTecnicoService instalarComiteTecnicoService;
+		
+		@Resource
+		CrearProgramaService crearProgramaService;
+		
+		@Resource
+		TablaEspecificaService tablaEspecificaService;
+		
+		@Resource
+		private IngresarPerfilService ingresarPerfilService;
+		
+		@Resource
+		private	RegistroPerfilService registroPerfilService;
+		
+		@Resource
+		private UtilService utilService;
+		
+		List<Programa> listProgramas;
+		List<ProgramaBean2> listProgramasFinal;
+		List<TipoPeriodo> listTipoPeriodos;
+		List<TablaEspecifica> listTipoCuentas;
+		List<TablaEspecifica> listModalidadFinanciera;
+		List<TablaEspecifica> listModFinan;
+		List<DatoProyecto> listDatoProyecto;
+		List<DatoProyectoBean> listDatoProyectoFinal;
+		List<SubAreaTematica> listSubAreaTematica;
+		
+		Perfil perfil;
+		List <UbicacionProyecto> listUbicacionProyecto;
+		List <UbicacionProyectoBean> listUbicacionProyectoFinal;
+		List <BeneficiariosPorResultado> listBeneficiariosPorResultado;
+		List <BeneficiariosPorResultadoBean> listBeneficiariosPorResultadoFinal;
+		List <Institucion> listInstitucion;
+		List<FuenteFinanciadora> listFuentesFinancieras;
+		List<FuenteFinanciadoraBean> listFuentesFinancierasFinal;
+		List<ResumenProyecto> listResumenProyecto;
+		List<ResumenProyectoBean> listResumenProyectoFinal;
+		List<CuentaCorriente> listCuentaCorriente;
+		List<CuentaCorrienteBean> listCuentaCorrienteFinal;
+		List<IndicadorMarcoLogico> listIndicadorMarcoLogico;
+		List<IndicadorMarcoLogicoBean> listIndicadorMarcoLogicoFinal;
+		
+		List<TablaEspecifica> tablaEspecificaListTipoFormatoArchivo;
+		
+		FileUploadDownload fileUploadDownload=new FileUploadDownload();
+
+		public AprobarProyectoController(){
+
+		}
+		
+		@RequestMapping(value = "/principal/showAprobarProyecto")
+		public ModelAndView showCrearPerfil(HttpServletRequest request,
+				HttpServletResponse resp) throws IOException {
+			
+			Map<String, Object> model = new HashMap<String, Object>();
+			model.put("listModalidadFinanciamiento", tablaEspecificaService.findTablaEspecificabyPrefijoTablaGeneral("MDFN"));
+			model.put("listTipoCuenta", tablaEspecificaService.findTablaEspecificabyPrefijoTablaGeneral("TCNT"));
+
+			model.put("funcionalidadSelect", "showAprobarProyecto.jspx");
+			return new ModelAndView("showAprobarProyecto", model);
+			
+		}
+
+		
+		
+		@RequestMapping(value = "/principal/buscarProgramaPorFiltro")
+		public void cargaGrillaProgramas(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {		
+			String opcionBusqueda = request.getParameter("opcionBusqueda");
+			String filtroBusqueda = request.getParameter("filtroBusqueda");
+		    System.out.println("opcionBusqueda : "+opcionBusqueda);
+		    System.out.println("filtroBusqueda : "+filtroBusqueda);
+		    listadoProgramasFinal(opcionBusqueda,filtroBusqueda);
+			JSONArray jsonArrayUbicaciones = new JSONArray();
+			jsonArrayUbicaciones.add(0,listProgramasFinal);
+		
+			response.getWriter().write(jsonArrayUbicaciones.toString());
+
+		}
+		
+		@RequestMapping(value = "/principal/buscarProyectoPorFiltro")
+		public void buscarProyectoPorFiltro(HttpServletRequest request,
+				HttpServletResponse response) throws IOException {		
+				String opcionBusquedaProy = request.getParameter("opcionBusquedaProy");
+				String filtroBusquedaProy = request.getParameter("filtroBusquedaProy");
+				String idPrograma = request.getParameter("idPrograma2");
+			    System.out.println("opcionBusquedaProy : "+opcionBusquedaProy);
+			    System.out.println("filtroBusquedaProy : "+filtroBusquedaProy);
+			    System.out.println("idPrograma : "+idPrograma);
+			    
+		        listadoProyectosFinal(opcionBusquedaProy,filtroBusquedaProy,idPrograma);
+		        listadoProyectosFinal();
+			    System.out.println("tam listDatoProyectoFinal:"+listDatoProyectoFinal.size());
+		        JSONArray jsonDatoProyecto = new JSONArray();
+				jsonDatoProyecto.add(0,listDatoProyectoFinal);		
+				response.getWriter().write(jsonDatoProyecto.toString());
+			
+		}
+		
+		private void listadoProyectosFinal(String opcionBusquedaProy,
+				String filtroBusquedaProy, String idPrograma) {
+			
+			if(opcionBusquedaProy.equals("1")){
+				System.out.println("entro opcion codigo proyecto");
+				listDatoProyecto= evaluarService.findDatoProyectoByCodProy(Integer.parseInt(idPrograma), filtroBusquedaProy);
+				
+			}else if(opcionBusquedaProy.equals("2")){
+				System.out.println("entro opcion nombre proyecto");
+				listDatoProyecto= evaluarService.findDatoProyectoByProgramaIDbyNomProy(Integer.parseInt(idPrograma), filtroBusquedaProy);
+			}else if (opcionBusquedaProy.equals("3")){
+				System.out.println("entro opcion todos los proyectos");
+				listDatoProyecto= evaluarService.findDatoProyectoByProgramaID(Integer.parseInt(idPrograma));
+			}
+			
+		}
+
+		@RequestMapping(value = "/principal/buscarProyectosPorPrograma")
+		public void buscarProyectosPorPrograma(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {		
+			String idPrograma = request.getParameter("idPrograma");
+			listDatoProyecto = evaluarService.findDatoProyectoByProgramaID(Integer.parseInt(idPrograma));
+	        System.out.println("tam listDatoProyecto:"+listDatoProyecto.size());
+	        listadoProyectosFinal();
+	        JSONArray jsonDatoProyecto = new JSONArray();
+			jsonDatoProyecto.add(0,listDatoProyectoFinal);		
+			response.getWriter().write(jsonDatoProyecto.toString());
+	}
+		
+		
+    
+		@SuppressWarnings("rawtypes")
+		private void listadoProyectosFinal() {
+			listDatoProyectoFinal=new ArrayList<DatoProyectoBean>();
+			DatoProyectoBean datoProyectoBean;
+			DatoProyecto datoProyecto;
+			
+			for ( Iterator iterador = listDatoProyecto.listIterator(); iterador.hasNext(); ) {
+				datoProyectoBean= new DatoProyectoBean();
+				datoProyecto= new DatoProyecto();
+				datoProyecto=(DatoProyecto) iterador.next();
+				datoProyectoBean.setDatoProyectoID(datoProyecto.getDatoProyectoID());
+				datoProyectoBean.setDuracionProyecto(datoProyecto.getDuracionProyecto());
+				datoProyectoBean.setCantidadPeriodo(datoProyecto.getCantidadPeriodo());
+				datoProyectoBean.setNombreProyecto(datoProyecto.getNombreProyecto());
+				datoProyectoBean.setNumero_orden_dato_proyecto(datoProyecto.getNumero_orden_dato_proyecto());
+				datoProyectoBean.setCodigoProyecto(datoProyecto.getCodigoProyecto());
+				datoProyectoBean.setFkIddetallestadocabEstproy(datoProyecto.getFkIddetallestadocabEstproy());
+				datoProyectoBean.setIdSubAreaTematica(datoProyecto.getSubAreaTematica().getSubAreaTematicaID());
+				datoProyectoBean.setIdprograma(datoProyecto.getPrograma().getProgramaID());
+				listSubAreaTematica = ingresarPerfilService.listSubAreaTematica();
+				for(SubAreaTematica subAreaTematica : listSubAreaTematica){
+					if(datoProyectoBean.getIdSubAreaTematica()==subAreaTematica.getSubAreaTematicaID()){
+						datoProyectoBean.setDescSubAreaTematica(datoProyecto.getSubAreaTematica().getDescripcionSubAt());
+					}	
+				}
+				listDatoProyectoFinal.add(datoProyectoBean);	
+			}
+		}
+
+		@SuppressWarnings("rawtypes")
+		public void listadoProgramasFinal(String opcionBusqueda,String filtroBusqueda){
+			
+			if(opcionBusqueda.equals("1")){
+				System.out.println("entro opcion nombre");
+				listProgramas=crearProgramaService.findProgramaByNombre(filtroBusqueda);
+			}else if(opcionBusqueda.equals("2")){
+				System.out.println("entro opcion modfinan");
+				listProgramas=crearProgramaService.findProgramaByModFinan(Integer.parseInt(filtroBusqueda));
+			}else if(opcionBusqueda.equals("3")){
+				System.out.println("entro opcion tipo cuenta");
+				listProgramas=crearProgramaService.findProgramaByTipoCuenta(Integer.parseInt(filtroBusqueda));
+			}else if (opcionBusqueda.equals("4")){
+				System.out.println("entro opcion todos los programas");
+				listProgramas=crearProgramaService.listProgramas();
+			}
+		
+				listProgramasFinal=new ArrayList<ProgramaBean2>();
+				ProgramaBean2 programaBean;
+				Programa programa;
+				for ( Iterator iterador = listProgramas.listIterator(); iterador.hasNext(); ) {
+					programaBean=new ProgramaBean2();
+					programa=new Programa();
+					programa = (Programa) iterador.next();
+					programaBean.setProgramaID(programa.getProgramaID());
+					programaBean.setDuracionPrograma(programa.getDuracionPrograma());
+					programaBean.setFkIdtablaespTipoCuenta(programa.getFkIdtablaespTipoCuenta());
+					listTipoCuentas=tablaEspecificaService.listTablaEspecificaByTablaGeneralId(1);
+					for(TablaEspecifica tablaEspecifica : listTipoCuentas){
+						if(programaBean.getFkIdtablaespTipoCuenta() == tablaEspecifica.getTablaEspecificaID()){
+							programaBean.setTipoCuenta(tablaEspecifica.getDescripcionCabecera());
+						}
+					}
+					programaBean.setFkIdtablaespModalidadFinancia(programa.getFkIdtablaespModalidadFinancia());
+					listModFinan=tablaEspecificaService.listTablaEspecificaByTablaGeneralId(2);
+					for(TablaEspecifica tablaEspecifica : listModFinan){
+						if(programaBean.getFkIdtablaespModalidadFinancia() == tablaEspecifica.getTablaEspecificaID()){
+							programaBean.setModalidadFinancia(tablaEspecifica.getDescripcionCabecera());
+						}
+					}
+					programaBean.setNombrePrograma(programa.getNombrePrograma());
+					listProgramasFinal.add(programaBean);
+		        }
+		}
+		
+		
+		String idProyecto=null;
+		@RequestMapping(value = "/principal/obtenerDatosProyectoDetalle")
+		public void obtenerDatosProyectoDetalle(HttpServletRequest request,HttpServletResponse response)  throws IOException {
+			idProyecto = request.getParameter("idproyecto1");
+			DatoProyecto datoProyecto=evaluarService.findDatoProyectoById(Integer.parseInt(idProyecto));
+			System.out.println("id proyectooooooxx: "+datoProyecto.getDatoProyectoID());
+			
+			//obteniendo modalidad de financiamiento
+			String codProy=datoProyecto.getCodigoProyecto();
+			String [] codigoProyArray=codProy.split("\\.");
+			logger.info("modFinan: "+codigoProyArray[0]);
+			String modFinan;
+			if(codigoProyArray[0].equalsIgnoreCase("CO"))
+				modFinan="Cofinanciamiento";
+			else if(codigoProyArray[0].equalsIgnoreCase("PE"))
+				modFinan="Proyectos Especiales";
+			else if(codigoProyArray[0].equalsIgnoreCase("ED"))
+				modFinan="Ejes de Desarrollo";
+			else
+				modFinan="Concurso";
+			
+			//obteniendo area tematica
+			String codAreaTem=codigoProyArray[2];
+			String areaTem="null";
+			if(codAreaTem.equals("23")){
+				areaTem="Medio ambiente";
+			}else if(codAreaTem.equals("24")){
+				areaTem="Supervivencia Infantil";
+			}else if(codAreaTem.equals("25")){
+				areaTem="Mixtos";
+			}else if(codAreaTem.equals("26")){
+				areaTem="Agua y Saneamiento";
+			}
+			
+			
+			DatoProyectoDetalleBean datoProyectoDetalleBean=new DatoProyectoDetalleBean();
+			datoProyectoDetalleBean.setModFinanProyecto(modFinan);
+			datoProyectoDetalleBean.setCodigoProyecto(datoProyecto.getCodigoProyecto());
+			datoProyectoDetalleBean.setNombreProyecto(datoProyecto.getNombreProyecto());
+			datoProyectoDetalleBean.setAreaTemProyecto(areaTem);
+			datoProyectoDetalleBean.setSubAreaTemProyecto(datoProyecto.getSubAreaTematica().getDescripcionSubAt());
+			datoProyectoDetalleBean.setDuracionProyecto(String.valueOf(datoProyecto.getDuracionProyecto()));
+			
+			JSONObject detalleProJson= (JSONObject) JSONSerializer.toJSON(datoProyectoDetalleBean);
+
+			response.getWriter().write(detalleProJson.toString());
+		}
+		
+
+
+		@RequestMapping(value = "/principal/aproDesProyecto")
+		public ModelAndView aproDesProyecto(HttpServletRequest request) {
+			request.getSession().removeAttribute("listPrograma");
+			
+			String idProyecto=request.getParameter("idProy");
+			String idPrograma=request.getParameter("idProg");
+			String estadoProy=request.getParameter("cbxEstProg");
+			String subAreaTem=request.getParameter("subAreaTem");
+			String cantPeriodo=request.getParameter("cantPeriodo");
+			String codProy=request.getParameter("codProy");
+			String duracionProy=request.getParameter("duracionProy");
+			String nombreProy=request.getParameter("nombreProy");
+			String nroOrdenProy=request.getParameter("nroOrdenProy");
+			
+			System.out.println("idProyecto: "+idProyecto);
+			System.out.println("estadoProy: "+estadoProy);
+			System.out.println("idPrograma: "+idPrograma);
+			System.out.println("subAreaTem: "+subAreaTem);
+			
+			//DatoProyecto datoProyecto1;
+			DatoProyecto datoProyecto=new DatoProyecto();
+			datoProyecto.setDatoProyectoID(Integer.parseInt(idProyecto));
+			datoProyecto.setFkIddetallestadocabEstproy(Integer.parseInt(estadoProy));
+			Programa programa=new Programa();
+			programa.setProgramaID(Integer.parseInt(idPrograma));
+			datoProyecto.setPrograma(programa);
+			SubAreaTematica subAreaTematica =new SubAreaTematica();
+			subAreaTematica.setSubAreaTematicaID(Integer.parseInt(subAreaTem));
+			datoProyecto.setSubAreaTematica(subAreaTematica);
+			datoProyecto.setCantidadPeriodo(Integer.parseInt(cantPeriodo));
+			datoProyecto.setCodigoProyecto(codProy);
+			datoProyecto.setDuracionProyecto(Integer.parseInt(duracionProy));
+			datoProyecto.setNombreProyecto(nombreProy);
+			datoProyecto.setNumero_orden_dato_proyecto(Integer.parseInt(nroOrdenProy));
+			datoProyectoService.updateDatoProyecto(datoProyecto);// evaluarService.updateDatoProyecto(datoProyecto);
+			
+			return new ModelAndView("showAprobarProyecto");
+		}
+		
+		
+		@RequestMapping(value = "/principal/obtenerDataMarcoLogicoIndicadores1")
+		public void obtenerDataMarcoLogicoIndicadores(HttpServletRequest request,
+				HttpServletResponse response) throws IOException {
+			
+			JSONArray jsonArrayMarcoLogicoIndicadores = new JSONArray();
+			MarcoLogico marcoLogico =marcoLogicoService
+			.findMarcoLogicoByDatoProyectoID(Integer.parseInt(idProyecto));
+			MarcoLogicoBean marcoLogicoBean = new MarcoLogicoBean();
+			if(marcoLogico != null){
+			marcoLogicoBean.setMarcoLogicoID(marcoLogico.getMarcoLogicoID());
+			marcoLogicoBean.setResumenEjecutivo(marcoLogico.getResumenEjecutivo());
+			marcoLogicoBean.setFinDescrip(marcoLogico.getFinDescrip());
+			marcoLogicoBean.setFinSupuesto(marcoLogico.getFinSupuesto());
+			marcoLogicoBean.setPropositoDescrip(marcoLogico.getPropositoDescrip());
+			marcoLogicoBean.setPropositoSupuesto(marcoLogico.getPropositoSupuesto());
+			marcoLogicoBean.setDatoProyecto(marcoLogico.getDatoProyecto().getDatoProyectoID());
+			
+			JSONObject obj= (JSONObject) JSONSerializer.toJSON(marcoLogicoBean);
+			listadoIndicadorMarcoLogico(marcoLogicoBean.getMarcoLogicoID());
+			
+			jsonArrayMarcoLogicoIndicadores.add(0,obj);
+			jsonArrayMarcoLogicoIndicadores.add(1,listIndicadorMarcoLogicoFinal);
+			}
+			
+			response.getWriter().write(jsonArrayMarcoLogicoIndicadores.toString());
+		}
+		
+		public void listadoIndicadorMarcoLogico(Integer idMarcoLogico){
+			
+			listIndicadorMarcoLogico = indicadorMarcoLogicoService.findIndicadorMarcoLogicoByIdMarcoLogico(idMarcoLogico);
+			System.out.println("listIndicadorMarcoLogico.size()"+ listIndicadorMarcoLogico.size());
+			listIndicadorMarcoLogicoFinal=new ArrayList<IndicadorMarcoLogicoBean>();
+			IndicadorMarcoLogicoBean indicadorMarcoLogicoBean;
+			for(IndicadorMarcoLogico indicadorMarcoLogico : listIndicadorMarcoLogico){
+				indicadorMarcoLogicoBean = new IndicadorMarcoLogicoBean();
+				indicadorMarcoLogicoBean.setIndicadorMarcoLogicoID(indicadorMarcoLogico.getIndicadorMarcoLogicoID());
+				indicadorMarcoLogicoBean.setDefinicionIndicador(indicadorMarcoLogico.getDefinicionIndicador());
+				indicadorMarcoLogicoBean.setIndicador(indicadorMarcoLogico.getIndicador());
+				indicadorMarcoLogicoBean.setMedioVerificacion(indicadorMarcoLogico.getMedioVerificacion());
+				indicadorMarcoLogicoBean.setSituacionActural(indicadorMarcoLogico.getSituacionActural());
+				indicadorMarcoLogicoBean.setSituacionFinal(indicadorMarcoLogico.getSituacionFinal());
+				indicadorMarcoLogicoBean.setUnidadMedida(indicadorMarcoLogico.getUnidadMedida());
+				indicadorMarcoLogicoBean.setMarcoLogico(indicadorMarcoLogico.getMarcoLogico().getMarcoLogicoID());
+				listIndicadorMarcoLogicoFinal.add(indicadorMarcoLogicoBean);
+			}
+			
+		}
+		
+		
+		@RequestMapping(value = "/principal/actionBuscarProgramaxxxx")
+		public ModelAndView actionBuscarCrearPrograma(HttpServletRequest request) {
+			request.getSession().removeAttribute("listPrograma");
+
+			Programa programa=new Programa();
+			Integer idTipoCuentas = Integer.parseInt(request.getParameter("idTipoCuenta").toString());
+			Integer idModalidadFinanciera = Integer.parseInt(request.getParameter("idModFinanciera").toString());
+			Integer idTipoPeriodos = Integer.parseInt(request.getParameter("idTipoPeriodo").toString());
+			Integer nombre = Integer.parseInt(request.getParameter("idFiltro"));
+			String  nombrePrograma =request.getParameter("buscarNombre");
+			Integer todosProgramas = Integer.parseInt(request.getParameter("idFiltro"));
+			int tipoPeriodo=100;
+			int tipoCuenta=101;
+			int Modalidad=102;
+			
+			
+			if ( idTipoPeriodos!=0) {
+				TipoPeriodo tipPeriodo=new TipoPeriodo();
+				tipPeriodo.setTipoPeriodoID(idTipoPeriodos);
+				programa.setTipoPeriodo(tipPeriodo);
+				listProgramas=instalarComiteTecnicoService.findProgramaByFiltro(programa,tipoPeriodo );	
+			}else if ( idTipoCuentas!=0) {
+				programa.setFkIdtablaespTipoCuenta(idTipoCuentas);
+				listProgramas=instalarComiteTecnicoService.findProgramaByFiltro(programa, tipoCuenta);
+			}else if (idModalidadFinanciera!=0) {
+				programa.setFkIdtablaespModalidadFinancia(idModalidadFinanciera);
+				listProgramas=instalarComiteTecnicoService.findProgramaByFiltro(programa, Modalidad);
+			}else if (nombre ==103) {
+				programa.setNombrePrograma(nombrePrograma);
+				listProgramas=instalarComiteTecnicoService.findProgramaByFiltro(programa, nombre);
+			}else if (todosProgramas ==104) {
+				listProgramas=crearProgramaService.listProgramas();
+			}
+			System.out.println("listPrograma::::buscqueddaaa::"+listProgramas.size());
+			request.getSession().setAttribute("listPrograma",listProgramas);
+			listTipoPeriodos=crearProgramaService.listTipoPeriodos();
+			listTipoCuentas=tablaEspecificaService.listTablaEspecificaByTablaGeneralId(1);
+			listModalidadFinanciera=tablaEspecificaService.listTablaEspecificaByTablaGeneralId(2);
+			
+			Map<String, Object> model = new HashMap<String, Object>();
+			model.put("listTipoPeriodos", listTipoPeriodos);
+			model.put("listTipoCuentas", listTipoCuentas);
+			model.put("listModalidadFinanciera", listModalidadFinanciera);
+			
+			return new ModelAndView("mostrarCrearPrograma",model);
+		}
+	
+		
+		
+		@RequestMapping(value = "/principal/obtenerDataUbicacionProyecto2")
+		public void obtenerDataUbicacionProyecto2(HttpServletRequest request,
+				HttpServletResponse response) throws IOException {
+
+			
+			System.out.println("cojiendo el id del proyecto: ----------> "+idProyecto);
+			
+			//obtener perfil de un proyecto determinado
+			perfil=evaluarService.findPerfilByDatoProyectoID(Integer.parseInt(idProyecto));
+			
+			listadoUbicacionProyectoFinal();
+			listadoBeneficiariosPorResultadoFinal();
+			
+			JSONArray jsonArrayUbicaciones = new JSONArray();
+			jsonArrayUbicaciones.add(0,listUbicacionProyectoFinal);
+			jsonArrayUbicaciones.add(1,listBeneficiariosPorResultadoFinal);
+			
+			response.getWriter().write(jsonArrayUbicaciones.toString());
+			
+
+		}
+		
+		@SuppressWarnings("rawtypes")
+		public void listadoUbicacionProyectoFinal(){
+			
+			listUbicacionProyecto = evaluarService.findUbicacionProyectoByIdProyecto(Integer.parseInt(idProyecto));
+			listUbicacionProyectoFinal=new ArrayList<UbicacionProyectoBean>();
+			UbicacionProyectoBean ubicacionProyectoBean;
+			UbicacionProyecto ubicacionProyecto;
+			for ( Iterator iterador = listUbicacionProyecto.listIterator(); iterador.hasNext(); ) {
+				ubicacionProyectoBean=new UbicacionProyectoBean();
+				ubicacionProyecto=new UbicacionProyecto();
+				ubicacionProyecto = (UbicacionProyecto) iterador.next();
+				ubicacionProyectoBean.setUbicacionProyectoID(ubicacionProyecto.getUbicacionProyectoID());
+				ubicacionProyectoBean.setDetalleUbicacion(ubicacionProyecto.getDetalleUbicacion());
+				ubicacionProyectoBean.setDatoProyectoID(ubicacionProyecto.getDatoProyecto().getDatoProyectoID());
+				ubicacionProyectoBean.setDepProvDistID(ubicacionProyecto.getDepProvDist().getDepProvDistID());
+				listUbicacionProyectoFinal.add(ubicacionProyectoBean);
+			}
+		}
+		
+		@SuppressWarnings("rawtypes")
+		public void listadoBeneficiariosPorResultadoFinal(){
+			listBeneficiariosPorResultado = evaluarService.findBeneficiariosPorResultadoByIdPerfil(perfil.getPerfilID());
+			listBeneficiariosPorResultadoFinal=new ArrayList<BeneficiariosPorResultadoBean>();
+			BeneficiariosPorResultadoBean beneficiariosPorResultadoBean;
+			BeneficiariosPorResultado beneficiariosPorResultado;
+			for ( Iterator iterador = listBeneficiariosPorResultado.listIterator(); iterador.hasNext(); ) {
+				beneficiariosPorResultadoBean=new BeneficiariosPorResultadoBean();
+				beneficiariosPorResultado=new BeneficiariosPorResultado();
+				beneficiariosPorResultado = (BeneficiariosPorResultado) iterador.next();
+				beneficiariosPorResultadoBean.setBeneficiariosPorResultadoID(beneficiariosPorResultado.getBeneficiariosPorResultadoID());
+				beneficiariosPorResultadoBean.setFkIdtablaespTipoBeneficiario(beneficiariosPorResultado.getFkIdtablaespTipoBeneficiario());
+				beneficiariosPorResultadoBean.setCaracteristicasPoblacion(beneficiariosPorResultado.getCaracteristicasPoblacion());
+				beneficiariosPorResultadoBean.setCantidadProgramado(beneficiariosPorResultado.getCantidadProgramado());
+				beneficiariosPorResultadoBean.setFkidtablaespEstrato(beneficiariosPorResultado.getFkidtablaespEstrato());
+				beneficiariosPorResultadoBean.setDescripcion(beneficiariosPorResultado.getDescripcion());
+				beneficiariosPorResultadoBean.setPerfilID(beneficiariosPorResultado.getPerfil().getPerfilID());
+				beneficiariosPorResultadoBean.setUbicacionProyectoID(beneficiariosPorResultado.getUbicacionProyecto().getUbicacionProyectoID());
+				listBeneficiariosPorResultadoFinal.add(beneficiariosPorResultadoBean);
+			}
+		}
+		
+		
+		
+		@SuppressWarnings("rawtypes")
+		@RequestMapping(value = "/principal/obtenerDataIntitucionFuenFinan2")
+		public void obtenerDataIntitucionFuenFinan(HttpServletRequest request,
+				HttpServletResponse response) throws IOException {
+			
+			JSONArray jsonArrayInstituciones = new JSONArray();
+			JSONObject objJson; 
+			JSONObject objJsonInstitucion;
+			JSONObject objJsonFuenFinan;
+			
+			listFuentesFinancieras = evaluarService.findFuenteFinanciadorasByIdDatoProy(Integer.parseInt(idProyecto));
+			listFuentesFinancierasFinal=new ArrayList<FuenteFinanciadoraBean>();
+			//FuenteFinanciadoraBean fuenteFinanciadoraBean;
+			FuenteFinanciadora fuenteFinanciadora;
+			Institucion institucion;
+			for ( Iterator iterador = listFuentesFinancieras.listIterator(); iterador.hasNext(); ) {
+				//fuenteFinanciadoraBean=new FuenteFinanciadoraBean();
+				fuenteFinanciadora=new FuenteFinanciadora();
+				fuenteFinanciadora = (FuenteFinanciadora) iterador.next();
+				
+				/*fuenteFinanciadoraBean.setFuenteFinanciadoraID(fuenteFinanciadora.getFuenteFinanciadoraID());
+				fuenteFinanciadoraBean.setDefineSiEsEjecutor(fuenteFinanciadora.getDefineSiEsEjecutor());
+				fuenteFinanciadoraBean.setFkIdtablaespTipoFuenteFinanciadora(fuenteFinanciadora.getFkIdtablaespTipoFuenteFinanciadora());
+				fuenteFinanciadoraBean.setMontoFinanciado(fuenteFinanciadora.getMontoFinanciado());
+				fuenteFinanciadoraBean.setFkIdtablaespTipoMoneda(fuenteFinanciadora.getFkIdtablaespTipoMoneda());
+				fuenteFinanciadoraBean.setDatoProyectoID(fuenteFinanciadora.getDatoProyecto().getDatoProyectoID());
+				fuenteFinanciadoraBean.setInstitucionID(fuenteFinanciadora.getInstitucion().getInstitucionID());
+				listFuentesFinancierasFinal.add(fuenteFinanciadoraBean);*/
+				
+				objJson = new JSONObject();
+				objJsonInstitucion = new JSONObject();
+				objJsonFuenFinan = new JSONObject();
+				
+				objJsonFuenFinan.accumulate("cbxTipoFuenteFinan", String.valueOf(fuenteFinanciadora.getFkIdtablaespTipoFuenteFinanciadora()));
+				objJsonFuenFinan.accumulate("cbxTipoMoneda", String.valueOf(fuenteFinanciadora.getFkIdtablaespTipoMoneda()));
+				objJsonFuenFinan.accumulate("txtMontoFinan", String.valueOf(fuenteFinanciadora.getMontoFinanciado()));
+				objJsonFuenFinan.accumulate("cbxInstitucionEjecutora", String.valueOf(fuenteFinanciadora.getDefineSiEsEjecutor()));
+				
+				institucion = evaluarService.findInstitucionByID(fuenteFinanciadora.getInstitucion().getInstitucionID());				
+				
+				objJsonInstitucion.accumulate("txtInstitucion", institucion.getNombreInstitucion());
+				objJsonInstitucion.accumulate("txtRuc", institucion.getRucInstitucion());
+				objJsonInstitucion.accumulate("txtDireccion", institucion.getDireccion());
+				objJsonInstitucion.accumulate("txtTelefono", institucion.getTelefono());
+				objJsonInstitucion.accumulate("txtRepLegal", institucion.getRepresentanteLegal());
+				objJsonInstitucion.accumulate("txtContacto", institucion.getContacto());
+				objJsonInstitucion.accumulate("txtCorreo", institucion.getCorreo());
+				objJsonInstitucion.accumulate("txaObservacion", institucion.getObservacionDeInstitucion());
+				
+				objJson.accumulate("fuenFinan", objJsonFuenFinan);
+				objJson.accumulate("institucion", objJsonInstitucion);
+				
+				jsonArrayInstituciones.add(objJson);
+			}
+
+			logger.info("instituciones----------------> "+jsonArrayInstituciones.toString());
+			response.getWriter().write(jsonArrayInstituciones.toString());
+		}
+		
+		@SuppressWarnings("rawtypes")
+		public void listadoFuentesFinancieras(){
+			listFuentesFinancieras = evaluarService.findFuenteFinanciadorasByIdDatoProy(Integer.parseInt(idProyecto));
+			listFuentesFinancierasFinal=new ArrayList<FuenteFinanciadoraBean>();
+			FuenteFinanciadoraBean fuenteFinanciadoraBean;
+			FuenteFinanciadora fuenteFinanciadora;
+			for ( Iterator iterador = listFuentesFinancieras.listIterator(); iterador.hasNext(); ) {
+				fuenteFinanciadoraBean=new FuenteFinanciadoraBean();
+				fuenteFinanciadora=new FuenteFinanciadora();
+				fuenteFinanciadora = (FuenteFinanciadora) iterador.next();
+				fuenteFinanciadoraBean.setFuenteFinanciadoraID(fuenteFinanciadora.getFuenteFinanciadoraID());
+				fuenteFinanciadoraBean.setDefineSiEsEjecutor(fuenteFinanciadora.getDefineSiEsEjecutor().toString());
+				fuenteFinanciadoraBean.setFkIdtablaespTipoFuenteFinanciadora(fuenteFinanciadora.getFkIdtablaespTipoFuenteFinanciadora());
+				fuenteFinanciadoraBean.setMontoFinanciado(fuenteFinanciadora.getMontoFinanciado());
+				fuenteFinanciadoraBean.setFkIdtablaespTipoMoneda(fuenteFinanciadora.getFkIdtablaespTipoMoneda());
+				fuenteFinanciadoraBean.setDatoProyectoID(fuenteFinanciadora.getDatoProyecto().getDatoProyectoID());
+				fuenteFinanciadoraBean.setInstitucionID(fuenteFinanciadora.getInstitucion().getInstitucionID());
+				listFuentesFinancierasFinal.add(fuenteFinanciadoraBean);
+			}
+		}
+		
+		
+		
+		@RequestMapping(value = "/principal/obtenerDataResumenProyecto2")
+		public void obtenerDataResumenProyecto(HttpServletRequest request,
+				HttpServletResponse response) throws IOException {
+			
+			listadoResumenProyecto();
+			JSONArray jsonArrayResumenProyecto = new JSONArray();
+			jsonArrayResumenProyecto.add(listResumenProyectoFinal);
+			response.getWriter().write(jsonArrayResumenProyecto.toString());
+		}
+		
+		@SuppressWarnings("rawtypes")
+		public void listadoResumenProyecto(){
+			//obtener listado de resumen de proyecto de un proyecto
+			listResumenProyecto=evaluarService.findResumenProyectoByIdDatoProy(Integer.parseInt(idProyecto));
+			//logger.info("listResumenProyecto :   "+listResumenProyecto.size());
+			listResumenProyectoFinal=new ArrayList<ResumenProyectoBean>();
+			ResumenProyectoBean resumenProyectoBean;
+			ResumenProyecto resumenProyecto;
+			for ( Iterator iterador = listResumenProyecto.listIterator(); iterador.hasNext(); ) {
+				resumenProyectoBean = new ResumenProyectoBean();
+				resumenProyecto = new ResumenProyecto();
+				resumenProyecto =  (ResumenProyecto) iterador.next();
+				resumenProyectoBean.setResumenProyectoID(resumenProyecto.getResumenProyectoID());
+				resumenProyectoBean.setFkIdtablaespTipoResumenProy(resumenProyecto.getFkIdtablaespTipoResumenProy());
+				resumenProyectoBean.setFkIdTablaGeneral(resumenProyecto.getFkIdTablaGeneral());
+				resumenProyectoBean.setDefinicion(resumenProyecto.getDefinicion());
+				resumenProyectoBean.setDatoProyectoID(resumenProyecto.getDatoProyecto().getDatoProyectoID());
+				listResumenProyectoFinal.add(resumenProyectoBean);
+			}
+		}
+		
+		
+		@RequestMapping(value = "/principal/obtenerDataCuentasCorrientes1")
+		public void obtenerDataCuentasCorrientes(HttpServletRequest request,
+				HttpServletResponse response) throws IOException {
+			
+			//traer listado de cuentas corrientes de un proyecto
+			listCuentaCorriente = evaluarService.findCuentaCorrienteByIdDatoProyecto(Integer.parseInt(idProyecto));
+			logger.info("-------------------listado cuenta corriente: "+ listCuentaCorriente.size());
+			listadoCuentasCorrientes();
+			JSONArray jsonArrayCuentasCorrientes = new JSONArray();
+			jsonArrayCuentasCorrientes.add(0,listCuentaCorrienteFinal);
+			response.getWriter().write(jsonArrayCuentasCorrientes.toString());
+		}
+		
+		public void listadoCuentasCorrientes(){
+			CuentaCorrienteBean cuentaCorrienteBean;
+			listCuentaCorrienteFinal = new ArrayList<CuentaCorrienteBean>();
+			for(CuentaCorriente cuentaCorriente : listCuentaCorriente){
+				cuentaCorrienteBean=new CuentaCorrienteBean();
+				cuentaCorrienteBean.setCuentaCorrienteID(String.valueOf(cuentaCorriente.getCuentaCorrienteID()));
+				cuentaCorrienteBean.setFkIdtablaespBanco(String.valueOf(cuentaCorriente.getFkIdtablaespBanco()));
+				cuentaCorrienteBean.setFkIdtablaespTipomoneda(String.valueOf(cuentaCorriente.getFkIdtablaespTipomoneda()));
+				cuentaCorrienteBean.setNumeroCuenta(cuentaCorriente.getNumeroCuenta());
+				cuentaCorrienteBean.setDatoProyecto(String.valueOf(cuentaCorriente.getDatoProyecto().getDatoProyectoID()));
+				listCuentaCorrienteFinal.add(cuentaCorrienteBean);
+			}
+		}
+		
+		
+		/* download********************************************/
+		@RequestMapping(value = "/principal/showArchivoDownloadPerfil2.jspx")
+	public ModelAndView showArchivoDownloadPerfil2(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		tablaEspecificaListTipoFormatoArchivo=tablaEspecificaService.listTablaEspecificaByTablaGeneralId(40);//listado de extensiones
+		//UserSession userSession = (UserSession)request.getSession().getAttribute(SgpWebConstants.SESSION_USER);
+		//Usuario usuario = evaluarService.findUsuarioById(userSession.getUsuarioID());
+		
+		List<LinkFile> listLinkFile = new ArrayList<LinkFile>();
+		logger.info("entra a download del archivo-------------------------> "+idProyecto);
+		
+		if(idProyecto != null){
+			ImagenOArchivo imagenOArchivo=registroPerfilService.findImagenOarchivoByIdDatoProyecto(Integer.parseInt(idProyecto));//listado de archivos de acuerdo a un proyecto
+			
+			LinkFile linkFile;
+			if (imagenOArchivo!=null) {
+				linkFile=new LinkFile();
+				linkFile.setId(imagenOArchivo.getImagenOArchivoID());
+				linkFile.setNombre(imagenOArchivo.getDescripcionDocImg());
+				String extension=fileUploadDownload.getArchivoExtensionById(tablaEspecificaListTipoFormatoArchivo,imagenOArchivo.getFkIdtablaespTipoArchivo());
+				linkFile.setExtension(extension);
+				listLinkFile.add(linkFile);
+			}	
+			
+		}
+
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("listLinkFile", listLinkFile);
+		model.put("variable","downloadImagenArchivoPerfil2.jspx");
+		return new ModelAndView("mostrarArchivoDownload",model);
+	}
+	
+	@RequestMapping(value = "/principal/downloadImagenArchivoPerfil2.jspx")
+	public void downloadImagenArchivoPerfil2(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    	String idArchivo = request.getParameter("param");
+    	ImagenOArchivo imagenOArchivo = new ImagenOArchivo();
+    	imagenOArchivo=registroPerfilService.findImagenOArchivoById(Integer.parseInt(idArchivo));
+    	tablaEspecificaListTipoFormatoArchivo=tablaEspecificaService.listTablaEspecificaByTablaGeneralId(40);//listado de extensiones
+    	String extension=fileUploadDownload.getArchivoExtensionById(tablaEspecificaListTipoFormatoArchivo,imagenOArchivo.getFkIdtablaespTipoArchivo());
+    	String archivo=imagenOArchivo.getDescripcionDocImg()+extension;
+    	fileUploadDownload.downloadArchivo(request, response, archivo, imagenOArchivo.getImagen());
+    	
+	}
+		
+
+	@RequestMapping(value = "/principal/cargarDataCBXEstadoProyecto")
+	public void obtenerDataTipoBeneficiario(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		
+		List<DetalleEstadoCabecera> lstDetEstCab = utilService.listarDetalleEstadoCabeceraByPrefijo(FondamConstans.PREFIJO_ESTADO_PROYECTO);
+		List<DetalleEstadoCabecera> lstDetEstCabFinal = new ArrayList<DetalleEstadoCabecera>();
+		//DetalleEstadoCabecera detalleEstadoCabecera;
+		for(int i=0; i<lstDetEstCab.size(); i++){
+			if(lstDetEstCab.get(i).getDetalleEstadoCabeceraID() == SgpWebConstants.evaluarEstadoProyecto.APROBADO 
+					|| lstDetEstCab.get(i).getDetalleEstadoCabeceraID() == SgpWebConstants.evaluarEstadoProyecto.RECHAZADO
+					|| lstDetEstCab.get(i).getDetalleEstadoCabeceraID() == SgpWebConstants.evaluarEstadoProyecto.POR_EVALUAR){
+				lstDetEstCabFinal.add(lstDetEstCab.get(i));
+			}
+		}
+		
+		String jsonEstadoProyecto= utilService.convertirTablaEstadoCabeceraToJSONArrayCBX(lstDetEstCabFinal);
+		logger.info("Estados de proyecto : "+jsonEstadoProyecto);
+		response.getWriter().write(jsonEstadoProyecto);
+	}
+}
+

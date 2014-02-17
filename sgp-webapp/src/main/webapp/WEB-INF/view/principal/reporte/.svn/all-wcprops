@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/!svn/ver/1079/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal/reporte
+END
+reportCostoActividadFuente.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/1070/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal/reporte/reportCostoActividadFuente.jsp
+END
+includesTaglibs.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/900/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal/reporte/includesTaglibs.jsp
+END
+reportContribucionDonacionFuente.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/1033/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal/reporte/reportContribucionDonacionFuente.jsp
+END
+reporte.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/1834/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal/reporte/reporte.jsp
+END

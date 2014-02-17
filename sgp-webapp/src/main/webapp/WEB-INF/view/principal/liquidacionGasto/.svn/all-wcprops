@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/1846/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal/liquidacionGasto
+END
+grillaCronogramaCostoActividad.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/!svn/ver/1832/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal/liquidacionGasto/grillaCronogramaCostoActividad.jsp
+END
+grillaIngresoPago.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/1323/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal/liquidacionGasto/grillaIngresoPago.jsp
+END
+showLiquidacionGasto.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/1831/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal/liquidacionGasto/showLiquidacionGasto.jsp
+END
+showCompromisoPago.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/!svn/ver/1831/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal/liquidacionGasto/showCompromisoPago.jsp
+END
+grillaLiquidacionGasto.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/1852/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal/liquidacionGasto/grillaLiquidacionGasto.jsp
+END
+showIngresoPago.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/1846/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal/liquidacionGasto/showIngresoPago.jsp
+END
+showIngresoPropio.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/1838/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal/liquidacionGasto/showIngresoPropio.jsp
+END
+showActividadDetallePago.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/!svn/ver/1852/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal/liquidacionGasto/showActividadDetallePago.jsp
+END
+showDetallePago.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/1852/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal/liquidacionGasto/showDetallePago.jsp
+END

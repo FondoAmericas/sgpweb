@@ -1,0 +1,74 @@
+<%@ include file="/common/taglibs.jsp"%>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		ocultaCampos();
+	});
+</script>
+
+<script type="text/javascript">
+	var mensaje = "<c:out value="${mensaje }"></c:out>";
+	if (mensaje!=""){
+		alert(mensaje);
+	};
+	
+	arrayEvaluacionFinal = new Array();
+</script>
+<table class="table-clasico" width="100%">
+														<caption>
+															<label>Lista de Evaluacion Final</label>
+														</caption>
+														<thead>
+															<tr>
+																<td style="text-align: center; width: 20%"><label>Tipo de Evaluacion</label>
+																</td>
+																<td style="text-align: center; width: 20%"><label>Descripcion Tipo <br/>de Evaluacion</label>
+																</td>
+																<td style="text-align: center; width: 55%"><label>Comentario</label>
+																</td>
+																<td style="text-align: center; width: 5%" class="hide"><label>Opciones</label>
+																</td>
+															</tr>
+														</thead>
+	<tbody>
+		<c:forEach items="${listEvaluacionFinal}" var="evaluacionFinal"
+			varStatus="indice">
+			<c:choose>
+				<c:when test="${indice.count %2== 0}">
+					<c:set var="classIdi" value="f2"></c:set>
+				</c:when>
+				<c:otherwise>
+					<c:set var="classIdi" value="f1"></c:set>
+				</c:otherwise>
+			</c:choose>
+			<tr class="<c:out value="${classIdi}"></c:out>">
+				<td style="width: 20%; text-align: left;"><label><c:out
+							value="${evaluacionFinal.descripcionEf.descripcionEvalFinal }"></c:out>
+				</label><br>
+				</td>
+				<td style="width: 20%; text-align: left;"><label><c:out
+							value="${evaluacionFinal.descripcionEf.descripcionFinal }"></c:out>
+				</label><br>
+				</td>
+				<td style="width: 55%; text-align: justify;"><label><c:out
+							value="${evaluacionFinal.comentario }"></c:out>
+				</label><br>
+				</td>
+				<td style="width: 5%; text-align: justify;" class="hide"><label><a
+						href="javascript:modificarEvaluacionFinal('<c:out value="${evaluacionFinal.evaluacionFinalID }" ></c:out>','<c:out value="${evaluacionFinal.comentario }" ></c:out>','<c:out value="${evaluacionFinal.descripcionEf.descripcionEFID }" ></c:out>','<c:out value="${evaluacionFinal.descripcionEf.fkIdtablaespEvalFinalCabecera }" ></c:out>')"
+						id="modificatEfectoProyecto" class="linkSelecciona">Modificar</a><br />
+						<a
+						href="javascript:eliminarRegistroInformeFinal('<c:out value="${evaluacionFinal.evaluacionFinalID }" ></c:out>','evaluacionFinal')"
+						id="eliminarRegistro" class="linkSelecciona">Eliminar</a></label><br>
+				</td>
+			</tr>
+			<script type="text/javascript">
+var objEvaluacionFinal = new Object();
+objEvaluacionFinal.tipoEvaluacionFinal = "<c:out value="${evaluacionFinal.descripcionEf.descripcionEFID }"></c:out>";
+
+arrayEvaluacionFinal.push(objEvaluacionFinal);
+
+</script>
+		</c:forEach>
+	</tbody>
+</table>	

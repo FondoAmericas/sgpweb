@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CronogramaActividades_subreport1" pageWidth="860" pageHeight="555" orientation="Landscape" columnWidth="860" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="716ba06d-2985-4155-9a39-3b4f5bc1bcf5">
+	<property name="ireport.zoom" value="4.0"/>
+	<property name="ireport.x" value="2744"/>
+	<property name="ireport.y" value="0"/>
+	<field name="codigoActividadString" class="java.lang.String"/>
+	<field name="descripcionTipoActividad" class="java.lang.String"/>
+	<field name="nombreActividad" class="java.lang.String"/>
+	<field name="duracionMeses" class="java.lang.Integer"/>
+	<field name="cantidadMetaActividad" class="java.lang.Integer"/>
+	<field name="descripcionUnidadMedida" class="java.lang.String"/>
+	<field name="cantPer01" class="java.lang.String"/>
+	<field name="cantPer02" class="java.lang.String"/>
+	<field name="cantPer03" class="java.lang.String"/>
+	<field name="cantPer04" class="java.lang.String"/>
+	<field name="cantPer05" class="java.lang.String"/>
+	<field name="cantPer06" class="java.lang.String"/>
+	<field name="cantPer07" class="java.lang.String"/>
+	<field name="cantPer08" class="java.lang.String"/>
+	<field name="cantPer09" class="java.lang.String"/>
+	<field name="cantPer10" class="java.lang.String"/>
+	<field name="cantPer11" class="java.lang.String"/>
+	<field name="cantPer12" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="42" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="23ea95e5-640c-4c00-88bb-2df3e75fa667" x="0" y="2" width="326" height="40"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="02b5e84b-d93f-4697-aff2-3c65c514e861" x="433" y="2" width="61" height="40"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="265b0ec3-1d28-4fe4-a713-2fd19964056d" x="494" y="22" width="78" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="f615b356-0615-4a46-88ae-9d95f791395e" x="572" y="22" width="60" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="eb5f004e-f944-445a-b9c2-e3394174298a" x="494" y="2" width="138" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="465cbcaa-07c4-413b-843b-8cad88905cad" x="632" y="22" width="28" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="7c3c76ae-f647-42a0-9efd-d242d7734b9a" x="632" y="2" width="227" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="ffae1708-98da-4933-b986-836f7bacd4a0" x="660" y="22" width="28" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="0d437aed-8f52-4a3a-a814-badcdcfb19ca" x="688" y="22" width="28" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="b4fca14c-784c-4127-8c5c-49f23ea5d806" x="43" y="14" width="245" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Actividades Principales]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="77829acc-3442-4747-b16a-af4ff702120b" x="438" y="2" width="49" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Duracion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e0af7bcd-500c-4814-88e9-b178fb78747d" x="438" y="22" width="49" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[(meses)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3447d882-625d-4112-9efd-b83c2589b34c" x="502" y="4" width="123" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Metas de Actividades]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2b50bd75-c261-4116-a4ad-dc2886041b24" x="503" y="22" width="59" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Unidad]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="249b7754-6d4b-45c1-8629-776eeaaff45a" x="326" y="2" width="107" height="40"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="9bf10107-1a87-41b9-8570-b5c557547d7d" x="365" y="4" width="29" height="18"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Tipo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="98903fd4-7014-452b-8b2b-211a09d475a2" x="350" y="21" width="62" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Actividad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ac54fea4-6629-460e-8c08-cff213a5e690" x="577" y="22" width="51" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="860a1322-064e-4c39-a0ca-1e27257a3018" x="658" y="1" width="167" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Cronograma (unidades fisicas)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="18e7a9c2-d6e9-4f22-88b6-c28981f5cafb" x="639" y="22" width="14" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="64433280-b851-4581-a1d0-1b16dd401a95" x="667" y="22" width="14" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="72d93e8a-4aca-4a52-b8e0-1a7468fda547" x="695" y="22" width="14" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[3]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="0d437aed-8f52-4a3a-a814-badcdcfb19ca" x="716" y="22" width="28" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="d3b428db-d476-4e53-b493-ffe54b92f630" x="724" y="22" width="13" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[4]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="0d437aed-8f52-4a3a-a814-badcdcfb19ca" x="744" y="22" width="28" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="d3b428db-d476-4e53-b493-ffe54b92f630" x="751" y="22" width="13" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[5]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="0d437aed-8f52-4a3a-a814-badcdcfb19ca" x="772" y="22" width="28" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="d3b428db-d476-4e53-b493-ffe54b92f630" x="780" y="22" width="13" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[6]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="0d437aed-8f52-4a3a-a814-badcdcfb19ca" x="800" y="22" width="28" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="d3b428db-d476-4e53-b493-ffe54b92f630" x="808" y="22" width="13" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[7]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="0d437aed-8f52-4a3a-a814-badcdcfb19ca" x="828" y="22" width="31" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="d3b428db-d476-4e53-b493-ffe54b92f630" x="837" y="22" width="13" height="19"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[8]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<textField>
+				<reportElement uuid="b9a9efc9-5d5a-4ffb-a10c-af2ee2ecc6e7" x="6" y="0" width="26" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{codigoActividadString}==null?"":$F{codigoActividadString}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="17d3037b-9b5c-4950-97d8-a48d4e8f7b8d" x="32" y="0" width="290" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nombreActividad}==null?"":$F{nombreActividad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b4128bd8-d153-46d9-bf72-4d1b322a6f79" x="331" y="0" width="90" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{descripcionTipoActividad}==null?"":$F{descripcionTipoActividad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="60bbc509-b610-431a-b4a7-f71c1e14d455" x="438" y="0" width="50" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{duracionMeses}==null?"":$F{duracionMeses}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9c83b66b-698e-41ca-96e5-9910da3146de" x="501" y="0" width="64" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{descripcionUnidadMedida}==null?"-":$F{descripcionUnidadMedida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0f2ad504-cd25-4b44-a873-385e1f9d22b1" x="575" y="0" width="57" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cantidadMetaActividad}==null?"-":$F{cantidadMetaActividad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2ffdb23e-a0f9-48f6-a723-f9727250b198" x="689" y="0" width="26" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cantPer03}==null?"-":$F{cantPer03}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="07aa85d4-9bdd-4fb5-b882-b2cb30f41251" x="661" y="0" width="27" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cantPer02}==null?"-":$F{cantPer02}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="f6345970-5aea-4d9a-b5a4-2c204c3abbec" x="859" y="-40" width="1" height="67"/>
+			</line>
+			<line>
+				<reportElement uuid="41c02508-ede4-4468-978c-9b5ae0fcc0a4" x="0" y="-40" width="1" height="67"/>
+			</line>
+			<textField>
+				<reportElement uuid="d90f0ee2-7336-42dd-b9a9-1e398ed62f6f" x="745" y="0" width="27" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cantPer05}==null?"-":$F{cantPer05}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="22255a65-c7a2-4933-bc22-a8adc185347c" x="774" y="0" width="26" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cantPer06}==null?"-":$F{cantPer06}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="60146ef7-2567-4c7f-9e96-3e539afa06a4" x="634" y="0" width="26" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cantPer01}==null?"-":$F{cantPer01}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b79d58e8-a43d-4958-98cf-0955f9f3d4fe" x="717" y="0" width="27" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cantPer04}==null?"-":$F{cantPer04}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c2d7f125-69d8-425f-86d4-8ac180b0ecbd" x="801" y="0" width="27" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cantPer07}==null?"-":$F{cantPer07}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0d0d8863-e40e-4ac5-8b83-f71322ec4343" x="830" y="0" width="29" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cantPer08}==null?"-":$F{cantPer08}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="14">
+			<line>
+				<reportElement uuid="727a628e-67d0-4951-b96e-170cb28015f2" x="0" y="0" width="860" height="1"/>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

@@ -1,0 +1,156 @@
+<%@ include file="/common/taglibs.jsp"%>
+
+<table class="table-clasico" width="100%">
+				<caption>
+					<label>Lista de Solicitudes de Desembolso</label>
+				</caption>
+				<thead>
+					<tr>
+						<td style="text-align: center; width: 3%;"><label>Det<br />Desmb
+
+						</label></td>
+						<td style="text-align: center; width: 4%;"><label>Periodo</label>
+						</td>
+						<td style="text-align: center; width: 4%;"><label>Version</label>
+						</td>
+						<td style="text-align: center; width: 17%;"><label>Fuente
+								Financiadora</label></td>
+						<td style="text-align: center; width: 15;"><label>Saldo<br />Anterior
+
+						</label></td>
+						<td style="text-align: center; width: 15%;"><label>Monto
+								<br /> Solicitado</label></td>
+						<td style="text-align: center; width: 15%;"><label>Monto
+								<br /> Autorizado</label></td>
+						<td style="text-align: center; width: 15%;"><label>Cuenta<br />Corriente
+
+						</label></td>
+						<td style="text-align: center; width: 10%;"><label>Estado</label>
+						</td>
+					</tr>
+				</thead>
+				<tbody >
+<c:forEach items="${listDesembolso }" var="desembolso"
+	varStatus="indice">
+	<c:choose>
+		<c:when test="${indice.count %2== 0}">
+			<c:set var="classIdi" value="f2"></c:set>
+		</c:when>
+		<c:otherwise>
+			<c:set var="classIdi" value="f1"></c:set>
+		</c:otherwise>
+	</c:choose>
+	<tr class="<c:out value="${classIdi}"></c:out>">
+		<td style="width: 3%; text-align: center;"><a
+			href="javascript:expandcollapse('div<c:out value="${desembolso.desembolsoID }"></c:out>', 'one');">
+				<img id='imgdiv<c:out value="${desembolso.desembolsoID }"></c:out>'
+				border="0" width="15px" src="../images/Plus001.gif" /> </a>
+		</td>
+		<td style="text-align: center; width: 4%;"><label> <c:out
+					value="${desembolso.periodo }"></c:out>
+		</label></td>
+		<td style="text-align: center; width: 4%;"><label><c:out
+					value="${desembolso.versionDePeriodo }"></c:out>
+		</label></td>
+		<td style="text-align: center; width: 17%;"><label><c:out
+					value="${desembolso.fuenteFinanciadora.institucion.nombreInstitucion }"></c:out>
+		</label></td>
+		<td style="text-align: center; width: 15;"><label><c:out
+					value="${desembolso.saldoDesembolsoAnterior }"></c:out>
+		</label></td>
+		<td style="text-align: center; width: 15%;"><label><c:out
+					value="${desembolso.montoSolicitado }">
+				</c:out>
+				<c:out value="${desembolso.descripcionTipoMoneda }"></c:out>
+		</label></td>
+		<td style="text-align: center; width: 15%;"><label><c:out
+					value="${desembolso.montoAutorizado }">
+				</c:out>
+				<c:out value="${desembolso.descripcionTipoMoneda }"></c:out>
+		</label></td>
+		<td style="text-align: center; width: 15%;"><label><c:out
+					value="${desembolso.cuentaCorriente.numeroCuenta}"></c:out>
+		</label>
+		</td>
+		<td style="text-align: center; width: 10%;"><label><c:out
+					value="${desembolso.descripcionEstDesembolso}"></c:out>
+		</label></td>
+	</tr>
+	<tr class="<c:out value="${classIdi}"></c:out>">
+		<td colspan="100%">
+			<div id="div<c:out value="${desembolso.desembolsoID }"></c:out>"
+				style="display: none; position: relative; overflow: auto; padding-left: 15px; padding-bottom: 15px; width: 97%;">
+				<div>
+					<label> <b>Tipo de Desembolso:</b> <c:out
+							value="${desembolso.descripcionTipoDesembolso}"></c:out><br />
+						<b>Fecha de Solicitud:</b>  <c:out value="${desembolso.fechaSolicitudString }"></c:out>
+						(dd/MM/aaaa)
+						<br />
+						<b>Fecha de Aprobacion:</b>  <c:out value="${desembolso.fechaAprobacionString }"></c:out>
+						(dd/MM/aaaa) </label>
+				</div>
+				<br />
+				<legend><label>Detalle de Desembolso</label></legend>
+				<table width="100%">
+					<thead>
+						<tr>
+							<td style="text-align: center; width: 25px;"><label>Resultado</label>
+							</td>
+							<td style="text-align: center; width: 20px;"><label>Actividad</label>
+							</td>
+							<td style="text-align: center; width: 15px;"><label>Cantidad
+									Total Actividad<br />Rubro - Partida</label></td>
+							<td style="text-align: center; width: 10px;"><label>Periodo</label>
+							</td>
+							<td style="text-align: center; width: 15px;"><label>Cantidad<br>Periodo</label>
+							</td>
+							<td style="text-align: center; width: 15px;"><label>Monto</label>
+							</td>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${desembolso.listDetalleDesembolso }"
+							var="detalleDesembolso" varStatus="indiceInt">
+							<c:choose>
+								<c:when test="${indiceInt.count %2== 0}">
+									<c:set var="classIdiInt" value="f2int"></c:set>
+								</c:when>
+								<c:otherwise>
+									<c:set var="classIdiInt" value="f1int"></c:set>
+								</c:otherwise>
+							</c:choose>
+							<tr class="<c:out value="${classIdiInt}"></c:out>">
+								<td style="text-align: center; width: 25px;"><label><c:out
+											value="${detalleDesembolso.resultado.definicionResultado }"></c:out>
+								</label></td>
+								<td style="text-align: center; width: 20px;"><label><c:out
+											value="${detalleDesembolso.actividad.nombreActividad }"></c:out>
+								</label></td>
+								<td style="text-align: center; width: 15px;"><label><c:out
+											value="${detalleDesembolso.costoActividad.cantidadTotal }"></c:out>
+										<c:out
+											value="${detalleDesembolso.costoActividad.descripcionUnidadMedida }"></c:out><br />
+										<c:out
+											value="${detalleDesembolso.costoActividad.partidaGenerica.descripcionPartidaGenerica }"></c:out> - <c:out
+											value="${detalleDesembolso.costoActividad.partidaEspecifica.descripcionPartidaEspecifica }"></c:out>
+								</label></td>
+								<td style="text-align: center; width: 10px;"><label><c:out
+											value="${detalleDesembolso.cronogramaCostoActividadID.periodo }"></c:out>
+								</label></td>
+								<td style="text-align: center; width: 15px;"><label><c:out
+											value="${detalleDesembolso.cronogramaCostoActividadID.cantidad }"></c:out> - <c:out
+											value="${detalleDesembolso.costoActividad.descripcionUnidadMedida }"></c:out>
+								</label></td>
+								<td style="text-align: center; width: 15px;"><label><c:out
+											value="${detalleDesembolso.montoSolicitado }"></c:out>
+										<c:out value="${detalleDesembolso.descripcionTipoMonedaMs }"></c:out>
+								</label></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div></td>
+	</tr>
+</c:forEach>
+</tbody>
+			</table>

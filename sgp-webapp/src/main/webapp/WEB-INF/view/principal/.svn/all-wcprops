@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/1675/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal
+END
+menuMain.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/1852/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal/menuMain.jsp
+END
+main.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/!svn/ver/1852/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal/main.jsp
+END
+redirect.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/!svn/ver/26/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal/redirect.jsp
+END
+inicioMain.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/1187/sgp-webapp/trunk/src/main/webapp/WEB-INF/view/principal/inicioMain.jsp
+END

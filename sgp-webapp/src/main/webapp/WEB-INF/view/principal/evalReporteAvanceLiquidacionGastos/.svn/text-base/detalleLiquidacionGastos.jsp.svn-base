@@ -1,0 +1,157 @@
+<%@ include file="/common/includesTaglibsGenerico.jsp"%>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+
+<script type="text/javascript">
+
+function showIngresosPropios(){
+	
+	fOpenModalDialog('showIngresosPropios.jspx?liquidacionGastoID=${objLiquidacionGasto.liquidacionGastoID}&proyectoID=${objLiquidacionGasto.datoProyecto.datoProyectoID}','900','1000','70','70');
+}
+
+function showCompromisosPago(){
+	
+	fOpenModalDialog('showCompromisosPago.jspx?liquidacionGastoID=${objLiquidacionGasto.liquidacionGastoID}','800','1000','70','70');
+}
+
+function showPagosRealizados(){
+	
+	fOpenModalDialog('showPagosRealizados.jspx?liquidacionGastoID=${objLiquidacionGasto.liquidacionGastoID}','800','1000','70','70');
+}
+
+
+function grabarEstado(){
+	if(document.getElementById("cbxEstadoLiqGasto").value != "0"){
+		if(confirm("\u00BFEst\u00E1 seguro de la evaluacion?")){
+			document.getElementById("detalleLiqGastosForm").submit();
+	    	window.close();				
+		}
+	}else{
+		alert("Seleccionar estado para guardar la evaluacion!");
+	}
+	
+}
+
+function deshabilitarGuardarSiEstadoAprobado(){
+	if(document.getElementById("fkIdDetalleEstadoCabEstLiqGasto").value == "53"){//liquidacion aprobada
+		document.getElementById("cbxEstadoLiqGasto").disabled = true;
+		document.getElementById("btnGuardar").disabled = true;
+	}
+}
+
+$(document).ready(function() {
+	deshabilitarGuardarSiEstadoAprobado();
+	
+});
+
+
+$(window).load(function() {
+	//alert("atssef");
+	var estadoLiqCod = '${estadoLiqCod}';
+	document.getElementById("cbxEstadoLiqGasto").value = estadoLiqCod;
+	
+});
+
+
+</script>
+
+</head>
+<body>
+
+<form id="detalleLiqGastosForm" method="post" action="saveEvalLiquidacionGasto.jspx" class="form-clasico" accept-charset="UTF-8">
+<input type="hidden" value="${objLiquidacionGasto.fkIdDetalleEstadoCabEstLiqGasto}" id="fkIdDetalleEstadoCabEstLiqGasto"> 
+<div class="encabezado">DETALLE LIQUIDACION GASTOS</div>
+		<br>
+  <fieldset>
+  	<legend>DETALLE LIQUIDACION GASTOS</legend>
+
+	  <table width="100%" border="0">
+		  <tr>
+		    <td style="width:20%" align="right">
+		        <label>Codigo de version:</label>
+		    </td>
+		    <td style="width:20%">
+				<label>${objLiquidacionGasto.codVersion}</label>
+		    </td>
+		    <td style="width:30%" align="right">
+		     <!--    <label>Estado Actual:</label>   -->
+		    </td>
+		    <td style="width:30%">
+			 <!--	<label>${estadoActualLiqGasto}</label> -->
+		    </td>
+		  </tr>
+		  <tr>
+		    <td align="right">
+		    	<label>Periodo:</label>
+		    </td>
+		    <td >
+				<label>${objLiquidacionGasto.periodo}</label>
+		    </td>
+		    <td align="right">
+		    	<label>Fuente Financiadora:</label>
+		    </td>
+		    <td >
+				<label>${objLiquidacionGasto.fuenteFinanciadora.institucion.nombreInstitucion}</label>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td align="right">
+		    	<label>Fecha inicio:</label>
+		    </td>
+		    <td >
+				<label>${objLiquidacionGasto.fechaInicio}</label>
+		    </td>
+		    <td  align="right">
+		    	<label>Fecha fin:</label>
+		    </td>
+		    <td >
+				<label>${objLiquidacionGasto.fechaFin}</label>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td align="right">
+		    	<label>Observaciones:</label>
+		    </td>
+		    <td colspan="3" style="align:justify">
+				<label>${objLiquidacionGasto.observacion}</label>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td align="right">
+		    	<label>Saldo disponible:</label>
+		    </td>
+		    <td >
+				<label><span>8000 dolares</span></label>
+		    </td>
+		    <td  align="right">
+		    	<label>Estado:</label>&nbsp;
+		    	<select name="cbxEstadoLiqGasto" id="cbxEstadoLiqGasto" style="width:150px">
+				    <option value="0"><c:out value="---estado---" /></option>
+					<c:forEach items="${lstDetEstCab}"
+						var="objDetEstCab">
+						<option value="${objDetEstCab.detalleEstadoCabeceraID}">
+						<c:out value="${objDetEstCab.descripEstado}"></c:out>
+						</option>
+					</c:forEach>
+				</select>
+		    </td>
+		    <td align="left">
+				&nbsp;&nbsp;&nbsp;<input type="button"  value="Guardar" onclick="grabarEstado()" id="btnGuardar"/>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td colspan="4" align="center"><br>
+            <input type="button"  value="Ingresos Propios" onclick="showIngresosPropios();"/>&nbsp;
+            <input type="button"  value="Compromisos de Pago" onclick="showCompromisosPago();"/>&nbsp;
+            <input type="button"  value="Pagos Realizados" onclick="showPagosRealizados();"/>
+            
+            </td>
+	    </tr>
+		  
+	  </table>
+	</fieldset>
+</form>
+</body>
+</html>

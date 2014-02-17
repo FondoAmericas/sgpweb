@@ -1,0 +1,224 @@
+<%@ include file="/common/taglibs.jsp"%>
+<%@ include file="/common/includesTaglibsGenerico.jsp"%>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	var estLiquidacionGastoPrefijo="<c:out value="${estLiquidacionGastoPrefijo }"></c:out>";
+	
+	if(estLiquidacionGastoPrefijo == 'apro'){
+		$(".hide").hide();
+	}
+});
+</script>
+
+<script type="text/javascript">
+
+
+var arrayProyectos = new Array();
+
+
+function showPagoRealizado(pagoLiquidacionID){
+	console.log("id pago liquidacion :: "+pagoLiquidacionID);
+	fOpenModalDialog('showPagoRealizado.jspx?pagoLiquidacionID='+pagoLiquidacionID+'','800','1000','70','70');
+	
+	
+}
+
+</script>
+
+</head>
+<body>
+
+<form id="pagoRealizadoForm" method="post" action="#" class="form-clasico" accept-charset="UTF-8">
+<table width="100%" border="0">
+		  <tr>
+                <td style="width:20%"; align="right">
+                    <label>${pagoLiquidacion.tipoComprobantePagoDesc}&nbsp;-&nbsp;${pagoLiquidacion.numeroDocumento}</label>
+                </td>
+                <td style="width:20%; text-align:right;">
+                    <label>Moneda:&nbsp;${pagoLiquidacion.tipoMonedaDesc}</label>
+                </td>
+                <td style="width:30%" align="right">
+                    <label>Fecha de emision:</label>
+                </td>
+                <td style="width:30%">
+                    <label>${pagoLiquidacion.fechaEmision}</label>
+                </td>
+		  </tr>
+		  <tr>
+		    <td align="right">
+		    	<label>Razon social:</label>
+		    </td>
+		    <td colspan="3" >
+				<label>${pagoLiquidacion.rucProveedor}&nbsp;-&nbsp;${pagoLiquidacion.razonSocial}</label>
+		    	
+		    </td>
+	      </tr>
+		  <tr>
+		    <td align="right">
+		    	<label>Cheque:</label>
+		    </td>
+		    <td >
+				<label>${pagoLiquidacion.numeroCheque}&nbsp;-&nbsp;${pagoLiquidacion.bancoDesc}</label>
+		    </td>
+		    <td  align="right">
+		    	<label>Cheque cobrado:</label>
+		    </td>
+		    <td >
+				<label>${pagoLiquidacion.chekeCobradoDesc}</label>
+		    </td>
+		  </tr>
+		  <tr>
+                <td align="right">
+                    <label>Monto total:</label>
+                </td>
+                <td style="align:justify">
+                    <label>${pagoLiquidacion.montoTotal}</label>
+                </td>
+                <td align="right">
+                	<label>Monto IGV:</label>
+                </td>
+                <td style="align:justify">
+                	 <label>${pagoLiquidacion.montoIgv}</label>
+                </td>
+		  </tr>
+           <tr>
+                <td align="right">
+                    <label>Saldo Pagado:</label>
+                </td>
+                <td >
+                    <label>${pagoLiquidacion.saldoPagado}</label>
+                </td>
+                <td align="right">
+                    <label>Saldo Disponible:</label>
+                </td>
+                <td >
+                    <label>${pagoLiquidacion.saldoDisponible}</label>
+                </td>
+		  </tr>
+		  
+	  </table>
+	  
+	  <br>
+	
+	<table border="0" width="100%" class="table-clasico">
+	<caption>Listado detalle pago liquidacion</caption>
+	<thead>
+		<tr>
+			<td style="width: 5%; text-align: center;"><label>N°<br>Det.Liq</label></td>
+			<td style="width: 5%; text-align: center;"><label>Cantidad</label></td>
+			<td style="width: 5%; text-align: center;"><label>Precio unitario</label></td>
+			<td style="width: 5%; text-align: center;"><label>Precio total</label></td>
+			<td align="center"><label>Concepto</label>
+			</td>
+						<td align="center"><label>Categoria Activo<br/>Bien/Activo</label>
+						</td>
+			<td style="width: 5%; text-align: center;"><label>Estado liquidacion</label></td>    
+		</tr>
+	</thead>
+
+	  <tbody>
+			<c:forEach items="${pagoLiquidacion.lstDetallePagoLiquidacion }" var="detallePagoLiquidacion" varStatus="indice">
+				<c:choose>
+					<c:when test="${indice.count %2== 0}">
+						<c:set var="classIdi" value="f2"></c:set>
+					</c:when>
+					<c:otherwise>
+						<c:set var="classIdi" value="f1"></c:set>
+					</c:otherwise>
+				</c:choose>
+				
+				<tr  class="<c:out value="${classIdi}"></c:out>">
+						<td style="text-align: center;">
+						<a
+					href="javascript:expandcollapse('div<c:out value="${detallePagoLiquidacion.detallePagoLiquidacionID }"></c:out>', 'one');">
+						<img
+						id='imgdiv<c:out value="${detallePagoLiquidacion.detallePagoLiquidacionID }"></c:out>'
+						border="0" src="<c:url value="/images/Plus001.gif" />"
+						width="15px" /> </a>
+							<label><c:out value="${indice.count }"></c:out></label>
+						</td>
+						<td style="text-align: center;">
+							<label><c:out value="${detallePagoLiquidacion.cantidad }"></c:out> - <c:out value="${detallePagoLiquidacion.unidadMedidaDesc }"></c:out></label>
+						</td>
+				 		<td style="text-align: center;">
+							<label><c:out value="${detallePagoLiquidacion.precioUnitario }"></c:out></label>
+						</td>
+						<td style="text-align: center;">
+							<label><c:out value="${detallePagoLiquidacion.precioTotal }"></c:out></label>
+						</td>
+						<td style="text-align: center;">
+							<label><c:out value="${detallePagoLiquidacion.concepto }"></c:out></label>
+						</td>
+						<td style="text-align: center;">
+							<label><c:out value="${detallePagoLiquidacion.estadoPagoLiquidacionDesc }"></c:out></label>
+						</td>
+				 
+				</tr>
+				<tr class="<c:out value="${classIdi}"></c:out>">
+				<td colspan="100%">
+					<div id='div<c:out value="${detallePagoLiquidacion.detallePagoLiquidacionID }"></c:out>'
+						style="display: none; position: relative; overflow: auto; padding-left: 15px; padding-bottom: 15px; width: 97%;">
+				
+						<table border="0" width="98%">
+							<caption><label>Listado de actividad detalle pago</label></caption>
+							<thead>
+								<tr>
+									<td style="width: 20%; text-align: center;">Actividad</td>
+									<td style="width: 10%; text-align: center;">Moneda</td>
+									<td style="width: 20%; text-align: center;">Por gastar</td>
+									<td style="width: 20%; text-align: center;">Gastado</td>
+									<td style="width: 20%; text-align: center;">Porcentaje del total</td>
+								</tr>
+							</thead>
+							<tbody>
+							<c:forEach
+									items="${detallePagoLiquidacion.lstActividadDetallePago }"
+									var="actDetallePago" varStatus="indiceInt">
+									<c:choose>
+										<c:when test="${indiceInt.count %2== 0}">
+											<c:set var="classTblInt" value="f1int"></c:set>
+										</c:when>
+										<c:otherwise>
+											<c:set var="classTblInt" value="f2int"></c:set>
+										</c:otherwise>
+									</c:choose>
+									<tr class="<c:out value="${classTblInt }"></c:out>">
+									<td style="width: 25%; text-align: center;"><c:out value="${actDetallePago.actividadDesc}"></c:out></td>
+									<td style="width: 25%; text-align: center;"><c:out value="${actDetallePago.tipoMonedaDesc}"></c:out></td>
+									<td style="width: 25%; text-align: center;"><c:out value="${actDetallePago.montoPorGastarDeActiv}"></c:out></td>
+									<td style="width: 25%; text-align: center;"><c:out value="${actDetallePago.montoGastado}"></c:out></td>
+									<td style="width: 25%; text-align: center;"><c:out value="${actDetallePago.porcentajeMontoTotal}"></c:out></td>
+
+								</tr>
+							  </c:forEach>
+							</tbody>
+						</table>
+						
+				</div></td>
+			</tr>
+		      <script type="text/javascript">
+					var objProyecto = new Object();
+						objProyecto.datoProyectoID = "<c:out value="${proyecto.datoProyectoID }"></c:out>";
+						objProyecto.codigoProyecto = "<c:out value="${proyecto.codigoProyecto}"></c:out>";				
+						arrayProyectos.push(objProyecto);
+				</script>
+						
+	    </c:forEach>
+	  </tbody>   
+</table>
+</form>
+</body>
+</html>
+
+
+
+                                                                                                                    
+
+
+
+

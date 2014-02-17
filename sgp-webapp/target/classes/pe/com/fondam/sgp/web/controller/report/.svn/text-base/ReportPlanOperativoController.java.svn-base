@@ -1,0 +1,486 @@
+package pe.com.fondam.sgp.web.controller.report;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.jasperreports.engine.JRException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import pe.com.fondam.sgp.core.constants.FondamConstans;
+import pe.com.fondam.sgp.core.domain.Actividad;
+import pe.com.fondam.sgp.core.domain.FuenteFinanciadora;
+import pe.com.fondam.sgp.core.helper.PlanOperativoHelper;
+import pe.com.fondam.sgp.core.report.RptBeneficiariosAreaIntervencion;
+import pe.com.fondam.sgp.core.report.RptContraPartida;
+import pe.com.fondam.sgp.core.report.RptContribucionDonacion;
+import pe.com.fondam.sgp.core.report.RptCostoActividadFuente;
+import pe.com.fondam.sgp.core.report.RptCronogramaActividad;
+import pe.com.fondam.sgp.core.report.RptDesemboloRecursosDonacion;
+import pe.com.fondam.sgp.core.report.RptEstructuraInversionFinanciamiento;
+import pe.com.fondam.sgp.core.report.RptOperacionCostoCronogramaResultado;
+import pe.com.fondam.sgp.core.report.RptPlanUsoRecursosOtrasFuentes;
+import pe.com.fondam.sgp.core.report.RptResultados;
+import pe.com.fondam.sgp.core.service.ReportService;
+import pe.com.fondam.sgp.core.util.UtilList;
+import pe.com.fondam.sgp.core.util.UtilValidate;
+import pe.com.fondam.sgp.report.EngineReportService;
+import pe.com.fondam.sgp.report.impl.EngineReportServiceImpl;
+import pe.com.fondam.sgp.web.constants.SgpWebConstants;
+import pe.com.fondam.sgp.web.session.UserSession;
+
+@Controller
+public class ReportPlanOperativoController {
+
+	private final Log logger = LogFactory.getLog(ReportPlanOperativoController.class);
+	
+	@Resource
+	private ReportService reportService;
+	
+	@Resource
+	private PlanOperativoHelper planOperativoHelper;
+
+	public ReportService getReportService() {
+		return reportService;
+	}
+
+	public void setReportService(ReportService reportService) {
+		this.reportService = reportService;
+	}
+
+	public PlanOperativoHelper getPlanOperativoHelper() {
+		return planOperativoHelper;
+	}
+
+	public void setPlanOperativoHelper(PlanOperativoHelper planOperativoHelper) {
+		this.planOperativoHelper = planOperativoHelper;
+	}
+
+	@RequestMapping(value="/principal/showMenuReporte")
+	public ModelAndView showMenuReporte(HttpServletRequest request,HttpServletResponse resp)throws IOException {
+		return new ModelAndView("muestraMenuReporte");		
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value="/principal/reportCostoActividadFuente")
+	public ModelAndView reportCostoActividadFuente(HttpServletRequest request,HttpServletResponse resp)throws IOException {
+		Integer datoPlanOperativoID = obtenerDatoPlanOperativoID(request);
+		List<FuenteFinanciadora> listFuenteFinanciadora = new ArrayList<FuenteFinanciadora>();
+		List<Actividad> listActividad = new ArrayList<Actividad>();
+		if(UtilValidate.isNotEmpty(datoPlanOperativoID)){
+			listFuenteFinanciadora = getPlanOperativoHelper().getListFuenteFinanciadoraByDatoPlanOperativoID(datoPlanOperativoID);
+			listActividad = getPlanOperativoHelper().getListActividadByDatoPlanOperativoID(datoPlanOperativoID);
+		}
+		if(!listActividad.isEmpty()){
+			listActividad = (List<Actividad>) UtilList.orderAscList(listActividad, "actividadID");
+		}
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("listFuenteFinanciadora", listFuenteFinanciadora);
+		model.put("listActividad", listActividad);
+		return new ModelAndView("reportCostoActividadFuente", model);
+	}
+	
+	@RequestMapping(value="/principal/reportContribucionDonacionFuente")
+	public ModelAndView reportContribucionDonacionFuente(HttpServletRequest request,HttpServletResponse resp)throws IOException {
+		Integer datoPlanOperativoID = obtenerDatoPlanOperativoID(request);
+		List<FuenteFinanciadora> listFuenteFinanciadora = new ArrayList<FuenteFinanciadora>();
+		if(UtilValidate.isNotEmpty(datoPlanOperativoID)){
+			listFuenteFinanciadora = getPlanOperativoHelper().getListFuenteFinanciadoraByDatoPlanOperativoID(datoPlanOperativoID);
+		}
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("listFuenteFinanciadora", listFuenteFinanciadora);
+		return new ModelAndView("reportContribucionDonacionFuente", model);
+	}
+	
+	@RequestMapping(value = "/principal/reportPlanOperativoResultados", method = RequestMethod.GET)
+	public ModelAndView reportPlanOperativoResultados(HttpServletRequest request,
+			HttpServletResponse response) {
+		logger.info("Start ReportPlanOperativoController - reportPlanOperativoResultados");
+		List<RptResultados> beanCollection = new ArrayList<RptResultados>();
+		Integer datoPlanOperativoID = obtenerDatoPlanOperativoID(request);
+		Integer detalleEstadoCabeceraID = obtenerDetalleEstadoCabeceraID(datoPlanOperativoID);
+		
+		if(UtilValidate.isNotEmpty(datoPlanOperativoID)){
+			beanCollection = getReportService().planOperativoResultadosByDatoPlanOperativoID(datoPlanOperativoID);
+		}
+		/** set sourceFileReportName and exportReportName **/
+		ServletContext context = request.getSession().getServletContext();
+		String appPath = context.getRealPath("/");
+		String reportPath = appPath + "WEB-INF/view/report/planoperativo/";
+		String sourceFileReportName = reportPath + "Resultados.jrxml";
+		String exportReportName = "Resultados-" + new Date().getTime() + ".pdf";
+		String reportStatus = getReportService().planOperativoEstadoDescripcion(detalleEstadoCabeceraID);
+		/** set parameters report values **/
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("REPORT_TITLE", "RESULTADOS");
+		parameters.put("REPORT_COMPANY_NAME", FondamConstans.REPORT_COMPANY_NAME);
+		parameters.put("REPORT_IMAGE", appPath + "images/fondam.jpg");
+		parameters.put("REPORT_STATUS", reportStatus);
+		
+		/**print report on web browser**/
+		printReportWebToPdf(response, beanCollection, parameters, sourceFileReportName, null, exportReportName);
+		logger.info("Finish ReportPlanOperativoController - reportPlanOperativoResultados");
+		return null;
+	}
+	
+	@RequestMapping(value = "/principal/reportPlanOperativoCronogramaActividades", method = RequestMethod.GET)
+	public ModelAndView reportPlanOperativoCronogramaActividades(HttpServletRequest request,
+			HttpServletResponse response) {
+		logger.info("Start ReportPlanOperativoController - reportPlanOperativoCronogramaActividades");
+		List<RptCronogramaActividad> beanCollection = new ArrayList<RptCronogramaActividad>();
+		Integer datoPlanOperativoID = obtenerDatoPlanOperativoID(request);
+		Integer detalleEstadoCabeceraID = obtenerDetalleEstadoCabeceraID(datoPlanOperativoID);
+		if(UtilValidate.isNotEmpty(datoPlanOperativoID)){
+			beanCollection = getReportService().planOperativoCronogramaActividadByDatoPlanOperativoID(datoPlanOperativoID);
+		}
+		/** set sourceFileReportName and exportReportName **/
+		ServletContext context = request.getSession().getServletContext();
+		String appPath = context.getRealPath("/");
+		String reportPath = appPath + "WEB-INF/view/report/planoperativo/";
+		String sourceFileReportName = reportPath + "CronogramaActividades3.jrxml";
+		String sourceFileSubReportName = reportPath + "CronogramaActividadesDetalles3.jrxml";
+		String exportReportName = "CronogramaActividades-" + new Date().getTime() + ".pdf";
+		String reportStatus = getReportService().planOperativoEstadoDescripcion(detalleEstadoCabeceraID);
+		/** set parameters report values **/
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("REPORT_TITLE", "CRONOGRAMA DE ACTIVIDADES");
+		parameters.put("REPORT_COMPANY_NAME", FondamConstans.REPORT_COMPANY_NAME);
+		parameters.put("REPORT_IMAGE", appPath + "images/fondam.jpg");
+		parameters.put("SUBREPORT_DIR", reportPath);
+		parameters.put("REPORT_STATUS", reportStatus);
+		/**print report on web browser**/
+		printReportWebToPdf(response, beanCollection, parameters, sourceFileReportName, sourceFileSubReportName, exportReportName);
+		logger.info("Finish ReportPlanOperativoController - reportPlanOperativoCronogramaActividades");
+		return null;
+	}
+	
+	@RequestMapping(value = "/principal/reportPlanOperativoCostoActividadFuente", method = RequestMethod.GET)
+	public ModelAndView reportPlanOperativoCostoActividadFuente(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(required = true, value = "fuenteFinanciadoraID") Integer fuenteFinanciadoraID,
+			@RequestParam(required = true, value = "actividadID") Integer actividadID) {
+		logger.info("Start ReportPlanOperativoController - reportPlanOperativoCostoActividadFuente");
+		Integer datoPlanOperativoID = obtenerDatoPlanOperativoID(request);
+		Integer detalleEstadoCabeceraID = obtenerDetalleEstadoCabeceraID(datoPlanOperativoID);
+		logger.info("XXXXX datoPlanOperativoID = "+ datoPlanOperativoID);
+		logger.info("XXXXX fuenteFinanciadoraID = "+ fuenteFinanciadoraID);
+		logger.info("XXXXX actividadID = "+ actividadID);
+		
+		List<RptCostoActividadFuente> beanCollection = getReportService().planOperativoCostoActividadFuente(datoPlanOperativoID, fuenteFinanciadoraID, actividadID);
+		/** set sourceFileReportName and exportReportName **/
+		ServletContext context = request.getSession().getServletContext();
+		String appPath = context.getRealPath("/");
+		String reportPath = appPath + "WEB-INF/view/report/planoperativo/";
+		String sourceFileReportName = reportPath + "CostoActividadFuente3.jrxml";
+		String sourceFileSubReportName = reportPath + "CostoActividadFuenteDetalles3.jrxml";
+		String exportReportName = "CostoActividadFuente-" + new Date().getTime() + ".pdf";
+		String reportStatus = getReportService().planOperativoEstadoDescripcion(detalleEstadoCabeceraID);
+		/** set parameters report values **/
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("REPORT_TITLE", "COSTO DE ACTIVIDAD");
+		parameters.put("REPORT_COMPANY_NAME", FondamConstans.REPORT_COMPANY_NAME);
+		parameters.put("REPORT_IMAGE", appPath + "images/fondam.jpg");
+		parameters.put("SUBREPORT_DIR", reportPath);
+		parameters.put("REPORT_STATUS", reportStatus);
+		logger.info("parameters = " + parameters);
+		/**print report on web browser**/
+		printReportWebToPdf(response, beanCollection, parameters, sourceFileReportName, sourceFileSubReportName, exportReportName);
+		logger.info("Finish ReportPlanOperativoController - reportPlanOperativoCostoActividadFuente");
+		return null;
+	}
+	
+	
+	@RequestMapping(value = "/principal/reportPlanOperativoEstructuraInversionFinanciamiento", method = RequestMethod.GET)
+	public ModelAndView reportPlanOperativoEstructuraInversionFinanciamiento(HttpServletRequest request,
+			HttpServletResponse response) {
+		logger.info("Start ReportPlanOperativoController - reportPlanOperativoEstructuraInversionFinanciamiento");
+		List<RptEstructuraInversionFinanciamiento> beanCollection = new ArrayList<RptEstructuraInversionFinanciamiento>();
+		Integer datoPlanOperativoID = obtenerDatoPlanOperativoID(request);
+		Integer detalleEstadoCabeceraID = obtenerDetalleEstadoCabeceraID(datoPlanOperativoID);
+		if(UtilValidate.isNotEmpty(datoPlanOperativoID)){
+			beanCollection = getReportService().planOperativoEstructuraInversionFinanciamiento(datoPlanOperativoID);
+		}
+		/** set sourceFileReportName and exportReportName **/
+		ServletContext context = request.getSession().getServletContext();
+		String appPath = context.getRealPath("/");
+		String reportPath = appPath + "WEB-INF/view/report/planoperativo/";
+		String sourceFileReportName = reportPath + "EstructuraInversionFinanciamiento.jrxml";
+		String sourceFileSubReportName = reportPath + "EstructuraInversionFinanciamientoDetalles.jrxml";
+		String exportReportName = "EstructuraInversionFinanciamiento-" + new Date().getTime() + ".pdf";
+		logger.info("wroque detalleEstadoCabeceraID = " + detalleEstadoCabeceraID);
+		String reportStatus = getReportService().planOperativoEstadoDescripcion(detalleEstadoCabeceraID);
+		/** set parameters report values **/
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("REPORT_TITLE", "ESTRUCTURA DE INVERSION Y FINANCIAMIENTO");
+		parameters.put("REPORT_COMPANY_NAME", FondamConstans.REPORT_COMPANY_NAME);
+		parameters.put("REPORT_IMAGE", appPath + "images/fondam.jpg");
+		parameters.put("SUBREPORT_DIR", reportPath);
+		parameters.put("REPORT_STATUS", reportStatus);
+		/**print report on web browser**/
+		printReportWebToPdf(response, beanCollection, parameters, sourceFileReportName, sourceFileSubReportName, exportReportName);
+		logger.info("Finish ReportPlanOperativoController - reportPlanOperativoEstructuraInversionFinanciamiento");
+		return null;
+	}
+	
+	@RequestMapping(value = "/principal/reportPlanOperativoContribucionDonacion", method = RequestMethod.GET)
+	public ModelAndView reportPlanOperativoContribucionDonacion(HttpServletRequest request,
+			HttpServletResponse response) {
+		logger.info("Start ReportPlanOperativoController - reportPlanOperativoContribucionDonacion");
+		List<RptContribucionDonacion> beanCollection = new ArrayList<RptContribucionDonacion>();
+		Integer datoPlanOperativoID = obtenerDatoPlanOperativoID(request);
+		Integer detalleEstadoCabeceraID = obtenerDetalleEstadoCabeceraID(datoPlanOperativoID);
+		Integer fuenteFinanciadoraID = Integer.parseInt(request.getParameter("fuenteFinanciadoraID"));
+		if(UtilValidate.isNotEmpty(datoPlanOperativoID)){
+			logger.info("datoPlanOperativoID = " + datoPlanOperativoID);
+			logger.info("fuenteFinanciadoraID = " + fuenteFinanciadoraID);
+			beanCollection = getReportService().planOperativoContribucionDonacion(datoPlanOperativoID, fuenteFinanciadoraID);
+			logger.info("beanCollection.size = " + beanCollection.size());
+		}
+		/** set sourceFileReportName and exportReportName **/
+		ServletContext context = request.getSession().getServletContext();
+		String appPath = context.getRealPath("/");
+		//appPath = "C:/workspace/sgp/sgp-webapp/src/main/webapp/";
+		logger.info("appPath = " + appPath);
+		String reportPath = appPath + "WEB-INF/view/report/planoperativo/";
+		String sourceFileReportName = reportPath + "ContribucionDonacion.jrxml";
+		String sourceFileSubReportName = reportPath + "ContribucionDonacionDetalles.jrxml";
+		String exportReportName = "ContribucionDonacion-" + new Date().getTime() + ".pdf";
+		String reportStatus = getReportService().planOperativoEstadoDescripcion(detalleEstadoCabeceraID);
+		/** set parameters report values **/
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("REPORT_TITLE", "3.4 CONTRIBUCION DE LA DONACION");
+		parameters.put("REPORT_SUB_TITLE", "3.4.1 CONTRIBUCION DE : ");
+		parameters.put("REPORT_COMPANY_NAME", FondamConstans.REPORT_COMPANY_NAME);
+		parameters.put("REPORT_IMAGE", appPath + "images/fondam.jpg");
+		parameters.put("SUBREPORT_DIR", reportPath);
+		parameters.put("REPORT_STATUS", reportStatus);
+		/**print report on web browser**/
+		printReportWebToPdf(response, beanCollection, parameters, sourceFileReportName, sourceFileSubReportName, exportReportName);
+		logger.info("Finish ReportPlanOperativoController - reportPlanOperativoContribucionDonacion");
+		return null;
+	}
+	
+	@RequestMapping(value = "/principal/reportPlanOperativoBeneficiariosAreaIntervencionDirectos", method = RequestMethod.GET)
+	public ModelAndView reportPlanOperativoBeneficiariosAreaIntervencionDirectos(HttpServletRequest request,
+			HttpServletResponse response) {
+		logger.info("Start ReportPlanOperativoController - reportPlanOperativoBeneficiariosAreaIntervencionDirectos");
+		List<RptBeneficiariosAreaIntervencion> beanCollection = new ArrayList<RptBeneficiariosAreaIntervencion>();
+		Integer datoPlanOperativoID = obtenerDatoPlanOperativoID(request);
+		Integer detalleEstadoCabeceraID = obtenerDetalleEstadoCabeceraID(datoPlanOperativoID);
+		if(UtilValidate.isNotEmpty(datoPlanOperativoID)){
+			beanCollection = getReportService().planOperativoBeneficiariosAreaIntervencionDirectos(datoPlanOperativoID);
+		}
+		/** set sourceFileReportName and exportReportName **/
+		ServletContext context = request.getSession().getServletContext();
+		String appPath = context.getRealPath("/");
+		String reportPath = appPath + "WEB-INF/view/report/planoperativo/";
+		String sourceFileReportName = reportPath + "BeneficiariosAreaIntervencionDirectos.jrxml";
+		String exportReportName = "BeneficiariosAreaIntervencionDirectos-" + new Date().getTime() + ".pdf";
+		String reportStatus = getReportService().planOperativoEstadoDescripcion(detalleEstadoCabeceraID);
+		/** set parameters report values **/
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("REPORT_TITLE", "II. BENEFICIARIOS EN EL AREA DE INTERVENCION");
+		parameters.put("REPORT_SUB_TITLE", "2.1 Directos");
+		parameters.put("REPORT_COMPANY_NAME", FondamConstans.REPORT_COMPANY_NAME);
+		parameters.put("REPORT_IMAGE", appPath + "images/fondam.jpg");
+		parameters.put("REPORT_STATUS", reportStatus);
+		/**print report on web browser**/
+		printReportWebToPdf(response, beanCollection, parameters, sourceFileReportName, null, exportReportName);
+		logger.info("Finish ReportPlanOperativoController - reportPlanOperativoBeneficiariosAreaIntervencionDirectos");
+		return null;
+	}
+	
+	@RequestMapping(value = "/principal/reportPlanOperativoOperacionesCostosCronogramaResultados", method = RequestMethod.GET)
+	public ModelAndView reportPlanOperativoOperacionesCostosCronogramaResultados(HttpServletRequest request,
+			HttpServletResponse response) {
+		logger.info("Start ReportPlanOperativoController - reportPlanOperativoOperacionesCostosCronogramaResultados");
+		List<RptOperacionCostoCronogramaResultado> beanCollection = new ArrayList<RptOperacionCostoCronogramaResultado>();
+		Integer datoPlanOperativoID = obtenerDatoPlanOperativoID(request);
+		Integer detalleEstadoCabeceraID = obtenerDetalleEstadoCabeceraID(datoPlanOperativoID);
+		if(UtilValidate.isNotEmpty(datoPlanOperativoID)){
+			beanCollection =  getReportService().planOperativoOperacionesCostosCronogramaResultados(datoPlanOperativoID);
+		}
+		/** set sourceFileReportName and exportReportName **/
+		ServletContext context = request.getSession().getServletContext();
+		String appPath = context.getRealPath("/");
+		String reportPath = appPath + "WEB-INF/view/report/planoperativo/";
+		String sourceFileReportName = reportPath + "OperacionesYCostos3.jrxml";
+		String exportReportName = "OperacionesCostosCronogramaResultados-" + new Date().getTime() + ".pdf";
+		String reportStatus = getReportService().planOperativoEstadoDescripcion(detalleEstadoCabeceraID);
+		/** set parameters report values **/
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("REPORT_TITLE", "III. OPERACIONES Y COSTO");
+		parameters.put("REPORT_SUB_TITLE", "3.1 CRONOGRAMA DE RESULTADOS");
+		parameters.put("REPORT_COMPANY_NAME", FondamConstans.REPORT_COMPANY_NAME);
+		parameters.put("REPORT_IMAGE", appPath + "images/fondam.jpg");
+		parameters.put("REPORT_STATUS", reportStatus);
+		/**print report on web browser**/
+		printReportWebToPdf(response, beanCollection, parameters, sourceFileReportName, null, exportReportName);
+		logger.info("Finish ReportPlanOperativoController - reportPlanOperativoOperacionesCostosCronogramaResultados");
+		return null;
+	}
+
+	@RequestMapping(value = "/principal/reportPlanOperativoContraPartida", method = RequestMethod.GET)
+	public ModelAndView reportPlanOperativoContraPartida(HttpServletRequest request,
+			HttpServletResponse response) {
+		logger.info("Start ReportPlanOperativoController - reportPlanOperativoContrapartida");
+		List<RptContraPartida> beanCollection = new ArrayList<RptContraPartida>();
+		Integer datoPlanOperativoID = obtenerDatoPlanOperativoID(request);
+		Integer detalleEstadoCabeceraID = obtenerDetalleEstadoCabeceraID(datoPlanOperativoID);
+		beanCollection = getReportService().planOperativoContraPartida(datoPlanOperativoID);
+
+		/** set sourceFileReportName and exportReportName **/
+		ServletContext context = request.getSession().getServletContext();
+		String appPath = context.getRealPath("/");
+		String reportPath = appPath + "WEB-INF/view/report/planoperativo/";
+		String sourceFileReportName = reportPath + "ContraPartida.jrxml";
+		String sourceFileSubReportName = reportPath + "ContraPartidaDetalles.jrxml";
+		String exportReportName = "ContraPartida-" + new Date().getTime() + ".pdf";
+		String reportStatus = getReportService().planOperativoEstadoDescripcion(detalleEstadoCabeceraID);
+		/** set parameters report values **/
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("REPORT_TITLE", "CONTRAPARTIDA");
+		parameters.put("REPORT_COMPANY_NAME", FondamConstans.REPORT_COMPANY_NAME);
+		parameters.put("REPORT_IMAGE", appPath + "images/fondam.jpg");
+		parameters.put("SUBREPORT_DIR", reportPath);
+		parameters.put("REPORT_STATUS", reportStatus);
+		/**print report on web browser**/
+		printReportWebToPdf(response, beanCollection, parameters, sourceFileReportName, sourceFileSubReportName, exportReportName);
+
+		return null;
+	}
+
+
+	@RequestMapping(value = "/principal/reportPlanOperativoDesembolsoRecursosDonacion", method = RequestMethod.GET)
+	public ModelAndView reportPlanOperativoDesembolsoRecursosDonacion(HttpServletRequest request,
+			HttpServletResponse response) {
+		logger.info("Start ReportPlanOperativoController - reportPlanOperativoDesembolsoRecursosDonacion");
+		List<RptDesemboloRecursosDonacion> beanCollection = new ArrayList<RptDesemboloRecursosDonacion>();
+		Integer datoPlanOperativoID = obtenerDatoPlanOperativoID(request);
+		Integer detalleEstadoCabeceraID = obtenerDetalleEstadoCabeceraID(datoPlanOperativoID);
+		beanCollection = reportService.planOperativoDesembolsoRecursosDonacion(datoPlanOperativoID);
+		
+		/** set sourceFileReportName and exportReportName **/
+		ServletContext context = request.getSession().getServletContext();
+		String appPath = context.getRealPath("/");
+		String reportPath = appPath + "WEB-INF/view/report/planoperativo/";
+		String sourceFileReportName = reportPath + "DesembolsoRecursoDonacion3.jrxml";
+		String sourceFileSubReportName = reportPath + "DesembolsoRecursoDonacionDetalles3.jrxml";
+		String exportReportName = "DesembolsoRecursoDonacion-" + new Date().getTime() + ".pdf";
+		String reportStatus = getReportService().planOperativoEstadoDescripcion(detalleEstadoCabeceraID);
+		/** set parameters report values **/
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("REPORT_TITLE", "DESEMBOLOSO DE RECURSOS DE DONACION");
+		parameters.put("REPORT_SUB_TITLE", "4.1.1 cronograma de Desembolsos de los Recursos de :");
+		parameters.put("REPORT_COMPANY_NAME", FondamConstans.REPORT_COMPANY_NAME);
+		parameters.put("REPORT_IMAGE", appPath + "images/fondam.jpg");
+		parameters.put("SUBREPORT_DIR", reportPath);
+		parameters.put("REPORT_STATUS", reportStatus);
+		/**print report on web browser**/
+		printReportWebToPdf(response, beanCollection, parameters, sourceFileReportName, sourceFileSubReportName, exportReportName);
+		logger.info("Finish ReportPlanOperativoController - reportPlanOperativoDesembolsoRecursosDonacion");
+		return null;
+	}
+
+	@RequestMapping(value = "/principal/reportPlanOperativoPlanUsoRecursosOtrasFuentes", method = RequestMethod.GET)
+	public ModelAndView reportPlanOperativoPlanUsoRecursosOtrasFuentes(HttpServletRequest request,
+			HttpServletResponse response) {
+		logger.info("Start ReportPlanOperativoController - reportPlanOperativoPlanUsoRecursosOtrasFuentes");
+		List<RptPlanUsoRecursosOtrasFuentes> beanCollection = new ArrayList<RptPlanUsoRecursosOtrasFuentes>();
+		Integer datoPlanOperativoID = obtenerDatoPlanOperativoID(request);
+		Integer detalleEstadoCabeceraID = obtenerDetalleEstadoCabeceraID(datoPlanOperativoID);
+		if(UtilValidate.isNotEmpty(datoPlanOperativoID)){
+			beanCollection =  getReportService().planOperativoPlanUsoRecursosOtrasFuentes(datoPlanOperativoID);
+		}
+		/** set sourceFileReportName and exportReportName **/
+		ServletContext context = request.getSession().getServletContext();
+		String appPath = context.getRealPath("/");
+		String reportPath = appPath + "WEB-INF/view/report/planoperativo/";
+		String sourceFileReportName = reportPath + "PlanUsoRecursosOtrasFuentes.jrxml";
+		String sourceFileSubReportName = reportPath + "PlanUsoRecursosOtrasFuentesDetalles.jrxml";
+		String exportReportName = "PlanUsoRecursosOtrasFuentes-" + new Date().getTime() + ".pdf";
+		String reportStatus = getReportService().planOperativoEstadoDescripcion(detalleEstadoCabeceraID);
+		/** set parameters report values **/
+		Map<String, String> parameters = new HashMap<String, String>();
+		parameters.put("REPORT_TITLE", "VI PLAN DE USO DE RECURSOS DE OTRAS FUENTES(ONG, Beneficiarios, Otros)");
+		parameters.put("REPORT_SUB_TITLE", "6.1 CRONOGRAMA DE EMPLEO DE RECURSOS/ACTIVIDADES");
+		parameters.put("REPORT_COMPANY_NAME", FondamConstans.REPORT_COMPANY_NAME);
+		parameters.put("REPORT_IMAGE", appPath + "images/fondam.jpg");
+		parameters.put("SUBREPORT_DIR", reportPath);
+		parameters.put("REPORT_STATUS", reportStatus);
+		/**print report on web browser**/
+		printReportWebToPdf(response, beanCollection, parameters, sourceFileReportName, sourceFileSubReportName, exportReportName);
+		logger.info("Finish ReportPlanOperativoController - reportPlanOperativoPlanUsoRecursosOtrasFuentes");
+		return null;
+	}
+	
+	private void printReportWebToPdf(HttpServletResponse response, Collection<?> beanCollection,
+			Map<?, ?> parameters, String sourceFileReportName, String sourceFileSubReportName, String exportReportName) {
+		logger.info("Start printReportWebToPdf");
+		try {
+			logger.info("sourceFileReportName = " + sourceFileReportName);
+			logger.info("exportReportName = " + exportReportName);
+			EngineReportService engineReportService = new EngineReportServiceImpl();
+			byte[] byteArray = null;
+			if (sourceFileSubReportName != null) {
+				logger.info("exportReportWithSubReportBytePdf");
+				byteArray = engineReportService.exportReportWithSubReportBytePdf(beanCollection, parameters, sourceFileReportName, sourceFileSubReportName);		
+			}else{
+				logger.info("exportReportBytePdf");
+				byteArray = engineReportService.exportReportBytePdf(beanCollection, parameters, sourceFileReportName);
+			}
+			ServletOutputStream out = response.getOutputStream();
+			response.setContentType("application/pdf");
+			response.setHeader("Content-Disposition", "inline; filename = " + exportReportName);
+			response.setContentLength(byteArray.length);
+			out.write(byteArray, 0, byteArray.length);
+			out.flush();
+			out.close();
+		} catch (JRException e) {
+			e.printStackTrace();
+			logger.error(e);
+		} catch (IOException e) {
+			e.printStackTrace();
+			logger.error(e);
+		}
+		logger.info("Finsh printReportWebToPdf");
+	}
+	
+	private Integer obtenerDatoPlanOperativoID(HttpServletRequest request){
+		Integer datoProyectoID = null;
+		Integer datoPlanOperativoID = null;
+		UserSession userSession = (UserSession) request.getSession().getAttribute(SgpWebConstants.SESSION_USER);
+		logger.info("userSession = " + userSession);
+		if(UtilValidate.isNotEmpty(userSession)){
+			datoProyectoID = userSession.getDatoProyectoID();
+			logger.info("datoProyectoID = " + datoProyectoID);
+		}
+		if(UtilValidate.isNotEmpty(datoProyectoID)){
+			datoPlanOperativoID = getPlanOperativoHelper().getDatoPlanOperativoIDByDatoProyectoID(datoProyectoID);
+		}
+		return datoPlanOperativoID;
+	}
+	
+	private Integer obtenerDetalleEstadoCabeceraID(Integer datoPlanOperativoID){
+		logger.info("warren datoPlanOperativoID = " + datoPlanOperativoID);
+		return getPlanOperativoHelper().getDetalleEstadoCabeceraID(datoPlanOperativoID);
+	}
+	
+}

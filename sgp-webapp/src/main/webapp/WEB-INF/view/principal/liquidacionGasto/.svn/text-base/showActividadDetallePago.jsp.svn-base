@@ -1,0 +1,552 @@
+<%@include file="/common/includesTaglibsGenerico.jsp"%>
+
+<style type="text/css">
+div.ui-datepicker {
+	font-size: 62.5%;
+}
+
+div.ui-dialog {
+	font-size: 62.5%;
+}
+
+div.ui-accordion {
+	font-size: 60.5%;
+}
+</style>
+<script type="text/javascript">
+var arrayDesenbolso = new Array();
+var arrayCronogramaCA = new Array();
+var arrayGrillaADP = new Array();
+var montoTotal=0;
+var montoCambio=parseFloat(${montoCambio});
+function fRegistrar(){
+	if (validar()) {
+		return;
+	}
+	
+	for ( var p = 0; p < arrayGrillaADP.length; p++) {
+		    montoTotal +=parseFloat(arrayGrillaADP[p].montoTotal).toFixed(2); 
+		}
+	montoTotal=parseFloat(montoTotal).toFixed(2);
+	var montoGasto=parseFloat($('#montoPorGastarDeActiv').attr("value")).toFixed(2);
+	var total=montoTotal + montoGasto;
+	if (montoCambio< total) {
+		alert("La suma del monto total del la Activida debe ser menor al monto de cambio");
+		 $('#montoPorGastarDeActiv').attr("value","");
+		 $('#porcentajeMontoTotal').attr("value","");
+		return ;
+	}
+	fgetCronogramaDisponible();
+	
+	
+}
+function fEliminar(id){
+	
+	var form = document.formActividadDetallePago;
+	form.action = "actionEliminarActividadDetallePago.jspx?idActividad="+id;
+	form.submit();
+	
+}
+
+
+function validar(){
+
+	  var cabecera = "Debe ingresar la siguiente informaci\u00F3n obligatoria(*):";
+	  var mensaje = "";
+	  if($('#resultado').attr("value") == 0){
+		 mensaje += "\n - Resultado.";
+	  }
+	  if($('#actividad').attr("value") == 0){
+		 mensaje += "\n - Actividad.";
+	  }
+      if($('#costoActividad').attr("value") == 0){
+     	 mensaje += "\n - Costo Actividad.";
+ 	  }
+	  if($('#periodo').attr("value") == 0){
+		 mensaje += "\n - Periodo.";
+	  }
+	  if($('#montoGastado').attr("value") == 0){
+			 mensaje += "\n - Monto Gastado.";
+		  }
+	  if($('#montoPorGastarDeActiv').attr("value") == ''){
+		 mensaje += "\n - Monto Gastado Actividad.";
+	  }else{
+		  var montoTotal=parseFloat($('#monto').attr("value"));
+			var parte=parseFloat($('#montoPorGastarDeActiv').attr("value"));
+			var montoCambio=parseFloat(${montoCambio});
+
+			if(parte>montoTotal ){
+				 alert("Monto gastado Actividad Detalle debe ser menor al Monto Total de cronograma.");
+				 $('#montoPorGastarDeActiv').attr("value","");
+				 $('#porcentajeMontoTotal').attr("value","");
+				return;  
+			 }
+			
+			if( parte>montoCambio){
+				 alert("Monto gastado Actividad Detalle debe ser menor al Monto Detalle Pago.");
+				 $('#montoPorGastarDeActiv').attr("value","");
+				 $('#porcentajeMontoTotal').attr("value","");
+				return;  
+			 }
+	  }
+	 
+	  if(mensaje != ""){
+	     alert(cabecera + mensaje);
+	     return true;
+	  }else{
+		 return false;
+	  }
+	
+}
+
+function fgetPortacentaje(){
+
+	 if($('#montoPorGastarDeActiv').attr("value") == ''){
+	
+		 mensaje += "\n - Monto Gastado Actividad.";
+		 return;
+	 }
+	var montoTotal=parseFloat($('#monto').attr("value"));
+	var parte=parseFloat($('#montoPorGastarDeActiv').attr("value"));
+	//var montoCambio=parseFloat(${montoCambio});
+
+	if(parte>montoTotal ){
+		 alert("Monto gastado Actividad Detalle debe ser menor al Monto Total de cronograma.");
+		 $('#montoPorGastarDeActiv').attr("value","");
+		 $('#porcentajeMontoTotal').attr("value","");
+		return;  
+	 }
+	
+	if( parte>montoCambio){
+		 alert("Monto gastado Actividad Detalle debe ser menor al Monto Total del Pago.");
+		 $('#montoPorGastarDeActiv').attr("value","");
+		 $('#porcentajeMontoTotal').attr("value","");
+		return;  
+	 }
+	   
+	porcentaje=(parte*100)/montoTotal;
+	
+	$('#porcentajeMontoTotal').attr("value",parseFloat(porcentaje).toFixed(2)); 
+
+}
+
+function fCargarActividad(){       	
+    ///var idResultado = $("#resultado").val();
+    //var nomMetodo = "cargarActividad";
+    $("#actividad").load("cargarCombo.jspx", {resultadoID:$("#resultado").val(),metodo:"cargarActividad"}, function(){fCargarCostoActividad();fCargarPeriodo();} );
+    /*$('#periodo').attr("disabled",true);
+    $('#periodo').attr("value",0);
+    $('#costoActividad').attr("disabled",true);
+    $('#costoActividad').attr("value",0);*/
+    $('#montoGastado').attr("value",0);
+    fSelect();
+    
+}
+
+
+function fCargarCostoActividad(){       
+    /*var idActividad = $("#actividad").val();
+    var nomMetodo = "cargarCostoActividad";*/
+    $("#costoActividad").load("cargarCombo.jspx", {actividadID:$("#actividad").val(),metodo:"cargarCostoActividad"}, function(){fCargarPeriodo();} );
+    //$('#costoActividad').attr("disabled",false);
+    /*$('#periodo').attr("disabled",true);
+    $('#periodo').attr("value",0);*/
+    $('#montoGastado').attr("value",0);
+
+    fSelect();
+    
+}
+function fCargarPeriodo(){       
+    /*var idCostoActividad = $("#costoActividad").val();
+    var idLiquidacion = $("#liquidacionGastoID").val();
+    var nomMetodo = "cargarPeriodo";*/
+   
+    $("#periodo").load("cargarCombo.jspx", {costoActividadID:$("#costoActividad").val(),liquidacionGastoID:$("#liquidacionGastoID").val(),metodo:"cargarPeriodo"});
+    //$('#periodo').attr("disabled",false);
+    fSelect();
+    $('#montoPorGastarDeActiv').attr("value","");
+	 $('#porcentajeMontoTotal').attr("value","");
+
+    
+}
+
+function fSelect(){     
+	  $('#periodo').attr("value",0);
+	  fgetCronogramaCostoActividad();
+	   $('#monto').attr("value",0);
+}
+function fgetMontoGastadoCostoActividad(){
+    var idCostoActividad = $("#costoActividad").val();
+
+	 $.ajax({ url: 'actionGetMontoGastadoCostoActividad.jspx',
+	               data: 'costoActividadID='+idCostoActividad,
+	               type:'get',
+	               dataType: 'html',
+	               success: function (response) {
+	   				var monto=parseFloat(response).toFixed(2);
+						$('#montoGastado').attr("value",monto);
+	            	 		}
+	               });
+}
+function fgetCronogramaCostoActividad(){
+		
+	$('#divGrillaCronogramaCostoActividad').load("cargarCronogramaCostoActividad.jspx", 
+			{periodoID:$('#periodo').attr("value")},function (){
+				for ( var p = 0; p < arrayCronogramaCA.length; p++) {
+					if (arrayCronogramaCA[p].cronogramaID == $('#periodo').attr("value")) {
+						precioUnitario = arrayCronogramaCA[p].precioUnitario;	
+						cantidad = arrayCronogramaCA[p].cantidad;
+						$('#monto').attr("value",parseFloat(precioUnitario)*parseFloat(cantidad));
+						break;
+					} 
+					}
+				}
+		   );	
+}
+function fgetCronogramaDisponible(){
+	cronograma=$('#periodo').attr("value");
+	liquidacion=$('#liquidacionGastoID').attr("value");
+
+	 
+$.ajax({ url: 'actionGetCronogramaDisponible.jspx?cronogramaID='+cronograma+'&liquidacionID='+liquidacion,
+    type:'get',
+    dataType: 'html',
+    success: function (response) {
+     	if (response!='SI') {
+    		alert(response);
+    			return;
+		}else {
+				var form = document.formActividadDetallePago;
+			    form.action = "actionRegistrarActividadDetallePago.jspx";
+			    form.submit();			
+	 	 			
+			}
+	 	 		}
+    });
+	
+}
+</script>
+<div class="form-clasico">
+	<br />
+	<div class="encabezado">Actividad que Cubre</div>
+	<form:form name="formActividadDetallePago"
+		action="showActividadDetallePago.jspx" method="POST">
+		<input type="hidden" id="liquidacionGastoID" name="liquidacionGastoID"
+			value="${liquidacionGastoID}">
+		<input type="hidden" id="detallePagoID" name="detallePagoID"
+			value="${detallePagoID}">
+		<input type="hidden" id="desembolsoID" name="desembolsoID"
+			value="${desembolso.desembolsoID}">
+		<br />
+		<fieldset style="padding-left: 15px">
+
+			<c:forEach items="${listPeriodo}" var="modali">
+				<script type="text/javascript">
+												var objCronogramaCA = new Object();
+												objCronogramaCA.cronogramaID = "<c:out value="${modali.cronogramaCostoActividadID }"></c:out>";
+												objCronogramaCA.cantidad = "<c:out value="${modali.cantidad}"></c:out>";
+												objCronogramaCA.precioUnitario = "<c:out value="${modali.costoActividad.precioUnitario}"></c:out>";
+												arrayCronogramaCA.push(objCronogramaCA);
+												</script>
+			</c:forEach>
+			<fieldset style="padding-left: 15px">
+				<legend>Detalle Pago</legend>
+
+				<table style="width: 100%;">
+					<tr>
+						<td style="width: 25%; text-align: right;"><label><b>Cantidad:
+							</b> </label>
+						</td>
+						<td style="width: 25%; text-align: left;"><label> <c:out
+									value="${detallePagoLiquidacion.cantidad}"></c:out>&nbsp; <c:forEach
+									items="${listUnidadMedida}" var="modali">
+									<c:if
+										test="${ detallePagoLiquidacion.fkIdtablaespUnidadMedida == modali.tablaEspecificaID}">
+										<c:out value="${modali.descripcionCabecera}" />
+									</c:if>
+								</c:forEach> </label></td>
+						<td style="width: 25%; text-align: right;"><label><b>Monto
+									Total en <c:forEach items="${listTipoMoneda}" var="modali1">
+										<c:if
+											test="${modali1.tablaEspecificaID== detallePagoLiquidacion.pagoLiquidacion.fkIdtablaespTipoMoneda}">
+											<c:out value="${modali1.descripcionCabecera}:" />
+										</c:if>
+									</c:forEach> </b> </label>
+						</td>
+						<td style="width: 25%; text-align: left;"><label> <c:out
+									value="${detallePagoLiquidacion.precioTotal} "></c:out> <c:forEach
+									items="${listTipoMoneda}" var="modali1">
+									<c:if
+										test="${modali1.tablaEspecificaID== detallePagoLiquidacion.pagoLiquidacion.fkIdtablaespTipoMoneda}">
+										<c:out value="${modali1.descripcionCabecera}" />
+									</c:if>
+								</c:forEach> </label>
+						</td>
+
+					</tr>
+					<tr>
+						<td style="width: 25%; text-align: right;"><label><b>Precio
+									Unitario: </b> </label>
+						</td>
+						<td style="width: 25%; text-align: left;"><label> <c:out
+									value="${detallePagoLiquidacion.precioUnitario}"></c:out>&nbsp;
+								<c:forEach items="${listTipoMoneda}" var="modali1">
+									<c:if
+										test="${modali1.tablaEspecificaID== detallePagoLiquidacion.pagoLiquidacion.fkIdtablaespTipoMoneda}">
+										<c:out value="${modali1.descripcionCabecera}" />
+									</c:if>
+								</c:forEach> </label>
+						</td>
+						<td style="width: 25%; text-align: right;"><label><b>Monto
+									Total en <c:forEach items="${listTipoMoneda}" var="modali">
+										<c:if
+											test="${ modali.tablaEspecificaID == desembolso.fkIdtablaespTipoMoneda}">
+											<c:out value="${modali.descripcionCabecera}:" />
+										</c:if>
+									</c:forEach> </b> </label>
+						</td>
+						<td style="width: 25%; text-align: left;"><label> <c:out
+									value="${montoCambio} "></c:out> <c:forEach
+									items="${listTipoMoneda}" var="modali">
+									<c:if
+										test="${ modali.tablaEspecificaID == desembolso.fkIdtablaespTipoMoneda}">
+										<c:out value="${modali.descripcionCabecera}" />
+									</c:if>
+								</c:forEach> </label>
+						</td>
+
+					</tr>
+					<tr>
+						<td style="width: 25%; text-align: right;"><label><b>Tipo
+									Cambio: </b> </label>
+						</td>
+						<td style="width: 25%; text-align: left;"><label><c:out
+									value="${tipoCambio}" /> <c:forEach items="${listTipoMoneda}"
+									var="modali">
+									<c:if
+										test="${ modali.tablaEspecificaID == desembolso.fkIdtablaespTipoMoneda}">
+										<c:out value="${modali.descripcionCabecera}" />
+									</c:if>
+								</c:forEach> </label>
+						</td>
+					</tr>
+
+				</table>
+			</fieldset>
+			<table style="width: 100%;">
+				<tr>
+					<td colspan="4" style="width: 100%;">
+						<hr></td>
+				</tr>
+				<tr>
+					<td style="text-align: right;width: 20%"><label>Desembolso:</label></td>
+					<td style="text-align: left;width: 80%" colspan="3"><label> <c:forEach items="${listTipoDesembolso}"
+								var="modali">
+								<c:if
+									test="${ modali.tablaEspecificaID == desembolso.fkIdtablaespTipoDesembolso}">
+
+									<c:out
+										value="${desembolso.periodo}.${desembolso.fuenteFinanciadora.fuenteFinanciadoraID}.${desembolso.versionDePeriodo}.${modali.descripcionCabecera}" />
+								</c:if>
+							</c:forEach> - <c:forEach items="${listTipoMoneda}" var="modali">
+								<c:if
+									test="${ modali.tablaEspecificaID == desembolso.fkIdtablaespTipoMoneda}">
+									<c:out value="${modali.descripcionCabecera}" />
+								</c:if>
+							</c:forEach> </label></td>
+				</tr>
+				<tr>
+					<td style="text-align: right; width: 20%"><label>Resultado:</label></td>
+					<td style="text-align: left; width: 80%" colspan="3"><select name="resultado" style="width: 100%"
+						id="resultado" onchange="javascript:fCargarActividad();">
+							<option value="0">
+								<c:out value="-- Resultado --" />
+							</option>
+							<c:forEach items="${listResultado}" var="modali">
+								<option value="${modali.resultadoID}">
+									<c:out value="${modali.definicionResultado}" />
+								</option>
+							</c:forEach>
+					</select></td>
+				</tr>
+				<tr>
+					<td style="text-align: right;width: 20%"><label>Actividad:</label></td>
+					<td  style="text-align: left; width: 80%" colspan="3"><select name="actividad" style="width: 100%"
+						id="actividad" onchange="javascript:fCargarCostoActividad();">
+							<option value="0">
+								<c:out value="-- Actividad --" />
+							</option>
+
+					</select></td>
+				</tr>
+				<tr>
+					<td style="text-align: right;width: 20%"><label>Costo Actividad
+							:</label></td>
+					<td  style="text-align: left; width: 80%" colspan="3"><select name="costoActividad" id="costoActividad" style="width: 100%"
+						onchange="javascript:fCargarPeriodo();fgetMontoGastadoCostoActividad();">
+							<option value="0">
+								<c:out value="-- Costo Actividad ** Rubro ** Partida Especifica--" />
+							</option>
+
+					</select></td>
+				</tr>
+				<tr>
+					<td style="text-align: right; width: 20%"><label>Periodo:</label></td>
+					<td style="text-align: left; width: 80%" colspan="3"><select name="periodo" id="periodo"
+						onchange="javascript:fgetCronogramaCostoActividad();">
+							<option value="0">
+								<c:out value="-- Periodo --" />
+							</option>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4" style="width: 100%;">
+						<div id="divGrillaCronogramaCostoActividad"></div></td>
+				</tr>
+			</table>
+		</fieldset>
+		<br>
+		<fieldset style="padding-left: 15px">
+			<legend>Lista Pagos</legend>
+			<table style="width: 100%;">
+
+				<tr>
+					<td style="text-align: right;"><label>Porcentaje
+							Cubre:</label></td>
+					<td><input type="text" name="porcentajeMontoTotal"
+						maxlength="0" id="porcentajeMontoTotal"
+						onkeypress="return isNumberKeyPBD(event);"
+						value="${actividadDetallePago.porcentajeMontoTotal}" /> <label>%</label>
+					</td>
+					<td style="text-align: right;"><label>Monto Total<br />(Periodo
+							Seleccionado)</label></td>
+					<td><input type="text" maxlength="0" style="width: 50%"
+						id="monto" name="monto" onkeypress="return isNumberKeyPBD(event);">
+						<label> <c:forEach items="${listTipoMoneda}" var="modali">
+								<c:if
+									test="${ modali.tablaEspecificaID == desembolso.fkIdtablaespTipoMoneda}">
+									<c:out value="${modali.descripcionCabecera}" />
+								</c:if>
+							</c:forEach> </label></td>
+
+				</tr>
+				<tr>
+					<td style="text-align: right;"><label> <!-- Monto Gastado 
+							(actividad detalle pago) -->Monto que cubre de Pago:</label></td>
+					<td><input type="text" name="montoPorGastarDeActiv"
+						style="width: 50%" id="montoPorGastarDeActiv"
+						value="${actividadDetallePago.montoPorGastarDeActiv}"
+						onkeydown="if(event.keyCode == 13){fgetPortacentaje();}"
+						onchange="fgetPortacentaje()" /> <label> <c:forEach
+								items="${listTipoMoneda}" var="modali">
+								<c:if
+									test="${ modali.tablaEspecificaID == desembolso.fkIdtablaespTipoMoneda}">
+									<c:out value="${modali.descripcionCabecera}" />
+								</c:if>
+							</c:forEach> </label></td>
+
+					<td style="text-align: right;"><label> <!-- Monto Gastado
+							(actvidad costo) -->Monto Disponible de Actividad:</label></td>
+					<td><input type="text" name="montoGastado" style="width: 50%"
+						id="montoGastado" maxlength="0"
+						onkeypress="return isNumberKeyPBD(event);"
+						value="${actividadDetallePago.montoGastado}" /> <label> <c:forEach
+								items="${listTipoMoneda}" var="modali">
+								<c:if
+									test="${ modali.tablaEspecificaID == desembolso.fkIdtablaespTipoMoneda}">
+									<c:out value="${modali.descripcionCabecera}" />
+								</c:if>
+							</c:forEach> </label></td>
+				</tr>
+				<tr>
+					<td colspan="4" style="text-align: right;"><input
+						type="button" name="Agregar" value="Agregar"
+						onclick="javascript:fRegistrar();"> <input type="reset"
+						name="Limpiar" value="Limpiar"> <input type="button"
+						value="Cerrar" id="idBtnCerrar" /></td>
+				</tr>
+
+			</table>
+			<table class="table-clasico" style="width: 100%">
+				<caption>Lista</caption>
+				<thead>
+					<tr>
+						<th align="center"><label>Resultado</label>
+						</th>
+						<th align="center"><label>Actividad</label>
+						</th>
+						<th align="center"><label>Costo Actividad</label>
+						</th>
+						<th align="center"><label>Periodo </label>
+						</th>
+						<th align="center"><label>Monto Disponible <br />Costo
+								Actividad</label>
+						</th>
+						<th align="center"><label>Monto Gastado Actividad</label>
+						</th>
+						<th align="center"><label>Porcentaje del Total</label>
+						</th>
+						<th align="center"><label>Eliminar</label>
+						</th>
+					</tr>
+				</thead>
+				<c:forEach var="actividadG" items="${listActividadDetallePago}">
+					<script type="text/javascript">
+												var objGrillaADP = new Object();
+												objGrillaADP.montoTotal = "<c:out value="${actividadG.montoPorGastarDeActiv}"></c:out>";
+												arrayGrillaADP.push(objGrillaADP);
+												</script>
+					<tr>
+						<td align="center"><c:out
+								value="${actividadG.cronogramaCostoActividad.costoActividad.actividad.resultado.definicionResultado}" />
+						</td>
+						<td align="center"><c:out
+								value="${actividadG.cronogramaCostoActividad.costoActividad.actividad.nombreActividad}" />
+						</td>
+						<td align="center"><c:out
+								value="${actividadG.cronogramaCostoActividad.costoActividad.cantidadTotal}" />
+							- <c:forEach items="${listUnidadMedida}" var="modali">
+								<c:if
+									test="${actividadG.cronogramaCostoActividad.costoActividad.fkIdtablaespUnidadMedida == modali.tablaEspecificaID}">
+									<c:out value="${modali.descripcionCabecera}" />
+								</c:if>
+							</c:forEach></td>
+						<td align="center"><c:out
+								value="${actividadG.cronogramaCostoActividad.periodo}"></c:out>&nbsp;
+						</td>
+
+
+
+						<td align="center"><c:out value="${actividadG.montoGastado}"></c:out>&nbsp;
+							<c:forEach items="${listTipoMoneda}" var="modali1">
+								<c:if
+									test="${modali1.tablaEspecificaID== actividadG.fkIdtablaespTipoMoneda}">
+									<c:out value="${modali1.descripcionCabecera}" />
+								</c:if>
+							</c:forEach></td>
+						<td align="center"><c:out
+								value="${actividadG.montoPorGastarDeActiv}"></c:out>&nbsp; <c:forEach
+								items="${listTipoMoneda}" var="modali1">
+								<c:if
+									test="${modali1.tablaEspecificaID== actividadG.fkIdtablaespTipoMoneda}">
+									<c:out value="${modali1.descripcionCabecera}" />
+								</c:if>
+							</c:forEach></td>
+						<td align="center"><c:out
+								value="${actividadG.porcentajeMontoTotal}"></c:out>&nbsp; %</td>
+
+						<td align="center"><a
+							href="javascript:fEliminar('${actividadG.actividadDetallePagoID}');"
+							class="linkSelecciona" style="cursor: pointer" title="Actividad">Eliminar</a>
+						</td>
+					</tr>
+				</c:forEach>
+
+			</table>
+
+
+		</fieldset>
+
+	</form:form>
+</div>

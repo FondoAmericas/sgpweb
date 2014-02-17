@@ -1,0 +1,148 @@
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title><spring:message code="web.app.title"></spring:message>
+</title>
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/css/displaytagex.css"
+	type="text/css" />
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/estiloContabilidad.css" />
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/estiloGeneral.css" />
+<script type="text/javascript"
+	src="<c:url value="/js/jquery-1.7.1.js"></c:url>"></script>
+<script type="text/javascript"
+	src="<%=request.getContextPath()%>/js/util.js"></script>
+
+<script>
+	var arrayTipoCambio = new Array();
+	//capturo array enviado de padre
+	arrayTipoCambio = window.dialogArguments;
+		
+	
+		function soloNumero(e) {
+		    if ([e.keyCode||e.which]==8 || [e.keyCode||e.which]==9 || [e.keyCode||e.which]==46) 
+		        return true;
+		    if ([e.keyCode || e.which] < 48 || [e.keyCode||e.which] > 57)
+		        e.preventDefault? e.preventDefault() : e.returnValue = false;
+		}
+		
+		function agregaTipoCambio(){
+			var valida = validar();
+			if (valida == 0) {
+				var objTipoCambio = new Object();
+				objTipoCambio.tipoCambio = $("#tipoCambio").val();
+				objTipoCambio.de = $("#tipoMonedaDeId").val();
+				objTipoCambio.a = $("#tipoMonedaAId").val();
+
+				arrayTipoCambio.push(objTipoCambio);
+				window.opener.capturaDatosHijoTipoCambio($("#tipoCambio").val(),$("#tipoMonedaDeId").val(),$("#tipoMonedaAId").val());
+			}
+		}
+		
+		/*function goTo(url) {
+			window.location = url;
+		}
+		
+		function goBack(url) {
+			goTo(url);
+		}*/
+		
+		function validar(){
+		      //var cabecera = "Debe ingresar la siguiente informaci\u00F3n obligatoria(*):";
+		      var errores=0;
+		      var mensaje = "";
+		      if($('#tipoCambio').attr("value") == ""){
+		          mensaje += "\n Tipo cambio.";
+		          errores = errores + 1;
+		          
+		      }
+		      
+			  if($('#tipoMonedaDeId').attr("value") == "0"){
+			      mensaje += "\n Tipo de moneda de.";
+			      errores = errores + 1;
+			  }
+			  
+			  if($('#tipoMonedaAId').attr("value") == "0"){
+			      mensaje += "\n Tipo de moneda a.";
+			      errores = errores + 1;
+			  }	
+			  
+			  if ($('#tipoMonedaDeId').attr("value") == $('#tipoMonedaAId').attr("value")) {
+					mensaje += "\n Las monedas no pueden ser iguales.";
+					errores = errores + 1;
+				}
+			  
+			  for ( var p = 0; p < arrayTipoCambio.length; p++) {
+					if ((arrayTipoCambio[p].de == $('#tipoMonedaDeId').val()) && (arrayTipoCambio[p].a==$('#tipoMonedaAId').val())) {
+						mensaje += "\n El tipo de cambio ya se encuentra en la lista.";
+						errores = errores + 1;
+						break;
+					};
+				}
+			  
+		      if(errores>0){
+		         alert(mensaje);
+		      }
+		   return errores;
+		}
+		
+	</script>
+</head>
+<body>
+	<div class="form-clasico">
+		<form:form name="formResultado" method="post">
+			<!-- <input type="hidden" id="datoPlanOperativoID" name="datoPlanOperativoID" value="${datoPlanOperativoID}">
+	<input type="hidden" id="desembolsoID" name="desembolsoID" value="${desembolsoID}">
+	<input type="hidden" id="action1" name="action1" value="${action1}">
+	<input type="hidden" id="action2" name="action2" value="${action2}">
+	<input type="hidden" id="tipoRefresh" name="tipoRefresh" value="${tipoRefresh}"> -->
+			<fieldset>
+				<legend>Crear Tipo de Cambio</legend>
+				<br />
+				<table border="0">
+					<tr>
+						<td style="text-align: right; width: 20%;"><label>Tipo
+								de Cambio:</label>
+						</td>
+						<td style="text-align: left; width: 50%;" colspan="2"><input
+							type="text" id="tipoCambio" name="tipoCambio" size="11"
+							maxlength="5" onkeypress="soloNumero(event)" style="width: 65px;" />
+							<label> de <select id=tipoMonedaDeId disabled="disabled"
+								name="tipoMonedaDeId" style="width: 100px;">
+									<option value="0">--Moneda--</option>
+									<c:forEach items="${listaTipoMonedaDe}" var="tipoMonedaDe">
+										<option value="${tipoMonedaDe.tablaEspecificaID}" <c:if test="${tipoMonedaDe.tablaEspecificaID == 169 }"> selected="selected" </c:if>>${tipoMonedaDe.descripcionCabecera}</option>
+									</c:forEach>
+							</select> &nbsp; a &nbsp;<select id=tipoMonedaAId name="tipoMonedaAId" 
+								style="width: 100px;">
+									<option value="0">--Moneda--</option>
+									<c:forEach items="${listaTipoMonedaA}" var="tipoMonedaA">
+										<option value="${tipoMonedaA.tablaEspecificaID}" <c:if test="${tipoMonedaA.tablaEspecificaID == 168 }"> selected="selected" </c:if>>${tipoMonedaA.descripcionCabecera}</option>
+									</c:forEach>
+							</select> </label></td>
+					</tr>
+					<tr>
+						<td colspan='3'><br></td>
+					</tr>
+					<tr>
+
+						<td style="text-align: right; width: 20%;" colspan="3"><br />
+							<input type="button" value="Cerrar" id="idBtnCerrar" /> <input
+							type="button" value="Grabar Tipo de Cambio"
+							onClick="agregaTipoCambio()" > <br /></td>
+
+					</tr>
+				</table>
+			</fieldset>
+		</form:form>
+	</div>
+</body>
+</html>

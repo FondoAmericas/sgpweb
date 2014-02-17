@@ -1,0 +1,265 @@
+/*
+clase para menu Contabilidad
+*/
+.menu {
+	width: 100%;
+}
+
+.menu ul {
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+}
+
+.menu li a {
+	height: 24px;
+	text-decoration: none;
+}
+
+.menu li a.imp:active,.menu li a.imp:link,.menu li a.imp:visited {
+	font-family: Verdana, Geneva, sans-serif;
+	color: #eee6e6;
+	display: block;
+	/*background-color:#ffe;*/
+	padding: 5px;
+	background: url(../images/img_btn04.gif) repeat-x;
+	font-weight: bold;
+	font-size: 11px;
+	/*text-decoration: none;*/
+}
+
+.menu li a.par:active,.menu li a.par:link,.menu li a.par:visited {
+	font-family: Verdana, Geneva, sans-serif;
+	color: #eee6e6;
+	display: block;
+	/*background-color:#def;*/
+	padding: 5px;
+	background: url(../images/img_btn04.gif) repeat-x;
+	font-weight: bold;
+	font-size: 11px;
+	/*text-decoration: none;*/
+}
+
+.menu li a.imp:hover,.menu li a.par:hover {
+	font-family: Verdana, Geneva, sans-serif;
+	color: #236D24;
+	display: block;
+	/*background-color:#def;*/
+	padding: 5px;
+	background: url(../images/img_btn02.gif) repeat-x;
+	font-weight: bold;
+	font-size: 11px;
+	/*border-color: #66ff66;
+	border-style: solid;*/
+}
+
+.clickeado {
+	font-family: Verdana, Geneva, sans-serif;
+	color: #236D24;
+	display: block;
+	/*background-color:#def;*/
+	padding: 5px;
+	background: url(../images/img_btn02.gif) repeat-x;
+	font-weight: bold;
+	font-size: 11px;
+	/*border-color: #66ff66;
+	border-style: solid;*/
+}
+
+.table-clasico {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #000;
+	text-align: left;
+	border-collapse: collapse;
+	border: 1px solid #3e7a3f;
+	/* width:100%;*/
+	font-style: italic;
+}
+
+.table-clasico select {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #000;
+}
+
+/*Estilo del título de la tabla*/
+.table-clasico caption {
+	font-size: 100%;
+	color: #ffffff;
+	background: url(../images/img_btn.gif) repeat-x;
+	text-align: left;
+	vertical-align: middle;
+	font-weight: bold;
+	border-collapse: collapse;
+	padding: 6px;
+	padding-left: 8px;
+	font-style: italic;
+	border: 1px solid #3e7a3f;
+}
+
+.table-clasico caption a {
+	color: #fff;
+}
+
+/*Estilo de la cabecera de la tabla*/
+.table-clasico thead th,.table-clasico thead td {
+	font-size: 80%;
+	color: #000;
+	background: #ffffff url(../images/tabla_th.gif) repeat-x bottom;
+	height: 30px;
+	padding: 3px;
+	padding-left: 8px;
+	border-collapse: collapse;
+	border: 1px solid #d0d0d0;
+	/*border-top: none;*/
+	/*font-weight: bold;*/
+	font-style: italic;
+}
+
+.table-clasico tbody{
+		/*border: 1px solid #3e7a3f;*/	
+}
+	
+.table-clasico tbody td {
+	font-family: Arial, Helvetica, sans-serif;
+	/*background-color: #eaeef4;*/
+	font-style: italic;
+	font-size: 10px;
+	border-collapse: collapse;
+}
+
+/*Estilos de los tds del body y del head de la tabla*/
+.table-clasico tbody td,.table-clasico thead td {
+	padding: 2px;
+	/*padding-left: 5px;*/
+}
+
+/*Estilo del pie de la tabla*/
+.table-clasico tfoot th,.table-clasico tfoot tr {
+	border-top: 1px #c7d3cc solid;
+	font-size: 80%;
+	color: #000;
+	background: #ffffff url("../images/tabla_th.gif") repeat-x bottom;
+	height: 26px;
+	border: 1px solid #d0d0d0;
+	border-top: 1px solid #45744B;
+	font-weight: bold;
+	font-style: italic;
+	margin-top: 3px;
+}
+
+/*Estilo cebra de la tabla*/
+.table-clasico tbody .f1 {
+	background: #ffffff;
+	color: #444;
+}
+
+.table-clasico tbody .f2 {
+	background: #e4f8e0;
+	color: #444;
+}
+
+/*Estilo cebra interior de la tabla*/
+.table-clasico tbody .f1int {
+	background: #dfece2;
+	color: #444;
+}
+
+.table-clasico tbody .f2int {
+	background: #ffffff;
+	color: #444;
+}
+
+/*Estilo cebra interior de la tabla interiro*/
+.table-clasico tbody .f1int2 {
+	background: #d9f0f8;
+	color: #444;
+}
+
+.table-clasico tbody .f2int2 {
+	background: #ffffff;
+	color: #444;
+}
+
+.linkSelecciona {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #377d38;
+	text-align: center;
+	font-style: italic;
+	text-decoration: underline;
+}
+
+.linkSelecciona:focus {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #9CDD91;
+	text-align: center;
+	font-style: italic;
+	text-decoration: none;
+}
+
+.linkSelecciona:hover {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #9CDD91;
+	text-align: center;
+	font-style: italic;
+	text-decoration: underline;
+}
+
+.linkSeleccionaEsp {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	color: #377d38;
+	text-align: center;
+	font-style: italic;
+	text-decoration: underline;
+}
+
+.linkSeleccionaEsp:focus {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	color: #9CDD91;
+	text-align: center;
+	font-style: italic;
+	text-decoration: none;
+}
+
+.linkSeleccionaEsp:hover {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	color: #9CDD91;
+	text-align: center;
+	font-style: italic;
+	text-decoration: underline;
+}
+
+.linkSeleccionaObs {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	color: #fa0617;
+	text-align: center;
+	font-style: italic;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.linkSeleccionaObs:focus {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	color: #fa0617;
+	text-align: center;
+	font-style: italic;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.linkSeleccionaObs:hover {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	color: #fa0617;
+	text-align: center;
+	font-style: italic;
+	text-decoration: underline;
+	font-weight: bold;
+}

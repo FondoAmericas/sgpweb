@@ -1,0 +1,377 @@
+<%@include file="includesTaglibs.jsp" %>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title><spring:message code="web.app.title"></spring:message></title>
+	
+	<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/estiloContabilidad.css"></c:url>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/estiloGeneral.css"></c:url>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/estiloObservaciones.css"></c:url>" />	
+	
+	<script type="text/javascript">
+	$(window).load(function() {
+		////UBICACION DEL PROYECTO
+		ocultaCampos();
+	});
+	
+	function ocultaCampos(){
+		estado= "<c:out value="${estadoPlanOperativo}"></c:out>" ;
+		//alert(estado);
+		if ((estado =='peval')||(estado =='revi')||(estado =='apro')||(estado =='recha')){
+			$(".hide").hide();//attr("style","visibility: hidden;");
+			$(".disabled").attr("disabled","disabled");
+			//alert($('#cbxInstitucionEjecutora option:selected').html());
+			//$("#div_cbxInstitucionEjecutora").attr("style","visibility: hidden;");
+		}
+		
+	}
+	</script>
+	
+	<script type="text/javascript">
+		function goTo(url,ancho,alto) {
+			//var flag;
+			/*if($('#listaTipoCambioSize').attr("value") != ""){
+				alert("Debe Ingresar Tipo de Cambio.");
+				return;
+			}*/
+			fOpenModalDialog(url,ancho,alto,'70','70');
+		}
+		
+		function goTo2(url) {
+			if (validar()) {
+				return;
+			}
+			if(confirm("\u00BFEst\u00E1 seguro de crear el plan operativo?")){
+			   url = url + "&tipoMonedaId=" +$("#tipoMoneda").attr("value");
+			   window.location = url;
+			}
+		}
+		
+		function validar(){
+		      var cabecera = "Debe ingresar la siguiente informaci\u00F3n obligatoria(*):";
+		      var mensaje = "";
+		      if($('#tipoMoneda').attr("value") == "0"){
+		          mensaje += "\n - Tipo Moneda.";
+		      }	
+			  
+		      if(mensaje != ""){
+		         alert(cabecera + mensaje);
+		         return true;
+		      }else{
+		         return false;
+		      }
+		   
+		}
+		
+		function fRefresh(tiempo){
+			fSetTimeOutRefreshLocation(tiempo);
+		}
+		
+		function fEliminar(resultadoID, resultadoCod){
+			if(confirm("\u00BFEst\u00E1 seguro de eliminar el resultado " + resultadoCod + "?")){
+			   window.location.href = "actionDeleteResultado.jspx?resultadoID=" + resultadoID;
+			}			
+		}
+		
+		function fEliminarTipoCambio(tipoCambioID){
+			if(confirm("\u00BFEst\u00E1 seguro de eliminar el tipo de Cambio ?")){
+				window.location.href = "actionDeleteTipoCambio.jspx?tipoCambioID=" + tipoCambioID;
+			}
+		}
+		
+		function load(){
+			var mensaje = $('#mensaje').attr("value");
+			if(mensaje != "")
+			   alert(mensaje);
+			   $('#mensaje').val("");
+			  
+		}
+		
+		function fLocationInterval(tiempo){
+		   window.setInterval("fLocation()",tiempo);
+		}
+		
+		function fLocation(){
+			window.location.href = "showPlanOperativoNew.jspx";
+		} 
+		
+		function cambiaEstadoPlanOperativo(){
+			var confirmacion = confirm("Esta seguro que desea mandar el PLAN OPERATIVO para ser evaluado por Fondam. ");
+			
+			if (confirmacion){
+				document.frmPlanOperativo.action = "cambiaEstadoValidaInformacion.jspx";
+				document.frmPlanOperativo.submit();
+			}
+		}
+	</script>
+</head>
+<body onload="load()">
+<form id="frmPlanOperativo" name="frmPlanOperativo" class="form-clasico">
+<input type="hidden" id="mensaje" name="mensaje" value="${mensaje}" />
+<input type="hidden" id="listaTipoCambioSize" name="listaTipoCambioSize" value="<c:if test="${empty listaTipoCambio}">0</c:if>" />
+
+<div class="encabezado">GESTIONAR PLAN OPERATIVO</div>
+<br>
+<div>
+<fieldset><legend>Gestion Plan Operativo</legend>
+	<c:if test="${!empty alterMessage}">
+		<fieldset><legend>Mensajes de Alertas</legend>
+			<label for="alterMessage">${alterMessage}</label> 
+		</fieldset>
+	</c:if>
+	<c:if test="${empty alterMessage}">
+		<c:if test="${empty planOperativo}">
+			<label>Tipo moneda con que se creara el Plan Operativo:   </label>
+			<select id="tipoMoneda" name="tipoMoneda" style="width: 100px;" disabled="disabled">
+				<option value="0">--Moneda--</option>
+				<c:forEach items="${listaTipoMoneda}" var="tipoMoneda" >  
+				<c:choose>
+									<c:when test="${tipoMoneda.tablaEspecificaID ==169}">
+										<option selected="selected" value="${tipoMoneda.tablaEspecificaID}" >
+										<c:out value="${tipoMoneda.descripcionCabecera }" />
+									</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${tipoMoneda.tablaEspecificaID}">
+										<c:out value="${tipoMoneda.descripcionCabecera }" />
+									</option>
+									</c:otherwise>
+								</c:choose>  
+				</c:forEach>
+			</select>
+			<br><br>
+			<input type="button" name="create" value="Crear Plan Operativo" onClick="goTo2('createPlanOperativo.jspx?datoProyectoID=${datoProyectoID}');">
+		</c:if>
+	</c:if>
+	
+	<c:if test="${!empty planOperativo}">
+		
+<!-- 			<br> -->
+			<table style="border: 0; width: 100%">
+				<tr>
+					<td style="text-align: right; width: 25%; vertical-align: top">
+					    <label>Proyecto:</label>
+					</td>
+					<td style="text-align: left; width: 75%; vertical-align: top;" colspan="2" >
+					    <label>${planOperativo.nombreProyecto}</label>
+					    <input type="hidden" id="datoProyectoID" name="datoProyectoID" value="${datoProyectoID}">
+					    <input type="hidden" id="datoPlanOperativoId" name="datoPlanOperativoId" value="${planOperativo.datoPlanOperativoID}">
+					</td>
+					
+				</tr>
+				<tr>
+					<td style="text-align: right; width: 25%; vertical-align: top">
+					    <label>Codigo Proyecto:</label> 
+					</td>
+					<td style="text-align: left; width: 25%; vertical-align: top">
+					    <label>${planOperativo.codigoProyecto}</label>
+					</td>
+					<!-- <td style="text-align: left; width: 45%;" rowspan="3" valign="top">
+					
+						<div id="tipoCambio" style="width: 100%;text-align: right;">
+							<table class="table-clasico" style="width: 100%;">
+								<caption style="text-align: center;">
+								<div style="float: left;">
+								<label>Lista Tipo Cambio</label></div>
+								<div style="float: right;">
+								<a style="font-size: 13px;" href="javascript:fOpenModalDialog('createTipoCambio.jspx?datoPlanOperativoID=${planOperativo.datoPlanOperativoID}','610','185','70','70');"
+											id="nuevoTipoCambio" class="linkSelecciona" >Nuevo Tipo Cambio</a>
+									</div>
+								</caption>
+								<thead>
+								<tr style="width: 20%; text-align: center;">
+									<td><label>Tipo Cambio</label></td>
+									<td><label>Fecha</label></td>
+									<td><label>De</label></td>
+									<td><label>A</label></td>
+									<td><label>Operaciones</label></td>
+								</tr>
+								</thead>
+								<c:forEach var="tipoCambio" items="${listaTipoCambio}" varStatus="indice">
+			<c:choose>
+				<c:when test="${indice.count %2== 0}">
+					<c:set var="classIdi" value="f1"></c:set>
+				</c:when>
+				<c:otherwise>
+					<c:set var="classIdi" value="f2"></c:set>
+				</c:otherwise>
+			</c:choose>
+			<tr class="<c:out value="${classIdi}"></c:out>">
+									<td><label>${tipoCambio.tipoCambio}</label></td>
+									<td><label><fmt:formatDate value="${tipoCambio.fechaTipoCambio}" pattern="dd/MM/yyyy" /></label></td>
+									<td><label>${tipoCambio.tipoMonedaDENombre}</label></td>
+									<td><label>${tipoCambio.tipoMonedaANombre}</label></td>
+									<td align="center">
+						            <a href="#" onclick="fEliminarTipoCambio(${tipoCambio.tipoCambioID})" > Eliminar</a>
+						            </td>
+								</tr>
+								</c:forEach>
+							</table>
+						</div>
+                    </td>    
+				</tr>
+				<tr>-->
+					<td style="text-align: right; width: 25%; vertical-align: top">
+					    <label>Version PO:</label>
+					</td>
+					<td style="text-align: left; width: 25%; vertical-align: top">
+					    <label>${planOperativo.version}</label>
+					</td>
+				</tr>	
+				<tr>
+					<td style="text-align: right; width: 25%; vertical-align: top">
+					    <label>Tipo de Moneda:</label>
+					</td>
+					<td style="text-align: left; width: 25%; vertical-align: top">
+					    <label>${planOperativo.tipoMonedaNombre}</label>
+					</td>
+				<!-- </tr>
+				<tr> -->
+					<td style="text-align: right; width: 25%; vertical-align: top">
+					    <label>Estado:</label>
+					</td>
+					<td style="text-align: left; width: 25%; vertical-align: top">
+					    <select name="sltEstadoPlanOperativo" id="sltEstadoPlanOperativo" onchange="cambiaEstadoPlanOperativo()" class="disabled">
+				<option value="0">
+					<c:out value="-- Estado --" />
+				</option>
+				<c:forEach items="${listEstadoPlanOperativo}"
+					var="estadoPlanOperativo">
+							<option <c:if test="${estadoPlanOperativo.detalleEstadoCabeceraID == planOperativo.estadoPlanOperativo }">selected="selected"</c:if> 
+								value="${estadoPlanOperativo.detalleEstadoCabeceraID}">
+								<c:out value="${estadoPlanOperativo.descripEstado }" />
+							</option>
+				</c:forEach>
+		</select>
+					</td>
+				</tr>	
+			</table>
+			<br/>
+                <input type="button" class="hide" value="Crear Resultado" onClick="fOpenModalDialog('createResultado.jspx?datoPlanOperativoID=${planOperativo.datoPlanOperativoID}','730','367','70','70');">
+                <input type="button" value="Personal Administrativo" onClick="fOpenModalDialog('createPersonalTecnicoAdministrativo.jspx?datoPlanOperativoID=${planOperativo.datoPlanOperativoID}&estadoPlanOperativo=${estadoPlanOperativo}','875','420','70','70');">
+                <input type="button" value="Marco Logico" onClick="fOpenModalDialog('createMarcoLogicoIndicadores.jspx?datoProyectoID=${datoProyectoID}&estadoPlanOperativo=${estadoPlanOperativo}','875','750','70','70');">
+                <input type="button" value="Infraestructura" onClick="fOpenModalDialog('createInfraestructura.jspx?datoPlanOperativoID=${planOperativo.datoPlanOperativoID}&estadoPlanOperativo=${estadoPlanOperativo}','850','400','70','70');">
+			<br/>
+			<br/>
+			<c:if test="${totalValidaciones > 0 }">
+			<div id="tablaValidacion">
+			<div id="validacionCantidad"><label style="color: red;font-weight: bold;">Tiene cronogramas que no estan completos</label></div>
+			
+			<table width="100%" class="table-clasico-obs">
+				<caption><label>Validacion de Cantidades</label></caption>
+				<thead>
+					<tr>
+						<td><label>Codigo <br/>Resultado</label></td>
+						<td><label>Codigo <br/>Actividad</label></td>
+						<td><label>Meta Por Resultado</label></td>
+						<td><label>Meta Por Actividad</label></td>
+						<td><label>Costo Por Actividad</label></td>
+					</tr>
+				</thead>
+				<tbody>
+					
+			${mensajeTablaValidaciones }
+					
+				</tbody>
+			</table>
+			 </div>
+			<br>
+			</c:if>
+			
+			<table class="table-clasico" style="width: 100%">
+				<caption>Resultados</caption>
+				<thead>
+					<tr>
+						<td style="width: 5%;text-align: center;"><label></label></td>
+						<td style="width: 5%;text-align: center;"><label>Cod</label></td>
+		                <td style="width: 30%;text-align: center;"><label>Definicion Resultado</label></td>
+		                <td style="width: 30%;text-align: center;"><label>Supuesto Resultado</label></td>
+						<td style="width: 15%;text-align: center;"><label>Meta Resultado</label></td>
+		                <td style="width: 10%;text-align: center;"><label>Duracion<br>(Meses)</label></td>
+		                <td  style="width: 5%;text-align: center;"class="hide" ><label>Operaciones</label></td>
+					</tr>
+				</thead>
+				<c:forEach var="resultado" items="${planOperativo.listResultadoForm}" varStatus="indice">
+			<c:choose>
+				<c:when test="${indice.count %2== 0}">
+					<c:set var="classIdi" value="f1"></c:set>
+				</c:when>
+				<c:otherwise>
+					<c:set var="classIdi" value="f2"></c:set>
+				</c:otherwise>
+			</c:choose>
+			<tr class="<c:out value="${classIdi}"></c:out>">
+						<td align="center"><!-- <input type="radio" name="resultadoId" value="${resultado.resultadoID}" > -->
+						<a
+					href="javascript:expandcollapse('div<c:out value="${resultado.resultadoID }"></c:out>', 'one');">
+						<img
+						id='imgdiv<c:out value="${resultado.resultadoID }"></c:out>'
+						border="0" src="<c:url value="/images/Plus001.gif" />"
+						width="15px" /> </a>
+						</td>
+						<td align="left"><c:out value="${resultado.codigoResultado}"></c:out></td>
+						<td align="left"><c:out value="${resultado.definicionResultado}"></c:out></td>
+						<td align="left"><c:out value="${resultado.supuestoResultado}"></c:out></td>
+						<td align="center"><c:out value="${resultado.metaResultado} - ${resultado.estratoNombre}"></c:out></td>
+						<td align="center"><c:out value="${resultado.duracionMeses} meses"></c:out></td>
+						<td class="hide" align="center">
+						  <c:if test="${resultado.codigoResultado != 0}">
+						  Modificar <br />
+						  <a href="#" onclick="fEliminar(${resultado.resultadoID},${resultado.codigoResultado})" >Eliminar</a>
+						  </c:if>
+						  <c:if test="${resultado.codigoResultado == 0}">
+						   -
+						  </c:if>
+						  </td>
+					</tr>
+					<tr class="<c:out value="${classIdi}"></c:out>">
+				<td colspan="100%">
+					<div
+						id='div<c:out value="${resultado.resultadoID }"></c:out>'
+						style="display: none; position: relative; overflow: auto; padding-left: 15px; padding-bottom: 15px; width: 97%;">
+					<table style="margin-left: 60px;" width="90%">
+						<tr>
+							<td style="width: 25%;"><label><a
+											href="javascript:goTo('showActividad.jspx?datoPlanOperativoID=${planOperativo.datoPlanOperativoID}&resultadoID=${resultado.resultadoID }&estadoPlanOperativo=${estadoPlanOperativo}','900','600')"
+											id="apresiacionResultados" class="linkSelecciona" >Actividades</a>
+									</label></td>
+							<td style="width: 25%;"><label><a
+											href="javascript:goTo('showBeneficiarioResultado.jspx?datoPlanOperativoID=${planOperativo.datoPlanOperativoID}&resultadoID=${resultado.resultadoID }&estadoPlanOperativo=${estadoPlanOperativo}','900','600')"
+											id="apresiacionResultados" class="linkSelecciona" >Beneficiarios</a>
+									</label></td>
+							<td style="width: 25%;"><label><a
+											href="javascript:goTo('showIndicadorResultado.jspx?datoPlanOperativoID=${planOperativo.datoPlanOperativoID}&resultadoID=${resultado.resultadoID }&estadoPlanOperativo=${estadoPlanOperativo}','900','600')"
+											id="apresiacionResultados" class="linkSelecciona" >Indicadores</a>
+									</label></td>
+							<td style="width: 25%;"><label><a
+											href="javascript:goTo('showCronogramaResultado.jspx?datoPlanOperativoID=${planOperativo.datoPlanOperativoID}&resultadoID=${resultado.resultadoID }&estadoPlanOperativo=${estadoPlanOperativo}','600','500')"
+											id="apresiacionResultados" class="linkSelecciona" >Cronograma Meta Resultados</a>
+									</label></td>
+						</tr>
+					</table>
+					</div>
+					</td>
+					</tr>
+				</c:forEach>
+			</table>
+
+			<br>
+			<!-- <table style="border: 0; width: 100%">
+				<tr>
+					<td style="width: 40%;"></td>
+					<td style="width: 15%; text-align: right;"><input type="button" value="Actividades" onClick="goToForm(this.form, 'showActividad.jspx?datoPlanOperativoID=${planOperativo.datoPlanOperativoID}&resultadoID=');"></td>
+					<td style="width: 15%; text-align: right;"><input type="button" value="Beneficiarios" onClick="goToForm(this.form, 'showBeneficiarioResultado.jspx?datoPlanOperativoID=${planOperativo.datoPlanOperativoID}&resultadoID=');"></td>
+					<td style="width: 15%; text-align: right;"><input type="button" value="Indicadores" onClick="goToForm(this.form, 'showIndicadorResultado.jspx?datoPlanOperativoID=${planOperativo.datoPlanOperativoID}&resultadoID=');"></td>
+					<td style="width: 15%; text-align: right;"><input type="button" value="Cronograma Meta Resultados" onClick="goToForm2(this.form, 'showCronogramaResultado.jspx?datoPlanOperativoID=${planOperativo.datoPlanOperativoID}&resultadoID=');"></td>
+				</tr>
+			</table>-->
+	    
+	</c:if>
+	</fieldset>	
+ </div>
+</form>
+</body>
+</html>

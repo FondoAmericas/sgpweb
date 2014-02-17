@@ -1,0 +1,1126 @@
+package pe.com.fondam.sgp.web.controller.principal;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import pe.com.fondam.sgp.core.bean.CompromisoPagoBean;
+import pe.com.fondam.sgp.core.bean.ReporteAvanceBean;
+import pe.com.fondam.sgp.core.constants.FondamConstans;
+import pe.com.fondam.sgp.core.domain.Actividad;
+import pe.com.fondam.sgp.core.domain.ActividadDetallePago;
+import pe.com.fondam.sgp.core.domain.Activo;
+import pe.com.fondam.sgp.core.domain.CompromisoPago;
+import pe.com.fondam.sgp.core.domain.CostoActividad;
+import pe.com.fondam.sgp.core.domain.CronogramaCostoActividad;
+import pe.com.fondam.sgp.core.domain.DatoProyecto;
+import pe.com.fondam.sgp.core.domain.Desembolso;
+import pe.com.fondam.sgp.core.domain.DetalleEstadoCabecera;
+import pe.com.fondam.sgp.core.domain.DetallePagoLiquidacion;
+import pe.com.fondam.sgp.core.domain.FuenteFinanciadora;
+import pe.com.fondam.sgp.core.domain.ImagenOArchivo;
+import pe.com.fondam.sgp.core.domain.IngresoPropio;
+import pe.com.fondam.sgp.core.domain.LiquidacionGasto;
+import pe.com.fondam.sgp.core.domain.PagoLiquidacion;
+import pe.com.fondam.sgp.core.domain.RaLg;
+import pe.com.fondam.sgp.core.domain.ReporteAvance;
+import pe.com.fondam.sgp.core.domain.Resultado;
+import pe.com.fondam.sgp.core.domain.TablaEspecifica;
+import pe.com.fondam.sgp.core.domain.TipoCambio;
+import pe.com.fondam.sgp.core.service.ActivoService;
+import pe.com.fondam.sgp.core.service.LiquidacionGastoService;
+import pe.com.fondam.sgp.core.service.ReporteAvanceService;
+import pe.com.fondam.sgp.core.service.TablaEspecificaService;
+import pe.com.fondam.sgp.core.service.TipoCambioService;
+import pe.com.fondam.sgp.core.service.UtilService;
+import pe.com.fondam.sgp.web.InOutFiles.FileUploadDownload;
+import pe.com.fondam.sgp.web.constants.SgpWebConstants;
+import pe.com.fondam.sgp.web.session.UserSession;
+
+@Controller
+public class LiquidacionGastoController {
+	protected final Log logger = LogFactory.getLog(LiquidacionGastoController.class);
+	
+	@Resource
+	LiquidacionGastoService liquidacionGastoService;
+	
+	@Resource
+	ReporteAvanceService reporteAvanceService;
+	
+	@Resource
+	TablaEspecificaService tablaEspecificaService;
+	
+	@Resource
+	TipoCambioService tipoCambioService;
+	
+	
+	@Resource
+	UtilService utilService;
+	
+	@Resource
+	ActivoService activoService;
+	
+	FileUploadDownload fileUploadDownload=new FileUploadDownload();
+
+	//private Object ingresoPropioID;
+	
+	UserSession getUserSession(HttpServletRequest request, HttpServletResponse response){
+		UserSession userSession = (UserSession) request.getSession().getAttribute(SgpWebConstants.SESSION_USER);
+
+		return userSession;
+		
+	}
+	
+	@RequestMapping(value = "/principal/showLiquidacionGasto.jspx")
+	public ModelAndView showLiquidacionGasto(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		String mensaje=request.getParameter("mensaje")==null?"":request.getParameter("mensaje");
+
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		UserSession userSession =getUserSession(request,response);
+		
+		List<FuenteFinanciadora> listFuenteFinanciadora=liquidacionGastoService.findFuenteFinanciadoraByDatoProyectoID(userSession.getDatoProyectoID());
+		List<ReporteAvance> listReporteAvance=reporteAvanceService.findReporteAvanceXDatoProyectoId(userSession.getDatoProyectoID());
+		List<ReporteAvanceBean> listReporteAvanceBean=new ArrayList<ReporteAvanceBean>();
+		for (ReporteAvance reporteAvance : listReporteAvance) {
+			ReporteAvanceBean reporteAvanceBean=new ReporteAvanceBean();
+			reporteAvanceBean.setDatoProyecto(reporteAvance.getDatoProyecto());
+			reporteAvanceBean.setFkIdDetalleEstadoCabEstRepAvance(reporteAvance.getFkIdDetalleEstadoCabEstRepAvance());
+			reporteAvanceBean.setPeriodo(reporteAvance.getPeriodo());
+			reporteAvanceBean.setReporteAvanceID(reporteAvance.getReporteAvanceID());
+			reporteAvanceBean.setResumen(reporteAvance.getResumen());
+			reporteAvanceBean.setTotalLiquidaciones(liquidacionGastoService.finNumLiqParcialByPeriodoByDatoProyectoID(reporteAvance.getPeriodo(),userSession.getDatoProyectoID()));
+			listReporteAvanceBean.add(reporteAvanceBean);
+		}
+		
+		List<DetalleEstadoCabecera> listDetalleEstadoCabecera=utilService.listarDetalleEstadoCabeceraByPrefijo(FondamConstans.estado.PREFIJO_ESTADO_LIQUIDACION_GASTO);
+		System.out.println("userSession.getDatoProyectoID()"+userSession.getDatoProyectoID());
+        List<Resultado> listResultado=liquidacionGastoService.findResultadoByDatoProyectoID(userSession.getDatoProyectoID());
+        List<TablaEspecifica> listTipoComprobante=utilService.listarTablaEspecificaByPrefijo(FondamConstans.PREFIJO_TIPO_COMPROBANTE_PAGO);
+        model.put("listFuenteFinanciadora",listFuenteFinanciadora);
+        model.put("listReporteAvance",listReporteAvanceBean);
+        model.put("listDetalleEstadoCabecera",listDetalleEstadoCabecera);
+        model.put("listResultado", listResultado);        
+        model.put("listTipoComprobante", listTipoComprobante);
+        model.put("mensaje", mensaje);
+        model.put("funcionalidadSelect", "showLiquidacionGasto.jspx");
+	       return new ModelAndView("mostrarShowLiquidacionGasto",model);
+	}
+	
+	 @RequestMapping(value = "/principal/actionEliminarLiquidacionGasto.jspx")
+    public String actionEliminarLiquidacionGasto(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+		 String mensaje="Se elimino exitosamente";
+        int liquidacionGastoID=Integer.parseInt(request.getParameter("liquidacionGastoID"));
+         List<IngresoPropio> listIngresoPropio=liquidacionGastoService.findIngresoPropioByLiquidacionGasto(liquidacionGastoID);
+         List<CompromisoPago> listCompromisoPago=liquidacionGastoService.findCompromisoPagoByLiquidacionGasto(liquidacionGastoID);
+         List<PagoLiquidacion> listPagoLiquidacion=liquidacionGastoService.findIngresoPagoByliquidacionGastoID(liquidacionGastoID);
+         if (!listIngresoPropio.isEmpty() || !listCompromisoPago.isEmpty() || !listPagoLiquidacion.isEmpty()) {
+			mensaje="No se puede eliminar, ya tiene asignados procesos";
+		}else {
+			RaLg raLg=liquidacionGastoService.findRaLgByLiquidcionGastoID(liquidacionGastoID);
+			liquidacionGastoService.deleteRaLg(raLg);
+			liquidacionGastoService.deleteLiquidacionGasto(liquidacionGastoService.findLiquidacionGastoByID(liquidacionGastoID));
+		}
+         return "redirect:showLiquidacionGasto.jspx?mensaje="+mensaje;
+    }    
+	
+	@RequestMapping(value = "/principal/actionRegistrarLiquidacionGasto.jspx")
+	public String actionRegistrarLiquidacionGasto(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+
+		SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
+		
+		int reporteAvance=Integer.parseInt(request.getParameter("reporteAvance"));
+		int estado=52;//generada
+		//int estado=Integer.parseInt(request.getParameter("estado"));
+		int fuenteFinanciadora=Integer.parseInt(request.getParameter("fuenteFinanciadora"));
+		String fechaInicio= request.getParameter("fechaInicio");
+		String fechaFin= request.getParameter("fechaFin");
+		//double saldoDisponible = Double.parseDouble(request.getParameter("saldoDisponible").toString());
+		String observacion= request.getParameter("observacion");
+		String codigo =request.getParameter("codVersion");
+
+		UserSession userSession =getUserSession(request,response);
+		
+		DatoProyecto datoProyecto=new DatoProyecto();
+		datoProyecto.setDatoProyectoID(userSession.getDatoProyectoID());
+		
+		FuenteFinanciadora fuenteFinanciadoraBean=new FuenteFinanciadora();
+		fuenteFinanciadoraBean.setFuenteFinanciadoraID(fuenteFinanciadora);
+		
+		String[] list= codigo.split("\\."); 
+		
+		LiquidacionGasto liquidacionGasto =new LiquidacionGasto();
+		liquidacionGasto.setDatoProyecto(datoProyecto);
+		liquidacionGasto.setFechaInicio(formateador.parse(fechaInicio));
+		liquidacionGasto.setFechaFin(formateador.parse(fechaFin));
+		liquidacionGasto.setFkIdDetalleEstadoCabEstLiqGasto(estado);
+		liquidacionGasto.setFuenteFinanciadora(fuenteFinanciadoraBean);
+		liquidacionGasto.setNumLiqParcial(Integer.parseInt(list[2].toString()));
+		liquidacionGasto.setObservacion(observacion);
+		liquidacionGasto.setPeriodo(list[0].toString());
+		liquidacionGasto.setSaldoDisponible(0);
+		liquidacionGasto.setCodVersion(codigo);
+		liquidacionGasto.setFkIdDetalleEstadoCabEstLiqGasto(estado);
+		liquidacionGasto.setEstLiqGastoDesc(FondamConstans.ESTADO_LIQUIDACION_GASTO_GENERADA.toString());//52 = liquidacion generada
+		liquidacionGastoService.saveLiquidacionGasto(liquidacionGasto);
+
+		
+		RaLg ralg=new RaLg();
+		ralg.setLiquidacionGasto(liquidacionGasto);
+		ralg.setReporteAvance(liquidacionGastoService.getReporteAvanceByID(reporteAvance));
+		liquidacionGastoService.saveRaLg(ralg);
+
+		
+	    Map<String, Object> model = new HashMap<String, Object>();
+		model.put("mensaje","");
+	    
+		return "redirect:showLiquidacionGasto.jspx?mensaje=Se registro exitosamente";
+	}
+	
+	
+	@RequestMapping(value = "/principal/showGrillaLiquidacionGastoByFuenteFinanciadora.jspx")
+	public ModelAndView showGrillaLiquidacionGastoByFuenteFinanciadora(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		UserSession userSession =getUserSession(request,response);
+		
+		int fuenteFinanciadoraID=0;
+		fuenteFinanciadoraID= Integer.parseInt(request.getParameter("fuenteFinanciadoraID"));
+		List<LiquidacionGasto> listLiquidacionGasto=null;
+	
+		System.out.println("fuenteFinanciadoraID"+fuenteFinanciadoraID);
+		if (fuenteFinanciadoraID > 0) {
+			/*LISTAR POR FUENTE FINANCIADORA*/
+			DatoProyecto datoProyecto=new DatoProyecto();
+			datoProyecto.setDatoProyectoID(userSession.getDatoProyectoID());
+			
+			FuenteFinanciadora  fuenteFinanciadora= new FuenteFinanciadora();
+			fuenteFinanciadora.setFuenteFinanciadoraID(fuenteFinanciadoraID);
+			
+			LiquidacionGasto liquidacionGasto= new LiquidacionGasto();
+			liquidacionGasto.setDatoProyecto(datoProyecto);
+			liquidacionGasto.setFuenteFinanciadora(fuenteFinanciadora);
+			
+			listLiquidacionGasto=liquidacionGastoService.findLiquidacionGastoByFuenteFinanciadoraID(liquidacionGasto);
+		}else {
+			System.out.println("LISTAR todo");
+			/*LISTAR TODOS*/
+			listLiquidacionGasto=liquidacionGastoService.findLiquidacionGastoByDatoProyectoID(userSession.getDatoProyectoID());
+
+		}
+
+		  Map<String, Object> model = new HashMap<String, Object>();
+		  model.put("listLiquidacionGasto",listLiquidacionGasto);
+		  
+	       return new ModelAndView("mostrarDivGrillaLiquidacionGasto",model);
+	}
+
+	@RequestMapping(value = "/principal/showIngresoPropio.jspx")
+    public ModelAndView showIngresoPropio(HttpServletRequest request, HttpServletResponse response) throws IOException {
+       
+        UserSession userSession =getUserSession(request,response);
+        int liquidacionGastoID= Integer.parseInt(request.getParameter("liquidacionGastoID"));
+        List<TablaEspecifica> listTipoComprobante=utilService.listarTablaEspecificaByPrefijo(FondamConstans.PREFIJO_TIPO_COMPROBANTE_PAGO);
+        List<TablaEspecifica> listTipoMoneda=utilService.listarTablaEspecificaByPrefijo(FondamConstans.PREFIJO_TIPO_MONEDA);
+        List<Resultado> listResultado=liquidacionGastoService.findResultadoByDatoProyectoID(userSession.getDatoProyectoID());
+
+        List<IngresoPropio> listIngresoPropio= liquidacionGastoService.findIngresoPropioByLiquidacionGasto(liquidacionGastoID);
+
+        request.getSession().setAttribute("listIngresoPropio", listIngresoPropio);        
+        request.getSession().setAttribute("listTipoComprobante", listTipoComprobante);
+        request.getSession().setAttribute("listTipoMoneda", listTipoMoneda);
+        List<Actividad> listActividadG=liquidacionGastoService.findActidad();
+        
+          Map<String, Object> model = new HashMap<String, Object>();
+          model.put("ingresoPropioID",0);
+          model.put("liquidacionGastoID",liquidacionGastoID);
+          model.put("mensaje","");
+          model.put("listActividadG",listActividadG);
+          model.put("listResultado",listResultado);
+          model.put("ingresoPropio.tasaIgv",18);
+          
+          return new ModelAndView("mostrarIngresoPropio",model);
+    }
+    @RequestMapping(value = "/principal/actionRegistrarModificarIngresoPropio.jspx")
+    public ModelAndView actionRegistrarIngresoPropio(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+    	 UserSession userSession =getUserSession(request,response);
+        SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
+        String mensaje="";
+        
+    	int ingresoPropioID=Integer.parseInt(request.getParameter("ingresoPropioID"));        
+        int liquidacionGastoID=Integer.parseInt(request.getParameter("liquidacionGastoID"));
+        int tipoComprobante=Integer.parseInt(request.getParameter("tipoComprobante"));
+        String numeroComprobante=request.getParameter("numeroComprobante");
+        String fechaEmision=request.getParameter("fechaEmision");
+        String rucComprador= request.getParameter("rucComprador");
+        String razonSocial= request.getParameter("razonSocial");
+        String concepto= request.getParameter("concepto");
+        int tipoMoneda =Integer.parseInt(request.getParameter("tipoMoneda"));
+        double precioSinIgv = Double.parseDouble(request.getParameter("precioSinIgv"));
+        double igv = Double.parseDouble(request.getParameter("igv"));
+        double precioTotal = Double.parseDouble(request.getParameter("precioTotal"));
+        int resultadoID=Integer.parseInt(request.getParameter("resultado"));
+       
+        String actividadID=request.getParameter("actividad");
+       
+        Resultado resultado=new Resultado();
+        resultado.setResultadoID(resultadoID);
+  	  	Actividad  actividad=new Actividad();
+  	  	actividad.setActividadID((actividadID.equals("0")?null:Integer.parseInt(request.getParameter("actividad"))));
+        
+        IngresoPropio ingresoPropio= new IngresoPropio();
+        ingresoPropio.setActividad((actividad.getActividadID()==null?null:actividad));
+        ingresoPropio.setConcepto(concepto);
+        ingresoPropio.setFechaEmision(formateador.parse(fechaEmision));
+        ingresoPropio.setFkIdtablaespTipoComprobantePago(tipoComprobante);
+        ingresoPropio.setFkIdtablaespTipoMoneda(tipoMoneda);
+        ingresoPropio.setIgv(igv);
+        ingresoPropio.setTasaIgv(Integer.parseInt(request.getParameter("igvMonto")));
+        ingresoPropio.setResultado(resultado);
+        ingresoPropio.setLiquidacionGasto(liquidacionGastoService.findLiquidacionGastoByID(liquidacionGastoID));
+        ingresoPropio.setPrecioSinIgv(precioSinIgv);
+        ingresoPropio.setPrecioTotal(precioTotal);
+        ingresoPropio.setRazonSocial(razonSocial);
+        ingresoPropio.setNumeroComprobante(numeroComprobante);
+        ingresoPropio.setRucComprador(rucComprador);
+        
+        if (ingresoPropioID == 0) {
+        	liquidacionGastoService.saveIngresoPropio(ingresoPropio);
+        	mensaje="Se registr&oacute; exitosamente";
+        	ingresoPropioID=0;        	
+       	}else {
+       		ingresoPropio.setIngresoPropioID(ingresoPropioID);
+			liquidacionGastoService.updateIngresoPropio(ingresoPropio);
+        	mensaje="Se modific&oacute; exitosamente";
+	
+		}
+        List<Actividad> listActividad=liquidacionGastoService.findActidadByResultadoID(ingresoPropio.getResultado().getResultadoID()); 
+        List<IngresoPropio> listIngresoPropio= liquidacionGastoService.findIngresoPropioByLiquidacionGasto(liquidacionGastoID);
+        List<Resultado> listResultado=liquidacionGastoService.findResultadoByDatoProyectoID(userSession.getDatoProyectoID());
+        List<Actividad> listActividadG=liquidacionGastoService.findActidad();
+        
+        request.getSession().setAttribute("listIngresoPropio", listIngresoPropio);        
+          Map<String, Object> model = new HashMap<String, Object>();
+          model.put("ingresoPropioID",ingresoPropioID);
+          model.put("liquidacionGastoID",liquidacionGastoID);
+          model.put("mensaje",mensaje);
+          model.put("igvMonto",18);
+          model.put("listActividad",listActividad);
+          model.put("listActividadG",listActividadG);
+          model.put("listResultado",listResultado);
+          return new ModelAndView("mostrarIngresoPropio",model);
+    }
+
+    @RequestMapping(value = "/principal/actionCargarIngresoPropio.jspx")
+    public ModelAndView actionCargarIngresoPropio(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+
+    	int ingresoPropioID=Integer.parseInt(request.getParameter("ingresoPropioID"));
+        int liquidacionGastoID=Integer.parseInt(request.getParameter("liquidacionGastoID"));
+
+    	IngresoPropio ingresoPropio= liquidacionGastoService.findIngresoPropioByID(ingresoPropioID);
+    	IngresoPropio ingresoPropioNew=new IngresoPropio();
+
+    	SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
+    	ingresoPropioNew.setIngresoPropioID(ingresoPropio.getIngresoPropioID());
+    	String fechaDate=formateador.format(ingresoPropio.getFechaEmision());
+    	ingresoPropioNew.setFechaEmision(ingresoPropio.getFechaEmision());
+    	ingresoPropioNew.setActividad(ingresoPropio.getActividad());
+    	ingresoPropioNew.setConcepto(ingresoPropio.getConcepto());
+    	ingresoPropioNew.setFkIdtablaespTipoComprobantePago(ingresoPropio.getFkIdtablaespTipoComprobantePago());
+    	ingresoPropioNew.setFkIdtablaespTipoMoneda(ingresoPropio.getFkIdtablaespTipoMoneda());
+    	ingresoPropioNew.setIgv(ingresoPropio.getIgv());
+    	ingresoPropioNew.setResultado(ingresoPropio.getResultado());
+        ingresoPropioNew.setLiquidacionGasto(ingresoPropio.getLiquidacionGasto());
+        ingresoPropioNew.setPrecioSinIgv(ingresoPropio.getPrecioSinIgv());
+        ingresoPropioNew.setPrecioTotal(ingresoPropio.getPrecioTotal());
+        ingresoPropioNew.setRazonSocial(ingresoPropio.getRazonSocial());
+    	ingresoPropioNew.setTasaIgv(ingresoPropio.getTasaIgv());
+        ingresoPropioNew.setNumeroComprobante(ingresoPropio.getNumeroComprobante());
+        ingresoPropioNew.setRucComprador(ingresoPropio.getRucComprador());
+        UserSession userSession =getUserSession(request,response);
+        List<Actividad> listActividad=liquidacionGastoService.findActidadByResultadoID(ingresoPropio.getResultado().getResultadoID());
+        List<Resultado> listResultado=liquidacionGastoService.findResultadoByDatoProyectoID(userSession.getDatoProyectoID());
+        		
+        List<IngresoPropio> listIngresoPropio= liquidacionGastoService.findIngresoPropioByLiquidacionGasto(liquidacionGastoID);
+        List<Actividad> listActividadG=liquidacionGastoService.findActidad();
+        //double igvMonto=(ingresoPropio.getIgv()/ingresoPropio.getPrecioSinIgv())*100;
+        request.getSession().setAttribute("listIngresoPropio", listIngresoPropio);        
+          Map<String, Object> model = new HashMap<String, Object>();
+          model.put("ingresoPropio",ingresoPropioNew);
+          model.put("fechaEmision",fechaDate);
+          model.put("liquidacionGastoID",liquidacionGastoID);
+          model.put("ingresoPropioID",ingresoPropioID);
+          model.put("mensaje","");
+          //model.put("igvMonto",igvMonto);
+          model.put("listActividad",listActividad);
+          model.put("listActividadG",listActividadG);
+          model.put("listResultado",listResultado);
+          return new ModelAndView("mostrarIngresoPropio",model);
+    }
+    
+    @RequestMapping(value = "/principal/actionEliminarIngresoPropio.jspx")
+    public String actionEliminarIngresoPropio(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+
+    	int ingresoPropioID=Integer.parseInt(request.getParameter("ingresoPropioID"));
+        int liquidacionGastoID=Integer.parseInt(request.getParameter("liquidacionGastoID"));
+       
+    	IngresoPropio ingresoPropio= liquidacionGastoService.findIngresoPropioByID(ingresoPropioID);
+    	liquidacionGastoService.deleteIngresoPropio(ingresoPropio);
+         return "redirect:showIngresoPropio.jspx?ingresoPropioID= "+ ingresoPropioID+ "&liquidacionGastoID=" + liquidacionGastoID;
+    }    
+    
+    String getUnidadDeMedida(int tablaEspecificaID ){
+    	
+    	TablaEspecifica tablaEspecifica=tablaEspecificaService.findTablaEspecificaById(tablaEspecificaID);
+		return tablaEspecifica.getDescripcionCabecera();
+    	
+    }
+   
+    @RequestMapping(value = "/principal/actionGetMensajeComprobanteRuc.jspx", method = RequestMethod.GET)
+    public void actionGetMensajeComprobanteRuc(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    	String numeroComprobante=request.getParameter("numeroComprobante");
+    	String rucComprador=request.getParameter("rucComprador");
+    	
+    	IngresoPropio ingresoPropio=liquidacionGastoService.getIngresoPropioByComprobanteByRuc(numeroComprobante,rucComprador); 
+    	
+    	PagoLiquidacion pagoLiquidacion=liquidacionGastoService.getPagoLiquidacionByComprobanteByRuc(numeroComprobante, rucComprador);
+    	String mensaje="";
+        if (ingresoPropio!=null || pagoLiquidacion!=null) {
+        	 mensaje="SI"; 	
+		}else {
+			mensaje="NO"; 
+		       
+		}
+		response.getWriter().write(mensaje);
+		}
+    
+    @RequestMapping(value = "/principal/cargarCronogramaCostoActividad.jspx")
+	public ModelAndView cargarCronogramaCostoActividad(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    	int periodoID=Integer.parseInt(request.getParameter("periodoID"));
+    	List<CronogramaCostoActividad> listCronogramaCostoActividad=liquidacionGastoService.findCronogramaCostoActividadByPeriodoID(periodoID);
+    	
+    	Map<String, Object> model = new HashMap<String, Object>();
+		model.put("listCronogramaCostoActividad",listCronogramaCostoActividad);
+		model.put("listUnidadMedida",utilService.listaUnidadMedida());
+		model.put("listTipoMoneda",utilService.listaTipoMoneda());
+
+		return new ModelAndView("mostrarDivGrillaCronogramaCostoActividad",model);
+	}
+    
+	@RequestMapping(value = "/principal/showCompromisoPago.jspx")
+	public ModelAndView showCompromisoPago(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		UserSession userSession =getUserSession(request,response);
+		int liquidacionGastoID= Integer.parseInt(request.getParameter("liquidacionGastoID"));
+		LiquidacionGasto liquidacionGasto=liquidacionGastoService.findLiquidacionGastoByID(liquidacionGastoID);
+		List<CompromisoPago> listCompromisoPago= liquidacionGastoService.findCompromisoPagoByLiquidacionGasto(liquidacionGastoID);
+        List<Actividad> listActividadG=liquidacionGastoService.findActidad();
+		List<CronogramaCostoActividad> listPeriodo=liquidacionGastoService.findCronogramaCostoActividadByFuenteFinanciadoraID(liquidacionGasto.getFuenteFinanciadora().getFuenteFinanciadoraID());
+		 List<Resultado> listResultado=liquidacionGastoService.findResultadoByDatoProyectoID(userSession.getDatoProyectoID());
+        request.getSession().setAttribute("listCompromisoPago", listCompromisoPago);
+	    Map<String, Object> model = new HashMap<String, Object>();
+	    model.put("liquidacionGastoID",liquidacionGastoID);
+	    model.put("compromisoPagoID",0);
+	    model.put("listUnidadMedida",utilService.listaUnidadMedida());
+	    model.put("listTipoMoneda",utilService.listaTipoMoneda());
+	    model.put("listPeriodo",listPeriodo);
+	    model.put("listResultado",listResultado);
+	    model.put("listActividadG",listActividadG);
+	    model.put("mensaje","");
+	    return new ModelAndView("mostrarCompromisoPago",model);
+	}
+
+	@RequestMapping(value = "/principal/actionCargaCompromisoPago.jspx")
+	public ModelAndView actionCargaCompromisoPago(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	 	 UserSession userSession =getUserSession(request,response);
+		 int liquidacionGastoID=Integer.parseInt(request.getParameter("liquidacionGastoID"));
+		 int compromisoPagoID=Integer.parseInt(request.getParameter("compromisoPagoID"));
+		
+		 CompromisoPago compromisoPago=liquidacionGastoService.findCompromisoPagoByID(compromisoPagoID); 
+		 
+		 CompromisoPagoBean CompromisoPagoBean=new CompromisoPagoBean();
+		 CompromisoPagoBean.setMontoCompromiso(compromisoPago.getMontoCompromiso());
+		 CompromisoPagoBean.setObservacion(compromisoPago.getObservacion());
+		 CompromisoPagoBean.setCronogramaCostoActividad(compromisoPago.getCronogramaCostoActividad().getCronogramaCostoActividadID());
+		 
+		 CronogramaCostoActividad cronogramaCostoActividad=liquidacionGastoService.findCronogramaCostoActividadByID(compromisoPago.getCronogramaCostoActividad().getCronogramaCostoActividadID());
+		 CompromisoPagoBean.setCostoActividad(cronogramaCostoActividad.getCostoActividad().getCostoActividadID());
+		 
+		 CostoActividad costoActividad=liquidacionGastoService.findCostoActividadByID(cronogramaCostoActividad.getCostoActividad().getCostoActividadID());
+		 CompromisoPagoBean.setActividad(costoActividad.getActividad().getActividadID());
+		 Actividad actividad=liquidacionGastoService.findActividadByID(costoActividad.getActividad().getActividadID());
+		 CompromisoPagoBean.setResultado(actividad.getResultado().getResultadoID());
+		 CompromisoPagoBean.setPeriodo(cronogramaCostoActividad.getCronogramaCostoActividadID());
+		 CompromisoPagoBean.setCompromisoPagoID(compromisoPago.getCompromisoPagoID());
+		 List<Actividad> listActividad= liquidacionGastoService.findActidadByResultadoID(actividad.getResultado().getResultadoID());
+		 List<CostoActividad> listaCostoActividad= liquidacionGastoService.findCostoActividadByActividadID(costoActividad.getActividad().getActividadID());
+		 List<CronogramaCostoActividad> listPeriodo=liquidacionGastoService.findCronogramaCostoActividadByCostoActividadIDByFuenteFinanciadoraID(costoActividad.getCostoActividadID(), cronogramaCostoActividad.getFuenteFinanciadora().getFuenteFinanciadoraID());
+		 List<Resultado> listResultado=liquidacionGastoService.findResultadoByDatoProyectoID(userSession.getDatoProyectoID());
+	     List<Actividad> listActividadG=liquidacionGastoService.findActidad();
+
+	     Map<String, Object> model = new HashMap<String, Object>();
+		  model.put("liquidacionGastoID",liquidacionGastoID);
+		  model.put("compromisoPagoID",compromisoPagoID);
+		  model.put("compromisoPagoBean",CompromisoPagoBean);
+		  model.put("mensaje","");
+		  model.put("listActividad",listActividad);
+		  model.put("listActividadG",listActividadG);
+		  model.put("listResultado",listResultado);
+		  model.put("listaCostoActividad",listaCostoActividad);
+		  model.put("listPeriodo",listPeriodo);
+		  model.put("listTipoMoneda",utilService.listaTipoMoneda());
+		  model.put("listUnidadMedida",utilService.listaUnidadMedida());
+		  return new ModelAndView("mostrarCompromisoPago",model);
+	}
+
+    @RequestMapping(value = "/principal/actionRegistrarModificarCompromisoPago.jspx")
+    public ModelAndView actionRegistrarModificarCompromisoPago(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+    	UserSession userSession =getUserSession(request,response);
+    	String mensaje="";
+        int compromisoPagoID=Integer.parseInt(request.getParameter("compromisoPagoID"));
+        int liquidacionGastoID=Integer.parseInt(request.getParameter("liquidacionGastoID"));
+        String observacion=request.getParameter("observacion");
+        int cronogramaCostoActividadID =Integer.parseInt(request.getParameter("periodo"));
+        double montoCompromiso = Double.parseDouble(request.getParameter("montoCompromiso"));
+      
+        CronogramaCostoActividad cronogramaCostoActividad=liquidacionGastoService.findCronogramaCostoActividadByID(cronogramaCostoActividadID);
+        
+        LiquidacionGasto liquidacionGasto=new LiquidacionGasto();
+        liquidacionGasto.setLiquidacionGastoID(liquidacionGastoID);
+        
+        CompromisoPago compromisoPago=new CompromisoPago();
+        compromisoPago.setCronogramaCostoActividad(cronogramaCostoActividad);
+        compromisoPago.setMontoCompromiso(montoCompromiso);
+        compromisoPago.setObservacion(observacion);
+        compromisoPago.setLiquidacionGasto(liquidacionGasto);
+
+        if (compromisoPagoID == 0) {
+        	liquidacionGastoService.saveCompromisoPago(compromisoPago);
+        	mensaje="Se registro exitosamente Compromiso Pago";
+       	}else {
+       		compromisoPago.setCompromisoPagoID(compromisoPagoID);
+			liquidacionGastoService.updateCompromisoPago(compromisoPago);
+			mensaje="Se modifico exitosamente Compromiso Pago";
+
+		}
+		 List<Resultado> listResultado=liquidacionGastoService.findResultadoByDatoProyectoID(userSession.getDatoProyectoID());
+        List<CompromisoPago> listCompromisoPago= liquidacionGastoService.findCompromisoPagoByLiquidacionGasto(liquidacionGastoID);
+
+        request.getSession().setAttribute("listCompromisoPago", listCompromisoPago);    
+        List<Actividad> listActividadG=liquidacionGastoService.findActidad();
+
+          Map<String, Object> model = new HashMap<String, Object>();
+          model.put("liquidacionGastoID",liquidacionGastoID);
+          model.put("compromisoPagoID",compromisoPagoID);
+          model.put("listResultado",listResultado);
+          model.put("listUnidadMedida",utilService.listaUnidadMedida());
+          model.put("mensaje",mensaje);
+          model.put("listActividadG",listActividadG);
+          model.put("listTipoMoneda",utilService.listaTipoMoneda());
+           return new ModelAndView("mostrarCompromisoPago",model);
+    }
+    @RequestMapping(value = "/principal/actionEliminarCompromisoPago.jspx")
+    public String actionEliminarCompromisoPago(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+   	 int liquidacionGastoID=Integer.parseInt(request.getParameter("liquidacionGastoID"));
+	 int compromisoPagoID=Integer.parseInt(request.getParameter("compromisoPagoID"));
+       
+    	CompromisoPago compromisoPago= liquidacionGastoService.findCompromisoPagoByID(compromisoPagoID);
+    	liquidacionGastoService.deleteCompromisoPago(compromisoPago);
+         return "redirect:showCompromisoPago.jspx?liquidacionGastoID="+ liquidacionGastoID;
+    }    
+   
+    @RequestMapping(value = "/principal/actionGetCronogramaDisponible.jspx", method = RequestMethod.GET)
+    public void actionGetCronogramaDisponible(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    	int cronograma=Integer.parseInt(request.getParameter("cronogramaID"));
+    	int liquidacionGastoID=Integer.parseInt(request.getParameter("liquidacionID"));
+    	CompromisoPago compromisoPago=liquidacionGastoService.findCompromisoPagoByCronogramaIDByLiquidacionID(cronograma,liquidacionGastoID);
+    	ActividadDetallePago actividadDetallePago=liquidacionGastoService.findActividadDetallePagoByCronogramaIDByLiquidacionID(cronograma,liquidacionGastoID);
+    	String mensaje="";
+    	if (compromisoPago!=null) {
+    		mensaje="Cronograma ya esta asignado a un Compromiso de Pago";
+		}else if (actividadDetallePago!=null) {
+    		mensaje="Cronograma ya esta asignado a una Actividad Detalle Pago";
+
+		}else {
+    		mensaje="SI";
+
+		}
+    	
+    	response.getWriter().write(mensaje);
+
+		}
+    @RequestMapping(value = "/principal/showArchivoUploadPagoLiquidacion.jspx")
+	public ModelAndView showArchivoUploadPagoLiquidacion(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	      String peticion ="archivoUploadPagoLiquidacion.jspx";
+	      String archivoResp = "false";
+	      Map<String, Object> model = new HashMap<String, Object>();
+		  model.put("peticion",peticion);
+		  model.put("archivoResp",archivoResp);
+	       return new ModelAndView("mostrarArchivoUpload",model);
+	}
+	
+	@RequestMapping(value = "/principal/archivoUploadPagoLiquidacion.jspx")
+	public ModelAndView archivoUploadPagoLiquidacion(HttpServletRequest request, HttpServletResponse response)throws IOException{
+		fileUploadDownload.archivoUpload(request,response);
+		String archivoResp = "true";
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("archivoResp",archivoResp);
+		model.put("nombreArchivoUP",fileUploadDownload.getNombreArchivo()+fileUploadDownload.getExtension());
+    
+		return new ModelAndView("mostrarArchivoUpload",model);
+	}
+
+    
+    @RequestMapping(value = "/principal/showIngresoPago.jspx")
+	public ModelAndView showIngresoPago(HttpServletRequest request,
+			@RequestParam(required = true, value = "liquidacionGastoID") Integer liquidacionGastoID,
+			@RequestParam(required = false, value = "mensaje") String mensaje) throws ParseException {
+
+       // int liquidacionGastoID=Integer.parseInt(request.getParameter("liquidacionGastoID"));
+		List<PagoLiquidacion> listIngresoPago=liquidacionGastoService.findIngresoPagoByliquidacionGastoID(liquidacionGastoID);
+    	request.getSession().setAttribute("listIngresoPago",listIngresoPago);
+		List<PagoLiquidacion> listPagoLiquidacion=liquidacionGastoService.findIngresoPagoByliquidacionGastoID(liquidacionGastoID);	
+		request.getSession().setAttribute("listPagoLiquidacion",listPagoLiquidacion);
+		LiquidacionGasto liquidacionGasto=liquidacionGastoService.findLiquidacionGastoByID(liquidacionGastoID);
+		double saldoDisponible=liquidacionGastoService.getSaldoDisponibleIngresoPago(liquidacionGasto);
+		NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
+		saldoDisponible =  format.parse(format.format(saldoDisponible)).doubleValue();
+	    List<TablaEspecifica>   listTipoDesembolso=utilService.listaTipoDesembolso();
+	    List<Desembolso> listDesembolso=liquidacionGastoService.findDesembolsoByBLiquidacionGasto(liquidacionGastoService.findLiquidacionGastoByID(liquidacionGastoID));
+	    List<TablaEspecifica> listTipoComprobante=utilService.listarTablaEspecificaByPrefijo(FondamConstans.PREFIJO_TIPO_COMPROBANTE_PAGO);
+	    Map<String, Object> model = new HashMap<String, Object>();
+	      model.put("liquidacionGastoID",liquidacionGastoID);
+	      model.put("liquidacion",liquidacionGasto);
+	      model.put("saldoDisponible",saldoDisponible);
+	      model.put("listTipoDesembolso",listTipoDesembolso);
+	      model.put("listTipoComprobante",listTipoComprobante);
+	      model.put("listDesembolso",listDesembolso);
+	      model.put("listTipoMoneda",utilService.listaTipoMoneda());
+          model.put("igvMonto",18);
+          model.put("ingresoPagoID",0);
+          model.put("mensaje",mensaje);
+	      return new ModelAndView("mostrarIngresoPago",model);
+	}
+    @RequestMapping(value = "/principal/actionCargarIngresoPago.jspx")
+    public ModelAndView actionCargarIngresoPago(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+
+    	int ingresoPagoID=Integer.parseInt(request.getParameter("ingresoPagoID"));
+        int liquidacionGastoID=Integer.parseInt(request.getParameter("liquidacionGastoID"));
+        LiquidacionGasto liquidacionGasto=liquidacionGastoService.findLiquidacionGastoByID(liquidacionGastoID);
+
+
+    	PagoLiquidacion pagoLiquidacion= liquidacionGastoService.findPagoLiquidacionByID(ingresoPagoID);
+    	PagoLiquidacion ingresoPagoNew=new PagoLiquidacion();
+    	SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
+    	String fechaEmision=formateador.format(pagoLiquidacion.getFechaEmision());
+       	ingresoPagoNew.setDesembolsoID(pagoLiquidacion.getDesembolsoID());
+    	ingresoPagoNew.setFechaEmision(pagoLiquidacion.getFechaEmision());
+    	ingresoPagoNew.setChequeCobrado(pagoLiquidacion.getChequeCobrado());
+    	ingresoPagoNew.setFkIdtablaespTipoComprobantePago(pagoLiquidacion.getFkIdtablaespTipoComprobantePago());
+    	ingresoPagoNew.setLiquidacionGasto(pagoLiquidacion.getLiquidacionGasto());
+    	ingresoPagoNew.setMontoIgv(pagoLiquidacion.getMontoIgv());
+    	ingresoPagoNew.setMontoTotal(pagoLiquidacion.getMontoTotal());
+    	ingresoPagoNew.setNumeroCheque(pagoLiquidacion.getNumeroCheque());
+    	ingresoPagoNew.setRazonSocial(pagoLiquidacion.getRazonSocial());
+    	ingresoPagoNew.setRucProveedor(pagoLiquidacion.getRucProveedor());
+    	ingresoPagoNew.setSaldoPagado(pagoLiquidacion.getSaldoPagado());
+    	ingresoPagoNew.setSaldoDisponible(pagoLiquidacion.getSaldoDisponible());
+    	ingresoPagoNew.setNumeroDocumento(pagoLiquidacion.getNumeroDocumento());
+    	ingresoPagoNew.setFkIdtablaespTipoMoneda(pagoLiquidacion.getFkIdtablaespTipoMoneda());
+    	ingresoPagoNew.setDesembolsoID(pagoLiquidacion.getDesembolsoID());
+    	ingresoPagoNew.setTasaIgv(pagoLiquidacion.getTasaIgv());
+      
+    	List<TablaEspecifica>   listTipoDesembolso=utilService.listaTipoDesembolso();
+	    List<Desembolso> listDesembolso=liquidacionGastoService.findDesembolsoByBLiquidacionGasto(liquidacionGastoService.findLiquidacionGastoByID(liquidacionGastoID));
+	    List<TablaEspecifica> listTipoComprobante=utilService.listarTablaEspecificaByPrefijo(FondamConstans.PREFIJO_TIPO_COMPROBANTE_PAGO);
+	    double saldoDisponible=liquidacionGastoService.getSaldoDisponibleIngresoPago(liquidacionGasto);
+		NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
+		saldoDisponible =  format.parse(format.format(saldoDisponible)).doubleValue();
+        
+		Map<String, Object> model = new HashMap<String, Object>();
+        model.put("liquidacionGastoID",liquidacionGastoID);
+        model.put("fechaEmision",fechaEmision);
+        model.put("liquidacion",liquidacionGasto);
+	      model.put("pagoLiquidacion",ingresoPagoNew);
+	      model.put("saldoDisponible",saldoDisponible);
+	      model.put("listTipoDesembolso",listTipoDesembolso);
+	      model.put("listTipoComprobante",listTipoComprobante);
+	      model.put("listDesembolso",listDesembolso);
+	      model.put("listTipoMoneda",utilService.listaTipoMoneda());
+	      model.put("ingresoPagoID",ingresoPagoID);
+	      return new ModelAndView("mostrarIngresoPago",model);
+	
+        }
+    @RequestMapping(value = "/principal/actionRegistrarIngresoPago.jspx")
+    public ModelAndView actionRegistrarIngresoPago(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+
+    	int ingresoPagoID=Integer.parseInt(request.getParameter("ingresoPagoID"));
+        SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
+    	String mensaje="";
+        int liquidacionGastoID=Integer.parseInt(request.getParameter("liquidacionGastoID"));
+        String numeroCheque=request.getParameter("numeroCheque");
+        int chequeCobrado =(request.getParameter("chequeCobrado")==null)?0:Integer.parseInt(request.getParameter("chequeCobrado"));
+        String numeroDocumento=request.getParameter("numeroDocumento");
+        int tipoComprobante=Integer.parseInt(request.getParameter("tipoComprobante"));
+        int tipoMoneda=Integer.parseInt(request.getParameter("tipoMoneda"));
+        String fechaEmision=request.getParameter("fechaEmision");
+        String rucProveedor=request.getParameter("rucProveedor");
+        String razonSocial=request.getParameter("razonSocial");
+        int desembolsoID=Integer.parseInt(request.getParameter("desembolsoID"));
+        double montoTotal = Double.parseDouble(request.getParameter("montoTotal"));
+        double montoIgv = Double.parseDouble(request.getParameter("montoIgv"));
+        double saldoPagado = Double.parseDouble(request.getParameter("saldoPagado"));
+		LiquidacionGasto liquidacionGasto=liquidacionGastoService.findLiquidacionGastoByID(liquidacionGastoID);
+       PagoLiquidacion pagoLiquidacion=new PagoLiquidacion();
+       pagoLiquidacion.setChequeCobrado(chequeCobrado);
+       pagoLiquidacion.setFechaEmision(formateador.parse(fechaEmision));
+       pagoLiquidacion.setFkIdtablaespTipoComprobantePago(tipoComprobante);
+       pagoLiquidacion.setLiquidacionGasto(liquidacionGasto);
+       pagoLiquidacion.setMontoIgv(montoIgv);
+       pagoLiquidacion.setMontoTotal(montoTotal);
+       pagoLiquidacion.setNumeroCheque(numeroCheque);
+       pagoLiquidacion.setRazonSocial(razonSocial);
+       pagoLiquidacion.setRucProveedor(rucProveedor);
+       pagoLiquidacion.setSaldoPagado(saldoPagado);
+       pagoLiquidacion.setSaldoDisponible(montoTotal);
+       pagoLiquidacion.setNumeroDocumento(numeroDocumento);
+       pagoLiquidacion.setFkIdtablaespTipoMoneda(tipoMoneda);
+       pagoLiquidacion.setDesembolsoID(desembolsoID);
+       pagoLiquidacion.setTasaIgv(Integer.parseInt(request.getParameter("igvMonto")));
+       
+       if (ingresoPagoID == 0) {
+    	liquidacionGastoService.savePagoLiquidacion(pagoLiquidacion);	
+       	mensaje="Se registro exitosamente Ingreso Pago";
+      	}else {
+      		pagoLiquidacion.setPagoLiquidacionID(ingresoPagoID);
+			liquidacionGastoService.updatePagoLiquidacion(pagoLiquidacion);
+			mensaje="Se modifico exitosamente Ingreso Pago";
+
+		}
+
+        List<PagoLiquidacion> listPagoLiquidacion=liquidacionGastoService.findIngresoPagoByliquidacionGastoID(liquidacionGastoID);
+		request.getSession().setAttribute("listPagoLiquidacion",listPagoLiquidacion);
+		
+		//Obtener saldo disponible
+		double saldoDisponible=liquidacionGastoService.getSaldoDisponibleIngresoPago(liquidacionGasto);
+		NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
+		saldoDisponible =  format.parse(format.format(saldoDisponible)).doubleValue();
+		 List<TablaEspecifica>   listTipoDesembolso=utilService.listaTipoDesembolso();
+		    List<Desembolso> listDesembolso=liquidacionGastoService.findDesembolsoByBLiquidacionGasto(liquidacionGastoService.findLiquidacionGastoByID(liquidacionGastoID));
+			
+		if (fileUploadDownload!= null) {
+			System.out.println("nombreArchivob: "+fileUploadDownload.getNombreArchivo());
+			System.out.println("extensionb: "+fileUploadDownload.getExtension());
+	
+			//GUARDAR ARCHOVP
+			  int codExtension = 0;
+			try {
+			
+			  if(fileUploadDownload.getExtension().equalsIgnoreCase(".pdf")){//codigos(pdf=234  /  doc=236)
+			  	codExtension=234;
+			  }else{
+			  	codExtension=236;
+			  }  
+			  
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			if (codExtension!=0) {
+				
+			
+			//crear archivo, convertir a array de byte
+			File uploadedFile = new File(fileUploadDownload.getFilePath(),fileUploadDownload.getNombreArchivo()+fileUploadDownload.getExtension());
+			byte archivoByte[]=FileUploadDownload.convertirFileToArrayByte(uploadedFile);
+			System.out.println("tamano de archivo al guardar en la BD :"+archivoByte.length);
+
+			//Guardar el archivo en la base de datos
+			ImagenOArchivo imagenOArchivo=new ImagenOArchivo();
+			
+			//imagenOArchivo=liquidacionGastoService.findPagoLiquidacionByArchivoImagen(pagoLiquidacion.getPagoLiquidacionID());
+			
+//			if (imagenOArchivo !=null) {
+//				imagenOArchivo.setDescripcionDocImg(fileUploadDownload.getNombreArchivo());
+//				imagenOArchivo.setFkIdtablaespTipoArchivo(codExtension);
+//				imagenOArchivo.setImagen(archivoByte);
+//				imagenOArchivo.setPagoLiquidacion(pagoLiquidacion);
+//
+//				liquidacionGastoService.updateImagenOArchivoPagoLiquidacion(imagenOArchivo);
+//
+//			}else {
+				imagenOArchivo.setDescripcionDocImg(fileUploadDownload.getNombreArchivo());
+				imagenOArchivo.setFkIdtablaespTipoArchivo(codExtension);
+				imagenOArchivo.setImagen(archivoByte);
+				imagenOArchivo.setPagoLiquidacion(pagoLiquidacion);
+
+				liquidacionGastoService.saveImagenOArchivoPagoLiquidacion(imagenOArchivo);
+//			}
+			}
+		}
+		 List<TablaEspecifica> listTipoComprobante=utilService.listarTablaEspecificaByPrefijo(FondamConstans.PREFIJO_TIPO_COMPROBANTE_PAGO);
+	    Map<String, Object> model = new HashMap<String, Object>();
+	      model.put("liquidacionGastoID",liquidacionGastoID);
+	      model.put("liquidacion",liquidacionGasto);
+	      model.put("saldoDisponible",saldoDisponible);
+	      model.put("listTipoDesembolso",listTipoDesembolso);
+	      model.put("listDesembolso",listDesembolso);
+	      model.put("mensaje",mensaje);
+	      model.put("listTipoComprobante",listTipoComprobante);
+	      model.put("listTipoMoneda",utilService.listaTipoMoneda());
+          model.put("pagoLiquidacion.igvMonto",18);
+          model.put("ingresoPagoID",ingresoPagoID);
+          
+	      return new ModelAndView("mostrarIngresoPago",model);
+    }
+    @RequestMapping(value = "/principal/actionEliminarIngresoPago.jspx")
+    public String actionEliminarIngresoPago(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+   	 int liquidacionGastoID=Integer.parseInt(request.getParameter("liquidacionGastoID"));
+	 int ingresoPagoID=Integer.parseInt(request.getParameter("ingresoPagoID"));
+       String mensaje="No se puede eliminar Ingreso Pago, ya tiene Detalle Pago";
+    	PagoLiquidacion pagoLiquidacion= liquidacionGastoService.findPagoLiquidacionByID(ingresoPagoID);
+    	List<DetallePagoLiquidacion> listDetallePagoLiquidacion=liquidacionGastoService.findDetallePagoLiquidacionByPagoLiquidacionID(ingresoPagoID);
+    	
+    	if (listDetallePagoLiquidacion.isEmpty()) {
+    		mensaje="Se elimino exitosamente  Ingreso Pago";
+    		liquidacionGastoService.deletePagoLiquidacion(pagoLiquidacion);	
+		}
+    
+    	return "redirect:showIngresoPago.jspx?liquidacionGastoID="+ liquidacionGastoID+"&mensaje="+mensaje;
+    }
+    
+    @RequestMapping(value = "/principal/showDetallePago.jspx")
+    public ModelAndView showDetallePago(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+
+        int pagoLiquidacionID=Integer.parseInt(request.getParameter("pagoLiquidacionID"));
+        
+        PagoLiquidacion pagoLiquidacion=liquidacionGastoService.findPagoLiquidacionByID(pagoLiquidacionID);
+        List<TablaEspecifica> listUnidadMedida=utilService.listaUnidadMedida();
+        List<TablaEspecifica> listCategoriaActivo=utilService.listaCategoriaActivo();
+  
+        List<DetallePagoLiquidacion> listDetallePagoLiquidacion=liquidacionGastoService.findDetallePagoLiquidacionByPagoLiquidacionID(pagoLiquidacionID);
+		request.getSession().setAttribute("listDetallePagoLiquidacion",llenaActivo(listDetallePagoLiquidacion));
+		request.getSession().setAttribute("listUnidadMedida",listUnidadMedida);
+		request.getSession().setAttribute("listCategoriaActivo",listCategoriaActivo);
+		 List<TablaEspecifica> listTipoComprobante=utilService.listarTablaEspecificaByPrefijo(FondamConstans.PREFIJO_TIPO_COMPROBANTE_PAGO);
+
+          Map<String, Object> model = new HashMap<String, Object>();
+          model.put("pagoLiquidacionID",pagoLiquidacionID);
+          model.put("pagoLiquidacion",pagoLiquidacion);
+          model.put("detallePagoID",0);
+          model.put("mensaje",""); 
+          model.put("igvMonto",18);
+          model.put("listTipoMoneda",utilService.listaTipoMoneda());
+          model.put("listTipoComprobante",listTipoComprobante);
+	      
+           return new ModelAndView("mostrarDetallePago",model);
+    }
+    
+    @RequestMapping(value = "/principal/actionRegistrarDetallePago.jspx")
+    public ModelAndView actionRegistrarDetallePago(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+
+    	String mensaje="Se registro exitosamente Detalle Pago";
+    	int detallePagoID=0;
+    	 detallePagoID=Integer.parseInt(request.getParameter("detallePagoID"));
+        int pagoLiquidacionID=Integer.parseInt(request.getParameter("pagoLiquidacionID"));
+        int cantidad = Integer.parseInt(request.getParameter("cantidad"));
+        int unidadMedida = Integer.parseInt(request.getParameter("unidadMedida"));
+        double precioUnitario = Double.parseDouble(request.getParameter("precioUnitario"));
+        double precioTotal = Double.parseDouble(request.getParameter("precioTotal"));
+        String concepto =request.getParameter("concepto");
+        //int categoriaActivo=Integer.parseInt(request.getParameter("categoriaActivo"));
+        int activoId=Integer.parseInt(request.getParameter("activo"));
+        
+        PagoLiquidacion pagoLiquidacion=liquidacionGastoService.findPagoLiquidacionByID(pagoLiquidacionID);
+        
+        Activo activo=new Activo();
+        if(activoId!=0){
+        	activo= activoService.findActivoById(activoId);
+        }
+        
+        /*Activo activo=new Activo();
+        activo.setDescripcionActivo(bienActivo);
+        activo.setFkIdtablaespCategoriaActivo(categoriaActivo);
+        */
+        DetallePagoLiquidacion detallePagoLiquidacion=new DetallePagoLiquidacion();
+
+        /*
+        if (detallePagoID==0) {
+            liquidacionGastoService.saveActivo(activo);
+
+		}else {
+			detallePagoLiquidacion=liquidacionGastoService.findDetallePagoLiquidacionByID(detallePagoID);
+			activo.setActivoID(detallePagoLiquidacion.getActivo().getActivoID());
+			liquidacionGastoService.updateActivo(activo);
+		}*/
+        if (detallePagoID!=0) {
+            detallePagoLiquidacion=liquidacionGastoService.findDetallePagoLiquidacionByID(detallePagoID);
+			//activo.setActivoID(detallePagoLiquidacion.getActivo().getActivoID());
+			//liquidacionGastoService.updateActivo(activo);
+		}
+        detallePagoLiquidacion.setCantidad(cantidad);
+        detallePagoLiquidacion.setFkIdDetalleEstadoCabEstadoPagoLiq(12);
+        detallePagoLiquidacion.setFkIdtablaespUnidadMedida(unidadMedida);
+        detallePagoLiquidacion.setPrecioTotal(precioTotal);
+        detallePagoLiquidacion.setPrecioUnitario(precioUnitario);
+        detallePagoLiquidacion.setPagoLiquidacion(pagoLiquidacion);
+        detallePagoLiquidacion.setConcepto(concepto);
+       detallePagoLiquidacion.setActivo(activo);
+       
+       if (detallePagoID==0) {
+           liquidacionGastoService.saveDetallePagoLiquidacion(detallePagoLiquidacion);
+
+		}else {
+			mensaje="Se actualizo exitosamente Detalle Pago";
+			detallePagoLiquidacion.setDetallePagoLiquidacionID(detallePagoID);
+			liquidacionGastoService.updateDetallePagoLiquidacion(detallePagoLiquidacion);
+		}
+       double  saldoDisponible=pagoLiquidacion.getSaldoDisponible()-detallePagoLiquidacion.getPrecioTotal();
+       double saldoPagado=pagoLiquidacion.getSaldoPagado()+detallePagoLiquidacion.getPrecioTotal();
+       pagoLiquidacion.setSaldoDisponible(saldoDisponible);
+       pagoLiquidacion.setSaldoPagado(saldoPagado);
+       liquidacionGastoService.updatePagoLiquidacion(pagoLiquidacion);
+       List<DetallePagoLiquidacion> listDetallePagoLiquidacion=liquidacionGastoService.findDetallePagoLiquidacionByPagoLiquidacionID(pagoLiquidacionID);
+       request.getSession().setAttribute("listDetallePagoLiquidacion",llenaActivo(listDetallePagoLiquidacion));
+       List<TablaEspecifica> listTipoComprobante=utilService.listarTablaEspecificaByPrefijo(FondamConstans.PREFIJO_TIPO_COMPROBANTE_PAGO);
+
+		Map<String, Object> model = new HashMap<String, Object>();
+          model.put("mensaje",mensaje);
+          model.put("pagoLiquidacionID",pagoLiquidacionID);
+          model.put("pagoLiquidacion",pagoLiquidacion);
+          model.put("igvMonto",18);
+          model.put("listTipoMoneda",utilService.listaTipoMoneda());
+          model.put("listTipoComprobante",listTipoComprobante);
+          return new ModelAndView("mostrarDetallePago",model);
+    }
+    
+    private List<DetallePagoLiquidacion>  llenaActivo(
+			List<DetallePagoLiquidacion> listDetallePagoLiquidacion) {
+		for (DetallePagoLiquidacion detallePagoLiquidacion : listDetallePagoLiquidacion) {
+			Activo activo =activoService.findActivoById(detallePagoLiquidacion.getActivo().getActivoID());
+			activo.setDescripcionCategoriaActivo(tablaEspecificaService.findTablaEspecificaById(activo.getFkIdtablaespCategoriaActivo()).getDescripcionCabecera());
+			detallePagoLiquidacion.setActivo(activo);
+		}
+		return listDetallePagoLiquidacion;
+	}
+    
+
+	@RequestMapping(value = "/principal/actionCargarDetallePago.jspx")
+    public ModelAndView actionCargarDetallePago(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+
+
+        int detallePagoID=Integer.parseInt(request.getParameter("detallePagoID"));
+        int pagoLiquidacionID=Integer.parseInt(request.getParameter("pagoLiquidacionID"));
+        DetallePagoLiquidacion detallePagoLiquidacion=liquidacionGastoService.findDetallePagoLiquidacionByID(detallePagoID);
+      
+        Activo activo=liquidacionGastoService.findActivoById(detallePagoLiquidacion.getActivo().getActivoID());
+        List<Activo> listActivo= activoService.findActivoByCategoriaActivoId(activo.getFkIdtablaespCategoriaActivo());
+/*
+        liquidacionGastoService.saveActivo(activo);
+*/
+       List<DetallePagoLiquidacion> listDetallePagoLiquidacion=liquidacionGastoService.findDetallePagoLiquidacionByPagoLiquidacionID(pagoLiquidacionID);
+       request.getSession().setAttribute("listDetallePagoLiquidacion",llenaActivo(listDetallePagoLiquidacion));
+       List<TablaEspecifica> listTipoComprobante=utilService.listarTablaEspecificaByPrefijo(FondamConstans.PREFIJO_TIPO_COMPROBANTE_PAGO);
+
+		Map<String, Object> model = new HashMap<String, Object>();
+          model.put("pagoLiquidacionID",pagoLiquidacionID);
+          model.put("pagoLiquidacion",liquidacionGastoService.findPagoLiquidacionByID(pagoLiquidacionID));
+          model.put("detallePagoLiquidacion",detallePagoLiquidacion);
+          model.put("activo",activo);
+          model.put("listActivo",listActivo);
+          model.put("igvMonto",18);
+          model.put("listTipoMoneda",utilService.listaTipoMoneda());
+          model.put("listTipoComprobante",listTipoComprobante);
+          model.put("detallePagoID",detallePagoID);
+   
+          return new ModelAndView("mostrarDetallePago",model);
+	
+        }
+	
+    @RequestMapping(value = "/principal/actionEliminarDetallePago.jspx")
+    public String actionEliminarDetallePago(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+   	 int detallePagoID=Integer.parseInt(request.getParameter("detallePagoID"));
+     int pagoLiquidacionID=Integer.parseInt(request.getParameter("pagoLiquidacionID"));
+       String mensaje="No se puede eliminar Detalle Pago, ya tiene Actividades";
+    	DetallePagoLiquidacion detallePagoLiquidacion= liquidacionGastoService.findDetallePagoLiquidacionByID(detallePagoID);
+    	List<ActividadDetallePago> listActividadDetallePago=liquidacionGastoService.findActividadDetallePagoByDetallePagoID(detallePagoID);
+    	
+    	if (listActividadDetallePago.isEmpty()) {
+    		mensaje="Se elimino exitosamente  Detalle Pago";
+    		liquidacionGastoService.deleteDetallePago(detallePagoLiquidacion);	
+		}
+    
+    	return "redirect:showDetallePago.jspx?pagoLiquidacionID="+ pagoLiquidacionID+"&mensaje="+mensaje;
+    }
+    
+    @RequestMapping(value = "/principal/showActividadDetallePago.jspx")
+    public ModelAndView showActividadDetallePago(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+    	UserSession userSession =getUserSession(request,response);
+        int detallePagoID=Integer.parseInt(request.getParameter("detallePagoID"));
+        List<TablaEspecifica>   listTipoDesembolso=utilService.listaTipoDesembolso();
+        DetallePagoLiquidacion detallePagoLiquidacion=liquidacionGastoService.findDetallePagoLiquidacionByID(detallePagoID);
+		List<CronogramaCostoActividad> listPeriodo=liquidacionGastoService.findCronogramaCostoActividadByFuenteFinanciadoraID(detallePagoLiquidacion.getPagoLiquidacion().getLiquidacionGasto().getFuenteFinanciadora().getFuenteFinanciadoraID());
+        List<ActividadDetallePago> listActividadDetallePago=liquidacionGastoService.findActividadDetallePagoByDetallePagoID(detallePagoID);
+		List<Resultado> listResultado=liquidacionGastoService.findResultadoByDatoProyectoID(userSession.getDatoProyectoID());
+		TipoCambio tipoCambio=tipoCambioService.findTipoCambioByTipoMonedaDeAByDesembolsoID(detallePagoLiquidacion.getPagoLiquidacion().getFkIdtablaespTipoMoneda(), liquidacionGastoService.findDesembolsoByID(detallePagoLiquidacion.getPagoLiquidacion().getDesembolsoID()).getFkIdtablaespTipoMoneda(),detallePagoLiquidacion.getPagoLiquidacion().getDesembolsoID());
+		
+		NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
+		double montoCambio=tipoCambio.getTipoCambio()*detallePagoLiquidacion.getPrecioTotal();
+		montoCambio =  format.parse(format.format(montoCambio)).doubleValue();
+		 List<CostoActividad> listaCostoActividad= liquidacionGastoService.findCostoActividad();
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+        	model.put("detallePagoID",detallePagoID);
+        	model.put("liquidacionGastoID",detallePagoLiquidacion.getPagoLiquidacion().getLiquidacionGasto().getLiquidacionGastoID());
+        	model.put("listTipoDesembolso",listTipoDesembolso);
+        	model.put("desembolso",liquidacionGastoService.findDesembolsoByID(detallePagoLiquidacion.getPagoLiquidacion().getDesembolsoID()));
+        	model.put("listActividadDetallePago",listActividadDetallePago);
+        	model.put("listTipoMoneda",utilService.listaTipoMoneda());
+        	model.put("listPeriodo",listPeriodo);
+        	model.put("listResultado",listResultado);
+	  		model.put("listaCostoActividad",listaCostoActividad);
+	  		model.put("listTipoMoneda",utilService.listaTipoMoneda());
+	  		model.put("listUnidadMedida",utilService.listaUnidadMedida());
+        	model.put("detallePagoLiquidacion",detallePagoLiquidacion);
+        	model.put("mensaje","");
+        	model.put("tipoCambio",tipoCambio.getTipoCambio());
+        	model.put("montoCambio",montoCambio);
+        	return new ModelAndView("mostrarActividadDetallePago",model);
+        	
+    }
+    
+
+    @RequestMapping(value = "/principal/actionEliminarActividadDetallePago.jspx")
+    public ModelAndView actionEliminarActividadDetallePago(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+    	UserSession userSession =getUserSession(request,response);
+        int detallePagoID=Integer.parseInt(request.getParameter("detallePagoID"));
+        int actividadDetallePagoID=Integer.parseInt(request.getParameter("idActividad"));
+        ActividadDetallePago actividadDetallePago=liquidacionGastoService.findActividadDetallePagoByID(actividadDetallePagoID); 
+        liquidacionGastoService.deleteActividadDetallePago(actividadDetallePago);
+        List<TablaEspecifica>   listTipoDesembolso=utilService.listaTipoDesembolso();
+        DetallePagoLiquidacion detallePagoLiquidacion=liquidacionGastoService.findDetallePagoLiquidacionByID(detallePagoID);
+		List<CronogramaCostoActividad> listPeriodo=liquidacionGastoService.findCronogramaCostoActividadByFuenteFinanciadoraID(detallePagoLiquidacion.getPagoLiquidacion().getLiquidacionGasto().getFuenteFinanciadora().getFuenteFinanciadoraID());
+        List<ActividadDetallePago> listActividadDetallePago=liquidacionGastoService.findActividadDetallePagoByDetallePagoID(detallePagoID);
+		 List<Resultado> listResultado=liquidacionGastoService.findResultadoByDatoProyectoID(userSession.getDatoProyectoID());
+
+		 List<CostoActividad> listaCostoActividad= liquidacionGastoService.findCostoActividad();
+		 
+		 TipoCambio tipoCambio=tipoCambioService.findTipoCambioByTipoMonedaDeAByDesembolsoID(detallePagoLiquidacion.getPagoLiquidacion().getFkIdtablaespTipoMoneda(), liquidacionGastoService.findDesembolsoByID(detallePagoLiquidacion.getPagoLiquidacion().getDesembolsoID()).getFkIdtablaespTipoMoneda(),detallePagoLiquidacion.getPagoLiquidacion().getDesembolsoID());
+		 NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
+			double montoCambio=tipoCambio.getTipoCambio()*detallePagoLiquidacion.getPrecioTotal();
+			montoCambio =  format.parse(format.format(montoCambio)).doubleValue();
+			    
+        	Map<String, Object> model = new HashMap<String, Object>();
+        	model.put("detallePagoID",detallePagoID);
+        	model.put("liquidacionGastoID",detallePagoLiquidacion.getPagoLiquidacion().getLiquidacionGasto().getLiquidacionGastoID());
+        	model.put("listTipoDesembolso",listTipoDesembolso);
+        	model.put("desembolso",liquidacionGastoService.findDesembolsoByID(detallePagoLiquidacion.getPagoLiquidacion().getDesembolsoID()));
+        	model.put("listActividadDetallePago",listActividadDetallePago);
+        	model.put("listTipoMoneda",utilService.listaTipoMoneda());
+        	model.put("listPeriodo",listPeriodo);
+        	model.put("mensaje","");
+        	model.put("listResultado",listResultado);
+        	model.put("detallePagoLiquidacion",detallePagoLiquidacion);
+        	model.put("montoCambio",montoCambio);
+        	model.put("tipoCambio",tipoCambio.getTipoCambio());
+	  		model.put("listaCostoActividad",listaCostoActividad);
+	  		model.put("listTipoMoneda",utilService.listaTipoMoneda());
+	  		model.put("listUnidadMedida",utilService.listaUnidadMedida());
+	  		model.put("tipoCambio",tipoCambio.getTipoCambio());
+        	return new ModelAndView("mostrarActividadDetallePago",model);
+    }
+    
+    @RequestMapping(value = "/principal/actionRegistrarActividadDetallePago.jspx")
+    public ModelAndView actionRegistrarActividadDetallePago(HttpServletRequest request, HttpServletResponse response) throws IOException, ParseException {
+    	UserSession userSession =getUserSession(request,response); 
+    	List<Resultado> listResultado=liquidacionGastoService.findResultadoByDatoProyectoID(userSession.getDatoProyectoID());
+
+    	String mensaje="Se registro exitosamente Activida Detalle Pago";
+        int detallePagoID=Integer.parseInt(request.getParameter("detallePagoID"));
+        
+        int desembolsoID = Integer.parseInt(request.getParameter("desembolsoID"));
+        int cronogramaCostoActividadID = Integer.parseInt(request.getParameter("periodo"));
+        double montoGastado = Double.parseDouble(request.getParameter("montoGastado"));
+        double montoPorGastarDeActiv = Double.parseDouble(request.getParameter("montoPorGastarDeActiv"));
+        double porcentajeMontoTotal = Double.parseDouble(request.getParameter("porcentajeMontoTotal"));
+
+        DetallePagoLiquidacion detallePagoLiquidacion=liquidacionGastoService.findDetallePagoLiquidacionByID(detallePagoID);
+        
+        Desembolso desembolso=liquidacionGastoService.findDesembolsoByID(desembolsoID);
+        
+        CronogramaCostoActividad cronogramaCostoActividad= liquidacionGastoService.findCronogramaCostoActividadByID(cronogramaCostoActividadID);
+		TipoCambio tipoCambio=tipoCambioService.findTipoCambioByTipoMonedaDeAByDesembolsoID(detallePagoLiquidacion.getPagoLiquidacion().getFkIdtablaespTipoMoneda(), liquidacionGastoService.findDesembolsoByID(detallePagoLiquidacion.getPagoLiquidacion().getDesembolsoID()).getFkIdtablaespTipoMoneda(),detallePagoLiquidacion.getPagoLiquidacion().getDesembolsoID());
+		NumberFormat format = NumberFormat.getCurrencyInstance(Locale.ENGLISH);
+		double montoCambio=tipoCambio.getTipoCambio()*detallePagoLiquidacion.getPrecioTotal();
+		montoCambio =  format.parse(format.format(montoCambio)).doubleValue();
+		
+        ActividadDetallePago actividadDetallePago=new ActividadDetallePago();
+        actividadDetallePago.setCronogramaCostoActividad(cronogramaCostoActividad);
+        actividadDetallePago.setDesembolso(desembolso);
+        actividadDetallePago.setDetallePagoLiquidacion(detallePagoLiquidacion);
+        actividadDetallePago.setFkIdactividades(null);
+        actividadDetallePago.setMontoGastado(montoGastado);
+        actividadDetallePago.setPorcentajeMontoTotal(porcentajeMontoTotal);
+        actividadDetallePago.setMontoPorGastarDeActiv(montoPorGastarDeActiv);
+        actividadDetallePago.setFkIdtablaespTipoMoneda(desembolso.getFkIdtablaespTipoMoneda());
+        actividadDetallePago.setFkIdactividades(cronogramaCostoActividad.getCostoActividad().getActividad().getActividadID());
+        
+        List<TablaEspecifica>   listTipoDesembolso=utilService.listaTipoDesembolso();
+        
+        detallePagoLiquidacion=liquidacionGastoService.findDetallePagoLiquidacionByID(detallePagoID);
+        liquidacionGastoService.saveActividadDetallePago(actividadDetallePago);
+        List<ActividadDetallePago> listActividadDetallePago=liquidacionGastoService.findActividadDetallePagoByDetallePagoID(detallePagoID);
+		List<CostoActividad> listaCostoActividad= liquidacionGastoService.findCostoActividad();
+		List<CronogramaCostoActividad> listPeriodo=liquidacionGastoService.findCronogramaCostoActividadByFuenteFinanciadoraID(detallePagoLiquidacion.getPagoLiquidacion().getLiquidacionGasto().getFuenteFinanciadora().getFuenteFinanciadoraID());
+
+        Map<String, Object> model = new HashMap<String, Object>();
+          model.put("mensaje",mensaje);
+          model.put("detallePagoID",detallePagoID);
+          model.put("listActividadDetallePago",listActividadDetallePago);
+          model.put("listTipoMoneda",utilService.listaTipoMoneda());
+          model.put("listResultado",listResultado);
+      	  model.put("liquidacionGastoID",detallePagoLiquidacion.getPagoLiquidacion().getLiquidacionGasto().getLiquidacionGastoID());
+      	  model.put("listTipoDesembolso",listTipoDesembolso);
+      	  model.put("desembolso",liquidacionGastoService.findDesembolsoByID(detallePagoLiquidacion.getPagoLiquidacion().getDesembolsoID()));
+      	  model.put("detallePagoLiquidacion",detallePagoLiquidacion);
+      	  model.put("montoCambio",montoCambio);
+      	  model.put("listPeriodo",listPeriodo);
+	  	  model.put("listaCostoActividad",listaCostoActividad);
+	  	  model.put("listTipoMoneda",utilService.listaTipoMoneda());
+	  		model.put("listUnidadMedida",utilService.listaUnidadMedida());
+	  		model.put("tipoCambio",tipoCambio.getTipoCambio());	
+      	  return new ModelAndView("mostrarActividadDetallePago",model);
+    }
+    @RequestMapping(value = "/principal/actionGetMontoGastadoCostoActividad.jspx", method = RequestMethod.GET)
+    public void actionGetMontoGastadoCostoActividad(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    	int costoActividadID=Integer.parseInt(request.getParameter("costoActividadID"));
+    	System.out.println("costoActividadID ::"+costoActividadID);
+    	double suma=0;
+    	CostoActividad costo=liquidacionGastoService.findCostoActividadByID(costoActividadID);
+    	System.out.println("costo ::"+costo.getCantidadTotal());
+    	List<ActividadDetallePago> listActividadDetallePago=liquidacionGastoService.findActividadDetallePagoByCostoActividad(costoActividadID); 
+    	if (!listActividadDetallePago.isEmpty()) {
+    		for (ActividadDetallePago actividadDetallePago : listActividadDetallePago) {
+				suma +=actividadDetallePago.getMontoPorGastarDeActiv();
+			}
+		}
+    	double montogastado=(costo.getCantidadTotal()*costo.getPrecioUnitario())-suma;
+    	
+    	response.getWriter().write(montogastado+"");
+		}
+}

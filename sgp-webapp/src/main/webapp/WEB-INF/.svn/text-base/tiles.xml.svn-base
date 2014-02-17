@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+	<definition name="login.template" template="/WEB-INF/security/loginTemplate.jsp">
+		<put-attribute name="logueo" value="" />
+	</definition>
+
+	<!-- PANTALLA LOGUEO -->
+	<definition name="login" extends="login.template">
+		<put-attribute name="viewLogo" value="/WEB-INF/security/logo.jsp" />
+		<put-attribute name="viewLogueo" value="/WEB-INF/security/login.jsp" />
+	</definition>
+
+	<!-- PANTALLA CREAR PERFIL -->
+	<definition name="mostrarCrearPerfil.definition"
+		template="/WEB-INF/view/principal/gestionarPerfil/crearPerfilMain.jsp">
+		<put-attribute name="perfilForm"
+			value="/WEB-INF/view/principal/inicioMain.jsp" />
+	</definition>
+	<definition name="mostrarCrearPerfil" extends="mostrarCrearPerfil.definition">
+		<put-attribute name="perfilForm"
+			value="/WEB-INF/view/principal/gestionarPerfil/crearPerfil.jsp" />
+	</definition>
+
+	<definition name="mostrarArchivoDownload"
+		template="/WEB-INF/view/principal/archivoUploadDownload/archivoDownload.jsp" />
+	<definition name="divGrillaResumenProyecto"
+		template="/WEB-INF/view/principal/gestionarPerfil/grillaResumenProyecto.jsp" />
+
+	<!-- DEFINICION DE LA MASTER PAGE -->
+	<definition name="principal.definition" template="/WEB-INF/view/principal/main.jsp">
+		<put-attribute name="cabecera" value="/WEB-INF/security/cabecera.jsp" />
+		<put-attribute name="menu"
+			value="/WEB-INF/view/principal/menuMain.jsp" />
+		<put-attribute name="body" value="" />
+		<put-attribute name="foot" value="/WEB-INF/security/foot.jsp" />
+	</definition>
+
+	<!-- <definition name="redirectPrincipal" template="/WEB-INF/view/principal/redirect.jsp"/> -->
+
+	<definition name="cerrarSesion" template="/index.jsp" />
+
+	<!-- PANTALLA CREAR PERFIL -->
+	<definition name="mostrarCrearPerfil" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/gestionarPerfil/crearPerfil.jsp" />
+	</definition>
+
+	<definition name="mostrarArchivoUpload"
+		template="/WEB-INF/view/principal/archivoUploadDownload/archivoUpload.jsp" />
+
+	<!-- PAGINA DE INICIO -->
+	<definition name="principalMain" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/inicioMain.jsp" />
+	</definition>
+
+	<!-- CREAR PROGRAMA -->
+	<definition name="mostrarCrearPrograma" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/crearPrograma/crearPrograma.jsp" />
+	</definition>
+
+	<!-- CREAR PROYECTO -->
+	<definition name="mostrarProyecto" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/gestionarProyecto/Proyecto.jsp" />
+	</definition>
+
+	<definition name="grillaResumenProyecto"
+		template="/WEB-INF/view/principal/gestionarProyecto/grillaTipoResumenProyecto.jsp" />
+	<definition name="grillaCuentaCorriente"
+		template="/WEB-INF/view/principal/gestionarProyecto/grillaCuentaCorriente.jsp" />
+
+	<!-- APROBAR PROYECTO -->
+	<definition name="showAprobarProyecto" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/aprobarProyecto/aprobarProyecto.jsp" />
+	</definition>
+
+	<!-- INSTALAR COMITE TECNICO -->
+	<definition name="mostrarInstalarComiteTecnico" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/instalarComiteTecnico/instalarComiteTecnico.jsp" />
+	</definition>
+	<!-- LISTAR PROGRAMAS -->
+	<definition name="mostrarListarProgramas"
+		template="/WEB-INF/view/principal/instalarComiteTecnico/listarProgramas.jsp" />
+
+	<!-- LISTAR EVALUADORES -->
+	<definition name="mostrarListarEvaluadores"
+		template="/WEB-INF/view/principal/instalarComiteTecnico/listarEvaluadores.jsp" />
+
+	<!-- LISTAR EVALUADORES ASIGNADO -->
+	<definition name="mostrarlistarEvaluadoresAsignados"
+		template="/WEB-INF/view/principal/instalarComiteTecnico/listarEvaluadoresAsignados.jsp" />
+
+
+	<!-- EVALUAR -->
+	<definition name="mostrarEvaluar" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/evaluar/evaluar.jsp" />
+	</definition>
+
+	<!-- PLAN OPERATIVO -->
+	<definition name="showPlanOperativoNew" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/gestionarPlanOperativo/showPlanOperativoNew.jsp" />
+	</definition>
+
+	<definition name="grillaIndicadorMarcoLogico"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/grillaIndicadorMarcoLogico.jsp" />
+		
+	<definition name="showActividad"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/showActividad.jsp" />
+
+	<definition name="showBeneficiarioResultado"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/showBeneficiarioResultado.jsp" />
+
+	<definition name="showBeneficiarioProyecto"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/showBeneficiarioProyecto.jsp" />
+
+	<definition name="showCronogramaResultado"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/showCronogramaResultado.jsp" />
+
+	<definition name="showIndicadorResultado"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/showIndicadorResultado.jsp" />
+
+	<definition name="showCostoActividad"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/showCostoActividad.jsp" />
+
+	<definition name="showMetaActividad"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/showMetaActividad.jsp" />
+
+	<definition name="showCronogramaCostoActividad"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/showCronogramaCostoActividad.jsp" />
+
+	<definition name="createPlanOperativo" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/gestionarPlanOperativo/createPlanOperativo.jsp" />
+	</definition>
+
+	<definition name="createResultado"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/createResultado.jsp" />
+
+	<definition name="createMarcoLogicoIndicadores"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/createMarcoLogico.jsp" />
+
+	<definition name="createInfraestructuraPo"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/createInfraestructuraPO.jsp" />
+		
+	<definition name="createInfraestructuraPo"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/createInfraestructuraPO.jsp" />
+
+	<definition name="createTipoCambio"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/createTipoCambio.jsp" />
+
+	<definition name="createActividadMeta"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/createActividadMeta.jsp" />
+
+	<definition name="createBeneficiarioResultado"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/createBeneficiarioResultado.jsp" />
+
+	<definition name="createCronogramaResultado"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/createCronogramaResultado.jsp" />
+
+
+	<definition name="createIndicadorResultado"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/createIndicadorResultado.jsp" />
+
+	<definition name="createCostoActividad" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/gestionarPlanOperativo/createCostoActividad.jsp" />
+	</definition>
+
+	<definition name="createCronogramaCostoActividad"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/createCronogramaCostoActividad.jsp" />
+
+	<definition name="createCronogramaMetaActividad"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/createCronogramaMetaActividad.jsp" />
+
+	<definition name="showCronogramaMetaActividad"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/showCronogramaMetaActividad.jsp" />
+
+	<definition name="mostrarPlanOperativo" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/gestionarPlanOperativo/showPlanOperativo.jsp" />
+	</definition>
+
+	<definition name="showPlanOperativoDetail" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/gestionarPlanOperativo/showPlanOperativoDetail.jsp" />
+	</definition>
+
+	<definition name="showActividades" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/gestionarPlanOperativo/showActividades.jsp" />
+	</definition>
+
+	<definition name="createPersonalTecnicoAdministrativo"
+		template="/WEB-INF/view/principal/gestionarPlanOperativo/createPersonalTecnicoAdministrativo.jsp" />
+
+	<!-- EVALUAR PLAN OPERATIVO -->
+	<definition name="mostrarEvaluarPlanOperativo" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/evaluarPlanOperativo/evaluarPlanOperativo.jsp" />
+	</definition>
+	<definition name="mostrarDetalleResultado"
+		template="/WEB-INF/view/principal/evaluarPlanOperativo/detalleResultado.jsp" />
+	<definition name="mostrarDetalleActividad"
+		template="/WEB-INF/view/principal/evaluarPlanOperativo/detalleActividad.jsp" />
+	<definition name="mostrarListaObservacionCA"
+		template="/WEB-INF/view/principal/evaluarPlanOperativo/observacionCostoActividad.jsp" />
+	<definition name="mostrarListaObservacionCCA"
+		template="/WEB-INF/view/principal/evaluarPlanOperativo/observacionCronogramaCostoActividad.jsp" />
+
+	<!-- GESTIONAR PERFIL -->
+	<definition name="mostrarGestionarPerfil" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/gestionarPerfil/gestionarPerfil.jsp" />
+	</definition>
+
+	<!-- GESTIONAR DATOS INSTITUCIONALES -->
+	<definition name="mostrarGestionarDatosInstitucionales"
+		extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/gestionarDatosInstitucionales/gestionarDatosInstitucionales.jsp" />
+	</definition>
+
+	<!-- GESTIONAR OBSERVACION -->
+	<definition name="mostrarGestionarObservacion" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/gestionarObservacion/gestionarObservacion.jsp" />
+	</definition>
+	<definition name="createGestionarObservacion" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/gestionarObservacion/createObservacion.jsp" />
+	</definition>
+	<!-- SOLICITAR DESEMBOLSO -->
+	<definition name="mostrarSolicitarDesembolso" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/solicitarDesembolso/solicitarDesembolso02.jsp" />
+	</definition>
+	<definition name="createTipoCambio2"
+		template="/WEB-INF/view/principal/solicitarDesembolso/createTipoCambio2.jsp" />
+	<definition name="mostrarDetalleCronogramaCostoActividad"
+		template="/WEB-INF/view/principal/solicitarDesembolso/grillaCronogramaCostoActividad.jsp" />
+	<definition name="divGrillaListaDesembolso"
+		template="/WEB-INF/view/principal/solicitarDesembolso/grillaListaDesembolsos.jsp" />
+		
+	<!-- AUTORIZAR DESEMBOLSO -->
+	<definition name="mostrarAutorizarDesembolso" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/autorizarDesembolso/autorizarDesembolso.jsp" />
+	</definition>
+
+	<!-- EVALUACION DE REPORTE DE AVANCE Y LIQUIDACION DE GASTOS -->
+	<definition name="mostrarEvalReporteAvanceLiquidacionGastos"
+		extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/evalReporteAvanceLiquidacionGastos/evalReporteAvanceLiquidacionGastos.jsp" />
+	</definition>
+	<definition name="divCuerpoEvalReporteAvanLiqGastos"
+		template="/WEB-INF/view/principal/evalReporteAvanceLiquidacionGastos/cuerpoEvalReporteAvanLiqGastos.jsp" />
+	<definition name="divGrillaEvalReporteAvanLiqGastos"
+		template="/WEB-INF/view/principal/evalReporteAvanceLiquidacionGastos/grillaEvalReporteAvanLiqGastos.jsp" />
+
+	<!-- Reportes -->
+	<definition name="muestraMenuReporte" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/reporte/reporte.jsp" />
+	</definition>
+
+	<definition name="reportCostoActividadFuente" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/reporte/reportCostoActividadFuente.jsp" />
+	</definition>
+
+	<definition name="reportContribucionDonacionFuente" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/reporte/reportContribucionDonacionFuente.jsp" />
+	</definition>
+
+	<!-- LIQUIDACION GASTO -->
+	<definition name="mostrarShowLiquidacionGasto" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/liquidacionGasto/showLiquidacionGasto.jsp" />
+	</definition>
+	<definition name="mostrarDivGrillaLiquidacionGasto"
+		template="/WEB-INF/view/principal/liquidacionGasto/grillaLiquidacionGasto.jsp" />
+	<definition name="mostrarCompromisoPago"
+		template="/WEB-INF/view/principal/liquidacionGasto/showCompromisoPago.jsp" />
+	<definition name="mostrarIngresoPago"
+		template="/WEB-INF/view/principal/liquidacionGasto/showIngresoPago.jsp" />
+	<definition name="mostrarIngresoPropio"
+		template="/WEB-INF/view/principal/liquidacionGasto/showIngresoPropio.jsp" />
+	<definition name="mostrarDetallePago"
+		template="/WEB-INF/view/principal/liquidacionGasto/showDetallePago.jsp" />
+	<definition name="mostrarActividadDetallePago"
+		template="/WEB-INF/view/principal/liquidacionGasto/showActividadDetallePago.jsp" />
+	<definition name="mostrarDivGrillaIngresoPago"
+		template="/WEB-INF/view/principal/liquidacionGasto/grillaIngresoPago.jsp" />
+	<definition name="mostrarDivGrillaCronogramaCostoActividad"
+		template="/WEB-INF/view/principal/liquidacionGasto/grillaCronogramaCostoActividad.jsp" />
+
+	<!-- REPORTE AVANCE -->
+	<definition name="mostrarReporteAvance" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/reporteAvance/reporteAvance.jsp" />
+	</definition>
+	<definition name="divCuerpoReporteAvance"
+		template="/WEB-INF/view/principal/reporteAvance/cuerpoReporteAvance.jsp" />
+	<definition name="divGrillaReporteAvance"
+		template="/WEB-INF/view/principal/reporteAvance/grillaReporteAvance.jsp" />
+	<definition name="divCuerpoProblemaSolucion"
+		template="/WEB-INF/view/principal/reporteAvance/cuerpoProblemasSoluciones.jsp" />
+	<definition name="divGrillaProblemaSolucion"
+		template="/WEB-INF/view/principal/reporteAvance/grillaProblemasSoluciones.jsp" />
+	<definition name="divMuestraDetalleProblemaSolucion"
+		template="/WEB-INF/view/principal/reporteAvance/muestraDetalleProblemasSoluciones.jsp" />
+	<definition name="divCuerpoApresiacionResultados"
+		template="/WEB-INF/view/principal/reporteAvance/cuerpoApresiacionResultados.jsp" />
+	<definition name="divGrillaApreciacionResultado"
+		template="/WEB-INF/view/principal/reporteAvance/grillaApreciacionResultado.jsp" />
+	<definition name="divMuestraDetalleApreciacionResultado"
+		template="/WEB-INF/view/principal/reporteAvance/muestraDetalleApreciacionResultado.jsp" />
+	<definition name="divCuerpoBeneficiariosResultado"
+		template="/WEB-INF/view/principal/reporteAvance/cuerpoBeneficiariosResultado.jsp" />
+	<definition name="divGrillaBeneficiarios"
+		template="/WEB-INF/view/principal/reporteAvance/grillaBeneficiarios.jsp" />
+	<definition name="divCuerpoBeneficiariosResultadoLogrado"
+		template="/WEB-INF/view/principal/reporteAvance/cuerpoBeneficiariosResultadoLogrado.jsp" />
+	<definition name="divAvanceResultadosActividad"
+		template="/WEB-INF/view/principal/reporteAvance/avanceResultadosActividad.jsp" />
+	<definition name="divCuerpoAvanceResultadosActividad"
+		template="/WEB-INF/view/principal/reporteAvance/cuerpoAvanceResultadosActividad.jsp" />
+	<definition name="divGrillaAvanceResultadoActividad"
+		template="/WEB-INF/view/principal/reporteAvance/grillaAvanceResultadoActividad.jsp" />
+	<definition name="divMuestraDetalleAvanceResultadosActividad"
+		template="/WEB-INF/view/principal/reporteAvance/muestraDetalleAvanceResultadosActividad.jsp" />
+	<definition name="divCuerpoPersonalTecnicoAdministrativo"
+		template="/WEB-INF/view/principal/reporteAvance/cuerpoPersonalTecnicoAdministrativo.jsp" />
+	<definition name="divGrillaPersonalTecnicoAdministrativo"
+		template="/WEB-INF/view/principal/reporteAvance/grillaPersonalTecnicoAdministrativo.jsp" />
+	<definition name="datosReporteAvance"
+		template="/WEB-INF/view/principal/evalReporteAvanceLiquidacionGastos/detalleReporteAvance.jsp" />
+	<definition name="showProblemasSoluciones"
+		template="/WEB-INF/view/principal/evalReporteAvanceLiquidacionGastos/showProblemasSoluciones.jsp" />
+	<definition name="showAvanceResultadosActividad"
+		template="/WEB-INF/view/principal/evalReporteAvanceLiquidacionGastos/showAvanceResultadosActividad.jsp" />
+	<definition name="showApreciacionResultados"
+		template="/WEB-INF/view/principal/evalReporteAvanceLiquidacionGastos/showApreciacionResultados.jsp" />
+	<definition name="showBeneficiarios"
+		template="/WEB-INF/view/principal/evalReporteAvanceLiquidacionGastos/showBeneficiarios.jsp" />
+	<definition name="showPersonalTecnicoAdministrativo"
+		template="/WEB-INF/view/principal/evalReporteAvanceLiquidacionGastos/showPersonalTecnicoAdministrativo.jsp" />
+	<definition name="datosLiquidacionGastos"
+		template="/WEB-INF/view/principal/evalReporteAvanceLiquidacionGastos/detalleLiquidacionGastos.jsp" />
+	<definition name="showIngresosPropios"
+		template="/WEB-INF/view/principal/evalReporteAvanceLiquidacionGastos/showIngresosPropios.jsp" />
+	<definition name="showCompromisosPago"
+		template="/WEB-INF/view/principal/evalReporteAvanceLiquidacionGastos/showCompromisosPago.jsp" />
+	<definition name="showPagosRealizados"
+		template="/WEB-INF/view/principal/evalReporteAvanceLiquidacionGastos/showPagosRealizados.jsp" />
+	<definition name="showPagoRealizado"
+		template="/WEB-INF/view/principal/evalReporteAvanceLiquidacionGastos/showPagoRealizado.jsp" />
+
+	<definition name="showMontosAcumulados"
+		template="/WEB-INF/view/principal/gestionarPerfil/showMontosAcumulados.jsp" />
+
+
+	<!-- APROBAR PROYECTO EN JUNTA -->
+	<definition name="mostrarAprobarProyectoJunta" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/aprobarProyectoJunta/aprobarProyectoJunta.jsp" />
+	</definition>
+	<definition name="divGrillaListaProyectos"
+		template="/WEB-INF/view/principal/aprobarProyectoJunta/grillaListaProyectos.jsp" />
+
+
+	<!-- GESTIONAR PROPUESTA TRANSFERENCIA -->
+	<definition name="divPropuestaTransferencia" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/gestionarPropuestaTransferencia/propuestaTransferencia.jsp" />						   
+	</definition>
+	<definition name="divGrillaDirectivaBeneficiario"
+		template="/WEB-INF/view/principal/gestionarPropuestaTransferencia/grillaDirectivaBeneficiario.jsp" />
+	<definition name="divGrillaBeneficiariosPropuestaTransferencia"
+		template="/WEB-INF/view/principal/gestionarPropuestaTransferencia/grillaBeneficiariosPropuestaTransferencia.jsp" />	
+	<definition name="divCuerpoBeneficiariosResultadoLogradoPropuestaTransferencia"
+		template="/WEB-INF/view/principal/gestionarPropuestaTransferencia/cuerpoBeneficiariosResultadoLogrado.jsp" />
+	<definition name="divGrillaOrganizacion"
+		template="/WEB-INF/view/principal/gestionarPropuestaTransferencia/grillaOrganizacion.jsp" />
+	<definition name="divGrillaBien"
+		template="/WEB-INF/view/principal/gestionarPropuestaTransferencia/grillaBien.jsp" />
+	<definition name="divGrillaRecursoUtilizado"
+		template="/WEB-INF/view/principal/gestionarPropuestaTransferencia/grillaRecursoUtilizado.jsp" />
+	<definition name="divGrillaBienTranferido"
+		template="/WEB-INF/view/principal/gestionarPropuestaTransferencia/grillaBienTransferido.jsp" />
+
+
+	<!-- GESTIONAR INFORME FINAL -->
+	<definition name="divInformeFinal" extends="principal.definition">
+		<put-attribute name="body"
+			value="/WEB-INF/view/principal/gestionarInformeFinal/informeFinal.jsp" />						   
+	</definition>
+	<definition name="divGrillaProblemaSolucionInformeFinal"
+		template="/WEB-INF/view/principal/gestionarInformeFinal/grillaProblemasSolucionesInformeFinal.jsp" />
+	<definition name="divMuestraDetalleProblemaSolucionInformeFinal"
+		template="/WEB-INF/view/principal/gestionarInformeFinal/muestraDetalleProblemasSolucionesIF.jsp" />
+	<definition name="divGrillaEfectoProyectoInformeFinal"
+		template="/WEB-INF/view/principal/gestionarInformeFinal/grillaEfectoProyecto.jsp" />
+	<definition name="divGrillaMaterialProducidoInformeFinal"
+		template="/WEB-INF/view/principal/gestionarInformeFinal/grillaMaterialProducido.jsp" />
+	<definition name="divGrillaEvaluacionFinalInformeFinal"
+		template="/WEB-INF/view/principal/gestionarInformeFinal/grillaEvaluacionFinal.jsp" />
+	<definition name="divGrillaLeccionApendidaInformeFinal"
+		template="/WEB-INF/view/principal/gestionarInformeFinal/grillaLeccionApendida.jsp" />
+	<definition name="divGrillaConclucionInformeFinal"
+		template="/WEB-INF/view/principal/gestionarInformeFinal/grillaConclusion.jsp" />
+	<definition name="divGrillaOrganizacionInformeFinal"
+		template="/WEB-INF/view/principal/gestionarInformeFinal/grillaOrganizacionInformeFinal.jsp" />
+	<definition name="divGrillaBienInformeFinal"
+		template="/WEB-INF/view/principal/gestionarInformeFinal/grillaBienInformeFinal.jsp" />
+	<definition name="divGrillaRecursoUtilizadoInformeFinal"
+		template="/WEB-INF/view/principal/gestionarInformeFinal/grillaRecursoUtilizadoInformeFinal.jsp" />
+		
+</tiles-definitions>
+
+
+

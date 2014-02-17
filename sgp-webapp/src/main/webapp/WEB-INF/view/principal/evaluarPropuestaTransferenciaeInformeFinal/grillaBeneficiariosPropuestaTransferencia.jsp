@@ -1,0 +1,168 @@
+<%@ include file="/common/taglibs.jsp"%>
+
+<script type="text/javascript">
+function agregarCantidadLograda(beneficiarioPorResultadoId) {
+	var url	= "cuerpoBeneficiariosResultadoLogradoPropuestaTransferencia.jspx?beneficiarioPorResultadoId="
+				+ beneficiarioPorResultadoId
+				+ "&propuestaTransferenciaId="
+				+ $("#propuestaTransferenciaId").val();
+		var stiloPopUp = 'dialogWidth=800px; dialogHeight=500px; dialogTop=70px; location=no; addressbar:no; toolbar=no; menubar=no; status=no; scrollbars=yes; resizable=no;';
+
+		window.showModalDialog(url, "", stiloPopUp);
+	}
+
+</script>
+
+<table border="0" width="100%" class="table-clasico">
+	<caption>Lista de beneficiarios por resultado</caption>
+	<thead>
+		<tr>
+			<td style="width: 3%; text-align: center;"><label
+				style="font-size: 10px;">Det <br>Lograda</label>
+			</td>
+			<td style="width: 30%; text-align: center;"><label
+				style="font-size: 10px;">Resultado</label>
+			</td>
+			<td style="width: 10%; text-align: center;"><label
+				style="font-size: 10px;">Tipo Beneficiario</label>
+			</td>
+			<td style="width: 35%; text-align: center;"><label
+				style="font-size: 10px;">Caracistica <br>Poblacion</label>
+			</td>
+			<td style="width: 12%; text-align: center;"><label
+				style="font-size: 10px;">Departamento<br>Provincia<br>Distrito</label>
+			</td>
+			<td style="width: 10%; text-align: center;"><label
+				style="font-size: 10px;" class="hide">Opcion</label>
+			</td>
+		</tr>
+	</thead>
+	<tbody>
+
+		<c:forEach items="${listBeneficiariosPorResultadoBean }"
+			var="beneficiariosPorResultadoBean" varStatus="indice">
+			<c:choose>
+				<c:when test="${indice.count %2== 0}">
+					<c:set var="classIdi" value="f2"></c:set>
+				</c:when>
+				<c:otherwise>
+					<c:set var="classIdi" value="f1"></c:set>
+				</c:otherwise>
+			</c:choose>
+			<tr class="<c:out value="${classIdi}"></c:out>">
+				<td style="width: 3%; text-align: justify;"><a
+					href="javascript:expandcollapse('divBPT<c:out value="${beneficiariosPorResultadoBean.beneficiariosPorResultadoID }"></c:out>', 'one');">
+						<img
+						id='imgdivBPT<c:out value="${beneficiariosPorResultadoBean.beneficiariosPorResultadoID }"></c:out>'
+						border="0" src="<c:url value="/images/Plus001.gif" />"
+						width="15px" /> </a></td>
+				<td style="width: 30%; text-align: justify;"><label><c:out
+							value="${beneficiariosPorResultadoBean.descripcionResultado }"></c:out>
+				</label><br>
+				</td>
+				<td style="width: 10%; text-align: justify;"><label>Beneficiarios
+						<c:out
+							value="${beneficiariosPorResultadoBean.descripcionTipoBeneficiario }"></c:out>
+				</label><br>
+				</td>
+				<td style="width: 35%; text-align: justify;"><label><c:out
+							value="${beneficiariosPorResultadoBean.caracteristicasPoblacion }"></c:out>
+				</label><br>
+				</td>
+				<td style="width: 12%; text-align: center;"><label><c:out
+							value="${beneficiariosPorResultadoBean.departamento }"></c:out><br>
+						<c:out value="${beneficiariosPorResultadoBean.provincia }"></c:out><br>
+						<c:out value="${beneficiariosPorResultadoBean.distrito }"></c:out>
+				</label>
+				</td>
+				<td style="width: 10%; text-align: center;"><label>
+			<a	href="javascript:agregarObservacion('<c:out value="${beneficiariosPorResultadoBean.beneficiariosPorResultadoID }" ></c:out>','<c:out value="${datoProyectoId }" ></c:out>','11','34','<c:out value="${propuestaTransferenciaId }" ></c:out>')"
+														class="linkSelecciona">Observacion</a></label>
+				</td>
+			</tr>
+			<tr class="<c:out value="${classIdi}"></c:out>">
+				<td colspan="100%">
+					<div
+						id='divBPT<c:out value="${beneficiariosPorResultadoBean.beneficiariosPorResultadoID }"></c:out>'
+						style="display: none; position: relative; overflow: auto; padding-left: 15px; padding-bottom: 15px; width: 97%;">
+						<div style="width: 50%; float: left;">
+							<legend style="width: 75%;"><label>Cantidad Lograda por Reporte</label></legend>
+							<table style="width: 80%;">
+								<thead>
+									<tr>
+										<td style="width: 50%; text-align: center;"><label>Reporte
+												N°</label>
+										</td>
+										<td style="width: 50%; text-align: center;"><label>Cantidad
+												Lograda</label>
+										</td>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach
+										items="${beneficiariosPorResultadoBean.listReporteAvanceBeneficiarioBean }"
+										var="reporteAvanceBeneficiarioBean" varStatus="indiceInt">
+										<c:choose>
+											<c:when test="${indiceInt.count %2== 0}">
+												<c:set var="classTblInt" value="f1int"></c:set>
+											</c:when>
+											<c:otherwise>
+												<c:set var="classTblInt" value="f2int"></c:set>
+											</c:otherwise>
+										</c:choose>
+										<tr class="<c:out value="${classTblInt }"></c:out>">
+											<td style="width: 50%; text-align: center;"><label>
+													Reporte N° <c:out
+														value="${reporteAvanceBeneficiarioBean.periodoReporte }"></c:out>
+											</label></td>
+											<td style="width: 50%; text-align: center;"><label>
+													<c:out
+														value="${reporteAvanceBeneficiarioBean.cantidadLograda }"></c:out>
+													<c:out
+														value="${beneficiariosPorResultadoBean.descripcionEstrato }"></c:out>
+											</label></td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+						<div style="width: 50%; float: left;">
+							<legend style="width: 75%;" ><label>Cantidad Programada y Final</label></legend>
+							<table width="80%">
+								<thead>
+									<tr>
+										<td style="width: 50%; text-align: center;"><label>Cantidad
+												Programada</label></td>
+										<td style="width: 50%; text-align: center;"><label>Cantidad
+												Final</label></td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="<c:out value="${classIdi }"></c:out>">
+										<td style="width: 50%; text-align: center;"><label><c:out
+													value="${beneficiariosPorResultadoBean.cantidadProgramado }"></c:out>
+												<c:out
+													value="${beneficiariosPorResultadoBean.descripcionEstrato }"></c:out>
+										</label>
+										</td>
+										<td style="width: 50%; text-align: center;"><label>
+												<c:choose>
+													<c:when
+														test="${beneficiariosPorResultadoBean.propuestaTransferenciaBeneficiario != null }">
+														<c:out
+															value="${beneficiariosPorResultadoBean.propuestaTransferenciaBeneficiario.cantidadFinal }"></c:out>
+													</c:when>
+													<c:otherwise>0 </c:otherwise>
+												</c:choose> <c:out
+													value="${beneficiariosPorResultadoBean.descripcionEstrato }"></c:out>
+										</label>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div></td>
+			</tr>
+		</c:forEach>
+	</tbody>
+</table>

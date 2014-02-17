@@ -1,0 +1,93 @@
+<%@ include file="/common/taglibs.jsp"%>
+<%@ include file="/common/includesTaglibsGenerico.jsp"%>
+	
+<script type="text/javascript">
+$(function() {	
+	$("#fechaObservacion").datepicker({
+		changeMonth : true,
+		changeYear : true
+	});
+
+	$( "#divMensaje" ).dialog({
+		autoOpen : false,
+		width : 280,
+		height: 130,
+		modal: true,
+		buttons: {
+			Ok: function() {
+				$( this).dialog( "close" );
+			}
+		}
+	});
+});
+
+function fCreate(){
+	var form = document.formCreateGestionarObsercion;
+	form.action = "actionRegistrarGestionarObserbacion.jspx";
+	form.submit();
+}
+function fCancelar(){
+	var form = document.formCreateGestionarObsercion;
+	form.action = "showGestionarObservacion.jspx";
+	form.submit();
+}
+
+</script>
+<div class="form-clasico" ><form:form name="formCreateGestionarObsercion"
+	action="formCreateGestionarObsercion.jspx" method="POST">
+	<div id="divMensaje"></div>
+ <input type="hidden" id="mensaje" value="${mensaje}" />
+<fieldset><legend>REGISTRAR OBSERVACI&Oacute;N</legend>
+	<table width="100%">
+		<tr>
+			<td style="text-align: right; width: 25%;"><label>Descripci&oacute;n:</label></td>
+			<td colspan="3" style="text-align: left;width: 75%;"><textarea rows="3" cols="23" id="descripcion" name="descripcion" style="width:98%;"><c:out value="${bean.descripcion}"></c:out></textarea></td>
+		</tr>
+
+		<tr>
+			<td style="text-align: right;width: 25%">
+			<label>Tipo de Observaci&oacute;n:</label></td>
+			<td style="text-align: left;width: 25%" ><select name="tipoObservacion"
+				id="tipoObservacion">
+				<option value="0"><c:out value="-- Tipo --" /></option>
+				<c:forEach items="${listTipoObservacion}" var="tObservacion">
+						<option value="${tObservacion.tablaEspecificaID}">
+						<c:out value="${tObservacion.descripcionCabecera}" />
+						</option>
+				</c:forEach>
+			</select>
+			</td>					
+			<td style="text-align: right;width: 25%"><label>Fecha:</label></td>
+			<td style="text-align: left;width: 25%"><input type="text" name="fechaObservacion" maxlength="0" style="width: 90px;"
+							id="fechaObservacion" disabled="disabled"
+							onkeypress="javascript:return Valida_Dato(event,7);" /><label>(dd/mm/aaaa)</label>
+			</td>			
+		</tr>
+		<tr>
+			<td style="text-align: right;width: 25%">
+			<label>Estado:</label></td>
+			<td style="text-align: left;width: 25%" ><select name="estadoObservacion"
+				id="estadoObservacion">
+				<option value="0"><c:out value="-- Estado --" /></option>
+				<c:forEach items="${listEstadoObservacion}" var="estadoObservacion">
+						<option value="${estadoObservacion.tablaEspecificaID}">
+						<c:out value="${estadoObservacion.descripcionCabecera}" />
+						</option>
+				</c:forEach>
+			</select>
+			</td>					
+			<td style="text-align: right;width: 25%"><label>Parte Observada:</label></td>
+			<td style="text-align: left;width: 25%"><input type="text" name="parteObservada" maxlength="0"
+							id="parteObservada" value="Ejm: PLAN OPERATIVO"/></td>			
+		</tr>
+
+		<tr>
+		<td colspan="2" style="text-align: right;width: 50%"></td>
+		<td  style="text-align: right;width: 25%"><input type="button" value="Registrar" onclick="javascript:fCreate();" /></td>
+		<td align="center"><input type="button" value="Cancelar" onclick="javascript:fCancelar();" /></td>
+		</tr>
+		
+	</table>
+	<br />
+	</fieldset>
+</form:form></div>

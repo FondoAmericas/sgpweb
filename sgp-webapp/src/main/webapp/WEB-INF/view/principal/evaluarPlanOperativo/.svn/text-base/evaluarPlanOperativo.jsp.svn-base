@@ -1,0 +1,886 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
+<%@ taglib uri="http://ajaxtags.org/tags/ajax" prefix="ajax"%>
+<%@include file="/common/includesTaglibsGenerico.jsp"%>
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/css/displaytagex.css"
+	type="text/css" />
+<script type="text/javascript"
+	src="<c:url value="/js/gestorAjax.js"></c:url>"></script>
+
+<script type="text/javascript">
+	var evalua;
+	var cargarProyec = 0;
+	var dato;
+	//var codigoResultado = 0;
+	//var codigoActividad = 0;
+
+	/*function getResultadoID() {
+		return codigoResultado;
+	}
+	function getActividadID() {
+		return codigoActividad;
+	}
+	
+	$(function() {
+		$("#divMensaje").dialog({
+			autoOpen : false,
+			width : 280,
+			height : 130,
+			modal : true,
+			buttons : {
+				Ok : function() {
+					$(this).dialog("close");
+				}
+			}
+		});	
+	});*/
+	$(document).ready(function() {
+
+		dato = $('#cargarProyecto').attr('value'); 
+		var mensaje= "<c:out value="${mensaje}"></c:out>" ;
+		if (mensaje!=""){
+			alert(mensaje);
+		}
+	});
+	$(window).load(function() {
+
+		if (dato == 0) {
+			$('#divListaProgramas').show();
+
+		}
+		if (dato == 1) {
+			$('#divListaProgramas').hide();
+			$('#divListProyectos').show('Bounce');
+
+		}
+		if (dato == 2) {
+			$('#divListPlanOperativo').show('Bounce');
+			$('#divListaProgramas').hide();
+			$('#divListProyectos').hide();
+		}
+		if (dato == 3) {
+			$('#divListPlanOperativo').show('Bounce');
+			//$('#divListResultadoPorActividad').show('Bounce');
+			$('#divListResultado').hide();
+
+			$('#divListaProgramas').hide();
+			$('#divListProyectos').hide();
+
+		}
+	});
+
+	function fBuscarPrograma() {
+		var form = document.formEvaluar;
+		form.action = "actionBuscarProgramaEvaluacion.jspx?evalu=" + evalua;
+		form.submit();
+	}
+
+	function fMostrarSelect(valor) {
+		if (valor == 0) {
+			$('#divlistTipoPeriodos').hide();
+			$('#divlistTipoCuentas').hide();
+			$('#divlistModalidadFinanciera').hide();
+			$('#divNombre').hide();
+			$('#divSelect').show();
+		}
+		if (valor == 100) {
+			$('#divlistTipoPeriodos').show();
+			$('#divlistTipoCuentas').hide();
+			$('#divlistModalidadFinanciera').hide();
+			$('#divNombre').hide();
+			$('#divSelect').hide();
+		}
+		if (valor == 101) {
+			$('#divlistTipoPeriodos').hide();
+			$('#divlistTipoCuentas').show();
+			$('#divlistModalidadFinanciera').hide();
+			$('#divNombre').hide();
+			$('#divSelect').hide();
+		}
+		if (valor == 102) {
+			$('#divlistTipoPeriodos').hide();
+			$('#divlistTipoCuentas').hide();
+			$('#divlistModalidadFinanciera').show();
+			$('#divNombre').hide();
+			$('#divSelect').hide();
+		}
+		if (valor == 103) {
+			$('#divNombre').show();
+			$('#divlistTipoPeriodos').hide();
+			$('#divlistTipoCuentas').hide();
+			$('#divlistModalidadFinanciera').hide();
+			$('#divSelect').hide();
+		}
+		if (valor == 104) {
+			$('#divlistTipoPeriodos').hide();
+			$('#divlistTipoCuentas').hide();
+			$('#divlistModalidadFinanciera').hide();
+			$('#divNombre').hide();
+			$('#divSelect').hide();
+		}
+
+	}
+	function fCargarProgramas(proyec) {
+		var form = document.formEvaluarPlanOperativo;
+		form.action = "actionCargarProyectosEvaluarPlanOperativo.jspx?idPrograma="
+				+ proyec;
+		form.submit();
+
+	}
+
+	function fCargarPlanOperativo(id) {
+
+		var form = document.formEvaluarPlanOperativo;
+		form.action = "actionShowEvaluarPlanOperativo.jspx?datoProyectoID="
+				+ id;
+		form.submit();
+	}
+
+	/*function fCargarActividad(idResultado) {
+		var form = document.formEvaluarPlanOperativo;
+		form.action = "actionActividadEvaluarPlanOperativo.jspx?resultadoId="
+				+ idResultado;
+		form.submit();
+	}*/
+	function fRegresar() {
+		$('#divListProyectos').show('Bounce');
+		$('#divListPlanOperativo').hide();
+		$('#divListResultado').hide();
+		//$('#divListResultadoPorActividad').hide();
+		$('#divListaProgramas').hide();
+	}
+
+	function fCancelar() {
+		$('#divListaProgramas').show('Bounce');
+		$('#divListProyectos').hide();
+
+	}
+	function grabarEstado(){
+		//alert($("#datoPlanOperativoID").val());
+		var form = document.formEvaluarPlanOperativo;
+		form.action = "actionGrabarEvaluacionPlanOperativo.jspx?estado="+ $("#idEstadoabecera").val()+"&datoPlanOperativoId="+$("#datoPlanOperativoID").val();
+		form.submit();
+		/*$.get("actionGrabarEvaluacionPlanOperativo.jspx", {
+			estado : $("#idEstadoabecera").val(),
+			datoPlanOperativoId : $("#datoPlanOperativoID").val()
+		});*/
+		
+	}
+	/*
+	function fRegresarResultado() {
+		$('#divListPlanOperativo').show('Bounce');
+		$('#divListResultado').show('Bounce');
+		//$('#divListResultadoPorActividad').hide();
+
+		$('#divListaProgramas').hide();
+		$('#divListProyectos').hide();
+
+	}
+	
+	function fObtenerResultado(tipo) {
+		if (getResultadoID() != 0) {
+
+			fOpenModalDialog("showDetalleResultado.jspx?tipoResultado=" + tipo
+					+ "&resultadoID=" + getResultadoID(), '900', '500', '90',
+					'60');
+		} else {
+			alert("Debe seleccionar un Resultado");
+			return;
+		}
+	}
+
+	function fObtenerActividad(tipo) {
+		if (getActividadID() != 0) {
+			fOpenModalDialog("showDetalleActividad.jspx?tipoActividad=" + tipo
+					+ "&actividadID=" + getActividadID(), '900', '500', '90',
+					'60');
+		} else {
+			alert("Debe seleccionar una Actividad");
+			return;
+		}
+
+	}*/
+	function fBuscarPrograma() {
+		var form = document.formEvaluarPlanOperativo;
+		form.action = "actionBuscarEvaluarPlanOperativo.jspx";
+		form.submit();
+	};
+/*
+	function fSeleccionResultado(resultado) {
+		codigoResultado = resultado;
+	};
+
+	function fSeleccionActividad(actividad) {
+		codigoActividad = actividad;
+	};
+	*/
+</script>
+
+
+<div class="form-clasico">
+
+	<form:form name="formEvaluarPlanOperativo"
+		action="actionEvaluarPlanOperativo.jspx" method="POST">
+		<!-- <div id="divMensaje"></div> -->
+
+		<div class="encabezado" id="cproyecto">EVALUAR PLAN OPERATIVO</div>
+
+		<br />
+		<input type="hidden" id="cargarProyecto" value="${cargarProyecto}" />
+		<!-- <input type="hidden" id="mensaje" value="${mensajeEvaluador}" /> -->
+		<input type="hidden" value="${planOperativo.datoPlanOperativoID}"
+			name="datoPlanOperativoID" id="datoPlanOperativoID"/>
+
+		<div id="divListaProgramas" style="display: none;">
+			<fieldset>
+				<legend>Programas</legend>
+				<table>
+					<tr>
+						<td><label>Filtro:</label></td>
+						<td><select name="idFiltro" id="idFiltro"
+							onchange="fMostrarSelect(this.value)">
+								<option value="0">
+									<c:out value="--Seleccionar--" />
+								<option value="100">
+									<c:out value="Tipo Periodo" />
+								</option>
+								<option value="101">
+									<c:out value="Tipo Cuenta" />
+								</option>
+								<option value="102">
+									<c:out value="Modalidad" />
+								</option>
+								<option value="104">
+									<c:out value="Todos" />
+								</option>
+						</select>
+						</td>
+
+						<td>
+							<div id="divSelect">
+								<select name="sele" disabled="disabled">
+									<option value="0">
+										<c:out value="--Seleccionar--" />
+									</option>
+								</select>
+							</div>
+							<div id="divlistTipoPeriodos" style="display: none;">
+								<select name="idTipoPeriodos" id="idTipoPeriodos">
+									<option value="0">
+										<c:out value="--Seleccionar--" />
+									</option>
+									<c:forEach items="${listTipoPeriodos}" var="tipoPeriodo">
+										<option value="${tipoPeriodo.tipoPeriodoID}">
+											<c:out value="${tipoPeriodo.descripPeriodo}" />
+										</option>
+
+									</c:forEach>
+								</select>
+							</div>
+							<div id="divlistTipoCuentas" style="display: none;">
+								<select name="idTipoCuentas" id="idTipoCuentas">
+									<option value="0">
+										<c:out value="-- Seleccionar --" />
+									</option>
+									<c:forEach items="${listTipoCuentas}" var="tipoCuenta">
+										<option value="${tipoCuenta.tablaEspecificaID}">
+											<c:out value="${tipoCuenta.descripcionCabecera}" />
+										</option>
+									</c:forEach>
+								</select>
+							</div>
+							<div id="divlistModalidadFinanciera" style="display: none;">
+								<select name="idModalidadFinanciera" id="idModalidadFinanciera">
+									<option value="0">
+										<c:out value="-- Seleccionar --" />
+									</option>
+									<c:forEach items="${listModalidadFinanciera}" var="modali">
+										<option value="${modali.tablaEspecificaID}">
+											<c:out value="${modali.descripcionCabecera}" />
+										</option>
+									</c:forEach>
+								</select>
+							</div></td>
+						<td><input value="Buscar Programa" type="button"
+							onclick="fBuscarPrograma()" />
+						</td>
+					</tr>
+				</table>
+				<display:table uid="prog" name="${listaProgramaAndProyecto}"
+					defaultsort="1" style="width:100%; font-size: 12px;"
+					defaultorder="descending" class="table-clasico" pagesize="10"
+					requestURI="" export="false">
+					<display:caption>
+						<label>Lista de Programas</label>
+					</display:caption>
+
+					<display:column property="programaID" title="Id" sortable="true" />
+					<display:column property="nombrePrograma" title="Programa"
+						sortable="true" />
+					<display:column property="duracionPrograma"
+						title="Duracion Programa" sortable="true" />
+					<display:column title="Tipo Periodo">
+						<c:forEach items="${listTipoPeriodos}" var="val">
+							<c:if
+								test="${val.tipoPeriodoID== prog.tipoPeriodo.tipoPeriodoID}">
+								<c:out value="${val.descripPeriodo}" />
+							</c:if>
+						</c:forEach>
+					</display:column>
+					<display:column title="Tipo Cuentas">
+						<c:forEach items="${listTipoCuentas}" var="val">
+							<c:if
+								test="${val.tablaEspecificaID== prog.fkIdtablaespTipoCuenta}">
+								<c:out value="${val.descripcionCabecera}" />
+							</c:if>
+						</c:forEach>
+					</display:column>
+					<display:column title="Modalidad Financiera">
+						<c:forEach items="${listModalidadFinanciera}" var="val">
+							<c:if
+								test="${val.tablaEspecificaID== prog.fkIdtablaespModalidadFinancia}">
+								<c:out value="${val.descripcionCabecera}" />
+							</c:if>
+						</c:forEach>
+					</display:column>
+					<display:column title="Cargar">
+						<a href="javascript:fCargarProgramas('${prog.programaID}')"
+							class="ui-icon ui-icon-circle-arrow-s" style="cursor: pointer;"
+							title="Cargar Proyectos"> </a>
+					</display:column>
+				</display:table>
+			</fieldset>
+		</div>
+		<div id="divListProyectos" style="display: none;">
+
+			<fieldset>
+				<legend>Proyectos</legend>
+				<table style="width: 100%;">
+					<tr>
+						<td style="width: 25%; text-align: right;"><label>Programa:</label>
+						</td>
+						<td style="width: 25%; text-align: left;"><label><c:out
+									value="${programa.nombrePrograma }"></c:out> </label></td>
+						<td style="width: 25%; text-align: right;"><label>Modalidad
+								de Financiamiento:</label></td>
+						<td style="width: 25%; text-align: left;"><label><c:out
+									value="${programa.modalidadFinancia }"></c:out> </label></td>
+					</tr>
+					<tr>
+						<td style="width: 25%; text-align: right;"><label>Duracion
+								Maxima(Meses):</label></td>
+						<td style="width: 25%; text-align: left;"><label><c:out
+									value="${programa.duracionPrograma }"></c:out> </label></td>
+						<td style="width: 25%; text-align: right;"><label>Tipo
+								de Periodo:</label></td>
+						<td style="width: 25%; text-align: left;"><label><c:out
+									value="${programa.nombreTipoPeriodo }"></c:out> </label></td>
+					</tr>
+				</table>
+				<br> <input type="button" onclick="fCancelar()"
+					value="Regresar" align="middle" />
+				<display:table uid="proy" name="${listDatoProyecto}" requestURI=""
+					class="table-clasico" pagesize="7"
+					style="width:100%; font-size: 12px;">
+					<display:caption>
+						<label>Lista de Proyectos del Programa</label>
+					</display:caption>
+					<display:column property="nombreProyecto" title="Nombre"
+						sortable="true" style="width:40%;" />
+					<display:column property="codigoProyecto" title="Codig&oacute;"
+						sortable="true" style="width:10%;" />
+					<display:column property="duracionProyecto"
+						title="Duraci&oacute;n <br/>(meses)" sortable="true"
+						style="width:10%;text-align:center;" />
+					<display:column property="cantidadPeriodo"
+						title="Cantidad Periodo " sortable="true"
+						style="width:10%;text-align:center;" />
+					<display:column property="subAreaTematica.descripcionSubAt"
+						title="subArea Tematica" sortable="true"
+						style="width:15%;text-align:center;" />
+					<display:column property="descripcionEstadoProyecto"
+						title="Estado Proyecto" sortable="true"
+						style="width:10%;text-align:center;" />
+
+					<display:column title="Ver Plan Operativo"
+						style="width:5%;text-align:center;">
+						<a
+							href="javascript:fCargarPlanOperativo('${proy.datoProyectoID}')"
+							class="ui-icon ui-icon-circle-arrow-s" style="cursor: pointer"
+							title="Cargar Plan Operativo"> </a>
+					</display:column>
+				</display:table>
+
+			</fieldset>
+
+		</div>
+		<div id="divListPlanOperativo"
+			style="display: none; width: 100%; height: auto">
+			<fieldset>
+				<legend>Plan Operativo</legend>
+				<br>
+				<table border="0" align="center" width="100%">
+					<tr>
+						<td style="text-align: right; width: 25%;"><label>Nombre
+								Proyecto:</label></td>
+						<td style="text-align: left; width: 75%;" colspan="3"><label
+							for="nombreProyecto">${proyectoBean.nombreProyecto}</label>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: right; width: 25%;"><label>Codigo
+								Proyecto:</label></td>
+						<td style="text-align: left; width: 25%;"><label
+							for="codigoProyecto">${proyectoBean.codigoProyecto}</label>
+						</td>
+						<td style="text-align: right; width: 25%;"><label>Duracion
+								Proyecto(meses):</label></td>
+						<td style="text-align: left; width: 25%;"><label
+							for="duracionProyecto">${proyectoBean.duracionProyecto}</label>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: right; width: 25%;"><label>Cantidad
+								Periodo:</label></td>
+						<td style="text-align: left; width: 25%;"><label
+							for="cantidadPeriodo">${proyectoBean.cantidadPeriodo }</label>
+						</td>
+						
+						<td style="text-align: right; width: 25%;"><label>Estado Plan Operativo:</label>
+						</td>
+						<td style="text-align: left; width: 25%;"><select
+							name="idEstadoabecera" id="idEstadoabecera" onchange="grabarEstado()" <c:if
+										test="${ planOperativo.estadoPlanOperativo == 61}">
+											disabled="disabled"
+									</c:if>
+									<c:if test="${userSession.perfilUsuarioID!=2 }">
+									disabled="disabled"
+									</c:if>>
+								<option value="0">
+									<c:out value="--Seleccionar--" />
+								</option>
+								<c:forEach items="${listaEstadoCabecera}" var="estado">
+									<option value="${estado.detalleEstadoCabeceraID}"
+										<c:if
+										test="${ planOperativo.estadoPlanOperativo == estado.detalleEstadoCabeceraID}">
+											selected="selected"
+									</c:if>>
+										<c:out value="${estado.descripEstado}" />
+									</option>
+								</c:forEach>
+						</select></td>
+					</tr>
+					<tr>
+						<td style="text-align: right; width: 25%;"><label>Version
+								Plan Operativo:</label></td>
+						<td style="text-align: left; width: 25%;"><label
+							for="planOperativo">${planOperativo.version}</label>
+						</td>
+						<!-- <td  style="text-align: right; width: 25%;"><label>Resumen Ejecutivo:</label></td>
+						<td style="text-align: left; width: 25%;"><label for="proyectoNombre"> <c:out
+									value="${marcoLogico.resumenEjecutivo}" /> </label></td>
+					 -->
+					</tr>
+					<!-- <tr>				
+						<td  style="text-align: right;  width: 25%;"><label>Fin Descripcion:</label></td>
+						<td  style="text-align: left; width: 25%;"><label> <c:out
+									value="${marcoLogico.finDescrip}" /> </label></td>
+						<td style="text-align: right; width: 25%;"><label>Fin Supuesto:</label></td>
+						<td  style="text-align: left; width: 25%;"><label> <c:out
+									value="${marcoLogico.finSupuesto}" /> </label></td>
+					
+					</tr>
+					<tr>				
+						<td style="text-align: right;  width: 25%;"><label>Proposito Descripcion:</label></td>
+						<td  style="text-align: left; width: 25%;"><label> <c:out
+									value="${marcoLogico.propositoDescrip}" /> </label></td>
+						<td style="text-align: right; width: 25%;"><label>Proposito Supuesto:</label></td>
+						<td  style="text-align: left; width: 25%;"><label for="proyectoNombre"> <c:out
+									value="${marcoLogico.propositoSupuesto}" /> </label></td>
+					</tr> -->
+					<tr>
+
+						<td colspan="4" style="width: 100%; text-align: right;"><!-- <input
+							type="button" value="Grabar Evaluaci&oacute;n"
+							onclick="fGrabarEvaluacion()" />--> <input type="button"
+							onclick="fRegresar()" value="Regresar" /></td>
+					</tr>
+				</table>
+				<br />
+				<div id="divListResultado" style="width: 100%;">
+					<fieldset>
+						<table width="100%" class="table-clasico">
+							<caption>
+								<label>Lista de Resultados con Detalles</label>
+							</caption>
+							<thead>
+								<tr>
+									<td style="text-align: center; width: 3%;"><label>Det</label>
+									</td>
+									<td style="text-align: center; width: 5%;"><label>Codigo</label>
+									</td>
+									<td style="text-align: center; width: 65%;"><label>Resultado</label>
+									</td>
+									<td style="text-align: center; width: 17%;"><label>Meta</label>
+									</td>
+									<td style="text-align: center; width: 10%;"><label>Duracion<br />(Meses)</label>
+									</td>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${planOperativo.listResultadoForm }"
+									var="resultado" varStatus="indice">
+									<c:choose>
+										<c:when test="${indice.count %2== 0}">
+											<c:set var="classIdi" value="f2"></c:set>
+										</c:when>
+										<c:otherwise>
+											<c:set var="classIdi" value="f1"></c:set>
+										</c:otherwise>
+									</c:choose>
+									<tr class="<c:out value="${classIdi}"></c:out>">
+										<td style="width: 3%; text-align: center;"><a
+											href="javascript:expandcollapse('divRes<c:out value="${resultado.resultadoID }"></c:out>', 'one');">
+												<img
+												id='imgdivRes<c:out value="${resultado.resultadoID }"></c:out>'
+												border="0" src="<c:url value="/images/Plus001.gif" />"
+												width="15px" /> </a>
+										</td>
+										<td style="text-align: center; width: 5%;"><label><c:out
+													value="${resultado.codigoResultado }"></c:out> </label>
+										</td>
+										<td style="text-align: justify; width: 65%;"><label><c:out
+													value="${resultado.definicionResultado }"></c:out> </label>
+										</td>
+										<td style="text-align: left; width: 17%;"><label><c:out
+													value="${resultado.metaResultado }"></c:out> - <c:out
+													value="${resultado.estratoNombre }"></c:out> </label>
+										</td>
+										<td style="text-align: center; width: 10%;"><label><c:out
+													value="${resultado.duracionMeses }"></c:out> </label>
+										</td>
+									</tr>
+									<tr class="<c:out value="${classIdi}"></c:out>">
+										<td colspan="100%">
+											<div
+												id='divRes<c:out value="${resultado.resultadoID }"></c:out>'
+												style="display: none; position: relative; overflow: auto; padding-left: 25px; padding-bottom: 15px; width: 97%;">
+
+												<legend>Cronograma de Meta de Resultado</legend>
+												<table width="100%">
+													<thead>
+														<tr>
+															<td style="text-align: center; width: 30%;"><label>Periodo</label>
+															</td>
+															<td style="text-align: center; width: 30%;"><label>Avance
+																	de Meta</label></td>
+														</tr>
+													</thead>
+													<tbody>
+														<c:forEach items="${resultado.listCronogramaMetaForm }"
+															var="cronogramaMetaResultado" varStatus="indiceInt">
+															<c:choose>
+																<c:when test="${indiceInt.count %2== 0}">
+																	<c:set var="classIdiInt" value="f2int"></c:set>
+																</c:when>
+																<c:otherwise>
+																	<c:set var="classIdiInt" value="f1int"></c:set>
+																</c:otherwise>
+															</c:choose>
+															<tr class="<c:out value="${classIdiInt}"></c:out>">
+																<td style="text-align: center; width: 30%;"><label><c:out
+																			value="${cronogramaMetaResultado.periodo }"></c:out>
+																</label></td>
+																<td style="text-align: center; width: 30%;"><label><c:out
+																			value="${cronogramaMetaResultado.avanceMeta }"></c:out>
+																		- <c:out value="${resultado.estratoNombre }"></c:out>
+																</label></td>
+															</tr>
+														</c:forEach>
+													</tbody>
+												</table>
+												<br />
+												<legend>Actividades</legend>
+												<table width="100%">
+													<thead>
+														<tr>
+															<td style="text-align: center; width: 3%;"><label>Det</label>
+															</td>
+															<td style="text-align: center; width: 5%;"><label>Codigo</label>
+															</td>
+															<td style="text-align: center; width: 15%;"><label>Tipo
+																	de <br />Actividad</label></td>
+															<td style="text-align: center; width: 60%;"><label>Actividad</label>
+															</td>
+															<td style="text-align: center; width: 10%;"><label>Duracion<br />(meses)</label>
+															</td>
+														</tr>
+													</thead>
+													<tbody>
+														<c:forEach items="${resultado.listActividadForm }"
+															var="actividad" varStatus="indiceInt">
+															<c:choose>
+																<c:when test="${indiceInt.count %2== 0}">
+																	<c:set var="classIdiInt" value="f2int"></c:set>
+																</c:when>
+																<c:otherwise>
+																	<c:set var="classIdiInt" value="f1int"></c:set>
+																</c:otherwise>
+															</c:choose>
+															<tr class="<c:out value="${classIdiInt}"></c:out>">
+																<td style="width: 3%; text-align: center;"><a
+																	href="javascript:expandcollapse('divAct<c:out value="${actividad.actividadID }"></c:out>', 'one');">
+																		<img
+																		id='imgdivAct<c:out value="${actividad.actividadID }"></c:out>'
+																		border="0" src="<c:url value="/images/Plus001.gif" />"
+																		width="15px" /> </a>
+																</td>
+																<td style="text-align: center; width: 5%;"><label><c:out
+																			value="${actividad.codigoActividad }"></c:out> </label></td>
+																<td style="text-align: center; width: 15%;"><label><c:out
+																			value="${actividad.tipoActividadNombre }"></c:out> </label></td>
+																<td style="text-align: left; width: 60%;"><label><c:out
+																			value="${actividad.nombreActividad }"></c:out> </label></td>
+																<td style="text-align: center; width: 10%;"><label><c:out
+																			value="${actividad.duracionMeses }"></c:out> </label></td>
+															</tr>
+															<tr class="<c:out value="${classIdiInt}"></c:out>">
+																<td colspan="100%">
+																	<div
+																		id='divAct<c:out value="${actividad.actividadID }"></c:out>'
+																		style="display: none; position: relative; overflow: auto; padding-left: 25px; padding-bottom: 15px; width: 97%;">
+																		<legend>Meta de Actividad</legend>
+																		<table width="100%">
+																			<thead>
+																				<tr>
+																					<td style="text-align: center; width: 3%;"><label>Det</label>
+																					</td>
+																					<td style="text-align: center; width: 40%;"><label>Tipo
+																							Indicador</label></td>
+																					<td style="text-align: center; width: 35%;"><label>Meta
+																							Actividad</label></td>
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<c:forEach
+																					items="${actividad.listMetaPorActividad  }"
+																					var="metaPorActividad" varStatus="indiceInt2">
+																					<c:choose>
+																						<c:when test="${indiceInt2.count %2== 0}">
+																							<c:set var="classIdiInt2" value="f2"></c:set>
+																						</c:when>
+																						<c:otherwise>
+																							<c:set var="classIdiInt2" value="f1"></c:set>
+																						</c:otherwise>
+																					</c:choose>
+																					<tr class="<c:out value="${classIdiInt2}"></c:out>">
+																						<td style="width: 3%; text-align: center;"><a
+																							href="javascript:expandcollapse('divMetaAct<c:out value="${metaPorActividad.metaPorActividadID }"></c:out>', 'one');">
+																								<img
+																								id='imgdivMetaAct<c:out value="${metaPorActividad.metaPorActividadID }"></c:out>'
+																								border="0"
+																								src="<c:url value="/images/Plus001.gif" />"
+																								width="15px" /> </a>
+																						</td>
+																						<td style="text-align: left; width: 40%;"><label><c:out
+																									value="${metaPorActividad.descripcionTipoIndicadorActividad }"></c:out>
+																						</label></td>
+																						<td style="text-align: center; width: 35%;"><label><c:out
+																									value="${metaPorActividad.cantidadMetaActividad }"></c:out>
+																								- <c:out
+																									value="${metaPorActividad.descripcionUnidadMedida }"></c:out>
+																						</label></td>
+																					</tr>
+																					<tr class="<c:out value="${classIdiInt2}"></c:out>">
+																						<td colspan="100%">
+																							<div
+																								id='divMetaAct<c:out value="${metaPorActividad.metaPorActividadID }"></c:out>'
+																								style="display: none; position: relative; overflow: auto; padding-left: 25px; padding-bottom: 15px; width: 97%;">
+																								<legend>Cronograma Meta de Actividad</legend>
+																								<table width="100%">
+																									<thead>
+																										<tr>
+																											<td style="text-align: center; width: 20%;"><label>Periodo</label>
+																											</td>
+																											<td style="text-align: center; width: 50%;"><label>Cantidad
+																													Programada <br />Por Periodo</label></td>
+																										</tr>
+																									</thead>
+																									<tbody>
+																										<c:forEach
+																											items="${metaPorActividad.listCronogramaMetaPorActividad  }"
+																											var="cronogramaMetaPorActividad"
+																											varStatus="indiceInt2">
+																											<c:choose>
+																												<c:when test="${indiceInt2.count %2== 0}">
+																													<c:set var="classIdiInt2CMA" value="f2int"></c:set>
+																												</c:when>
+																												<c:otherwise>
+																													<c:set var="classIdiInt2CMA" value="f1int"></c:set>
+																												</c:otherwise>
+																											</c:choose>
+																											<tr
+																												class="<c:out value="${classIdiInt2CMA}"></c:out>">
+																												<td style="text-align: center; width: 20%;"><label><c:out
+																															value="${cronogramaMetaPorActividad.periodo }"></c:out>
+																												</label></td>
+																												<td style="text-align: center; width: 50%;"><label><c:out
+																															value="${cronogramaMetaPorActividad.cantidadMetaActividadProgPorPeriodo }"></c:out>
+																														- <c:out
+																															value="${metaPorActividad.descripcionUnidadMedida }"></c:out>
+																												</label></td>
+																											</tr>
+																										</c:forEach>
+																									</tbody>
+																								</table>
+																							</div>
+																						</td>
+																					</tr>
+																				</c:forEach>
+																			</tbody>
+																		</table>
+																		<br />
+																		<legend>Costo de Actividad</legend>
+																		<table width="100%">
+																			<thead>
+																				<tr>
+																					<td style="text-align: center; width: 3%;"><label>Det</label>
+																					</td>
+																					<td style="text-align: center; width: 15%;"><label>Cantidad</label>
+																					</td>
+																					<td style="text-align: center; width: 12%;"><label>Precio
+																							Unitario</label></td>
+																					<td style="text-align: center; width: 20%;"><label>Partida
+																							<br />Generica</label></td>
+																					<td style="text-align: center; width: 20%;"><label>Partida
+																							<br />Especifica</label></td>
+																					<td style="text-align: center; width: 30%;"><label>Detalle</label>
+																					</td>
+																				</tr>
+																			</thead>
+																			<tbody>
+																				<c:forEach items="${actividad.listCostoActividad }"
+																					var="costoPorActividad" varStatus="indiceInt2CPA">
+																					<c:choose>
+																						<c:when test="${indiceInt2CPA.count %2== 0}">
+																							<c:set var="classIdiInt2CPA" value="f2"></c:set>
+																						</c:when>
+																						<c:otherwise>
+																							<c:set var="classIdiInt2CPA" value="f1"></c:set>
+																						</c:otherwise>
+																					</c:choose>
+																					<tr
+																						class="<c:out value="${classIdiInt2CPA}"></c:out>">
+																						<td style="width: 3%; text-align: center;"><a
+																							href="javascript:expandcollapse('divCostoAct<c:out value="${costoPorActividad.costoActividadID }"></c:out>', 'one');">
+																								<img
+																								id='imgdivCostoAct<c:out value="${costoPorActividad.costoActividadID }"></c:out>'
+																								border="0"
+																								src="<c:url value="/images/Plus001.gif" />"
+																								width="15px" /> </a>
+																						</td>
+																						<td style="text-align: center; width: 15%;"><label><c:out
+																									value="${costoPorActividad.cantidadTotal }"></c:out>
+																								- <c:out
+																									value="${costoPorActividad.descripcionUnidadMedida }"></c:out>
+																						</label></td>
+																						<td style="text-align: center; width: 12%;"><label><c:out
+																									value="${costoPorActividad.precioUnitario }"></c:out>
+																								<c:out
+																									value="${costoPorActividad.descripcionTipoMoneda }"></c:out>
+																						</label></td>
+																						<td style="text-align: center; width: 15%;"><label><c:out
+																									value="${costoPorActividad.partidaGenerica.descripcionPartidaGenerica }"></c:out>
+																						</label></td>
+																						<td style="text-align: center; width: 15%;"><label><c:out
+																									value="${costoPorActividad.partidaEspecifica.descripcionPartidaEspecifica }"></c:out>
+																						</label></td>
+																						<td style="text-align: center; width: 40%;"><label><c:out
+																									value="${costoPorActividad.detallePartidaGenerica }"></c:out>
+																						</label></td>
+																					</tr>
+																					<tr
+																						class="<c:out value="${classIdiInt2CPA}"></c:out>">
+																						<td colspan="100%">
+																							<div
+																								id='divCostoAct<c:out value="${costoPorActividad.costoActividadID }"></c:out>'
+																								style="display: none; position: relative; overflow: auto; padding-left: 25px; padding-bottom: 15px; width: 97%;">
+																								<legend>Cronograma Costo Actividad</legend>
+																								<table width="100%">
+																									<thead>
+																										<tr>
+																											<td style="text-align: center; width: 15%;"><label>Periodo</label>
+																											</td>
+																											<td style="text-align: center; width: 15%;"><label>Cantidad
+																													Programada <br />Por Periodo</label></td>
+																											<td style="text-align: center; width: 70%;"><label>Fuente<br />Financiadora</label>
+																											</td>
+																										</tr>
+																									</thead>
+																									<tbody>
+																										<c:forEach
+																											items="${costoPorActividad.listCronogramaCostoActividad  }"
+																											var="cronogramaCostoPorActividad"
+																											varStatus="indiceInt2CPA">
+																											<c:choose>
+																												<c:when test="${indiceInt2CPA.count %2== 0}">
+																													<c:set var="classIdiInt2CPA" value="f2int"></c:set>
+																												</c:when>
+																												<c:otherwise>
+																													<c:set var="classIdiInt2CPA" value="f1int"></c:set>
+																												</c:otherwise>
+																											</c:choose>
+																											<tr
+																												class="<c:out value="${classIdiInt2CPA }"></c:out>">
+																												<td style="text-align: center; width: 15%;"><label><c:out
+																															value="${cronogramaCostoPorActividad.periodo }"></c:out>
+																												</label></td>
+																												<td style="text-align: center; width: 15%;"><label><c:out
+																															value="${cronogramaCostoPorActividad.cantidad }"></c:out>
+																														- <c:out
+																															value="${costoPorActividad.descripcionUnidadMedida }"></c:out>
+																												</label></td>
+																												<td style="text-align: left; width: 70%;"><label><c:out
+																															value="${cronogramaCostoPorActividad.fuenteFinanciadora.institucion.nombreInstitucion }"></c:out>
+																												</label></td>
+																											</tr>
+																										</c:forEach>
+																									</tbody>
+																								</table>
+																							</div>
+																						</td>
+																					</tr>
+																				</c:forEach>
+																			</tbody>
+																		</table>
+																	</div></td>
+															</tr>
+														</c:forEach>
+													</tbody>
+												</table>
+											</div>
+										</td>
+									</tr>
+
+								</c:forEach>
+							</tbody>
+						</table>
+						<!-- <br />
+						<table>
+							<tr>
+								<td><input type="button" onclick="fObtenerResultado(2)"
+									value="Beneficiario" align="middle" /></td>
+								<td><input type="button" onclick="fObtenerResultado(3)"
+									value="Indicador" align="middle" /></td>
+
+							</tr>
+						</table>
+						 -->
+					</fieldset>
+				</div>
+			</fieldset>
+		</div>
+	</form:form>
+</div>

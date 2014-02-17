@@ -1,0 +1,166 @@
+package pe.com.fondam.sgp.web.controller.principal;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import pe.com.fondam.sgp.core.domain.DatoProyecto;
+import pe.com.fondam.sgp.core.domain.DetalleEstadoCabecera;
+import pe.com.fondam.sgp.core.domain.Programa;
+import pe.com.fondam.sgp.core.domain.SubAreaTematica;
+import pe.com.fondam.sgp.core.domain.TablaEspecifica;
+import pe.com.fondam.sgp.core.domain.TipoPeriodo;
+import pe.com.fondam.sgp.core.service.CrearProgramaService;
+import pe.com.fondam.sgp.core.service.DetalleEstadoCabeceraService;
+import pe.com.fondam.sgp.core.service.EvaluarService;
+import pe.com.fondam.sgp.core.service.InstalarComiteTecnicoService;
+import pe.com.fondam.sgp.core.service.TablaEspecificaService;
+
+@Controller
+
+public class ObservacionController {
+	protected final Log logger = LogFactory.getLog(PerfilController.class);
+	
+	@Resource
+	CrearProgramaService crearProgramaService;
+
+	@Resource
+	DetalleEstadoCabeceraService detalleEstadoCabeceraService;
+	
+	@Resource
+	TablaEspecificaService tablaEspecificaService;
+	
+	@Resource
+	EvaluarService evaluarService;
+	
+	@Resource
+	InstalarComiteTecnicoService instalarComiteTecnicoService;
+	
+	// ProgramaBean programa;
+	List<TipoPeriodo> listTipoPeriodos;
+	List<TablaEspecifica> listTipoCuentas;
+	List<TablaEspecifica> listModalidadFinanciera;
+	List<TablaEspecifica> listTipoRestriccion;
+	List<Programa> listPrograma; 
+	List<SubAreaTematica> listSubAreaTematica;
+
+	
+	
+	
+	
+	@RequestMapping(value = "/principal/showGestionarObservacion")
+	public ModelAndView showGestionarObservacion(HttpServletRequest request) {
+
+		listTipoPeriodos = crearProgramaService.listTipoPeriodos();
+		listTipoCuentas = tablaEspecificaService.listTablaEspecificaByTablaGeneralId(1);
+		listModalidadFinanciera = tablaEspecificaService.listTablaEspecificaByTablaGeneralId(2);
+		listTipoRestriccion = tablaEspecificaService.listTablaEspecificaByTablaGeneralId(28);
+		listPrograma= crearProgramaService.listProgramas();
+		listSubAreaTematica=crearProgramaService.findSubAreaTematicaByDescripcion();
+		request.getSession().setAttribute("listTipoPeriodos",listTipoPeriodos);
+		request.getSession().setAttribute("listTipoCuentas",listTipoCuentas);
+		request.getSession().setAttribute("listModalidadFinanciera",listModalidadFinanciera);
+		request.getSession().setAttribute("listSubAreaTematica",listSubAreaTematica);
+		request.getSession().setAttribute("listPrograma",listPrograma);
+		request.getSession().setAttribute("flag",1);
+		return new ModelAndView("mostrarGestionarObservacion");
+	}
+ 	
+	@RequestMapping(value = "/principal/actionBuscarProgramabyGestionarObservacion")
+	public ModelAndView actionBuscarProgramabyGestionarObservacion(HttpServletRequest request) {
+		
+		Programa programa=new Programa();
+		Integer idTipoCuentas = Integer.parseInt(request.getParameter("idTipoCuenta").toString());
+		Integer idModalidadFinanciera = Integer.parseInt(request.getParameter("idModFinanciera").toString());
+		Integer idTipoPeriodos = Integer.parseInt(request.getParameter("idTipoPeriodo").toString());
+		Integer nombre = Integer.parseInt(request.getParameter("idFiltro"));
+		String  nombrePrograma =request.getParameter("buscarNombre");
+		Integer todosProgramas = Integer.parseInt(request.getParameter("idFiltro"));
+		int tipoPeriodo=100;
+		int tipoCuenta=101;
+		int Modalidad=102;
+		
+		
+		if ( idTipoPeriodos!=0) {
+			TipoPeriodo tipPeriodo=new TipoPeriodo();
+			tipPeriodo.setTipoPeriodoID(idTipoPeriodos);
+			programa.setTipoPeriodo(tipPeriodo);
+			listPrograma=instalarComiteTecnicoService.findProgramaByFiltro(programa,tipoPeriodo );	
+		}else if ( idTipoCuentas!=0) {
+			programa.setFkIdtablaespTipoCuenta(idTipoCuentas);
+			listPrograma=instalarComiteTecnicoService.findProgramaByFiltro(programa, tipoCuenta);
+		}else if (idModalidadFinanciera!=0) {
+			programa.setFkIdtablaespModalidadFinancia(idModalidadFinanciera);
+			listPrograma=instalarComiteTecnicoService.findProgramaByFiltro(programa, Modalidad);
+		}else if (nombre ==103) {
+			programa.setNombrePrograma(nombrePrograma);
+			listPrograma=instalarComiteTecnicoService.findProgramaByFiltro(programa, nombre);
+		}else if (todosProgramas ==104) {
+			listPrograma=crearProgramaService.listProgramas();
+		}
+		
+		request.getSession().setAttribute("listPrograma",listPrograma);
+		request.getSession().setAttribute("flag",1);
+		return new ModelAndView("mostrarGestionarObservacion");
+	}
+	
+	@RequestMapping(value = "/principal/actionVerGestionarObserbacion")
+	public ModelAndView actionVerGestionarObserbacion(HttpServletRequest request) {
+		
+		Integer idPrograma = Integer.parseInt(request.getParameter("idPrograma"));
+		List<DatoProyecto> listProyecto=evaluarService.findDatoProyectoByProgramaID(idPrograma);
+		List<DetalleEstadoCabecera> listEstado = detalleEstadoCabeceraService.findDetalleEstadoCabecerabyPrefijoEstadoCabeceraPrefijo("estobob");
+		List<TablaEspecifica> listTipoObservacion = tablaEspecificaService.findTablaEspecificabyPrefijoTablaGeneral("TPOB");
+		
+		request.getSession().setAttribute("listAsignado",listProyecto);
+		request.getSession().setAttribute("listEstado",listEstado);
+		request.getSession().setAttribute("listTipoObservacion",listTipoObservacion);
+		request.getSession().setAttribute("flag",2);
+
+		return new ModelAndView("mostrarGestionarObservacion");
+	}
+	
+	@RequestMapping(value = "/principal/actionCreateGestionarObserbacion")
+	public ModelAndView actionCreateGestionarObserbacion(HttpServletRequest request) {
+		
+		return new ModelAndView("createGestionarObservacion");
+	}
+	
+	@RequestMapping(value = "/principal/actionRegistrarGestionarObserbacion")
+	public ModelAndView actionRegistrarGestionarObserbacion(HttpServletRequest request) {
+		String tema = request.getParameter("tema");
+		String descripcion = request.getParameter("descripcion");
+		String fechaFin = request.getParameter("fechaFin");
+		Integer tipoObserbacion = Integer.parseInt(request.getParameter("idTipoObservacion"));
+		
+		Date fecha ;
+		
+		SimpleDateFormat formateador = null;
+			try {
+				formateador = new SimpleDateFormat("dd/MM/yyyy");
+				fecha= (Date) formateador.parse(fechaFin);
+			} catch (Exception e) {
+				formateador = new SimpleDateFormat("yyyy-dd-MM");
+				try {
+					fecha = (Date) formateador.parse(fechaFin);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+
+
+		return new ModelAndView("createGestionarObservacion");
+	}
+	
+}

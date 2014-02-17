@@ -1,0 +1,102 @@
+package pe.com.fondam.sgp.web.controller.principal;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import pe.com.fondam.sgp.core.domain.FuenteFinanciadora;
+import pe.com.fondam.sgp.core.domain.Institucion;
+import pe.com.fondam.sgp.core.domain.Usuario;
+import pe.com.fondam.sgp.core.service.EvaluarService;
+import pe.com.fondam.sgp.web.constants.SgpWebConstants;
+import pe.com.fondam.sgp.web.session.UserSession;
+@Controller
+public class InstitucionController {
+	@Resource
+	private EvaluarService evaluarService;
+	
+	/*@Resource
+	private IngresarPerfilService ingresarPerfilService;
+	
+	@Resource
+	private TablaTemporalService tablaTemporalService;
+	*/
+	//String mensaje;
+	
+	@RequestMapping(value = "/principal/showGestionarDatosInstitucionales.jspx")
+	public ModelAndView showGestionarDatosInstitucionales(
+			HttpServletRequest request, 
+			HttpServletResponse response) throws IOException {
+		
+		UserSession userSession = (UserSession)request.getSession().getAttribute(SgpWebConstants.SESSION_USER);
+		Usuario usuario = evaluarService.findUsuarioById(userSession.getUsuarioID());
+		
+		FuenteFinanciadora fuenteFinan=evaluarService.findFuenteFinanciadoraByIdDatoProyecto(usuario.getDatoUsuario().getDatoProyectoID());
+		Institucion institucion=evaluarService.findInstitucionByID(fuenteFinan.getInstitucion().getInstitucionID());
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("contacto",institucion.getContacto());
+		model.put("correo",institucion.getCorreo());
+		model.put("direccion",institucion.getDireccion());
+		model.put("nombreInstitucion",institucion.getNombreInstitucion());
+		model.put("observacionDeInstitucion",institucion.getObservacionDeInstitucion());
+		model.put("representanteLegal",institucion.getRepresentanteLegal());
+		model.put("rucInstitucion",institucion.getRucInstitucion());
+		model.put("telefono",institucion.getTelefono());
+		model.put("mensaje","no");
+		model.put("funcionalidadSelect", "showGestionarDatosInstitucionales.jspx");
+		
+		model.put("cantMuestraMensajeObs",1);
+		
+	      return new ModelAndView("mostrarGestionarDatosInstitucionales",model);
+	}
+	
+	@RequestMapping(value = "/principal/actionModificarInstitucion.jspx")
+	public ModelAndView actionModificarInstitucion(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		UserSession userSession = (UserSession)request.getSession().getAttribute(SgpWebConstants.SESSION_USER);
+		Usuario usuario = evaluarService.findUsuarioById(userSession.getUsuarioID());
+		
+		FuenteFinanciadora fuenteFinan=evaluarService.findFuenteFinanciadoraByIdDatoProyecto(usuario.getDatoUsuario().getDatoProyectoID());
+		Institucion institucion=evaluarService.findInstitucionByID(fuenteFinan.getInstitucion().getInstitucionID());
+
+		String contacto= request.getParameter("contacto");
+		String correo= request.getParameter("correo");
+		String direccion= request.getParameter("direccion");
+		//String nombreInstitucion= request.getParameter("nombreInstitucion");
+		String observacionDeInstitucion= request.getParameter("observacionD");
+		String representanteLegal= request.getParameter("representanteLegal");
+		//String rucInstitucion= request.getParameter("rucInstitucion");
+		String telefono= request.getParameter("telefono");
+		
+		institucion.setContacto(contacto);
+		institucion.setCorreo(correo);
+		institucion.setDireccion(direccion);
+		//institucion.setNombreInstitucion(nombreInstitucion);
+		institucion.setObservacionDeInstitucion(observacionDeInstitucion);
+		institucion.setRepresentanteLegal(representanteLegal);
+		//institucion.setRucInstitucion(rucInstitucion);
+		institucion.setTelefono(telefono);
+		
+		evaluarService.updateInstitucion(institucion);
+		//mensaje="Se modifico los datos institucionales exitosamente...";
+		Map<String, Object> model = new HashMap<String, Object>();	
+		model.put("contacto",institucion.getContacto());
+		model.put("correo",institucion.getCorreo());
+		model.put("direccion",institucion.getDireccion());
+		model.put("nombreInstitucion",institucion.getNombreInstitucion());
+		model.put("observacionDeInstitucion",institucion.getObservacionDeInstitucion());
+		model.put("representanteLegal",institucion.getRepresentanteLegal());
+		model.put("rucInstitucion",institucion.getRucInstitucion());
+		model.put("telefono",institucion.getTelefono());
+		model.put("mensaje","Se modifico los datos institucionales exitosamente...");
+
+	      return new ModelAndView("mostrarGestionarDatosInstitucionales",model);
+	}
+}

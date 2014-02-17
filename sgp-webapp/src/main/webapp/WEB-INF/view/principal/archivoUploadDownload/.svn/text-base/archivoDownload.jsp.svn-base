@@ -1,0 +1,40 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+
+</head>
+
+<body>
+
+
+<c:if test="${fn:length(listLinkFile)>0}">
+	<c:forEach items="${listLinkFile}" var="linkFile">
+		<c:if test="${linkFile.extension == '.doc'}">
+		   <img src="${pageContext.request.contextPath}/images/icono_doc.png" />
+		</c:if>
+		<c:if test="${linkFile.extension == '.pdf'}">
+		   <img src="${pageContext.request.contextPath}/images/icono_pdf.png" />
+		</c:if>
+		<c:if test="${linkFile.extension == '.xls'}">
+		   <img src="${pageContext.request.contextPath}/images/icono_xls.png" />
+		</c:if>
+		<a href="${variable}?param=${linkFile.id}">
+		   <c:out value="${linkFile.nombre}${linkFile.extension}"/>
+		</a>	  
+		<br>
+		<%System.out.println("entro si hay descargas!!"); %>
+	</c:forEach>
+</c:if>
+<c:if test="${ (fn:length(listLinkFile)==0) || (listLinkFile==null) }">
+    <span>No hay descargas.</span><br>
+    <%System.out.println("entro no hay descargas!!"); %>
+</c:if>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/1449/sgp-webapp/trunk/src/main/webapp/common
+END
+taglibs.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/1852/sgp-webapp/trunk/src/main/webapp/common/taglibs.jsp
+END
+includesTaglibsGenerico.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/!svn/ver/1786/sgp-webapp/trunk/src/main/webapp/common/includesTaglibsGenerico.jsp
+END

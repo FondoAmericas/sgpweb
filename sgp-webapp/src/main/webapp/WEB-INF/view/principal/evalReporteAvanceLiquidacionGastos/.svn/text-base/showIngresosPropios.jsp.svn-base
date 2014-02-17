@@ -1,0 +1,90 @@
+<%@ include file="/common/includesTaglibsGenerico.jsp"%>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+
+<script type="text/javascript">
+
+
+</script>
+
+</head>
+<body>
+
+<form id="detalleLiqGastosForm" method="post" action="#" class="form-clasico" accept-charset="UTF-8">
+<input type="hidden" value="${objLiquidacionGasto.fkIdDetalleEstadoCabEstLiqGasto}" id="fkIdDetalleEstadoCabEstLiqGasto"> 
+<div class="encabezado">DETALLE INGRESOS PROPIOS</div>
+		<br>
+  <fieldset>
+  	<legend>DETALLE INGRESOS PROPIOS</legend>
+<br>
+	  <table class="table-clasico" style="width: 100%">
+		<caption>Listado de ingresos propios</caption>
+		<thead>
+        <tr>
+        	<th align="center"><label>Raz&oacute;n Social</label></th>
+        	<th align="center"><label>Ruc Comprador</label></th>
+            <th align="center"><label>N&uacute;mero Comprobante</label></th>
+            <th align="center"><label>Tipo Comprobante</label></th>
+            <th align="center"><label>Resultado</label></th>
+            <th align="center"><label>Sub Total</label></th>
+			<th align="center"><label>Igv</label></th>
+			<th align="center"><label>Precio Total</label></th>	
+        </tr>
+        </thead>
+        <c:forEach var="ingresoPropioG" items="${listIngresoPropio}">
+	        <tr>
+	        	<td align="left"><c:out value="${ingresoPropioG.razonSocial}"></c:out></td>
+				<td align="left"><c:out value="${ingresoPropioG.rucComprador}"></c:out></td>
+				<td align="left"><c:out value="${ingresoPropioG.numeroComprobante}"></c:out>
+				</td>
+			<td align="left">
+	    	<c:forEach items="${listTipoComprobante}" var="modali">
+            <c:if test="${ ingresoPropioG.fkIdtablaespTipoComprobantePago == modali.tablaEspecificaID}">
+            <c:out value="${modali.descripcionCabecera}"/>
+            </c:if>
+          </c:forEach>
+    			</td>
+    			<td align="left">
+   				<c:forEach items="${listResultado}" var="modali">
+            	 <c:if test="${ ingresoPropioG.resultado.resultadoID == modali.resultadoID}">                                                                                  
+            		<c:out value="${modali.definicionResultado}" />
+            	</c:if>
+        		</c:forEach>
+				</td>
+				<td align="center"><c:out value="${ingresoPropioG.precioSinIgv}"></c:out> <br>
+				 <c:forEach items="${listTipoMoneda}" var="modali1">
+                       <c:if	test="${modali1.tablaEspecificaID== ingresoPropioG.fkIdtablaespTipoMoneda}">
+            				<c:out value="${modali1.descripcionCabecera}" />
+                        </c:if>
+                    </c:forEach>
+				</td>
+				<td align="center"><c:out value="${ingresoPropioG.igv}"></c:out><br>
+				 <c:forEach items="${listTipoMoneda}" var="modali2">
+                       <c:if	test="${modali2.tablaEspecificaID== ingresoPropioG.fkIdtablaespTipoMoneda}">
+                  				<c:out value="${modali2.descripcionCabecera}" />
+                        </c:if>
+                    </c:forEach>
+				</td>
+				
+				<td align="center"> <c:out value="${ingresoPropioG.precioTotal}"></c:out><br>
+				  <c:forEach items="${listTipoMoneda}" var="modali1">
+                       <c:if	test="${modali1.tablaEspecificaID== ingresoPropioG.fkIdtablaespTipoMoneda}">
+            				<c:out value="${modali1.descripcionCabecera}" />
+                        </c:if>
+                    </c:forEach>
+				</td>
+			</tr>
+        </c:forEach>
+        
+        </table> 
+	
+	</fieldset>
+</form>
+</body>
+</html>
+
+
+
+                                                                                                                    

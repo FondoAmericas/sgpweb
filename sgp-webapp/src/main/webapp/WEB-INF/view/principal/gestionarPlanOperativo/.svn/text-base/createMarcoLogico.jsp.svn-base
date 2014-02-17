@@ -1,0 +1,382 @@
+<%@include file="includesTaglibs.jsp"%>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title><spring:message code="web.app.title"></spring:message>
+</title>
+	<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/estiloContabilidad.css"></c:url>" />
+<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/estiloGeneral.css"></c:url>" />
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/validador.js"></script>	
+	
+	<script type="text/javascript">
+	$(window).load(function() {
+		////UBICACION DEL PROYECTO
+		ocultaCampos();
+	});
+	
+	function ocultaCampos(){
+		estado= "<c:out value="${estadoPlanOperativo}"></c:out>" ;
+		//alert(estado);
+		if ((estado =='peval')||(estado =='revi')||(estado =='apro')||(estado =='recha')){
+			$(".hide").hide();//attr("style","visibility: hidden;");
+			$(".disabled").attr("disabled","disabled");
+			//alert($('#cbxInstitucionEjecutora option:selected').html());
+			//$("#div_cbxInstitucionEjecutora").attr("style","visibility: hidden;");
+		}
+		
+	}
+	</script>
+<script>
+	
+	$(document).ready(function() {
+		 if($('#mensaje').attr("value") != '' && $('#mensaje').attr("value") != undefined){
+		        alert($('#mensaje').attr("value"));
+		     }
+		 $("#tbodyIndicadorMarcoLogico").load("cargaIndicadorMarcoLogico.jspx",{
+				marcoLogicoID : $("#marcoLogicoID").val(),
+				datoProyectoID : $("#datoProyectoID").val()
+			},function (){
+				ocultaCampos();
+			});
+		});
+	
+		function soloNumero(e) {
+		    if ([e.keyCode||e.which]==8 || [e.keyCode||e.which]==9 || [e.keyCode||e.which]==46) 
+		        return true;
+		    if ([e.keyCode||e.which] < 48 || [e.keyCode||e.which] > 57)
+		        e.preventDefault? e.preventDefault() : e.returnValue = false;
+		}
+		
+		function onclick_btnAgregarIndicador(){
+			var valida = validaIndicadoresMarcoLogico();
+			if(valida == 0){
+			$("#tbodyIndicadorMarcoLogico").load("cargaIndicadorMarcoLogico.jspx",{
+				indicadorMarcoLogicoID : $("#indicadorMarcoLogicoID").val(),
+				txtIndicador : $("#txtIndicador").val(),
+				txtdefinicionIndicador : $("#txtdefinicionIndicador").val(),
+				txtMedioVerificacion : $("#txtMedioVerificacion").val(),
+				txtSituacionActual : $("#txtSituacionActual").val(),
+				txtSituacionFinal : $("#txtSituacionFinal").val(),
+				cbxUnidadMedida : $("#cbxUnidadMedida").val(),
+				txtMetodoCalculo : $("#txtMetodoCalculo").val(),
+				marcoLogicoID : $("#marcoLogicoID").val(),
+				datoProyectoID : $("#datoProyectoID").val()
+			},function(){
+				limpiarCamposIndicadorMarcoLogico();
+			});
+			}
+		}
+		
+		function eliminarIndicador(indicadorMarcoLogicoID, indicador){
+			var estado = confirm("Esta seguro que desea eliminar el indicador "+indicador);
+			if(estado){
+			$("#tbodyIndicadorMarcoLogico").load("cargaIndicadorMarcoLogico.jspx",{
+				indicadorMarcoLogicoID : indicadorMarcoLogicoID,
+				marcoLogicoID : $("#marcoLogicoID").val(),
+				flagElimina :"e" 
+			});
+			}
+		}
+		
+		function goTo(url) {
+			window.location = url;
+		}
+		function goBack(url) {
+			goTo(url);
+		}
+		
+		</script>
+		
+		<script type="text/javascript">
+
+		function validaIndicadoresMarcoLogico(){
+			var errores = 0;
+			var mensaje = "";
+
+			if ($("#txtIndicador").val().length  == 0) {
+				mensaje += "Debe ingresar un Indicador. \n";
+				errores = errores + 1;
+			}
+			if ($("#txtdefinicionIndicador").val().length == 0) {
+				mensaje += "Debe ingresar una definicion para el indicador. \n";
+				errores = errores + 1;
+			}
+			if ($("#txtMedioVerificacion").val().length == 0) {
+				mensaje +=  "Debe ingresar un medio verificacion. \n";
+				errores = errores + 1;
+			}
+			if ($("#txtSituacionActual").val().length == 0) {
+				mensaje += "Debe ingresar una situacion actual. \n";
+				errores = errores + 1;
+			}
+			if ($("#txtSituacionFinal").val().length == 0) {
+				mensaje += "Debe ingresar una situacion final. \n";
+				errores = errores + 1;
+			}			
+			if ($("#cbxUnidadMedida").val() == 0) {
+				mensaje += "Debe seleccionar una unidad de medida. \n";
+				errores = errores + 1;
+			}
+			if ($("#txtMetodoCalculo").val().length  == 0) {
+				mensaje += "Debe ingresar un metodo de calculo. \n";
+				errores = errores + 1;
+			}
+			if (errores > 0) {
+				alert(mensaje);
+			}
+
+			return errores;
+		
+	
+		}
+
+		function validarMarcoLogico(){
+				var errores = 0;
+				var mensaje = null;
+
+				if ($("#txaResumenEjecutivo").val().length  == 0) {
+					mensaje += "Debe ingresar un resumen ejecutivo. \n";
+					errores = errores + 1;
+				}
+				
+				if ($("#txaDescripcionFin").val().length == 0) {
+					mensaje += "Debe ingresar una descripcion para el fin. \n";
+					errores = errores + 1;
+				}
+
+				if ($("#txaSupuestoFin").val().length == 0) {
+					mensaje +=  "Debe ingresar un supuesto para el fin. \n";
+					errores = errores + 1;
+				}
+
+				if ($("#txaDescripcionProposito").val().length == 0) {
+					mensaje += "Debe ingresar una descripcion para el proposito. \n";
+					errores = errores + 1;
+				}
+
+				if ($("#txaSupuestoProposito").val().length == 0) {
+					mensaje += "Debe ingresar un supuesto para el proposito. \n";
+					errores = errores + 1;
+				}
+				
+				if (errores > 0) {
+					alert(mensaje);
+				}
+
+				return errores;
+			
+		}
+
+		function limpiarCamposIndicadorMarcoLogico(){
+			document.getElementById("txtIndicador").value = "";
+			document.getElementById("txtdefinicionIndicador").value = "";
+			document.getElementById("cbxUnidadMedida").value = "0";
+			document.getElementById("txtMedioVerificacion").value = "";
+			document.getElementById("txtSituacionActual").value = "";
+			document.getElementById("txtSituacionFinal").value = "";
+			document.getElementById("txtMetodoCalculo").value = "";
+			document.getElementById("indicadorMarcoLogicoID").value = "0";
+			
+		}
+
+		</script>
+
+		<script type="text/javascript">
+		function grabarMarcoLogico(){
+			var validacion = validarMarcoLogico();
+			if (validacion==0){
+				$.get("grabarMarcoLogico.jspx", {
+					marcoLogicoID : $("#marcoLogicoID").val(),
+					resumenEjecutivo : $("#txaResumenEjecutivo").val(),
+					descripcionFin : $("#txaDescripcionFin").val(),
+					supuestoFin : $("#txaSupuestoFin").val(),
+					descripcionProposito : $("#txaDescripcionProposito").val(),
+					supuestoProposito : $("#txaSupuestoProposito").val()
+				}, function(){
+					window.close();
+				});
+			}
+		}
+		
+		function modificarIndicador(indicadorMarcoLogicoID,unidadMedida,indicador,definicionIndicador,medioVerificacion,metodoCalculo,situacionActural,situacionFinal){
+			$("#indicadorMarcoLogicoID").attr("value",indicadorMarcoLogicoID);
+			$("#txtIndicador").attr("value",indicador);
+			$("#txtdefinicionIndicador").attr("value",definicionIndicador);
+			$("#cbxUnidadMedida").attr("value",unidadMedida);
+			$("#txtMedioVerificacion").attr("value",medioVerificacion);
+			$("#txtSituacionActual").attr("value",situacionActural);
+			$("#txtSituacionFinal").attr("value",situacionFinal);
+			$("#txtMetodoCalculo").attr("value",metodoCalculo);
+			
+		}
+		</script>
+</head>
+<body>
+	<div class="form-clasico">
+		<div class="encabezado">MARCO LOGICO E INDICADORES</div>
+		<br />
+		<form:form name="formResultado" method="post" action="" target="_self">
+			<input type="hidden" id="datoProyectoID" name="datoProyectoID"
+				value="${datoProyectoID }">
+			<input type="hidden" id="marcoLogicoID" name="marcoLogicoID"
+				value="${marcoLogico.marcoLogicoID }">	
+			<input type="hidden" id="mensaje" name="mensaje" value="${mensaje}">
+			<fieldset>
+				<legend>MARCO LOGICO</legend>
+				<table width="100%">
+					<tr>
+						<td align="right"><label>Resumen Ejecutivo:</label></td>
+						<td colspan="3"><textarea id="txaResumenEjecutivo" class="disabled"
+								name="txaResumenEjecutivo" COLS="55" ROWS="3"
+								style="width: 98%;"><c:out value="${marcoLogico.resumenEjecutivo }"></c:out></textarea></td>
+					</tr>
+				</table>
+
+				<fieldset>
+					<legend>FIN</legend>
+					<table width="100%">
+						<tr>
+							<td style="text-align: right;"><label>Descripcion:</label>
+							</td>
+							<td colspan="3"><textarea id="txaDescripcionFin" class="disabled"
+									name="txaDescripcionFin" COLS="55" ROWS="2" style="width: 98%;"><c:out value="${marcoLogico.finDescrip }"></c:out></textarea></td>
+						</tr>
+						<tr>
+							<td style="text-align: right;"><label>Supuesto:</label>
+							</td>
+							<td colspan="3"><textarea id="txaSupuestoFin" class="disabled"
+									name="txaSupuestoFin" COLS="55" ROWS="2" style="width: 98%;"><c:out value="${marcoLogico.finSupuesto }"></c:out></textarea></td>
+						</tr>
+					</table>
+				</fieldset>
+				<br />
+				<fieldset>
+					<legend>PROPOSITO</legend>
+					<table width="100%">
+						<tr>
+							<td style="text-align: right;"><label>Descripcion:</label></td>
+							<td colspan="3"><textarea id="txaDescripcionProposito" class="disabled"
+									name="txaDescripcionProposito" COLS="55" ROWS="2"
+									style="width: 98%;"><c:out value="${marcoLogico.propositoDescrip }"></c:out></textarea></td>
+						</tr>
+						<tr>
+							<td style="text-align: right;"><label>Supuesto:</label></td>
+							<td colspan="3"><textarea id="txaSupuestoProposito" class="disabled"
+									name="txaSupuestoProposito" COLS="55" ROWS="2"
+									style="width: 98%;"><c:out value="${marcoLogico.propositoSupuesto }"></c:out></textarea></td>
+						</tr>
+					</table>
+				</fieldset>
+				<br/>
+				<div class="hide" style="width: 100%; text-align: right;"><input type="button"
+									name="btnGrabarMarcoLogico" id="btnGrabarMarcoLogico"
+									value="Grabar Marco Logico"
+									onclick="grabarMarcoLogico()" /></div>
+				<br>
+				<div id="div_indicador">
+					<fieldset>
+						<legend>INDICADOR DE MARCO LOGICO</legend>
+<div class="hide">
+						<table width="100%">
+							<tr>
+								<td style="text-align: right; width: 25%"><label>Indicador:</label>
+								</td>
+								<td style="text-align: left; width: 25%">
+								<input type="hidden" id="indicadorMarcoLogicoID" name="indicadorMarcoLogicoID" value="0">
+								<input
+									id="txtIndicador" name="txtIndicador" type="text"
+									maxlength="240"/></td>
+								<td style="text-align: right; width: 25%"><label>Def.
+										Indicador:</label></td>
+								<td style="text-align: left; width: 25%"><input
+									id="txtdefinicionIndicador" name="txtdefinicionIndicador"
+									type="text" maxlength="240"/></td>
+
+							</tr>
+							<tr>
+								<td style="text-align: right; width: 25%"><label>Unidad
+										de Medida:</label></td>
+								<td style="text-align: left; width: 25%"><select
+									name="cbxUnidadMedida" id="cbxUnidadMedida">
+										<option value="0">--Unidad Medida--</option>
+										<c:forEach items="${listUnidadMedida}" var="unidadMedida">
+											<option value="${unidadMedida.tablaEspecificaID}">
+												<c:out value="${unidadMedida.descripcionCabecera }" />
+											</option>
+										</c:forEach>
+								</select></td>
+								<td style="text-align: right; width: 25%"><label>Medio
+										de Verificacion:</label></td>
+								<td style="text-align: left; width: 25%"><input
+									id="txtMedioVerificacion" name="txtMedioVerificacion"
+									type="text" maxlength="240" /></td>
+							</tr>
+							<tr>
+								<td style="text-align: right; width: 25%"><label>Situacion
+										Actual:</label></td>
+								<td style="text-align: left; width: 25%"><input
+									id="txtSituacionActual" name="txtSituacionActual" type="text"
+									maxlength="6" onkeypress="javascript:return Valida_Dato(event,8);" /></td>
+								<td style="text-align: right; width: 25%"><label>Situacion
+										Final:</label></td>
+								<td style="text-align: left; width: 25%"><input
+									id="txtSituacionFinal" name="txtSituacionFinal" type="text"  onkeypress="javascript:return Valida_Dato(event,8);" />
+								</td>
+							</tr>
+							<tr>
+								<td style="text-align: right; width: 25%"><label>Metodo de Calculo:</label></td>
+								<td colspan="3" style="text-align: left; width: 75%"><input
+									id="txtMetodoCalculo" name="txtMetodoCalculo" type="text" /></td>
+							</tr>
+						<tr>
+								<td style="width: 100%; text-align: right;" colspan="4">
+								<!-- <input type="button"
+									name="btnAgregarIndicador" id="btnAgregarIndicador"
+									value="Agregar Indicador"
+									onclick="onclick_btnAgregarIndicador();" />
+									-->
+									<a href="javascript:onclick_btnAgregarIndicador()"
+									style="font-size: 15px;" id="btnAgregarIndicador"
+									class="linkSelecciona">Agregar Indicador</a>
+									</td>
+							</tr>
+						</table>
+						<br/>
+						</div>
+						<table class="table-clasico" width="100%">
+							<!-- class="table-clasico"-->
+							<caption>
+								<label>Lista de Indicadores de Marco Logico</label>
+							</caption>
+							<thead>
+								<tr>
+									<td style="width: 15%; text-align: center;"><label>Indicador</label>
+									</td>
+									<td style="width: 25%; text-align: center;"><label>Def. Indicador</label>
+									</td>
+									<td style="width: 15%; text-align: center;"><label>Medio Verificacion</label>
+									</td>
+									<td style="width: 20%; text-align: center;"><label>Metodo Calculo</label>
+									</td>
+									<td style="width: 10%; text-align: center;"><label>Situacion Actual</label>
+									</td>
+									<td style="width: 10%; text-align: center;"><label>Situacion Final</label>
+									</td>
+									<td style="width: 5%; text-align: center;" class="hide" ><label>Opciones</label>
+									</td>
+								</tr>
+							</thead>
+							<tbody id="tbodyIndicadorMarcoLogico">
+
+							</tbody>
+						</table>
+					</fieldset>
+				</div>
+			</fieldset>
+		</form:form>
+	</div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svn/!svn/ver/1665/sgp-webapp/trunk/src/main/resources
+END
+log4j.xml
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/528/sgp-webapp/trunk/src/main/resources/log4j.xml
+END
+messages.properties
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/330/sgp-webapp/trunk/src/main/resources/messages.properties
+END
+displaytag.properties
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/1665/sgp-webapp/trunk/src/main/resources/displaytag.properties
+END

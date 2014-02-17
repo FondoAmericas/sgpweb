@@ -1,0 +1,70 @@
+<%@ include file="/common/includesTaglibsGenerico.jsp"%>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+
+<script type="text/javascript">
+function showPagoRealizado(pagoLiquidacionID){
+	console.log("id pago liquidacion :: "+pagoLiquidacionID);
+	fOpenModalDialog('showPagoRealizado.jspx?pagoLiquidacionID='+pagoLiquidacionID+'','800','1000','70','70');
+	
+}
+
+</script>
+
+</head>
+<body>
+
+<form id="detalleLiqGastosForm" method="post" action="#" class="form-clasico" accept-charset="UTF-8">
+<input type="hidden" value="${objLiquidacionGasto.fkIdDetalleEstadoCabEstLiqGasto}" id="fkIdDetalleEstadoCabEstLiqGasto"> 
+<div class="encabezado">PAGOS REALIZADOS</div>
+		<br>
+  <fieldset>
+  	<legend>PAGOS REALIZADOS</legend>
+<br>
+	     <table class="table-clasico" style="width: 100%">
+		<caption>Listado de pagos realizados</caption>
+		<thead>
+        <tr>
+        	<th align="center"><label>Razon social</label></th>
+        	<th align="center"><label>Ruc proveedor</label></th>
+            <th align="center"><label>Tipo Comprobante</label></th>
+			<th align="center"><label>Fecha Emision</label></th>
+			<th align="center"><label>Detalle</label></th>
+		 </tr>
+        </thead>
+        <c:forEach var="pagoLiq" items="${lstPagoLiquidacion}">
+	        <tr>
+	        	<td align="center">
+	        	      <c:out value="${pagoLiq.razonSocial}"></c:out>
+	        	</td>
+				<td align="center">
+				      <c:out value="${pagoLiq.rucProveedor}"></c:out>
+				</td>
+				<td align="center">
+				      <c:out value="${pagoLiq.tipoComprobantePagoDesc}"></c:out>			
+				</td>
+				<td align="center">
+					  <c:out value="${pagoLiq.fechaEmision}"></c:out>
+			    </td>
+			    <td align="center">
+					  <!-- <input type="button"  value="Detalle" onclick="showPagoRealizado(${pagoLiq.pagoLiquidacionID})"/> -->
+					  <label><a
+											href="javascript:showPagoRealizado(${pagoLiq.pagoLiquidacionID})"
+											id="problemasSoluciones" class="linkSelecciona" style="font-size: 12px;">Detalle</a>
+									</label>
+			    </td>
+			</tr>
+        </c:forEach>
+        
+        </table>
+	
+	</fieldset>
+</form>
+</body>
+</html>
+
+
+
+                                                                                                                    

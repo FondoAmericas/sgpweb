@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CronogramaActividadesDetalles" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="3.138428376721005"/>
+	<property name="ireport.x" value="1069"/>
+	<property name="ireport.y" value="0"/>
+	<field name="actividad" class="java.lang.String"/>
+	<field name="duracion" class="java.lang.String"/>
+	<field name="unidad" class="java.lang.String"/>
+	<field name="cantidad" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="40" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="300" height="40"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="300" y="0" width="100" height="40"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="400" y="0" width="80" height="40"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="480" y="0" width="80" height="40"/>
+			</rectangle>
+			<textField>
+				<reportElement x="2" y="3" width="296" height="36"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{actividad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="302" y="3" width="96" height="36"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{duracion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="402" y="2" width="76" height="36"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{unidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="482" y="2" width="76" height="36"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{cantidad}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

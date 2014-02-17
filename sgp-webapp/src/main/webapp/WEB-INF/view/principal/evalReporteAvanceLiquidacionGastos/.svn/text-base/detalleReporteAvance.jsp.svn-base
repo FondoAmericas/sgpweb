@@ -1,0 +1,170 @@
+<%@ include file="/common/includesTaglibsGenerico.jsp"%>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>EVALUAR DE REPORTE AVANCE</title>
+
+<script type="text/javascript">
+
+function showProblemasSoluciones(){
+	
+	fOpenModalDialog('showProblemasSoluciones.jspx?reporteAvanceID=${objReporteAvance.reporteAvanceID}','800','1000','70','70');
+	
+}
+
+function showAvanceResultadosActividad(){
+	
+	fOpenModalDialog('showAvanceResultadosActividad.jspx?reporteAvanceID=${objReporteAvance.reporteAvanceID}','800','1000','70','70');
+}
+
+function showApreciacionResultados(){
+	
+	fOpenModalDialog('showApreciacionResultados.jspx?reporteAvanceID=${objReporteAvance.reporteAvanceID}','800','1000','70','70');
+}
+
+function showBeneficiarios(){
+	
+	fOpenModalDialog('showBeneficiarios.jspx?reporteAvanceID=${objReporteAvance.reporteAvanceID}','800','1000','70','70');
+}
+
+
+function grabarEstado(){
+	if(document.getElementById("cbxEstadoRepAvance").value != "0"){
+		if(confirm("\u00BFEst\u00E1 seguro de la evaluacion?")){
+			document.getElementById("detalleReporteAvanceForm").submit();
+	    	window.close();
+		}
+	}else{
+		alert("Seleccionar estado para guardar la evaluacion!");
+	}
+	
+}
+
+
+function showPersonalTecnicoAdministrativo(){
+	
+	fOpenModalDialog('showPersonalTecnicoAdministrativo.jspx?reporteAvanceID=${objReporteAvance.reporteAvanceID}','800','1000','70','70');
+}
+
+function deshabilitarGuardarSiEstadoAprobado(){
+	if(document.getElementById("fkIdDetalleEstadoCabEstRepAvance").value == "37"){//estado aprobado
+		document.getElementById("cbxEstadoRepAvance").disabled = true;
+		document.getElementById("btnGuardar").disabled = true;
+	}
+}
+
+$(document).ready(function() {
+	deshabilitarGuardarSiEstadoAprobado();
+	
+});
+
+
+$(window).load(function() {
+	//alert("atssef");
+	var estReporteAvanceCod = '${estReporteAvanceCod}';
+	document.getElementById("cbxEstadoRepAvance").value = estReporteAvanceCod;
+	
+});
+
+</script>
+
+
+</head>
+<body>
+
+<form id="detalleReporteAvanceForm" method="post" action="saveEvalReporteAvance.jspx" class="form-clasico" accept-charset="UTF-8">
+<input type="hidden" value="${objReporteAvance.fkIdDetalleEstadoCabEstRepAvance}" id="fkIdDetalleEstadoCabEstRepAvance"> 
+<div class="encabezado">EVALUAR REPORTE AVANCE</div>
+		<br>
+  <fieldset>
+  	<legend>Detalle ${reporteAvanceDesc}</legend>
+	  <table width="100%" border="0">
+		  <tr>
+		    <td width="18%" align="right">
+		        <label>Periodo:</label>
+		    </td>
+		    <td width="22%">
+				<label>${objReporteAvance.periodo}</label>
+		    </td>
+		    <td width="28%" align="left">
+		        &nbsp;
+		        <!-- 
+		        <label>Estado Actual:</label>
+		        <label>${objReporteAvance.estRepAvanceDesc}</label>
+		         -->
+		    </td>
+		    <td width="32%">
+				<label>Estado:</label>
+		        <select name="cbxEstadoRepAvance" id="cbxEstadoRepAvance" >
+				    <option value="0"><c:out value="---estado---" /></option>
+					<c:forEach items="${lstDetEstCab}"
+						var="objDetEstCab">
+						<option value="${objDetEstCab.detalleEstadoCabeceraID}">
+						<c:out value="${objDetEstCab.descripEstado}"></c:out>
+						</option>
+					</c:forEach>
+				</select>
+                
+		    </td>
+		  </tr>
+		  <tr>
+		    <td align="right"><label>Resumen:</label></td>
+		    <td colspan="2" style="width:25%">
+		          <label>${objReporteAvance.resumen}</label>
+		    </td>
+		    <td align="center">
+		         <input type="button"  value="Guardar" onclick="grabarEstado()" id="btnGuardar"/>
+		    </td>
+	    </tr>
+		  <tr>
+		    <td>&nbsp;</td>
+		    <td>&nbsp;</td>
+		    <td>&nbsp;</td>
+		    <td>&nbsp;</td>
+	    </tr>
+	    <!-- 
+		  <tr>
+		    <td style="width:25%" align="right">
+            	<input type="button"  value="Problemas y soluciones" onclick="showProblemasSoluciones();"/>
+            </td>
+		    <td style="width:25%" align="center">
+            	<input type="button"  value="Avance de resultados actividad" onclick="showAvanceResultadosActividad();"/>
+            </td>
+		    <td style="width:25%" align="center">
+            	<input type="button"  value="Apreciaci&oacute;n de resultados" onclick="showApreciacionResultados();"/>
+            </td>
+		    <td style="width:25%">
+            	<input type="button"  value="Beneficiarios" onclick="showBeneficiarios();"/>
+            </td>
+	    </tr>
+	     -->
+		  <tr>
+		    <td colspan="4" align="center">
+            <input type="button"  value="Problemas y soluciones" onclick="showProblemasSoluciones();"/>&nbsp;
+            <input type="button"  value="Avance de resultados actividad" onclick="showAvanceResultadosActividad();"/>&nbsp;
+            <input type="button"  value="Apreciaci&oacute;n de resultados" onclick="showApreciacionResultados();"/><br><br>
+            <input type="button"  value="Beneficiarios" onclick="showBeneficiarios();"/>
+            <input type="button"  value="Personal Tecnico Administrativo" onclick="showPersonalTecnicoAdministrativo()"/>
+            
+            </td>
+	    </tr>
+		<!--   <tr>
+		    <td style="width:25%" align="right">&nbsp;
+		    	
+		    </td>
+		    <td style="width:25%">&nbsp;
+				
+		    </td>
+		    <td style="width:25%" align="right">&nbsp;
+		    	
+		    </td>
+		    <td style="width:25%">&nbsp;
+				
+		    </td>
+		  </tr> -->
+	  </table>
+	</fieldset>
+</form>
+
+</body>
+</html>

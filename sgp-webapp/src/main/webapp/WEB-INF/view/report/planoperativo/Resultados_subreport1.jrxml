@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Resultados_subreport1" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="5eeb1066-b123-422e-994a-3568f63bbd90">
+	<property name="ireport.zoom" value="4.0"/>
+	<property name="ireport.x" value="1194"/>
+	<property name="ireport.y" value="0"/>
+	<field name="tipoIndicadorResultadoString" class="java.lang.String"/>
+	<field name="definicionIndicador" class="java.lang.String"/>
+	<field name="unidadMedidaString" class="java.lang.String"/>
+	<field name="metodoCalculo" class="java.lang.String"/>
+	<field name="medioVerificacion" class="java.lang.String"/>
+	<field name="situacionActual" class="java.lang.Integer"/>
+	<field name="situacionFinal" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="60" splitType="Stretch">
+			<textField>
+				<reportElement uuid="76e6ca98-ec62-4ed2-b787-d67bbe176970" x="3" y="5" width="191" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{tipoIndicadorResultadoString}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1fe8ac15-1967-45a5-aec2-c45178af0239" x="215" y="5" width="195" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{definicionIndicador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="69ae7aa6-ddbb-49f5-9241-98f674599219" x="424" y="5" width="76" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{unidadMedidaString}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="fe5f9bce-2453-44f2-b028-6dbc28357864" x="500" y="5" width="11" height="20"/>
+				<textElement/>
+				<text><![CDATA[  /  ]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="d1cd8bd4-e9db-494c-9702-fa0e344c2591" x="423" y="25" width="88" height="35"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{metodoCalculo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c63c5d0b-7180-4055-8b72-7e194d39ceb5" x="517" y="5" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{medioVerificacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2baaf25f-98ea-49c2-b116-bc1f81ffdd2f" x="723" y="5" width="36" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{situacionActual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="9bd04908-138e-4c1f-a039-a88c1863a6c4" x="764" y="5" width="36" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{situacionFinal}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="5936912a-aa28-4b42-b825-2cac74ae1546" x="209" y="0" width="1" height="60"/>
+			</line>
+			<line>
+				<reportElement uuid="15c9312e-b817-4948-85f2-04988fb2c746" x="512" y="0" width="1" height="60"/>
+			</line>
+			<line>
+				<reportElement uuid="15a9342b-c735-413c-b99c-3d410c922cc6" x="722" y="0" width="1" height="60"/>
+			</line>
+			<line>
+				<reportElement uuid="2648c6e1-7ef5-4f2a-9a7a-3f4e66abcb7b" x="762" y="0" width="1" height="60"/>
+			</line>
+			<line>
+				<reportElement uuid="134caceb-426a-437f-acfd-9d479e2503d5" x="420" y="0" width="1" height="60"/>
+			</line>
+			<line>
+				<reportElement uuid="5936912a-aa28-4b42-b825-2cac74ae1546" x="0" y="0" width="1" height="60"/>
+			</line>
+			<line>
+				<reportElement uuid="2648c6e1-7ef5-4f2a-9a7a-3f4e66abcb7b" x="801" y="0" width="1" height="60"/>
+			</line>
+			<line>
+				<reportElement uuid="4c716a1a-fcd1-4dac-b1da-8e3bb6eb8336" x="1" y="59" width="800" height="1"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

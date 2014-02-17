@@ -1,0 +1,184 @@
+<%@ include file="/common/taglibs.jsp"%>
+<%@ include file="/common/includesTaglibsGenerico.jsp"%>
+
+<script type="text/javascript">
+$(function() {
+	$("#fechaInicio").datepicker({
+		changeMonth : true,
+		changeYear : true
+	});
+	$("#fechaFin").datepicker({
+		changeMonth : true,
+		changeYear : true
+	});
+});
+</script>
+
+<script type="text/javascript">
+var arrayReporteAvance = new Array();
+
+function grabarReporteAvance(){
+	var error= validaCajas();
+	
+	if(error==0){
+	$.get("grabarReporteAvance.jspx", {
+				sltPeriodo : $("#sltPeriodo").val(),
+				sltEstadoReporteAvance : "34",
+				resumenReporteAvance : $("#resumenReporteAvance").val(),
+				reporteAvanceId : $("#reporteAvanceId").val(),
+				fechaInicio : $("#fechaInicio").val(),
+				fechaFin : $("#fechaFin").val()
+			}, function() {
+				$("#grillaReporteAvance").load("showGrillaReporteAvance.jspx",{
+					datoProyectoId:$("#datoProyectoId").val()
+				});
+				limpiaCajas();
+			});	
+	}
+}
+
+</script>
+
+<script type="text/javascript">
+	function limpiaCajas(){
+		$("#sltPeriodo").attr("value","0");
+		$("#resumenReporteAvance").attr("value","");
+		$("#sltPeriodo").removeAttr("disabled");
+		$("#fechaInicio").attr("value","");
+		$("#fechaFin").attr("value","");
+	}
+
+</script>
+
+<script type="text/javascript">
+function validaCajas() {
+	var errores = 0;
+	var mensaje = "";
+
+	
+	if ($("#sltPeriodo").val()== 0) {
+		mensaje += "Debe seleccionar un periodo. \n";
+		errores = errores + 1;
+	}
+	
+	if ($("#fechaInicio").val().length== 0) {
+		mensaje += "Debe ingresar una fecha de inicio. \n";
+		errores = errores + 1;
+	}
+	
+	if ($("#fechaFin").val().length== 0) {
+		mensaje += "Debe ingresar una fecha de Fin. \n";
+		errores = errores + 1;
+	}
+	
+	if($("#reporteAvanceId").val()==0){
+	for ( var p = 0; p < arrayReporteAvance.length; p++) {
+		if (arrayReporteAvance[p].periodo == $("#sltPeriodo").val()) {
+			mensaje += "El periodo que esta ingresando para el Reporte de Avance ya existe. \n";
+			errores = errores + 1;
+			break;
+		}
+	}
+	}
+	
+	if (($("#fechaInicio").val().length > 0)&&($("#fechaFin").val().length > 0)){
+		var fechaInicio = new Date();
+		var fechaFin = new Date();
+
+		var fi = $("#fechaInicio").val();
+		fechaInicio.setFullYear(fi.substring(6, 10), fi.substring(3, 5), fi
+				.substring(0, 2));
+
+		var ff = $("#fechaFin").val();
+		fechaFin.setFullYear(ff.substring(6, 10), ff.substring(3, 5), ff
+				.substring(0, 2));
+
+		//alert((fi.substring(6,10)+" / "+  fi.substring(3, 5)+" / "+ fi.substring(0, 2)));
+		//alert((ff.substring(6,10)+" / "+  ff.substring(3, 5)+" / "+ ff.substring(0, 2)));
+
+		if (fechaInicio > fechaFin) {
+			mensaje += "La fecha de inicio no puede ser mayor a la fecha de fin.";
+			errores = errores + 1;
+		}
+	}
+
+	
+	if (errores > 0) {
+		alert(mensaje);
+	}
+
+	return errores;
+}
+</script>
+
+<!-- 
+<input type="hidden" id="datoProyectoId" name="datoProyectoId"
+	value="${datoProyectoId }">-->
+<input type="hidden" id="reporteAvanceId" name="reporteAvanceId"
+	value="0">
+
+<table width="100%">
+	<tr>
+		<td style="width: 25%; text-align: right;"><label>Periodo:</label>
+		</td>
+		<td style="width: 25%; text-align: left;"><select
+			name="sltPeriodo" id="sltPeriodo">
+				<option value="0">
+					<c:out value="-- Periodo --" />
+				</option>
+				<c:forEach items="${listPeriodo}" var="periodo">
+					<option value="${periodo}">
+						<c:out value="${periodo}" />
+					</option>
+				</c:forEach>
+		</select></td>
+		<td style="width: 25%; text-align: right;"><label>Estado:</label>
+		</td>
+		<td style="width: 25%; text-align: left;"><select
+			name="sltEstadoReporteAvance" id="sltEstadoReporteAvance"
+			disabled="disabled">
+				<option value="0">
+					<c:out value="-- Estado --" />
+				</option>
+				<c:forEach items="${listDetalleEstadoCabecera}"
+					var="estadoReporteAvance">
+							<option <c:if test="${estadoReporteAvance.detalleEstadoCabeceraID=='35' }">selected="selected"</c:if>
+								value="${estadoReporteAvance.detalleEstadoCabeceraID}">
+								<c:out value="${estadoReporteAvance.descripEstado }" />
+							</option>
+				</c:forEach>
+		</select></td>
+	</tr>
+	<tr>
+		<td style="width: 25%; text-align: right;"><label>Fecha Inicio:</label>
+		</td>
+		<td style="width: 25%; text-align: left;">
+			<input type="text" name="fechaInicio" maxlength="0" style="width: 90px;"
+							id="fechaInicio" 
+							onkeypress="javascript:return Valida_Dato(event,7);" /><label>(dd/mm/aaaa)</label>
+				</td>
+		<td style="width: 25%; text-align: right;"><label>Fecha Fin:</label>
+		</td>
+		<td style="width: 25%; text-align: left;">
+			<input type="text"
+							name="fechaFin" maxlength="0" style="width: 90px;"
+							id="fechaFin" 
+							onkeypress="javascript:return Valida_Dato(event,7);" /><label>(dd/mm/aaaa)</label>
+							</td>
+	</tr>
+	<tr>
+		<td style="width: 25%; text-align: right; vertical-align: top;"><label>Resumen:</label>
+		</td>
+		<td colspan="3" style="width: 75%; text-align: left;"><textarea
+				id="resumenReporteAvance" name="resumenReporteAvance" rows="5"
+				cols="5" style="width: 98%;"></textarea></td>
+	</tr>
+	<tr>
+		<td colspan="3" style="width: 75%;"></td>
+		<td style="width: 25%; text-align: left;"><input type="button"
+			id="btnAgregarReporteAvance" name="btnAgregarReporteAvance"
+			onclick="grabarReporteAvance()" value="Agregar Reporte" >
+		</td>
+	</tr>
+
+</table>

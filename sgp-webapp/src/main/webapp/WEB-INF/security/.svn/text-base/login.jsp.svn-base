@@ -1,0 +1,82 @@
+<%@page contentType="text/html"%>
+<%@page pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="jst"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="formp"%>
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, max-age=0, must-revalidate");
+    response.setHeader("Cache-Control", "no-store");
+    response.setHeader("Pragma", "no-cache");
+    response.setDateHeader("Expires", 0);
+%>
+<html>
+<head>
+<title>Fondo de las Americas</title>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/jquery-1.5.2.min.js"></script>
+	
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#login").focus();	
+	});
+</script>
+</head>
+<body>
+
+<table style="width: 100%; ">
+<tr>
+<td style="width: 25%"></td>
+<td style="width: 25%"></td>
+<td style="width: 25%">
+
+
+<formp:form	method="post" action="actionAutenticate.jspx" cssClass="form-clasico">
+	<fieldset style="background: white;"><legend>Ingreso al Sistema</legend>
+	<table class="table" style="width: 100%; ">
+		<tr>
+			<td style="text-align: right; vertical-align: middle;"><label>Usuario:</label></td>
+			<td style="text-align: left; vertical-align: bottom;"><input
+				type="text" name="login" id="login"  style="width: 100%;"></td>
+		</tr>
+		<tr>
+			<td style="text-align: right; vertical-align: middle;"><label>Contrase&ntilde;a</label></td>
+			<td style="text-align: left; vertical-align: bottom;"><input
+				type="password" name="password" id="password"  style="width: 100%;"></td>
+		</tr>
+		<tr>
+			<td style="text-align: right; vertical-align: middle;"><label>Perfil</label>
+			</td>
+			<td style="text-align: left; vertical-align: bottom;"><select
+				name="listaPerfilUsuario" id="listaPerfilUsuario" style="width: 100%;">
+				<option value="-1"><jst:out value="-- Seleccione --"></jst:out></option>
+				<jst:forEach items="${perfilUsuarios}" var="perfil">
+					<option value="${perfil.perfilUsuarioID}"><jst:out
+						value="${perfil.descripcionPerfil}" /></option>
+				</jst:forEach>
+			</select></td>
+
+		</tr>
+		<tr>
+			<td style="text-align: right;" colspan="2">
+			<a href="${pageContext.request.contextPath}/principal/showCrearPerfil.jspx" style="color:#619850;font-size:14px; padding-right: 25px;">
+				Registar Perfil</a>
+			<input type="submit"
+				id="Buscar" name="Buscar" value="Ingresar" />
+					
+		    </td>
+		</tr>
+		<tr>
+			<td colspan="2" class="mensajeError">
+			<jst:out	value="${labelError}" /> <jst:out value="${messageError}" /></td>
+		</tr>
+	</table>
+	</fieldset>
+</formp:form>
+
+
+</td>
+<td style="width: 25%"></td>
+</tr>
+</table>
+
+</body>
+</html>

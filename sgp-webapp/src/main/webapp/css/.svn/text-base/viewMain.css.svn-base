@@ -1,0 +1,44 @@
+body {
+    /*background-image:url(../images/back.png);*/
+    margin:1px;
+}
+
+#main {
+    width: 1024px;
+    margin: 0 auto;
+}
+
+#mainCabecera{
+    width: 100%;
+    height: 160px;
+}
+
+#mainBienvenida{
+    width: 100%;
+    height: 20px;
+    padding-bottom: 1px;
+    padding-top: 1px;
+    
+}
+
+#mainMenu {
+    width: 20%;
+    height:auto;
+    float: left;
+}
+
+#mainCuerpo {
+    width: 80%;
+    height:auto;
+    float: right;
+    background: white;
+}
+
+#mainFoot{
+    width: 100%;
+    height: 60px;
+    clear: both;
+    padding-top: 20px;
+    vertical-align: middle;
+    
+}
